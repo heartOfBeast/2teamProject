@@ -1,0 +1,83 @@
+<!doctype html>
+<html
+	xmlns:th="http://www.thymeleaf.org"
+ 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="@{layout/default}">
+	
+	<th:block layout:fragment="pageTitle">
+		<div class="page-header">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item">Home</li>
+				<li class="breadcrumb-item active">차량목록 조회</li>
+			</ol>
+		
+			<ul class="app-actions">
+				<li>
+					<a href="#" id="reportrange">
+						<span class="range-text"></span>
+						<i class="icon-chevron-down"></i>	
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						<i class="icon-export"></i>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</th:block>
+	<th:block layout:fragment="container">
+		<div class="main-container">
+			<div class="row gutters">
+				<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+					<div class="table-container">
+						<div class="t-header">차량목록 조회</div>
+						<div class="table-responsive">
+							<table id="copy-print-csv" class="table custom-table">
+								<thead>
+									<tr>
+									  <th>차량코드</th>
+									  <th>차량종류</th>
+									  <th>차량상태</th>
+									  <th>차량상태 상세설명</th>
+									  <th>차량 사용연식</th>
+									  <th>번호판</th>
+									  <th>배송기사 아이디</th>
+									  <th>배송기사 이름</th>
+									  <th>사용유무</th>
+									  <th>등록담당자</th>
+									  <th>등록일자</th>
+									  <th>수정</th>
+									  <th>삭제</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+									  <td>Tiger Nixon</td>
+									  <td>System Architect</td>
+									  <td>Edinburgh</td>
+									  <td>61</td>
+									  <td>2011/04/25</td>
+									  <td>$320,800</td>
+									  <td>$320,800</td>
+									  <td>$320,800</td>
+									  <td>$320,800</td>
+									  <td>$320,800</td>
+									  <td>$320,800</td>
+									  <td>
+									  	<a th:href="@{/modifyVehicle}">수정</a>
+								  	  </td>
+									  <td>
+									  	<a href="#">삭제</a>
+								  	  </td>
+									</tr>
+								</tbody>
+				    		</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</th:block>
+		
+</html>
