@@ -1,6 +1,7 @@
 package com.cafe2team.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -13,7 +14,16 @@ public interface MemberMapper {
 	//전체 회원조회
 	public List<Member> getMemberList(); 
 	
+	//ById 회원조회
+	public Member getMemberById(String memberId);
+	
 	//관리자 등록
 	public int adminSignUp(WareAdmin wareAdmin);
+	
+	//거래처 등록
+	public int memberShopInsert(Member member);
+	
+	//관리자 조회
+	public List<WareAdmin> getAdminList();
 
 }
