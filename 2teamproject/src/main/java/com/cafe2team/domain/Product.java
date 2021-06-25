@@ -17,6 +17,7 @@ public class Product {
 	private String productExpirationDate;
 	private String shoppingmallUserId;
 	private String productRegDate;
+	private String productDetail;
 	public String getProductCode() {
 		return productCode;
 	}
@@ -95,6 +96,12 @@ public class Product {
 	public void setProductRegDate(String productRegDate) {
 		this.productRegDate = productRegDate;
 	}
+	public String getProductDetail() {
+		return productDetail;
+	}
+	public void setProductDetail(String productDetail) {
+		this.productDetail = productDetail;
+	}
 	@Override
 	public String toString() {
 		return "Product [productCode=" + productCode + ", productFreezeCoolCondition=" + productFreezeCoolCondition
@@ -103,7 +110,7 @@ public class Product {
 				+ ", productName=" + productName + ", productWeight=" + productWeight + ", productWeightUnit="
 				+ productWeightUnit + ", productDateOfManufacture=" + productDateOfManufacture
 				+ ", productExpirationDate=" + productExpirationDate + ", shoppingmallUserId=" + shoppingmallUserId
-				+ ", productRegDate=" + productRegDate + "]";
+				+ ", productRegDate=" + productRegDate + ", productDetail=" + productDetail + "]";
 	}
 
 }
