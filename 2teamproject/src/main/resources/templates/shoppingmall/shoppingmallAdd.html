@@ -29,40 +29,46 @@
 
 <th:block layout:fragment="container">
 	
-	<div class="row gutters justify-content-center">
-		<div class="col-xl-5 col-lg-5 col-md-6 col-sm-6 col-12">
-			<form>
-				<div class="card m-0">
-					<div class="card-header">
-						<div class="card-title"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">개러처 등록</font></font></div>
-						<div class="card-sub-title"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">거래처 등록</font></font></div>
+	<div class="main-container">
+
+					<!-- Row start -->
+					<div class="row gutters justify-content-center">
+						<div class="col-xl-5 col-lg-5 col-md-6 col-sm-6 col-12">
+							<form>
+								<div class="card m-0">
+									<div class="card-header">
+										<div class="card-title"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">거래처 등록</font></font></div>
+										<div class="card-sub-title"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">거래처를 등록해보자</font></font></div>
+									</div>
+									<div class="card-body">
+										<div class="form-group">
+											<input type="text" class="form-control" id="name" name="name" placeholder="이름" required="required">
+										</div>
+										<div class="form-group">
+											<input type="email" class="form-control" id="email" name="email" placeholder="이메일" required="required">
+										</div>
+										<div class="form-group">
+											<input type="text" class="form-control" id="mobile" name="mobile" placeholder="휴대폰 번호" required="required">
+										</div>
+										<div class="form-group">
+											<input type="text" class="form-control" id="subject" name="subject" placeholder="제목" required="required">
+										</div>
+										<div class="form-group">
+											<textarea class="form-control" id="message" placeholder="메시지" maxlength="140" rows="4"></textarea>
+											<div class="form-text text-muted">
+												<p id="characterLeft" class="help-block"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">140 자 남음</font></font></p>
+											</div>
+										</div>
+										
+										<button type="button" id="submit" name="submit" class="btn btn-primary float-right"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">등록버튼</font></font></button>
+									</div>
+								</div>
+							</form>
+						</div>
 					</div>
-					<div class="card-body">
-						<div class="form-group">
-							<input type="text" class="form-control" id="name" name="name" placeholder="이름" required="">
-						</div>
-						<div class="form-group">
-							<input type="email" class="form-control" id="email" name="email" placeholder="이메일" required="">
-						</div>
-						<div class="form-group">
-							<input type="text" class="form-control" id="mobile" name="mobile" placeholder="휴대폰 번호" required="">
-						</div>
-						<div class="form-group">
-							<input type="text" class="form-control" id="subject" name="subject" placeholder="제목" required="">
-						</div>
-						<div class="form-group">
-							<textarea class="form-control" id="message" placeholder="메시지" maxlength="140" rows="4"></textarea>
-							<div class="form-text text-muted">
-								<p id="characterLeft" class="help-block"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">140 자 남음</font></font></p>
-							</div>
-						</div>
-						
-						<button type="button" id="submit" name="submit" class="btn btn-primary float-right"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">양식 제출</font></font></button>
-					</div>
+					<!-- Row end -->
+
 				</div>
-			</form>
-		</div>
-	</div>
 
 </th:block>
 		
