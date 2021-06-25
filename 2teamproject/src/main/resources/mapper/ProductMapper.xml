@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.cafe2team.dao.ProductMapper">
+  
+  	<resultMap type="Product" id="productResultMap">
+		<result property="productCode" 						column="product_code"/>
+		<result property="productFreezeCoolCondition" 		column="product_freeze_cool_condition"/>
+		<result property="productBigCategory" 				column="product_big_category"/>
+		<result property="productMiddleCategory" 			column="product_middle_category"/>
+		<result property="productSmallCategory" 			column="product_small_category"/>
+		<result property="productAddCategory" 				column="product_add_category"/>
+		<result property="productName" 						column="product_name"/>
+		<result property="productWeight" 					column="product_weight"/>
+		<result property="productWeightUnit"				column="product_weight_unit"/>
+		<result property="productDateOfManufacture"			column="product_date_of_manufacture"/>
+		<result property="productExpirationDate"			column="product_expiration_date"/>
+		<result property="shoppingmallUserId"				column="shoppingmall_user_id"/>
+		<result property="productRegDate"					column="product_reg_date"/>
+	</resultMap>
+	
+	
+	
+	<!--상품추가  -->
+	
+	
+	
+	
+	<!-- 전체상품목록조회 -->
+	<select id="getProductList" resultType="Product" fetchSize="1000">
+		SELECT 
+			product_code							AS productCode
+			,product_freeze_cool_condition			AS productFreezeCoolCondition
+			,product_big_category					AS productBigCategory
+			,product_middle_category				AS productMiddleCategory
+			,product_small_category					AS productSmallCategory
+			,product_add_category					AS productAddCategory
+			,product_name							AS productName
+			,product_weight							AS productWeight
+			,product_weight_unit					AS productWeightUnit
+			,product_date_of_manufacture			AS productDateOfManufacture
+			,product_expiration_date				AS productExpirationDate
+			,shoppingmall_user_id					AS shoppingmallUserId
+			,product_reg_date						AS productRegDate
+		FROM
+			tb_product
+	
+	</select>
+
+
+</mapper>
+	

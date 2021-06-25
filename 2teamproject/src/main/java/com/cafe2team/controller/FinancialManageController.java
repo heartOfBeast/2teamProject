@@ -8,6 +8,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class FinancialManageController {
 
+	//매출현황
+	@GetMapping("/currentSalesState")
+	public String currentSalesState(Model model) {
+		model.addAttribute("title", "정산내역조회");
+		return "financialmanage/currentSalesState";
+	}
 	
 	@GetMapping("/calculate")
 	public String calculate(Model model) {
