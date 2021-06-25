@@ -1,0 +1,89 @@
+<!doctype html>
+<html
+	xmlns:th="http://www.thymeleaf.org"
+ 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="@{layout/default}">
+<th:block layout:fragment="pageTitle">
+<div class="page-header">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item">Member</li>
+		<li class="breadcrumb-item active">accountInquiry</li>
+	</ol>
+
+	<ul class="app-actions">
+		<li>
+			<a href="#" id="reportrange">
+				<span class="range-text"></span>
+				<i class="icon-chevron-down"></i>	
+			</a>
+		</li>
+		<li>
+			<a href="#">
+				<i class="icon-export"></i>
+			</a>
+		</li>
+	</ul>
+</div>
+
+<th:block layout:fragment="container">
+<div class="main-container">
+	<div class="row gutters">
+		<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+			<div class="table-container">
+				<div class="t-header">미승인 거래처 조회</div>
+					<div class="table-responsive">
+						<table id="copy-print-csv" class="table custom-table">
+						<thead>
+							<tr>
+							  <th>아이디</th>
+							  <th>사업장 이름</th>
+							  <th>번호</th>
+							  <th>이메일</th>
+							  <th>신청 물류센터</th>
+							  <th>승인</th>
+							  <th>삭제</th>
+							</tr>
+							
+						</thead>
+						<tbody>
+							<tr>
+							  <td>shop01</td>
+							  <td>다모아 신발</td>
+							  <td>010-1111-1111</td>
+							  <td>111@111</td>
+							  <td>전주 물류센터</td>
+							  <td>승인</td>
+							  <td>삭제</td>
+							</tr>
+							<tr>
+							  <td>shop02</td>
+							  <td>커피여행</td>
+							  <td>010-1111-1111</td>
+							  <td>111@111</td>
+							  <td>익산 물류센터</td>
+  							  <td>승인</td>
+							  <td>삭제</td>
+							</tr>
+							<tr>
+							  <td>shop03</td>
+							  <td>시계나라</td>
+							  <td>010-0000-0000</td>
+							  <td>1111@1111</td>
+							  <td>전주 물류센터</td>
+							  <td>승인</td>
+							  <td>삭제</td>
+							</tr>
+						</tbody>
+		    	</table>
+				</div>
+			</div>
+		
+		</div>
+	</div>
+</div>
+
+
+</th:block>
+
+		
+</html> ㄴ

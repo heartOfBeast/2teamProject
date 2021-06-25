@@ -1,0 +1,89 @@
+<!doctype html>
+<html
+	xmlns:th="http://www.thymeleaf.org"
+ 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="@{layout/default}">
+<th:block layout:fragment="pageTitle">
+<div class="page-header">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item">Member</li>
+		<li class="breadcrumb-item active">whzoneinquiry</li>
+	</ol>
+
+	<ul class="app-actions">
+		<li>
+			<a href="#" id="reportrange">
+				<span class="range-text"></span>
+				<i class="icon-chevron-down"></i>	
+			</a>
+		</li>
+		<li>
+			<a href="#">
+				<i class="icon-export"></i>
+			</a>
+		</li>
+	</ul>
+</div>
+
+<th:block layout:fragment="container">
+<div class="main-container">
+	<div class="row gutters">
+		<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+			<div class="table-container">
+				<div class="t-header">관리자 목록 조회</div>
+					<div class="table-responsive">
+						<table id="copy-print-csv" class="table custom-table">
+						<thead>
+							<tr>
+							  <th>아이디</th>
+							  <th>이름</th>
+							  <th>권한</th>
+							  <th>주소</th>
+							  <th>이메일</th>
+							  <th>번호</th>
+							  <th>등록일</th>
+							  <th>활성화여부</th>
+							  <th>인센티브</th>
+							  <th>수정</th>
+							  <th>삭제</th>
+							</tr>
+							
+						</thead>
+						<tbody>
+							<tr th:if="${#lists.size(adminWaiting) > 0}" th:each="l : ${adminWaiting}">
+								<td th:text="${l.wareAdminId}"></td>
+								<td th:text="${l.wareAdminName}"></td>
+								<td th:text="${l.wareAdminLevel}"></td>
+								<td th:text="${l.wareAdminAddress}"></td>
+								<td th:text="${l.wareAdminEmail}"></td>
+								<td th:text="${l.wareAdminPhone}"></td>
+								<td th:text="${l.wareAdminRegDate}"></td>
+								<td th:text="${l.wareAdminAccountState}"></td>
+								<td th:text="${l.wareAdminIncentive}"></td>
+								
+							<td>
+								<a th:href="@{#}">수정</a>
+							</td>
+							<td>
+								<a th:href="@{#}">삭제</a>
+							</td>
+							</tr>
+							
+						<tr th:unless="${#lists.size(adminWaiting) > 0}" style="text-align: center;">
+							<td colspan="9" th:text="${'검색한 결과가 없습니다.'}">
+							</td>
+						</tr>
+							</tbody>
+		    		</table>
+				</div>
+			</div>
+		
+		</div>
+	</div>
+</div>
+
+
+</th:block>
+
+		
+</html> 

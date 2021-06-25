@@ -1,0 +1,56 @@
+<!doctype html>
+<html
+	xmlns:th="http://www.thymeleaf.org"
+ 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="@{layout/default}">
+	
+<th:block layout:fragment="pageTitle">
+<div class="page-header">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item">창고</li>
+		<li class="breadcrumb-item active">창고 정보수정</li>
+	</ol>
+
+	<ul class="app-actions">
+		<li>
+			<a href="#" id="reportrange">
+				<span class="range-text"></span>
+				<i class="icon-chevron-down"></i>	
+			</a>
+		</li>
+		<li>
+			<a href="#">
+				<i class="icon-export"></i>
+			</a>
+		</li>
+	</ul>
+</div>
+</th:block>
+<th:block layout:fragment="container">
+	<!-- Main container start -->
+<div class="main-container">
+	<div class="row justify-content-md-center">
+		<div class="col-xl-4 col-lg-5 col-md-6 col-sm-12">
+			<div class="login-screen">
+				<div class="login-box">
+					<h5>
+					수정을 위해 사용자 확인이 필요합니다.<br>
+					비밀번호를 입력해주세요.
+					</h5>
+					<div class="form-group">
+						<input type="text" class="form-control" placeholder="{아이디} 값 가져오기" />
+					</div>
+					<div class="form-group">
+						<input type="password" class="form-control" placeholder="비밀번호를 입력해주세요." />
+					</div>
+					<div class="actions mb-4">
+						<button type="submit" class="btn btn-primary">완료</button>
+					</div>
+				</div>
+			</div>	
+		</div>
+	</div>
+</div>
+				<!-- Main container end -->
+</th:block>
+</html>

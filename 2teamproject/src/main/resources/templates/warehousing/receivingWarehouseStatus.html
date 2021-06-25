@@ -1,0 +1,114 @@
+<!doctype html>
+<html
+	xmlns:th="http://www.thymeleaf.org"
+ 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="@{layout/default}">
+	
+<th:block layout:fragment="pageTitle">
+<div class="page-header">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item">warehousing</li>
+		<li class="breadcrumb-item active">receivingStatus</li>
+	</ol>
+
+	<ul class="app-actions">
+		<li>
+			<a href="#" id="reportrange">
+				<span class="range-text"></span>
+				<i class="icon-chevron-down"></i>	
+			</a>
+		</li>
+		<li>
+			<a href="#">
+				<i class="icon-export"></i>
+			</a>
+		</li>
+	</ul>
+</div>
+</th:block>
+
+<th:block layout:fragment="container">
+	<div class="main-container">
+			<div class="row gutters">
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			
+					<div class="card">
+						<div class="card-header">
+							<div class="card-title">Basic Column Graph With Datatables</div>
+						</div>
+						<div class="card-body">
+							<div id="basic-column-graph-datalables" class="primary-graph"></div>
+							
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+						
+		<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">			
+			<div class="table-container">
+				<div class="t-header">입고 현황 조회</div>
+					<div class="table-responsive">
+						<table id="copy-print-csv" class="table custom-table">
+						<thead>
+							<tr>
+							  <th>아이디</th>
+							  <th>이름</th>
+							  <th>권한</th>
+							  <th>소속 물류센터</th>
+							  <th>번호</th>
+							</tr>
+							
+						</thead>
+						<tbody>
+							<tr>
+							  <td>id002</td>
+							  <td>강준</td>
+							  <td>창고관리자</td>
+							  <td>전주 물류센터</td>
+							  <td>010-1111-1111</td>
+							</tr>
+							<tr>
+							  <td>id003</td>
+							  <td>고병윤</td>
+							  <td>창고관리자</td>
+							  <td>전주 물류센터</td>
+							  <td>010-1111-1111</td>
+							</tr>
+							<tr>
+							  <td>id004</td>
+							  <td>백종민</td>
+							  <td>창고관리자</td>
+							  <td>전주 물류센터</td>
+							  <td>010-1111-1111</td>
+							</tr>
+							<tr>
+							  <td>id006</td>
+							  <td>김동욱</td>
+							  <td>창고관리자</td>
+							  <td>전주 물류센터</td>
+							  <td>010-1111-1111</td>
+							</tr>
+							<tr>
+							  <td>id007</td>
+							  <td>박수현</td>
+							  <td>창고관리자</td>
+							  <td>전주 물류센터</td>
+							  <td>010-1111-1111</td>
+							</tr>
+							<tr>
+							  <td>id008</td>
+							  <td>최상범</td>
+							  <td>창고관리자</td>
+							  <td>전주 물류센터</td>
+							  <td>010-1111-1111</td>
+							</tr>
+						</tbody>
+		    	</table>
+			</div>
+		</div>
+	</div>
+	<!-- Row end -->
+</th:block>
+		
+</html>

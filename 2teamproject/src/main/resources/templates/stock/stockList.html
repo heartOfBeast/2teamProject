@@ -1,0 +1,209 @@
+<!doctype html>
+<html
+	xmlns:th="http://www.thymeleaf.org"
+ 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="@{layout/default}">
+	
+<th:block layout:fragment="pageTitle">
+<div class="page-header">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item">재고</li>
+		<li class="breadcrumb-item active">재고조회</li>
+	</ol>
+
+	<ul class="app-actions">
+		<li>
+			<a href="#" id="reportrange">
+				<span class="range-text"></span>
+				<i class="icon-chevron-down"></i>	
+			</a>
+		</li>
+		<li>
+			<a href="#">
+				<i class="icon-export"></i>
+			</a>
+		</li>
+	</ul>
+</div>
+		
+</th:block>
+	
+<th:block layout:fragment="container">
+<div class="main-container">
+	<div class="row gutters">
+		<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-6">
+			<div class="table-container">
+				<div class="t-header">재고조회</div>
+				<div class="table-responsive">
+					<table id="copy-print-csv" class="table custom-table">
+						<thead>
+							<tr >
+							  <th>창고명</th>
+							  <th>상품코드</th>
+							  <th>상품명</th>
+							  <th>보관위치</th>
+							  <th>전체수량</th>
+							  <th>단위</th>
+							  <th>등록담당자</th>
+							  <th>담당자연락처</th>
+							  <th>등록일</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+							  <td>익산 물류</td>
+							  <td>2103489-2105</td>
+							  <td>Edinburgh</td>
+							  <td>w001-s001-2-16</td>
+							  <td>2011/04/25</td>
+							  <td>$320,800</td>
+							  <td>$320,800</td>
+							  <td>$320,800</td>
+							  <td>$320,800</td>
+							</tr>
+							<tr>
+							  <td>익산 물류</td>
+							  <td>2103489-2105</td>
+							  <td>Edinburgh</td>
+							  <td>w001-s001-2-16</td>
+							  <td>2011/04/25</td>
+							  <td>$320,800</td>
+							  <td>$320,800</td>
+							  <td>$320,800</td>
+							  <td>$320,800</td>
+							</tr>
+							<tr>
+							  <td>익산 물류</td>
+							  <td>2103489-2105</td>
+							  <td>Edinburgh</td>
+							  <td>w001-s001-2-16</td>
+							  <td>2011/04/25</td>
+							  <td>$320,800</td>
+							  <td>$320,800</td>
+							  <td>$320,800</td>
+							  <td>$320,800</td>
+							</tr>
+							<tr>
+							  <td>익산 물류</td>
+							  <td>2103489-2105</td>
+							  <td>Edinburgh</td>
+							  <td>w001-s001-2-16</td>
+							  <td>2011/04/25</td>
+							  <td>$320,800</td>
+							  <td>$320,800</td>
+							  <td>$320,800</td>
+							  <td>$320,800</td>
+							</tr>
+							<tr>
+							  <td>익산 물류</td>
+							  <td>2103489-2105</td>
+							  <td>Edinburgh</td>
+							  <td>w001-s001-2-16</td>
+							  <td>2011/04/25</td>
+							  <td>$320,800</td>
+							  <td>$320,800</td>
+							  <td>$320,800</td>
+							  <td>$320,800</td>
+							</tr>
+							<tr>
+							  <td>익산 물류</td>
+							  <td>2103489-2105</td>
+							  <td>Edinburgh</td>
+							  <td>w001-s001-2-16</td>
+							  <td>2011/04/25</td>
+							  <td>$320,800</td>
+							  <td>$320,800</td>
+							  <td>$320,800</td>
+							  <td>$320,800</td>
+							</tr>
+							<tr>
+							  <td>익산 물류</td>
+							  <td>2103489-2105</td>
+							  <td>Edinburgh</td>
+							  <td>w001-s001-2-16</td>
+							  <td>2011/04/25</td>
+							  <td>$320,800</td>
+							  <td>$320,800</td>
+							  <td>$320,800</td>
+							  <td>$320,800</td>
+							</tr>
+							<tr>
+							  <td>익산 물류</td>
+							  <td>2103489-2105</td>
+							  <td>Edinburgh</td>
+							  <td>w001-s001-2-16</td>
+							  <td>2011/04/25</td>
+							  <td>$320,800</td>
+							  <td>$320,800</td>
+							  <td>$320,800</td>
+							  <td>$320,800</td>
+							</tr>
+							<tr>
+							  <td>익산 물류</td>
+							  <td>2103489-2105</td>
+							  <td>Edinburgh</td>
+							  <td>w001-s001-2-16</td>
+							  <td>2011/04/25</td>
+							  <td>$320,800</td>
+							  <td>$320,800</td>
+							  <td>$320,800</td>
+							  <td>$320,800</td>
+							</tr>
+							<tr>
+							  <td>익산 물류</td>
+							  <td>2103489-2105</td>
+							  <td>Edinburgh</td>
+							  <td>w001-s001-2-16</td>
+							  <td>2011/04/25</td>
+							  <td>$320,800</td>
+							  <td>$320,800</td>
+							  <td>$320,800</td>
+							  <td>$320,800</td>
+							</tr>
+							<tr>
+							  <td>Tiger Nixon</td>
+							  <td>System Architect</td>
+							  <td>Edinburgh</td>
+							  <td>61</td>
+							  <td>2011/04/25</td>
+							  <td>$320,800</td>
+							  <td>$320,800</td>
+							  <td>$320,800</td>
+							  <td>$320,800</td>
+							</tr>
+							<tr>
+							  <td>Tiger Nixon</td>
+							  <td>System Architect</td>
+							  <td>Edinburgh</td>
+							  <td>61</td>
+							  <td>2011/04/25</td>
+							  <td>$320,800</td>
+							  <td>$320,800</td>
+							  <td>$320,800</td>
+							  <td>$320,800</td>
+							</tr>
+							<tr>
+							  <td>Tiger Nixon</td>
+							  <td>System Architect</td>
+							  <td>Edinburgh</td>
+							  <td>61</td>
+							  <td>2011/04/25</td>
+							  <td>$320,800</td>
+							  <td>$320,800</td>
+							  <td>$320,800</td>
+							  <td>$320,800</td>
+							</tr>
+						</tbody>
+		    		</table>
+				</div>
+			</div>
+		
+		</div>
+	</div>
+</div>
+
+
+</th:block>
+
+		
+</html>

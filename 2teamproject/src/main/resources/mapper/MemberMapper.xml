@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="com.cafe2team.dao.MemberMapper">
+
+	<resultMap type="Member" id="memberResultMap">
+		<result property="memberId" 			column="member_id"/>
+		<result property="memberPw" 			column="member_pw"/>
+		<result property="memberName" 			column="member_name"/>
+		<result property="memberLevelcode" 		column="level_code"/>
+		<result property="memberAddress" 		column="member_address"/>
+		<result property="memberEmail" 			column="member_email"/>
+		<result property="memberPhone" 			column="member_phone"/>
+		<result property="memberRegDate" 		column="member_reg_date"/>
+		<result property="memberAccountStatus" 	column="member_account_status"/>
+		<result property="memberIncentive" 		column="member_incentive"/>
+	</resultMap>
+		
+	<select id="getMemberList" resultType="Member">
+		SELECT 
+			member_id AS memberId
+			,member_pw AS memberPw
+			,member_name AS memberName
+			,level_code AS memberLevelcode
+			,member_address AS memberAddress
+			,member_email AS memberEmail
+			,member_phone AS memberPhone
+			,member_reg_date AS memberRegDate
+			,member_account_status AS memberAccountStatus
+			,member_incentive AS memberIncentive
+		FROM 
+			tb_member;
+	</select>
+	
+	<!-- 관리자 등록 insert -->
+	<insert id="adminSignUp" parameterType="WareAdmin">
+		INSERT INTO tb_ware_admin
+	( ware_admin_id
+	, ware_admin_pw
+	, ware_admin_name
+	, level_code
+	, ware_admin_address
+	, ware_admin_email
+	, ware_admin_phone
+	, ware_admin_reg_date
+	) VALUES (
+		#{wareAdminId}
+	, 	#{wareAdminPw}
+	, 	#{wareAdminName}
+	, 	#{wareAdminLevel}
+	, 	#{wareAdminAddress}
+	, 	#{wareAdminEmail}
+	, 	#{wareAdminPhone}
+	, 	CURDATE());
+	
+	</insert>
+	
+
+</mapper>

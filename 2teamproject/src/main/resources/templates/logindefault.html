@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th = "http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head th:replace="fragments/head :: headFragment"></head>
+
+<style>
+html,body {
+  height: 100%;
+}
+</style>
+
+<body>
+<th:block layout:fragment="container">
+<div class="container h-100">
+    <div class="row d-flex justify-content-center align-items-center h-70">
+			<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+				<div class="jumbotron">
+					<h1 class="display-4 text-primary">2TEAM 풀필먼트 물류 웹서비스</h1>
+					<p class="lead">안녕하세요. 한국 스마트 정보교육원 39기 2TEAM 입니다. 2021년 코로나로 인한 비대면 , 비 접촉 사회적 거리두기가 대두되면서 온라인을 통한 쇼핑의 수요가 급증가 하였습니다. 
+                                               이에따른  물류센터 수요 급증 으로 저희팀은 물류센터를 웹사이트기반으로 효율적으로 관리할수있는 웹 애플리케이션을 제작하였습니다.</p>
+					팀장 강&nbsp;&nbsp;&nbsp;&nbsp;준  blog 주소/메일: <br/>
+					팀원 고병윤 blog 주소/메일: <br/>
+					팀원 백종민 blog 주소/메일: <br/>
+					팀원 김동욱 blog 주소/메일: <br/>
+					팀원 박수현 blog 주소/메일: <br/>
+					팀원 최상범 blog 주소/메일: <br/>
+					<div class="mb-3"></div>
+					<span>!준</span>
+                      <a th:href="@{/main}" type="submit" style="margin:8px" class="btn btn-outline-info">메인 페이지이동</a>
+                      <a th:href="@{/shop/sample}" type="submit" style="margin:8px" class="btn btn-outline-info">샘플 페이지이동</a>
+				</div>
+			</div>
+       <div class="col-2"></div>
+        <div class="col-4 text-center">
+                <div class="card" style="padding:8px">
+				<span>!준</span>
+                  <h4>직원 로그인</h4>
+                      <div class="input-group flex-nowrap" style="padding:8px">
+                          <div class="input-group-prepend">
+                              <span class="input-group-text" id="addon-wrapping">아이디</span>
+                          </div>
+                          <input type="text" name="user_Id" id="user_Id" class="form-control">
+                      </div>
+                      <div class="input-group flex-nowrap" style="padding:8px">
+                          <div class="input-group-prepend">
+                              <span class="input-group-text" id="addon-wrapping">비밀번호</span>
+                          </div>
+                          <input type="password" name="user_Pw" id="user_Pw" class="form-control">
+                      </div>
+                      <a type="submit" style="margin:8px" class="btn btn-outline-info" name="button">로그인</a>
+                      <a th:href="@{/adminsignup}" type="submit" style="margin:8px" class="btn btn-outline-info" name="button">회원가입</a>
+                </div>
+        </div>
+        
+        <!--end of col-4 -->
+        <!-- <div class="col-2"></div> -->
+        
+        <div class="col-4 text-center">
+                  <div class="card" style="padding:8px">
+					<span>!준</span>
+                    <h4>회원 로그인</h4>
+                        <div class="input-group flex-nowrap" style="padding:8px">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="addon-wrapping">아이디</span>
+                            </div>
+                            <input type="text" name="user_name"id="user_name" class="form-control">
+                        </div>
+                        <div class="input-group flex-nowrap" style="padding:8px">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="addon-wrapping">비밀번호</span>
+                            </div>
+                            <input type="password" name="user_Pw" id="user_Pw" class="form-control">
+                        </div>
+                        <button type="submit" style="margin:8px" class="btn btn-outline-info" name="button">로그인</button>
+                        <a th:href="@{/accountsignup}" type="submit" style="margin:8px" class="btn btn-outline-info" name="button">회원가입</a>
+                  </div>
+          </div>
+
+        <div class="col-2"></div>
+    </div> <!-- END OF ROW -->
+</div>
+</th:block>
+</body>
+</html>
