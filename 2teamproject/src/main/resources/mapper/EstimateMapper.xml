@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cafe2team.dao.EstimateMapper">
+
+	<resultMap type="Estimate" id="estimateResultMap">
+		<result property="spmGuestCode" column="estimate_guest_code"/>
+		<result property="spmGuestName" column="shoppingmall_guest_name"/>
+		<result property="spmGuestAdmin" column="shoppingmall_guest_admin"/>
+		<result property="spmGuestPhone" column="shoppingmall_guest_phone"/>
+		<result property="spmGuestEmail" column="shoppingmall_guest_email"/>
+		<result property="spmGuestSectors" column="shoppingmall_guest_sectors"/>
+		<result property="spmGuestProduct" column="shoppingmall_guest_product"/>
+		<result property="spmGuestDailySales" column="shoppingmall_guest_daily_sales"/>
+		<result property="spmGuestCounselTime" column="shoppingmall_guest_counsel_time"/>
+		<result property="spmGuestAddress" column="shoppingmall_guest_address"/>
+		<result property="spmGuestIndustries" column="shoppingmall_guest_industries"/>
+		<result property="spmGuestRegDate" column="estimate_guest_reg_date"/>
+	</resultMap>
+	
+	<insert id="addEstimateAnother" parameterType="Estimate">
+		<selectKey keyColumn="estimate_guest_code" keyProperty="spmGuestCode" resultType="String" order="BEFORE">
+	      SELECT CONCAT('estimate_guest_','',(SELECT LPAD(COUNT(*)+1,3,'0')FROM tb_estimate_guest));
+	     </selectKey>
+	     INSERT INTO
+	     tb_estimate_guest
+	     	(
+	     	estimate_guest_code,
+	     	shoppingmall_guest_name,
+	     	shoppingmall_guest_admin,
+	     	shoppingmall_guest_phone,
+	     	shoppingmall_guest_email,
+	     	shoppingmall_guest_sectors,
+	     	shoppingmall_guest_product,
+	     	shoppingmall_guest_daily_sales,
+	     	shoppingmall_guest_counsel_time,
+	     	shoppingmall_guest_address,
+	     	shoppingmall_guest_industries,
+	     	estimate_guest_reg_date
+	     	)
+	     VALUES
+	     	(
+	     	#{spmGuestCode},
+	     	#{spmGuestName},
+	     	#{spmGuestAdmin},
+	     	#{spmGuestPhone},
+	     	#{spmGuestEmail},
+	     	#{spmGuestSectors},
+	     	#{spmGuestProduct},
+	     	#{spmGuestDailySales},
+	     	#{spmGuestCounselTime},
+	     	#{spmGuestAddress},
+	     	#{spmGuestIndustries},
+	     	CURDATE();
+	     	)
+	</insert>
+	
+</mapper>
+
+
