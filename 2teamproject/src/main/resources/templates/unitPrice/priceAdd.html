@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html
+	xmlns:th="http://www.thymeleaf.org"
+ 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="@{layout/default}">
+
+<th:block layout:fragment="pageTitle">
+	<div class="page-header">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item">Shoppingmall</li>
+		<li class="breadcrumb-item active">PriceAdd</li>
+	</ol>
+
+	<ul class="app-actions">
+		<li>
+			<a href="#" id="reportrange">
+				<span class="range-text"></span>
+				<i class="icon-chevron-down"></i>	
+			</a>
+		</li>
+		<li>
+			<a href="#">
+				<i class="icon-export"></i>
+			</a>
+		</li>
+	</ul>
+</div>
+</th:block>
+<!-- 일단 경로만 설정  -->
+<th:block layout:fragment="container">
+	<div class="main-container">
+		<div class="row gutters justify-content-center">
+			<div class="col-xl-10 col-lg-10 col-md-12 col-sm-12 col-24">
+			
+				<form id="priceAddFrom" th:action="@{/priceAdd}" method="post">
+					<div class="card m-0">
+						<div class="card-header">
+							<div class="card-title">단가표 등록</div>
+						</div>
+						<div class="card-body">
+							<div class="form-group">
+								<input type="text" class="form-control" id="wareHouse_Type" name="wareHouse_Type" placeholder="창고종류" required="required" />
+							</div>
+							<div class="form-group">
+								<input type="text" class="form-control" id="contract_Type" name="contract_Type" placeholder="계약종류" required="required" />
+							</div>
+							<div class="form-group">
+								<input type="text" class="form-control" id="price_Weight" name="price_Weight" placeholder="물품 개당무게" required="required"/>
+							</div>
+							<div class="form-group">
+								<input type="text" class="form-control" id="price_Number" name="price_Number" placeholder="제한수량" required="required"/>
+							</div>
+							<div class="form-group">
+								<input type="text" class="form-control" id="price_Zone" name="price_Zone" placeholder="구역개수" required="required" />
+							</div>
+							<div class="form-group">
+								<input type="text" class="form-control" id="price_Day" name="price_Day" placeholder="계약기간" required="required" />
+							</div>
+							<div class="form-group">
+								<input type="text" class="form-control" id="price_Price" name="price_Price" placeholder="사용요금" required="required" />
+							</div>
+							
+							<button type="submit" id="submit" name="submit" class="btn btn-primary float-right" >단가표 등록 버튼</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</th:block>
+
+</html>
