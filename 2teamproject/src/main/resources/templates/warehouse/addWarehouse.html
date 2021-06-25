@@ -40,6 +40,7 @@
 							<div class="card-sub-title">창고명과 소재지를 입력해주세요.</div>
 						</div>
 						<div class="card-body">
+							<div class="row gutters">
 							<div class="form-group">
 									<label for="name">창고명</label>
 								<div class="input-group">
@@ -78,15 +79,16 @@
 									</div>
 							</div>
 							<button type="button" id="submitDone" class="btn btn-primary float-right" >창고등록</button>
+							</div>
 						</div>
 					</div>
 			</form>
 		</div>
 	</div>
 </div>
+</th:block>
 				<!-- Main container end -->
 
-</th:block>
 <th:block layout:fragment="customJs">
 	<script>
 			$('#submitDone').click(function(){

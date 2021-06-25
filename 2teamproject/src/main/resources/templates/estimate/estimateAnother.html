@@ -1,0 +1,243 @@
+<!doctype html>
+<html
+	xmlns:th="http://www.thymeleaf.org"
+ 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="@{layout/default}">
+	
+<th:block layout:fragment="pageTitle">
+<div class="page-header">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item">견적</li>
+		<li class="breadcrumb-item active">비회원 견적신청</li>
+	</ol>
+
+	<ul class="app-actions">
+		<li>
+			<a href="#" id="reportrange">
+				<span class="range-text"></span>
+				<i class="icon-chevron-down"></i>	
+			</a>
+		</li>
+		<li>
+			<a href="#">
+				<i class="icon-export"></i>
+			</a>
+		</li>
+	</ul>
+</div>
+</th:block>
+
+<th:block layout:fragment="container">
+	<!-- Main container start -->
+<div class="main-container">
+	<div class="row gutters justify-content-center">
+		<form id="addEstimateAnotherForm" th:action="@{/estimateAnother}" method="POST">
+			<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+				
+				<div class="card h-100" >
+					<div class="card-header">
+						<div class="card-title"> 비회원 견적신청 </div>
+					</div>
+				
+					<div class="card-body">
+						<div class="row gutters">
+							<div class="col-xl-6 col-lg-12 col-md-6 col-sm-6 col-12">
+								<div class="form-group">
+									<label for="companyName">업체명</label>
+									<input type="text" class="form-control" id="companyName" placeholder="업체명을 입력해주세요."/>
+								</div>
+								<div class="form-group">
+									<label for="companyManager">담당자명</label>
+									<input type="text" class="form-control" id="companyManager" placeholder="성함을 입력해주세요."/>
+								</div>
+								<div class="form-group">
+									<label for="companyPhone">휴대폰 번호</label>
+									<input type="text" class="form-control" id="companyPhone" placeholder="번호를 '-' 포함하여 입력해주세요."/>
+								</div>
+								<div class="form-group">
+									<label for="companyEmail">이메일 주소</label>
+									<input type="email" class="form-control" id="companyEmail" placeholder="이메일 주소를 @포함하여 입력해주세요."/>
+								</div>
+								<div class="form-group">
+									<label for="companyAddr">주소</label>
+										<input type="text" class="form-control" id="companyAddr" placeholder="주소를 입력해주세요."/>
+								</div>
+							</div>
+							<div class="col-xl-6 col-lg-12 col-md-6 col-sm-6 col-12">
+								<div class="form-group">
+									<label for="sectors">업종</label>
+									<select class="custom-select" id="sectors" required>
+										<option value="">업종을 선택해주세요.</option>
+										<option value="의류">의류</option>
+										<option value="신발">신발</option>
+										<option value="가방">가방</option>
+										<option value="서적">서적</option>
+										<option value="애견용품">애견용품</option>
+										<option value="사무/문구">사무/문구</option>
+										<option value="식료품">식료품</option>
+										<option value="화장품">화장품</option>
+										<option value="유아용품">유아용품</option>
+										<option value="음반/비디오/악기">음반/비디오/악기</option>
+										<option value="스포츠/레져용품">스포츠/레져용품</option>
+										<option value="생활/가구">생활/가구</option>
+										<option value="전자기기">전자기기</option>
+									</select>
+								</div>
+								<div class="form-group">
+									<label for="companyProduct">품목</label>
+									<input type="text" class="form-control" id="companyProduct" placeholder="취급하고 있는 상품 품목을 입력해주세요."/>
+								</div>
+								<div class="form-group">
+									<label for="dailySales">일일 판매수량</label>
+									<input type="text" class="form-control" id="dailySales" placeholder="쇼핑몰사업자 연락처"/>
+								</div>
+								<div class="form-group">
+									<label for="industries">직원 수</label>
+									<select class="custom-select" id="industries" required>
+										<option value="">직원 수를 선택해주세요.</option>
+										<option value="0 ~ 20명">0 ~ 20명</option>
+										<option value="21 ~ 50명">21 ~ 50명</option>
+										<option value="51 ~ 80명">51 ~ 80명</option>
+										<option value="81 ~ 100명">81 ~ 100명</option>
+										<option value="81 ~ 100명이상">81 ~ 100명</option>
+									</select>
+								</div>	
+								<div class="form-group">
+									<label for="counselTime">상담가능 시간</label>
+									<select class="custom-select" id="counselTime" required/>
+										<option value="">상담가능 시간을 선택해주세요.</option>
+										<option value="0900시 ~ 1000시">0900시 ~ 1000시</option>
+										<option value="1000시 ~ 1100시">1000시 ~ 1100시</option>
+										<option value="1100시 ~ 1200시">1100시 ~ 1200시</option>
+										<option value="1400시 ~ 1500시">1400시 ~ 1500시</option>
+										<option value="1500시 ~ 1600시">1500시 ~ 1600시</option>
+										<option value="1600시 ~ 1700시">1600시 ~ 1700시</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+								<div class="text-right">
+									<button type="button" id="submitDone" class="btn btn-primary">신청완료</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+</th:block>
+				<!-- Main container end -->
+<th:block layout:fragment="customJs">
+	<script>
+		$('#submitDone').click(function(){
+			var addEstimateAnotherForm = $('#addEstimateAnotherForm');
+			var submitFlag = true;
+			var companyName = $('#companyName').val();
+			var companyManager = $('#companyManager').val();
+			var companyPhone = $('#companyPhone').val();
+			var companyEmail = $('#companyEmail').val();
+			var companyAddr = $('#companyAddr').val();
+			var sectors = $('#sectors').val();
+			var companyProduct = $('#companyProduct').val();
+			var dailySales = $('#dailySales').val();
+			var industries = $('#industries').val();
+			var counselTime = $('#counselTime').val();
+			var regPhone = /^[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}/.test(companyPhone);
+			var regExp = /[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]$/i.test(companyEmail);
+
+
+			/************************************업체명 입력여부 검사 ************************************/
+			if(companyName == null || companyName == '' || companyName == undefined){
+					alert('업체명을 다시 입력해주세요.');
+					$(this).focus();
+					submitFlag = false;
+					return submitFlag;
+			/************************************담당자명 입력여부 검사 ************************************/
+					
+			}else if(companyManager == null || companyManager == '' || companyManager == undefined){
+					alert('담당자명을 다시 입력해주세요.');
+					$(this).focus();
+					submitFlag = false;
+					return submitFlag;
+					
+			/************************************담당자연락처 입력여부 검사 ************************************/
+				}else if(companyPhone == null || companyPhone == '' || companyPhone == undefined){
+					alert('연락처를 다시 입력해주세요.');
+					$(this).focus();
+					submitFlag = false;
+					return submitFlag;
+					
+				/********************************담당자연락처 연락처 유효성 검사 ************************************/
+				}else if(!regPhone){
+					alert('연락처를  -  포함하여 다시 입력해주세요.');
+					$(this).focus();
+					submitFlag = false;
+					return submitFlag;
+					
+				/************************************담당자이메일 입력여부 검사 ************************************/
+				}else if(companyEmail == null || companyEmail == '' || companyEmail == undefined){
+					alert('담당자이메일을 다시 입력해주세요.');
+					$(this).focus();
+					submitFlag = false;
+					return submitFlag;
+				/********************************담당자이메일 연락처 유효성 검사 ************************************/
+				}else if(!regExp){
+					alert('양식에 맞는 이메일을 입력해주세요.');
+					$(this).focus();
+					submitFlag = false;
+					return submitFlag;
+					
+				/************************************주소 입력여부 검사 ************************************/
+				}else if(companyAddr == null || companyAddr == '' || companyAddr == undefined){
+					alert('주소를 다시 입력해주세요.');
+					$(this).focus();
+					submitFlag = false;
+					return submitFlag;
+					
+				/***********************************업종 선택여부 검사 ************************************/
+				}else if(sectors == null || sectors == '' || sectors == undefined){
+					alert('업종을 다시 선택해주세요.');
+					$(this).focus();
+					submitFlag = false;
+					return submitFlag;
+					
+				/************************************품목 입력여부 검사 ************************************/
+				}else if(companyProduct == null || companyProduct == '' || companyProduct == undefined){
+					alert('품목을 다시 입력해주세요.');
+					$(this).focus();
+					submitFlag = false;
+					return submitFlag;
+				
+				/************************************일일 판매수량 입력여부 검사 ************************************/
+				}else if(dailySales == null || dailySales == '' || dailySales == undefined){
+					alert('일일 판매수량을 다시 입력해주세요.');
+					$(this).focus();
+					submitFlag = false;
+					return submitFlag;
+					
+					/************************************직원수 선택여부 검사 ************************************/
+				}else if(industries == null || industries == '' || industries == undefined){
+					alert('직원수를 다시 선택해주세요.');
+					$(this).focus();
+					submitFlag = false;
+					return submitFlag;
+					
+					/************************************상담가능시간 선택여부 검사 ************************************/
+				}else if(counselTime == null || counselTime == '' || counselTime == undefined){
+					alert('상담가능시간을 다시 선택해주세요.');
+					$(this).focus();
+					submitFlag = false;
+					return submitFlag;
+				
+				}
+				if(submitFlag) {
+					alert('신청이 완료되었습니다. 확인 후 연락드리겠습니다.')
+					addEstimateAnotherForm.submit();
+				}
+		});
+	</script>
+</th:block>
+		
+</html>
