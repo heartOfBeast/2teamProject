@@ -1,0 +1,80 @@
+<!doctype html>
+<html
+	xmlns:th="http://www.thymeleaf.org"
+ 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="@{layout/default}">
+	
+	<th:block layout:fragment="pageTitle">
+		<div class="page-header">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item">Home</li>
+				<li class="breadcrumb-item active">출고 지시서</li>
+			</ol>
+		
+			<ul class="app-actions">
+				<li>
+					<a href="#" id="reportrange">
+						<span class="range-text"></span>
+						<i class="icon-chevron-down"></i>	
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						<i class="icon-export"></i>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</th:block>
+	<th:block layout:fragment="container">
+		<div class="main-container">
+			<div class="row gutters">
+				<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+					<div class="table-container">
+						<div class="t-header">출고지시 목록</div>
+						<div class="table-responsive">
+							<table id="copy-print-csv" class="table custom-table">
+								<thead>
+									<tr>
+									  <th>출고지시 코드</th>
+									  <th>상품코드</th>
+									  <th>상품명</th>
+									  <th>수량</th>
+									  <th>수령인</th>
+									  <th>수령인 주소</th>
+									  <th>수령인 연락처</th>
+									  <th>등록담당자</th>
+									  <th>출고지시일</th>
+									  <th>배차/운송장 등록</th>
+									  <th>출고</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+									  <td>test</td>
+									  <td>test</td>
+									  <td>test</td>
+									  <td>test</td>
+									  <td>test</td>
+									  <td>test</td>
+									  <td>test</td>
+									  <td>test</td>
+									  <td>test</td>
+									  <td>
+									  	<a href="#">배차/운송장 등록</a>
+								  	  </td>
+									  <td>
+									  	<a href="#">출고</a>
+								  	  </td>
+									</tr>
+								</tbody>
+				    	</table>
+						</div>
+					</div>
+				
+				</div>
+			</div>
+		</div>
+	</th:block>
+		
+</html>
