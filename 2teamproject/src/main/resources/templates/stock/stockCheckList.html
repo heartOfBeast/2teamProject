@@ -1,0 +1,114 @@
+<!doctype html>
+<html
+	xmlns:th="http://www.thymeleaf.org"
+ 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="@{layout/default}">
+	
+<th:block layout:fragment="pageTitle">
+<div class="page-header">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item">재고관리</li>
+		<li class="breadcrumb-item active">재고실사조회</li>
+	</ol>
+
+	<ul class="app-actions">
+		<li>
+			<a href="#" id="reportrange">
+				<span class="range-text"></span>
+				<i class="icon-chevron-down"></i>	
+			</a>
+		</li>
+		<li>
+			<a href="#">
+				<i class="icon-export"></i>
+			</a>
+		</li>
+	</ul>
+</div>
+		
+</th:block>
+	
+<th:block layout:fragment="container">
+<div class="main-container">
+	<div class="row gutters">
+		<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-6">
+			<div class="table-container">
+				<div class="t-header">재고실사조회</div>
+				<select>
+					<option> :: 선택 ::</option>
+					<option> A창고 </option>
+					<option> B창고 </option>
+					<option> C창고 </option>
+					<option> D창고 </option>
+					<option> E창고 </option>
+					<option> F창고 </option>
+				</select>
+				<select>
+					<option> :: 선택 ::</option>
+					<option> 섹터1 </option>
+					<option> 섹터2 </option>
+					<option> 섹터3 </option>
+					<option> 섹터4 </option>
+					<option> 섹터5 </option>
+					<option> 섹터6 </option>
+					<option> 섹터7 </option>
+					<option> 섹터8 </option>
+					<option> 섹터9 </option>
+					<option> 섹터10 </option>
+				</select>
+				
+				<div class="table-responsive">
+					<table id="copy-print-csv" class="table custom-table">
+						<thead>
+							<tr >
+							  <th>실사결과 코드</th>
+							  <th>창고코드</th>
+							  <th>구역코드</th>
+							  <th>등록담당자</th>
+							  <th>오차수량</th>
+							  <th>실사수량</th>
+							  <th>실사단위</th>
+							  <th>상세설명</th>
+							  <th>실사일자</th>
+							  <th>등록일자</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="L : ${stockCheckList}">
+								  <td th:text="${L.seccheckCode}"></td>
+								  <td th:text="${L.warehouseCode}"></td>
+								  <td th:text="${L.secstatusCode}"></td>
+								  <td th:text="${L.memberid}"></td>
+								  <td th:text="${L.seccheckError}"></td>
+								  <td th:text="${L.seccheckAmount}"></td>
+								  <td th:text="${L.checkUnit}"></td>
+								  <td th:text="${L.checkDetail}"></td>
+								  <td th:text="${L.checkDate}"></td>
+								  <td th:text="${L.checkRegdate}"></td>
+							</tr>
+							
+						</tbody>
+		    		</table>
+							<div class="card-body">
+									<div class="custom-btn-group">
+										<!-- Buttons -->
+										<span>
+											 <a th:href="@{/stockCheckInsert}" class="btn btn-primary float-right">실사결과 등록</a>
+								 		</span>	
+									</div>
+							</div>
+				</div>
+				
+			</div>
+			
+		
+		</div>
+		
+	</div>
+</div>
+
+
+</th:block>
+
+		
+</html>

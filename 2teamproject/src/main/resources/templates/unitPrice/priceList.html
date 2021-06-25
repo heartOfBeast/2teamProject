@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html
+	xmlns:th="http://www.thymeleaf.org"
+ 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="@{layout/default}">
+	
+<th:block layout:fragment="pageTitle">
+	<div class="page-header">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item">Shoppingmall</li>
+		<li class="breadcrumb-item active">PriceList</li>
+	</ol>
+
+	<ul class="app-actions">
+		<li>
+			<a href="#" id="reportrange">
+				<span class="range-text"></span>
+				<i class="icon-chevron-down"></i>	
+			</a>
+		</li>
+		<li>
+			<a href="#">
+				<i class="icon-export"></i>
+			</a>
+		</li>
+	</ul>
+</div>
+</th:block>
+
+<th:block layout:fragment="container">
+	<div class="table-container">
+		<div class="table-responsive">
+			<table class="table custom-table m-0">
+				<thead>
+					<tr>
+						<th>창고 종류</th>
+						<th>계약 종류</th>
+						<th>물품 개당 무게</th>
+						<th>제한 수량</th>
+						<th>구역 개수</th>
+						<th>계약 기간</th>
+						<th>사용 요금</th>
+						<th>등록</th>
+						<th>수정</th>
+						<th>삭제</th>
+						<th>계약신청</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="l: ${priceList}">
+						<td th:text="${l.wareHouse_Type}"></td>
+						<td th:text="${l.contract_Type}"></td>
+						<td th:text="${l.price_Weight}"></td>
+						<td th:text="${l.price_Number}" ></td>
+						<td th:text="${l.price_Zone}"></td>
+						<td th:text="${l.price_Day}"></td>
+						<td th:text="${l.price_Price}"></td>
+						<td>
+							<a th:href="@{/priceAdd}">등록</a>
+						</td>
+						<td>
+							<a th:href="@{/priceUpdate(price_Code=${l.price_Code})}" >수정</a>
+						</td>
+						<td>
+							<a th:href="@{/priceRemove(price_Code=${l.price_Code})}">삭제</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</th:block>
+
+</html>

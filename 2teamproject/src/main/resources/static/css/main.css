@@ -6280,3 +6280,16 @@ label {
 code {
   color: #225de4;
   word-break: break-word; }
+
+  
+  /* 안전점검관리 관련 css */
+.safeAddSpan{
+	margin-right: 10px;
+	font-weight: bolder;
+}
+.safeAddRadio{
+	margin-bottom: 8px;
+}
+.safeAddText{
+	margin-bottom: 5px;
+}
