@@ -27,13 +27,13 @@
 				<div class="sidebar-submenu">
 					<ul>
 						<li>
-							<a th:href="@{addWarehouse}">창고등록(병윤)</a>
+							<a th:href="@{addWarehouse}">창고등록(고뱅)</a>
 						</li>
 						<li>
-							<a th:href="@{warehouseList}">창고조회(병윤)</a>
+							<a th:href="@{warehouseList}">창고조회(고뱅)</a>
 						</li>
 						<li>
-							<a th:href="@{warehouseUpdate}">창고 정보수정(병윤)</a>
+							<a th:href="@{warehouseUpdate}">창고 정보수정(고뱅)</a>
 						</li>
 					</ul>
 				</div>
@@ -96,10 +96,16 @@
 				<div class="sidebar-submenu">
 					<ul>
 						<li>
-							<a th:href="@{/stockList}">재고조회(병윤)</a>
+							<a th:href="@{/stockList}">재고조회(고뱅)</a>
 						</li>
 						<li>
-							<a href="crm-dashboard.html">재고실사조회(수현)</a>
+							<a href="sales-dashboard.html">추가예정(고뱅)</a>
+						</li>
+						<li>
+							<a th:href="@{/stockCheckList}">재고실사조회(수현)</a>
+						</li>
+						<li>
+							<a href="ecommerce-dashboard.html">추가예정(고뱅)</a>
 						</li>
 					</ul>
 				</div>
@@ -153,10 +159,7 @@
 							<a th:href="@{/receivingOrder}">입고지시서 목록</a>
 						</li>
 						<li>
-							<a th:href="@{/receivingWarehouseStatus}">입고 현황(관리자 전용)</a>
-						</li>
-						<li>
-							<a th:href="@{/receivingShopStatus}">입고 현황(거래처 전용)</a>
+							<a th:href="@{/receivingStatus}">입고 현황</a>
 						</li>
 					</ul>
 				</div>
@@ -251,10 +254,10 @@
 				<div class="sidebar-submenu">
 					<ul>
 						<li>
-							<a th:href="@{/estimate}">견적신청(병윤)</a>
+							<a th:href="@{/estimate}">견적신청(고뱅)</a>
 						</li>
 						<li>
-							<a th:href="@{/estimateLook}">견적신청 조회하기(병윤)</a>
+							<a th:href="@{/estimateLook}">견적신청 조회하기(고뱅)</a>
 						</li>
 					</ul>
 				</div>
@@ -269,17 +272,18 @@
 				<div class="sidebar-submenu">
 					<ul>
 						<li>
-							<a th:href="@{inquiryList}">#문의게시판</a>
+							<a th:href="@{/noticelist}">공지사항게시판(수현)</a>
 						</li>
 						<li>
-							<a th:href="@{sendOneByOne}">#1:1문의</a>
+							<a th:href="@{/inquiryList}">#문의게시판</a>
 						</li>
 						<li>
-							<a th:href="@{oftenFaq}">자주 묻는 질문</a>
+							<a th:href="@{/sendOneByOne}">#1:1문의</a>
 						</li>
 						<li>
-							<a href="ecommerce-dashboard.html">Ecommerce Dashboard</a>
+							<a th:href="@{/oftenFaq}">자주 묻는 질문</a>
 						</li>
+						
 					</ul>
 				</div>
 			</li>
@@ -293,13 +297,13 @@
 				<div class="sidebar-submenu">
 					<ul>
 						<li>
-							<a th:href="@{productList}">상품목록</a>
+							<a th:href="@{/productList}">상품목록</a>
 						</li>
 						<li>
-							<a th:href="@{addProduct}">상품등록</a>
+							<a th:href="@{/addProduct}">상품등록</a>
 						</li>
 						<li>
-							<a th:href="@{warehouseProduct}">창고별 목록</a>
+							<a th:href="@{/warehouseProduct}">창고별 목록</a>
 						</li>
 						<li>
 							<a href="ecommerce-dashboard.html">Ecommerce Dashboard</a>

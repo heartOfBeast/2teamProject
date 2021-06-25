@@ -12,7 +12,6 @@
 			    
 			<th:block layout:fragment="pageTitle"></th:block>
 	        <th:block layout:fragment="container"></th:block>
-	        
 		
 		</div>
 </div>
@@ -71,17 +70,21 @@
 		<script src="vendor/apex/examples/pie/basic-donut-graph-gradient.js"></script>
 		<script src="vendor/apex/examples/pie/basic-donut-graph-monochrome-gradient.js"></script>
 		<script src="vendor/apex/examples/pie/basic-donut-graph-monochrome.js"></script>
-		
-
-		<!-- Apex Charts -->
-		<script src="vendor/apex/apexcharts.min.js"></script>
+			<script src="vendor/apex/apexcharts.min.js"></script>
+			
 		<script src="vendor/apex/examples/column/basic-column-graph.js"></script>
 		<script src="vendor/apex/examples/column/basic-column-graph-datalables.js"></script>
 		<script src="vendor/apex/examples/column/basic-column-stack-graph.js"></script>
 		<script src="vendor/apex/examples/column/basic-column-stack-graph-fullheight.js"></script>
 		<script src="vendor/apex/examples/column/basic-column-graph-rotated-labels.js"></script>
-		
-		<!-- customJS -->
-        <th:block layout:fragment="customJs"></th:block>
-
+		<!-- 추가수현 -->
+		<script src="vendor/summernote/summernote-bs4.js"></script>
+		<script>
+			$(document).ready(function() {
+				$('.summernote').summernote({
+					height: 170,
+					tabsize: 2
+				});
+			});
+		</script>
 </html>
