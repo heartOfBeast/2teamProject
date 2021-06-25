@@ -156,7 +156,10 @@
 							<a th:href="@{/receivingOrder}">입고지시서 목록</a>
 						</li>
 						<li>
-							<a th:href="@{/receivingStatus}">입고 현황</a>
+							<a th:href="@{/receivingStatus}">입고 현황(관리자 전용)</a>
+						</li>
+						<li>
+							<a th:href="@{/receivingStatus}">입고 현황(고객 전용)</a>
 						</li>
 					</ul>
 				</div>
@@ -171,25 +174,13 @@
 				<div class="sidebar-submenu">
 					<ul>
 						<li>
-							<a th:href="@{/releaseList}">출고 지시서</a>
+							<a th:href="@{/releaseOrder}">출고 지시서</a>
 						</li>
 						<li>
-							<a th:href="@{/releaseApproval}" class="current-page">출고 승인</a>
+							<a th:href="@{/realReleaseList}">출고 리스트</a>
 						</li>
 						<li>
-							<a th:href="@{/releaseList}">출고 리스트(관리자)</a>
-						</li>
-						<li>
-							<a th:href="@{/customerReleaseList}">출고 리스트(고객전용)</a>
-						</li>
-						<li>
-							<a th:href="@{/addWaybill}">운송장 조회/등록</a>
-						</li>
-						<li>
-							<a th:href="@{/assignmentInformation}">배정 정보</a>
-						</li>
-						<li>
-							<a th:href="@{/addShippingTime}">배송예정시간</a>
+							<a th:href="@{/wayBillSearch}">운송장 조회</a>
 						</li>
 					</ul>
 				</div>

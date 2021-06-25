@@ -42,18 +42,19 @@
 							  <th>이메일</th>
 							  <th>번호</th>
 							  <th>등록일</th>
-							  <th>활성화여부</th>
+							  <th>활성화</th>
 							  <th>인센티브</th>
+							  <th>승인</th>
 							  <th>수정</th>
 							  <th>삭제</th>
 							</tr>
 							
 						</thead>
 						<tbody>
-							<tr th:if="${#lists.size(adminWaiting) > 0}" th:each="l : ${adminWaiting}">
+							<tr th:if="${#lists.size(adminList) > 0}" th:each="l : ${adminList}">
 								<td th:text="${l.wareAdminId}"></td>
 								<td th:text="${l.wareAdminName}"></td>
-								<td th:text="${l.wareAdminLevel}"></td>
+								<td th:text="${l.memberLevel.levelName}"></td>
 								<td th:text="${l.wareAdminAddress}"></td>
 								<td th:text="${l.wareAdminEmail}"></td>
 								<td th:text="${l.wareAdminPhone}"></td>
@@ -62,6 +63,9 @@
 								<td th:text="${l.wareAdminIncentive}"></td>
 								
 							<td>
+								<a th:href="@{#}">승인</a>
+							</td>
+							<td>
 								<a th:href="@{#}">수정</a>
 							</td>
 							<td>
@@ -69,7 +73,7 @@
 							</td>
 							</tr>
 							
-						<tr th:unless="${#lists.size(adminWaiting) > 0}" style="text-align: center;">
+						<tr th:unless="${#lists.size(adminList) > 0}" style="text-align: center;">
 							<td colspan="9" th:text="${'검색한 결과가 없습니다.'}">
 							</td>
 						</tr>

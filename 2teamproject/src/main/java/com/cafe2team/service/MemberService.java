@@ -1,6 +1,8 @@
 package com.cafe2team.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,11 +37,47 @@ public class MemberService {
 		
 	}
 	
+	public Map<String, Object> loginMember(String memberId, String memberPw){
+		
+		//로그인 여부
+		boolean loginCheck = false;
+		
+		//로그인 결과 
+		Map<String, Object> memberInfoMap = new HashMap<String, Object>();
+		
+		//로그인 처리
+		Member member = memberMapper.getMemberById(memberId);
+		
+		if(member != null && memberPw.equals(member.getMemberPw())) {
+			loginCheck = true;
+			memberInfoMap.put("loginMember", member);
+		}
+			memberInfoMap.put("loginCheck", loginCheck);
+		
+			
+		return memberInfoMap;
+	}
+	
+	public List<WareAdmin> getAdminList(){
+		log.info("=========getAdminList service 실행======");
+		List<WareAdmin> getAdminList = memberMapper.getAdminList();
+		
+		return getAdminList;
+	}
+	
+	
 	public int adminSignUp(WareAdmin wareAdmin) {
 		
 		int result = memberMapper.adminSignUp(wareAdmin);
 		
 		return result;
+	}
+	
+	public int memberShopInsert(Member member) {
+		
+		int reulst = memberMapper.memberShopInsert(member);
+		
+		return reulst;
 	}
 	
 	
