@@ -1,8 +1,6 @@
 package com.cafe2team.service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,25 +35,12 @@ public class MemberService {
 		
 	}
 	
-	public Map<String, Object> loginMember(String memberId, String memberPw){
+	public Member getMemberInfoById(String memberId) {
 		
-		//로그인 여부
-		boolean loginCheck = false;
-		
-		//로그인 결과 
-		Map<String, Object> memberInfoMap = new HashMap<String, Object>();
-		
-		//로그인 처리
 		Member member = memberMapper.getMemberById(memberId);
 		
-		if(member != null && memberPw.equals(member.getMemberPw())) {
-			loginCheck = true;
-			memberInfoMap.put("loginMember", member);
-		}
-			memberInfoMap.put("loginCheck", loginCheck);
-		
-			
-		return memberInfoMap;
+		return member;
+	
 	}
 	
 	public List<WareAdmin> getAdminList(){
