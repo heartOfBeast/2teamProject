@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th = "http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head th:replace="fragments/head :: headFragment"></head>
+
+<style>
+html,body {
+  height: 100%;
+}
+</style>
+
+<body>
+<th:block layout:fragment="container">
+<div class="container h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+		        <div class="col-4 text-center">
+    				<form th:action="@{/memberlogin}" method="post">
+	                  <div class="card" style="padding:8px">
+						<span>!준</span>
+	                    <h4>로그인</h4>
+	                        <div class="input-group flex-nowrap" style="padding:8px">
+	                            <div class="input-group-prepend">
+	                                <span class="input-group-text" id="addon-wrapping">아이디</span>
+	                            </div>
+	                            <input type="text" name="memberId" id="user_name" class="form-control">
+	                        </div>
+	                        <div class="input-group flex-nowrap" style="padding:8px">
+	                            <div class="input-group-prepend">
+	                                <span class="input-group-text"id="addon-wrapping">비밀번호</span>
+	                            </div>
+	                            <input type="password" name="memberPw" id="user_Pw" class="form-control">
+	                        </div>
+	                        <button type="submit" style="margin:8px" class="btn btn-outline-info">로그인</button>
+	                        <a th:href="@{/adminsignup}" type="submit" style="margin:8px" class="btn btn-outline-info" >아이디찾기</a>
+	                        <br/>
+	                        <span>관리자 아이디가 존재한다면? <a th:href="@{/adminsignup}" class='text-info' style="text-decoration:underline">회원가입 페이지 이동</a></span>
+	                        <br/>
+	                        <span>거래처 아이디가 존재한다면? <a th:href="@{/accountsignup}" class='text-info' style="text-decoration:underline">회원가입 페이지 이동</a></span>
+	                 </div>
+       			</form>
+          </div>
+	</div>
+
+</div>
+</th:block>
+</body>
