@@ -17,7 +17,7 @@
 	</resultMap>
 	
 	
-	<select id="getStockCheckList" resultType="StockCheck" fetchSize="700" resultMap="stockCheckResultMap">
+	<!-- <select id="getStockCheckList" resultType="StockCheck" fetchSize="700" resultMap="stockCheckResultMap">
 	SELECT 
 		stock_sector_check_code,
 		warehouse_code,
@@ -32,6 +32,6 @@
 		stock_check_reg_date
 	FROM
 		tb_stock_sector_check;
-	</select>
+	</select> -->
 	
 </mapper>
