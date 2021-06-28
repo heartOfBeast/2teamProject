@@ -3,6 +3,8 @@ package com.cafe2team.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cafe2team.domain.Warehouse;
 import com.cafe2team.service.WarehouseService;
@@ -26,28 +29,34 @@ public class WarehouseController {
 		this.warehouseservice = warehouseservice;
 	}
 	
+		@PostMapping("/warehouseCheck")
+		@ResponseBody
+		public boolean warehouseCheck(@RequestParam(name="warehouseName", required = false) String warehouseName){
+			boolean nameCheck = true;
+			
+			Warehouse warehouse = warehouseservice.getWarehouseInfoByName(warehouseName);
+			
+			if(warehouse != null) nameCheck = false;
+			
+			return nameCheck;
+		}
+	
+		@PostMapping("/warehouseUpdate")
+		public String getWarehouseUpdate(Warehouse warehouse) {
+
+			warehouseservice.warehouseUpdate(warehouse);
+			
+			return null;
+		}
+	
 		@GetMapping("/warehouseUpdate")
-		public String getWarehouseUpdate(Model model) {
+		public String warehouseUpdate(Model model) {
 			model.addAttribute("title", "창고정보수정");
 			
 			return "warehouse/warehouseUpdate";
 			
 		}
 	
-	
-		
-		@PostMapping("/warehouseNameCheck")
-		@ResponseBody
-		public boolean warehouseNameCheck(@RequestParam(name="warehouseName", required = false) String warehouseName) {
-			boolean idCheck = true;
-			
-			//namecheck 중복된 아이디있는 경우에는 false
-			Warehouse warehouse = warehouseservice.getWarehouseInfoByName(warehouseName);
-			
-			if(warehouse != null) idCheck = false;
-			
-			return idCheck;
-		}
 		
 		@GetMapping("/warehouseList")
 		public String getWarehouseList(Model model) {
@@ -60,8 +69,15 @@ public class WarehouseController {
 		}
 		
 		@PostMapping("/addWarehouse")
-			public String addWarehouse(Warehouse warehouse) {
+			public String addWarehouse(Warehouse warehouse,
+					HttpSession session, RedirectAttributes reAttr) {
 			
+			String adminId = (String) session.getAttribute("SID");
+			if(adminId != null) {
+				warehouse.setWareAdminId(adminId);
+				warehouseservice.addWarehouse(warehouse);
+				reAttr.addAttribute("wareAdminId", adminId);
+			}
 				warehouseservice.addWarehouse(warehouse);
 				log.info("warehouse",warehouse);
 				

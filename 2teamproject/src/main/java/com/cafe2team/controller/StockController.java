@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.cafe2team.domain.Stock;
 import com.cafe2team.domain.StockCheck;
 import com.cafe2team.service.StockService;
 
@@ -17,9 +18,10 @@ public class StockController {
 	public StockController(StockService stockService) {
 		this.stockService = stockService;
 	}
-	
 	@GetMapping("/stockList")
 	public String stockList(Model model) {
+		
+		List<Stock> stockList = stockService.getStockList();
 		model.addAttribute("title", "재고목록조회");
 
 		return "stock/stockList";

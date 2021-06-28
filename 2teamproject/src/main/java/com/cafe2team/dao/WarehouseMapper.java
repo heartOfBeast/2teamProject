@@ -9,6 +9,8 @@ import com.cafe2team.domain.Warehouse;
 @Mapper
 public interface WarehouseMapper {
 	
+	//창고정보수정
+	public int warehouseUpdate(Warehouse warehouse);
 	//창고정보조회
 	public Warehouse getWarehouseInfoByName(String warehouseName);
 	//창고조회
