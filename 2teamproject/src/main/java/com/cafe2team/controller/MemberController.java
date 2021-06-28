@@ -89,6 +89,16 @@ public class MemberController {
 		return "member/myPage";
 	}
 	
+	@PostMapping("/myPage")
+	public String myPage(Member member) {
+		
+		log.info(member + "=====수정 받아온 값=====");
+		
+		memberService.updateMember(member);
+		
+		return "redirect:/main";
+	}
+	
 	@GetMapping("/whzoneinquiry")
 	public String whzoneinquiry() {
 		
