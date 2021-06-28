@@ -95,48 +95,8 @@ public class ContractController {
 	
 	
 	
-	
-	
-	
-	/******************************** 계약 시작 ********************************/
-	
-		// 거래계약 등록
-		@GetMapping("/contractList")
-		public String contractList() {
-			
-			return "contract/contractList";
-		}
 		
-		@GetMapping("/warContractList")
-		public String  warContractList() {
-			
-			return "contract/warContractList";
-		}
-		
-	/******************************** 계약 종료 ********************************/
-		
-	
-		
-		
-	/******************************** 거래 계약 등록 ********************************/
-		
-		// 계약신청페이지
-		@GetMapping("/contractPage")
-		public String getContractPage() {
-			
-			return "contract/contractPage";
-		}
-		
-		// 계약신청 사업자 번호 확인
-		@GetMapping("contractAdd")
-		public String contractAdd(Model model) {
-			
-			model.addAttribute("title", "계약신청");
-			
-			return "contract/contractAdd";
-		}
-		
-	/******************************** 거래 계약 종료 ********************************/
+
 		
 		
 		

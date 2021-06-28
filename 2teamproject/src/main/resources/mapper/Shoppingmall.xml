@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cafe2team.dao.ShoppingmallMapper">
+	
+	<select id="getShoppingmallList" resultType="Shoppingmall">
+SELECT 
+	  shU.shoppingmall_user_id						AS shId
+	, shU.shoppingmall_user_pw						AS shPw
+	, shU.shoppingmall_user_name					AS shUserName
+	, shU.shoppingmall_name							AS shName
+	, shL.level_code								AS shLevel
+	, shU.shoppingmall_user_address					AS shAddr
+	, shU.shoppingmall_user_email					AS shEmail
+	, shU.shoppingmall_user_phone					AS shPhone
+	, shU.shoppingmall_user_iden_num				AS shNum
+	, shU.shoppingmall_user_reg_date				AS shReg
+	, shU.shoppingmall_user_account_status			AS shStatus
+	, shP.product_code								AS shProduct
+	, shU.shoppingmall_bank							AS shBank
+	, shU.shoppingmall_bank_number					AS shBankNum
+	, shP.product_name								AS shProductName
+FROM 
+	tb_shoppingmall_user							AS shU
+	INNER JOIN 
+	tb_member_level 								AS shL
+	ON 
+	shU.shoppingmall_level_code = shL.level_code
+	INNER JOIN 
+	tb_product										AS shP
+	ON 
+	shU.shoppingmall_product = shP.product_code
+	</select>
+	
+	
+</mapper>
