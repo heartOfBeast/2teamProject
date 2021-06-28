@@ -16,4 +16,7 @@ public interface SafetyCheckMapper {
 	
 	//안전점검 등록
 	public int addSafetyCheck(SafetyCheck safetyCheck);
+	
+	//삭제
+	public int deleteSafetyCheckByCode(String paramList);
 }

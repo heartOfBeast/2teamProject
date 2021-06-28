@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -14,7 +15,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cafe2team.domain.SafetyCheck;
@@ -79,5 +83,17 @@ public class SafetyCheckController {
 		return "safe/modifySafetyCheck";
 	}
 	
-	
+	//삭제
+	@PostMapping(value = "/deleteSafetyCheck")
+	@ResponseBody
+	public int deleteSafetyCheck(HttpServletRequest request, @RequestParam(value="dataArr[]") String[] paramList) {
+		int result = 1;
+		System.out.println(paramList);
+		int size = paramList.length;
+		for(int i=0; i<size; i++) {
+			log.info(paramList[i] + " <-삭제할 값");
+			safetyCheckService.deleteSafetyCheck(paramList[i]);
+		}
+		return result;
+	}
 }
