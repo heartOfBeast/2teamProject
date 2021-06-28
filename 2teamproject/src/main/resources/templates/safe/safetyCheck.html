@@ -36,6 +36,9 @@
 							<table id="copy-print-csv" class="table custom-table">
 								<thead>
 									<tr>
+									  <th>
+									  		<input type="checkbox" id="checkAll" style="position: relative; top: 1.5px;">
+									  </th>
 									  <th>창고정보코드</th>
 									  <th>창고명</th>
 									  <th>화재안전점검내용</th>
@@ -45,11 +48,13 @@
 									  <th>등록일</th>
 									  <th>이상사유</th>
 									  <th>수정</th>
-									  <th>삭제</th>
 									</tr>
 								</thead>
 								<tbody>
 									<tr th:if="${#lists.size(safetyCheck)>0}" th:each="s : ${safetyCheck}">
+									  <td>
+								  	  	<input type="checkbox" class="checkOne" style="position: relative; top: 1.5px;">
+									  </td>
 									  <td th:text="${s.warehouseCode}"></td>
 									  <td th:text="${s.warehouse.warehouseName}"></td>
 									  <td th:text="${s.facilityFiresafety}"></td>
@@ -60,9 +65,6 @@
 									  <td th:text="${s.facilityCheck}"></td>
 									  <td>
 									  	<a th:href="@{/modifySafetyCheck(facilityCode=${s.facilityCode})}">수정</a>
-								  	  </td>
-									  <td>
-									  	<a href="#">삭제</a>
 								  	  </td>
 									</tr>
 									<tr th:unless="${#lists.size(safetyCheck)>0}" style="text-align: center;">
@@ -77,5 +79,17 @@
 			</div>
 		</div>
 </th:block>
-		
+<th:block layout:fragment="customJs">
+	<script>
+			$(function(){
+				$('#checkAll').click(function(){
+					if($('#checkAll').prop('checked')){
+						$('.checkOne').prop('checked', true);
+					}else{
+						$('.checkOne').prop('checked', false);
+					}
+				})
+			})
+	</script>
+</th:block>
 </html>

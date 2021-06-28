@@ -50,16 +50,16 @@
 									</tr>
 								</thead>
 								<tbody>
-									<tr>
-									  <td>test</td>
-									  <td>test</td>
-									  <td>test</td>
-									  <td>test</td>
-									  <td>test</td>
-									  <td>test</td>
-									  <td>test</td>
-									  <td>test</td>
-									  <td>test</td>
+									<tr th:each="r : ${release}">
+									  <td th:text="${r.releaseOrderCode}"></td>
+									  <td th:text="${r.productCode}"></td>
+									  <td th:text="${r.product.productName}"></td>
+									  <td th:text="${r.releaseOrderQuantity}"></td>
+									  <td th:text="${r.recipientName}"></td>
+									  <td th:text="${r.recipientAddress}"></td>
+									  <td th:text="${r.recipientPhone}"></td>
+									  <td th:text="${r.shoppingmallUserId}"></td>
+									  <td th:text="${r.orderRegDate}"></td>
 									  <td>
 									  	<a href="#">배차/운송장 등록</a>
 								  	  </td>

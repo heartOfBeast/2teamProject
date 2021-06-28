@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cafe2team.dao.ReleaseMapper">
+	<resultMap type="Release" id="ReleaseResultMap">
+		<result property="releaseOrderCode"  		column="release_order_code"/>
+		<result property="productCode"  			column="product_code"/>
+		<result property="releaseOrderQuantity"  	column="release_order_quantity"/>
+		<result property="recipientName"  			column="release_recipient_name"/>
+		<result property="recipientAddress"  		column="release_recipient_address"/>
+		<result property="recipientPhone"  			column="release_recipient_phone"/>
+		<result property="shoppingmallUserId"  		column="shoppingmall_user_id"/>
+		<result property="orderRegDate"  			column="release_order_reg_date"/>
+		<association property="product" javaType="Product">
+			<id property="productCode" 				column="product_code"/>
+			<result property="productName" 			column="product_name"/>
+		</association>
+	</resultMap>
+
+
+	<select id="gerReleaseOrder" resultType="Release" fetchSize="1000" resultMap="ReleaseResultMap">
+		SELECT 
+			o.release_order_code 
+			, o.product_code	
+			, p.product_name 
+			, o.release_order_quantity
+			, o.release_recipient_name
+			, o.release_recipient_address 
+			, o.release_recipient_phone
+			, o.shoppingmall_user_id 
+			, o.release_order_reg_date	
+		FROM 
+			tb_release_order AS o
+			INNER JOIN 
+			tb_product AS p
+			on
+			o.product_code = p.product_code;
+	</select>
+
+</mapper>
