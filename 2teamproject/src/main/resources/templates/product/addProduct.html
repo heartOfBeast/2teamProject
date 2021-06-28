@@ -44,7 +44,7 @@
 									</div>
 									<div class="card-body">
 										<div class="form-group">
-											<select class="form-control" name="productFreezeCoolCondition">
+											<select class="form-control" id="productFreezeCoolCondition" name="productFreezeCoolCondition">
 												<option name="productFreezeCoolCondition" value="">::보관유형::</option>
 												<option name="productFreezeCoolCondition" value="상온">::상온::</option>
 												<option name="productFreezeCoolCondition" value="냉장">::냉장::</option>
@@ -52,7 +52,7 @@
 											</select>
 										</div>
 										<div class="form-group">
-											<select name="productBigCategory" class="form-control">
+											<select id="productBigCategory" name="productBigCategory" class="form-control">
 												<option name="productBigCategory" value="">::대분류::</option>
 												<option name="productBigCategory" value="식음표">::식음료::</option>
 												<option name="productBigCategory" value="생활용품">::생활용품::</option>
@@ -60,7 +60,7 @@
 											</select>
 										</div>
 										<div class="form-group">
-											<select name="productMiddleCategory" class="form-control">
+											<select id="productMiddleCategory" name="productMiddleCategory" class="form-control">
 												<option name="productMiddleCategory" value="">::중분류::</option>
 												<option name="productMiddleCategory" value="음식">::음식::</option>
 												<option name="productMiddleCategory" value="청소도구">::청소도구::</option>
@@ -68,7 +68,7 @@
 											</select>
 										</div>
 										<div class="form-group">
-											<select name="productSmallCategory" class="form-control">
+											<select id="productSmallCategory" name="productSmallCategory" class="form-control">
 												<option name="productSmallCategory" value="">::소분류::</option>
 												<option name="productSmallCategory" value="죽">::죽::</option>
 												<option name="productSmallCategory" value="스프">::스프::</option>
@@ -85,7 +85,7 @@
 											<input type="text" class="form-control" id="productWeight" name="productWeight" placeholder="무게" required="">
 										</div>
 										<div class="form-group">
-											<select name="productWeightUnit" class="form-control">
+											<select id="productWeightUnit" name="productWeightUnit" class="form-control">
 												<option name="productWeightUnit" value="">::무게단위::</option>
 												<option name="productWeightUnit" value="kg">::kg::</option>
 												<option name="productWeightUnit" value="g">::g::</option>
@@ -94,21 +94,21 @@
 										</div>
 										<div class="form-group">
 											<div class="custom-date-input">
-												<input type="text" name="productDateOfManufacture" class="form-control datepicker-dropdowns" placeholder="제조일" style="width: 100%;">
+												<input type="text" id="productDateOfManufacture" name="productDateOfManufacture" class="form-control datepicker-dropdowns" placeholder="제조일" style="width: 100%;">
 											</div>
 										</div>
 										<div class="form-group">
 											<div class="custom-date-input">
-												<input type="text" name="productExpirationDate" class="form-control datepicker-dropdowns" placeholder="유통기한" style="width: 100%;">
+												<input type="text" id="productExpirationDate" name="productExpirationDate" class="form-control datepicker-dropdowns" placeholder="유통기한" style="width: 100%;">
 											</div>
 										</div>
 										<div class="form-group">
-											<textarea class="form-control" id="productDetail" placeholder="productDetail" maxlength="140" rows="4" style="resize: none;"></textarea>
+											<textarea class="form-control" id="productDetail" name="productDetail" placeholder="productDetail" maxlength="140" rows="4" style="resize: none;"></textarea>
 										</div>
 										
 									</div>
 								</div>
-										<button type="button" id="addProductBtn" class="btn btn-primary float-right" style="margin: 3px;">상품추가</button>
+										<button type="submit" id="addProductBtn" class="btn btn-primary float-right" style="margin: 3px;">상품수정</button>
 										<button type="button" id="bundleAddBtn" name="bundleAddBtn" class="btn btn-primary float-right" style="margin: 3px;">일괄추가</button>
 							</table>	
 							</form>
@@ -129,43 +129,74 @@
 		$(function(){
 			$('#addProductBtn').click(function(){
 				var productForm = $('#addProductForm');
-/* 				var submitFlag = true;
-				var inputObj = memberForm.find('input');
-				var selectObj = memberForm.find('select')
+ 				var submitFlag = true;
+				var productFreezeCoolCondition = $('#productFreezeCoolCondition').val();
+				var productBigCategory = $('#productBigCategory').val();
+				var productMiddleCategory = $('#productMiddleCategory').val();
+				var productSmallCategory = $('#productSmallCategory').val();
+				var productAddCategory = $('#productAddCategory').val();
+				var productName = $('#productName').val();
+				var productWeight = $('#productWeight').val();
+				var productWeightUnit = $('#productWeightUnit').val();
+				var productDateOfManufacture = $('#productDateOfManufacture').val();
+				var productExpirationDate = $('#productExpirationDate').val();
+				var productDetail = $('#productDetail').val();
 				
-				$.each(inputObj, selectObj, function(e){
-					var inputName = $(this).attr('name');
-					var inputValue = $(this).val();
-					var selectName = $(this).attr('name');
-					var selectValue = $(this).val();
-					var inputPlaceHolder = $(this).placeholder();
-					if(inputName == 'memberPw'){
-						if(!regexPw.test(inputValue)){
-							alert(inputLabel + ' 을 다시 입력해주세요.');
-							$(this).focus();
-							submitFlag = false;
-							return submitFlag;
-						}
-					}else if(inputName == 'memberEmail'){
-						if(!regexEmail.test(inputValue)){
-							alert(inputLabel + ' 을 다시 입력해주세요.');
-							$(this).focus();
-							submitFlag = false;
-							return submitFlag;
-						}
-					}else{
-						if(inputValue == '' || inputValue == undefined || inputValue == null){
-							alert(inputLabel + ' 을 입력해주세요.');
-							$(this).focus();
-							submitFlag = false;
-							return submitFlag;
-						}
-					}
-				});
+				if(productFreezeCoolCondition ==null||productFreezeCoolCondition==undefined||productFreezeCoolCondition==''){
+					alert('보관유형을 선택해주세요');
+					submitFlag = false;
+					$(this).focus();
+					return submitFlag;
+				}else if(productBigCategory ==null||productBigCategory==undefined||productBigCategory==''){
+					alert('대분류를 선택해주세요');
+					submitFlag = false;
+					$(this).focus();
+					return submitFlag;
+				}else if(productMiddleCategory ==null||productMiddleCategory==undefined||productMiddleCategory==''){
+					alert('중분류를 선택해주세요');
+					submitFlag = false;
+					$(this).focus();
+					return submitFlag;
+				}else if(productSmallCategory ==null||productSmallCategory==undefined||productSmallCategory==''){
+					alert('소분류를 선택해주세요');
+					submitFlag = false;
+					$(this).focus();
+					return submitFlag;
+				}else if(productSmallCategory ==null||productSmallCategory==undefined||productSmallCategory==''){
+					alert('소분류를 선택해주세요');
+					submitFlag = false;
+					$(this).focus();
+					return submitFlag;
+				}else if(productName ==null||productName==undefined||productName==''){
+					alert('상품명을 입력해주세요');
+					submitFlag = false;
+					$(this).focus();
+					return submitFlag;
+				}else if(productWeight ==null||productWeight==undefined||productWeight==''){
+					alert('상품무게를 입력해주세요');
+					submitFlag = false;
+					$(this).focus();
+					return submitFlag;
+				}else if(productWeightUnit ==null||productWeightUnit==undefined||productWeightUnit==''){
+					alert('무게단위를 선택해주세요');
+					submitFlag = false;
+					$(this).focus();
+					return submitFlag;
+				}else if(productDateOfManufacture ==null||productDateOfManufacture==undefined||productDateOfManufacture==''){
+					alert('제조날짜를 선택해주세요');
+					submitFlag = false;
+					$(this).focus();
+					return submitFlag;
+				}else if(productExpirationDate ==null||productExpirationDate==undefined||productExpirationDate==''){
+					alert('유통기한을 선택해주세요');
+					submitFlag = false;
+					$(this).focus();
+					return submitFlag;
+				}
 				
-				if(submitFlag) */ productForm.submit();
 				
 			});
+				if(submitFlag) productForm.submit();
 		});
 	</script>
 </th:block> 
