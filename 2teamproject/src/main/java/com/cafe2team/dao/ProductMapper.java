@@ -9,6 +9,10 @@ import com.cafe2team.domain.Product;
 @Mapper
 public interface ProductMapper {
 
+	//상품수정
+	public int modifyProduct(Product product);
+	//상품정보 가져오기
+	public Product getProductInfoByCode(String productCode);
 	//상품등록
 	public int addProduct(Product product);
 	//상품목록

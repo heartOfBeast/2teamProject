@@ -23,43 +23,104 @@
 	</resultMap>
 	
 	
+	<update id="modifyProduct" parameterType="Product">
+		UPDATE tb_product
+		<trim prefix="SET" prefixOverrides=",">
+			<if test="productFreezeCoolCondition !=null and productFreezeCoolCondition != ''.toString()">
+				,product_freeze_cool_condition=#{productFreezeCoolCondition}
+			</if>
+			<if test="productBigCategory !=null and productBigCategory != ''.toString()">
+				,product_big_category=#{productBigCategory}
+			</if>
+			<if test="productMiddleCategory !=null and productMiddleCategory != ''.toString()">
+				,product_middle_category= #{productMiddleCategory}
+			</if>
+			<if test="productSmallCategory !=null and productSmallCategory != ''.toString()">
+				,product_small_category=#{productSmallCategory}
+			</if>
+			<if test="productAddCategory !=null and productAddCategory != ''.toString()">
+				,product_add_category=#{productAddCategory}
+			</if>
+			<if test="productWeight !=null and productWeight != ''.toString()">
+				,product_weight=#{productWeight}
+			</if>
+			<if test="productWeightUnit !=null and productWeightUnit != ''.toString()">
+				,product_weight_unit=#{productWeightUnit}
+			</if>
+			<if test="productDateOfManufacture !=null and productDateOfManufacture != ''.toString()">
+				,product_date_of_manufacture=#{productDateOfManufacture}
+			</if>
+			<if test="productExpirationDate !=null and productExpirationDate != ''.toString()">
+				,product_expiration_date=#{productExpirationDate}
+			</if>
+			<if test="productDetail !=null and productDetail != ''.toString()">
+				,product_detail=#{productDetail}
+			</if>
+		</trim>
+
+			WHERE
+				product_code = #{productCode};
+	</update>
+	
+	
+	<!--상품 정보 조회  -->
+	<select id="getProductInfoByCode" parameterType="String" resultMap="productResultMap">
+		SELECT 
+			product_code, 
+			product_freeze_cool_condition, 
+			product_big_category,	 
+			product_middle_category, 	
+			product_small_category, 
+			product_add_category, 
+			product_name, product_weight, 
+			product_weight_unit, 
+			product_date_of_manufacture, 
+			product_expiration_date, 
+			shoppingmall_user_id, 
+			product_reg_date, product_detail
+		FROM tb_product
+		WHERE product_code=#{productCode};
+	</select>
 	
 	<!--상품추가  -->
 	<insert id="addProduct" parameterType="Product">
 		<selectKey keyColumn="product_code" keyProperty="productCode" resultType="String" order="BEFORE">
 			SELECT CONCAT('p_c_','',(SELECT LPAD(COUNT(*)+1,10,'0')FROM tb_product));
 		</selectKey>
-		INSERT INTO tb_product
-		(product_code,
-		product_freeze_cool_condition,
-		product_big_category,
-		product_middle_category,
-		product_small_category,
-		product_add_category,
-		product_name,
-		product_weight,
-		product_weight_unit,
-		product_date_of_manufacture,
-		product_expiration_date,
-		shoppingmall_user_id,
-		product_reg_date,
-		product_detail)
-		VALUES 
-		(${productCode},
-		#{productFreezeCoolCondition},
-		#{productBigCategory},
-		#{productMiddleCategory},
-		#{productSmallCategory},
-		#{productAddCategory},
-		#{productName},
-		#{productWeight},
-		#{productWeightUnit},
-		#{productDateOfManufacture},
-		#{productExpirationDate},
-		'sh001',<!--session 활용해서 입력 필요  -->
-		#{productDetail}
-		CURDATE())
-		
+		INSERT INTO 
+			tb_product
+				(
+				product_code,
+				product_freeze_cool_condition,
+				product_big_category,
+				product_middle_category,
+				product_small_category,
+				product_add_category,
+				product_name,
+				product_weight,
+				product_weight_unit,
+				product_date_of_manufacture,
+				product_expiration_date,
+				shoppingmall_user_id,
+				product_reg_date,
+				product_detail)
+			VALUES(
+				#{productCode},
+				#{productFreezeCoolCondition},
+				#{productBigCategory},
+				#{productMiddleCategory},
+				#{productSmallCategory},
+				#{productAddCategory},
+				#{productName},
+				#{productWeight},
+				#{productWeightUnit},
+				#{productDateOfManufacture},
+				#{productExpirationDate},
+				'sh001',<!--session 활용해서 입력 필요  -->
+				CURDATE(),
+				#{productDetail}
+				)
+				
 	</insert>
 	
 	<!-- 전체상품목록조회 -->
@@ -81,7 +142,7 @@
 			,product_detail							AS productDetail
 		FROM
 			tb_product
-	
+
 	</select>
 
 

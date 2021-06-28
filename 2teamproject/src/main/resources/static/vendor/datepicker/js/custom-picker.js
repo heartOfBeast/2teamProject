@@ -14,14 +14,14 @@ $('.datepicker-custom-buttons').pickadate({
 $('.datepicker-date-format').pickadate({
 	// Escape any “rule” characters with an exclamation mark (!).
 	format: 'You selected: dddd, dd mmm, yyyy',
-	formatSubmit: 'yyyy/mm/dd',
+	formatSubmit: 'yyyy-mm-dd',
 	hiddenPrefix: 'prefix__',
 	hiddenSuffix: '__suffix'
 })
 
 $('.datepicker-date-format2').pickadate({
 	// Escape any “rule” characters with an exclamation mark (!).
-	formatSubmit: 'yyyy/mm/dd',
+	formatSubmit: 'yyyy-mm-dd',
 	hiddenName: true
 })
 
