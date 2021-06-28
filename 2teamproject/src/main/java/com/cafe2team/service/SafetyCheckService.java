@@ -19,22 +19,19 @@ public class SafetyCheckService {
 	private SafetyCheckMapper safetyCheckMapper;
 	
 	private static final Logger log = LoggerFactory.getLogger(SafetyCheckService.class);
-
-	@PostConstruct
-	public void safetyCheckServiceInit() {
-		log.info("=============================");
-		log.info("SafetyCheckService 객체 생성");
-		log.info("=============================");
-	}
 	
-	public List<SafetyCheck> getSafetyCheck(Map<String, Object>paramMap){
-		List<SafetyCheck> safetyCheck = safetyCheckMapper.getSafetyCheck(paramMap);
+	public List<SafetyCheck> getSafetyCheck(){
+		List<SafetyCheck> safetyCheck = safetyCheckMapper.getSafetyCheck();
 		return safetyCheck;
 	}
 	
 	public SafetyCheck getSafetyCheckById(String facilityCode) {
 		
 		return safetyCheckMapper.getSafetyCheckById(facilityCode);
+	}
+	
+	public int addSafetyCheck(SafetyCheck safetyCheck) {
+		return safetyCheckMapper.addSafetyCheck(safetyCheck);
 	}
 }
 

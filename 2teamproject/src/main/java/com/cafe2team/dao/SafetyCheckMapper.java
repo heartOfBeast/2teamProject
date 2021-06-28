@@ -9,8 +9,11 @@ import com.cafe2team.domain.SafetyCheck;
 @Mapper
 public interface SafetyCheckMapper {
 	//조회
-	public List<SafetyCheck> getSafetyCheck(Map<String, Object>paramMap);
+	public List<SafetyCheck> getSafetyCheck();
 	
 	//수정화면 뿌리기
 	public SafetyCheck getSafetyCheckById(String facilityCode);
+	
+	//안전점검 등록
+	public int addSafetyCheck(SafetyCheck safetyCheck);
 }
