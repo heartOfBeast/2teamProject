@@ -17,6 +17,14 @@
 		<result property="spmGuestRegDate" column="estimate_guest_reg_date"/>
 	</resultMap>
 	
+	<select id="getEstimatePermit" resultType="Estimate" fetchSize="1000" resultMap="estimateResultMap">
+		SELECT
+			*
+		FROM
+			tb_estimate_guest;
+	</select>
+	
+	
 	<insert id="addEstimateAnother" parameterType="Estimate">
 		<selectKey keyColumn="estimate_guest_code" keyProperty="spmGuestCode" resultType="String" order="BEFORE">
 	      SELECT CONCAT('estimate_guest_','',(SELECT LPAD(COUNT(*)+1,3,'0')FROM tb_estimate_guest));
@@ -50,9 +58,10 @@
 	     	#{spmGuestCounselTime},
 	     	#{spmGuestAddress},
 	     	#{spmGuestIndustries},
-	     	CURDATE();
-	     	)
+	     	CURDATE()
+	     	);
 	</insert>
+	
 	
 </mapper>
 

@@ -8,7 +8,7 @@
 <div class="page-header">
 	<ol class="breadcrumb">
 		<li class="breadcrumb-item">견적</li>
-		<li class="breadcrumb-item active">견전식청 검토</li>
+		<li class="breadcrumb-item active">견전신청 검토</li>
 	</ol>
 
 	<ul class="app-actions">
@@ -31,7 +31,7 @@
 	<!-- Main container start -->
 <div class="main-container">
 	<div class="row gutters justify-content-center">
-		<div class="col-xl-8 col-lg-12 col-md-12 col-sm-12 col-12">
+		<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 			<div class="table-container">
 				<div class="table-responsive">
 					<table class="table custom-table m-0">
@@ -51,18 +51,18 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
+							<tr th:each="L : ${estimatePermit}">
+								<td th:text="${L.spmGuestName}"></td>
+								<td th:text="${L.spmGuestAdmin}"></td>
+								<td th:text="${L.spmGuestPhone}"></td>
+								<td th:text="${L.spmGuestEmail}"></td>
+								<td th:text="${L.spmGuestSectors}"></td>
+								<td th:text="${L.spmGuestProduct}"></td>
+								<td th:text="${L.spmGuestDailySales}"></td>
+								<td th:text="${L.spmGuestCounselTime}"></td>
+								<td th:text="${L.spmGuestAddress}"></td>
+								<td th:text="${L.spmGuestIndustries}"></td>
+								<td th:text="${L.spmGuestRegDate}"></td>
 							</tr>
 						</tbody>
 					</table>

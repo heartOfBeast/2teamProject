@@ -1,6 +1,7 @@
 package com.cafe2team.domain;
 
 public class Estimate {
+	private String spmGuestCode;
 	private String spmGuestName;
 	private String spmGuestAdmin;
 	private String spmGuestPhone;
@@ -13,6 +14,12 @@ public class Estimate {
 	private String spmGuestIndustries;
 	private String spmGuestRegDate;
 	
+	public String getSpmGuestCode() {
+		return spmGuestCode;
+	}
+	public void setSpmGuestCode(String spmGuestCode) {
+		this.spmGuestCode = spmGuestCode;
+	}
 	public String getSpmGuestName() {
 		return spmGuestName;
 	}
@@ -81,11 +88,12 @@ public class Estimate {
 	}
 	@Override
 	public String toString() {
-		return "Estimate [spmGuestName=" + spmGuestName + ", spmGuestAdmin=" + spmGuestAdmin + ", spmGuestPhone="
-				+ spmGuestPhone + ", spmGuestEmail=" + spmGuestEmail + ", spmGuestSectors=" + spmGuestSectors
-				+ ", spmGuestProduct=" + spmGuestProduct + ", spmGuestDailySales=" + spmGuestDailySales
-				+ ", spmGuestCounselTime=" + spmGuestCounselTime + ", spmGuestAddress=" + spmGuestAddress
-				+ ", spmGuestIndustries=" + spmGuestIndustries + ", spmGuestRegDate=" + spmGuestRegDate + "]";
+		return "Estimate [spmGuestCode=" + spmGuestCode + ", spmGuestName=" + spmGuestName + ", spmGuestAdmin="
+				+ spmGuestAdmin + ", spmGuestPhone=" + spmGuestPhone + ", spmGuestEmail=" + spmGuestEmail
+				+ ", spmGuestSectors=" + spmGuestSectors + ", spmGuestProduct=" + spmGuestProduct
+				+ ", spmGuestDailySales=" + spmGuestDailySales + ", spmGuestCounselTime=" + spmGuestCounselTime
+				+ ", spmGuestAddress=" + spmGuestAddress + ", spmGuestIndustries=" + spmGuestIndustries
+				+ ", spmGuestRegDate=" + spmGuestRegDate + "]";
 	}
 	
 }
