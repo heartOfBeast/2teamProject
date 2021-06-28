@@ -5,71 +5,226 @@
 	layout:decorate="@{layout/default}">
 
 <th:block layout:fragment="pageTitle">
-<div class="page-header">
-	<ol class="breadcrumb">
-		<li class="breadcrumb-item">거래처</li>
-		<li class="breadcrumb-item active">거래처 등록</li>
-	</ol>
-
-	<ul class="app-actions">
-		<li>
-			<a href="#" id="reportrange">
-				<span class="range-text"></span>
-				<i class="icon-chevron-down"></i>	
-			</a>
-		</li>
-		<li>
-			<a href="#">
-				<i class="icon-export"></i>
-			</a>
-		</li>
-	</ul>
-</div>
+	<div class="page-header">
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item">거래처</li>
+			<li class="breadcrumb-item active">거래처 등록</li>
+		</ol>
+	
+		<ul class="app-actions">
+			<li>
+				<a href="#" id="reportrange">
+					<span class="range-text"></span>
+					<i class="icon-chevron-down"></i>	
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<i class="icon-export"></i>
+				</a>
+			</li>
+		</ul>
+	</div>
+	<script>
+			$(function(){
+							
+				$('#businessNumbtn').click(function(){
+					var regexbusinessNum = /^[가-힣a-zA-Z]+$/;
+					var regexPrice = /^[0-9]*$/;
+					var submitFlag = true;
+					var goodsForm = $('#businessNumForm');
+					var inputObj = goodsForm.find('input');
+					
+					$.each(inputObj, function(e){
+						var inputbusinessNum1 = $(this).attr('businessNum1');
+						var inputbusinessNum2 = $(this).attr('businessNum2');
+						var inputbusinessNum3 = $(this).attr('businessNum3');
+						var inputValue = $(this).val();
+						console.log(inputValue)
+						var inputLabel = $(this).parent().parent().children().eq(0).text();
+						if(inputName == 'businessNum1'){
+							if(!regexbusinessNum.test(inputValue)){
+								alert(inputLabel + ' 을 다시 입력해주세요.');
+								$(this).focus();
+								submitFlag = false;
+								return submitFlag;
+							}
+						}
+						if(inputName == 'businessNum2'){
+							if(!regexbusinessNum.test(inputValue)){
+								alert(inputLabel + ' 을 다시 입력해주세요.');
+								$(this).focus();
+								submitFlag = false;
+								return submitFlag;
+							}
+						}
+						if(inputName == 'businessNum3'){
+							if(!regexbusinessNum.test(inputValue)){
+								alert(inputLabel + ' 을 다시 입력해주세요.');
+								$(this).focus();
+								submitFlag = false;
+								return submitFlag;
+							}
+						}
+							
+					});
+					
+					if(submitFlag) goodsForm.submit();
+					
+				});
+			});
+		</script>
 </th:block>
 
 <th:block layout:fragment="container">
-	
 	<div class="main-container">
-
-					<!-- Row start -->
-					<div class="row gutters justify-content-center">
-						<div class="col-xl-5 col-lg-5 col-md-6 col-sm-6 col-12">
-							<form>
-								<div class="card m-0">
-									<div class="card-header">
-										<div class="card-title"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">거래처 등록</font></font></div>
-										<div class="card-sub-title"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">거래처를 등록해보자</font></font></div>
-									</div>
-									<div class="card-body">
-										<div class="form-group">
-											<input type="text" class="form-control" id="name" name="name" placeholder="이름" required="required">
-										</div>
-										<div class="form-group">
-											<input type="email" class="form-control" id="email" name="email" placeholder="이메일" required="required">
-										</div>
-										<div class="form-group">
-											<input type="text" class="form-control" id="mobile" name="mobile" placeholder="휴대폰 번호" required="required">
-										</div>
-										<div class="form-group">
-											<input type="text" class="form-control" id="subject" name="subject" placeholder="제목" required="required">
-										</div>
-										<div class="form-group">
-											<textarea class="form-control" id="message" placeholder="메시지" maxlength="140" rows="4"></textarea>
-											<div class="form-text text-muted">
-												<p id="characterLeft" class="help-block"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">140 자 남음</font></font></p>
-											</div>
-										</div>
-										
-										<button type="button" id="submit" name="submit" class="btn btn-primary float-right"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">등록버튼</font></font></button>
-									</div>
+		<div class="row justify-content-center gutters">
+			<div class="col-xl-10 col-lg-10 col-md-12 col-sm-12 col-12">
+				<form id="businessNumForm1" th:action="@{/shoppingmallAdd}">
+					<div class="card m-0">
+						<div class="card-header">
+								<div class="card-title">사업자 인증하기</div>
+							<ul class="text-muted custom">
+								<li>* 계약을 진행하기 위해서는 사업자 권한을 승인 받아야됩니다.</li>
+								<li>* 사업자 등록증을 보유한 판매자만 사업자인증을 진행할 수 있습니다.</li>
+							</ul>
+						</div>
+						<div class="card-body">
+							<div class="row gutters">
+								<h4> 사업자번호등록</h4>
+								<div class="form-group">
+									<input type="number" name='businessNum1' />-
+							        <input type='number' name='businessNum2' />-
+							        <input type='number' name='businessNum3' />  
 								</div>
-							</form>
+								<button class="btn btn-primary btn-sm" type="submit" id="businessNumbtn" style="margin-bottom: 16px;">확인</button>	
+							</div>
 						</div>
 					</div>
-					<!-- Row end -->
-
-				</div>
-
+				</form>
+			</div>
+		</div>
+		<br/>
+		<div class="row justify-content-center gutters">
+			<div class="col-xl-10 col-lg-10 col-md-12 col-sm-12 col-12">
+				<form id="businessNumForm2" th:action="@{/shoppingmallAdd}" method="post">
+					<div class="card m-0">
+						<div class="card-header">
+						
+							<div class="card-body">
+								<!-- Row start -->
+								<div class="row gutters">
+									<div class="col-xl-10 col-lg-10 col-md-9 col-sm-10">
+										<form>
+											<div class="card m-0">
+												<div class="card-header">
+														<div class="card-title">
+															<font style="vertical-align: inherit;">
+																<font style="vertical-align: inherit;">정보입력</font>
+															</font>
+														</div>
+													<div class="card-sub-title">
+														<font style="vertical-align: inherit;">
+															<font style="vertical-align: inherit;">* 아래 빈칸에 정보를 입력하세요.</font><br/>
+															<font style="vertical-align: inherit;">* 빈칸없이 모두 입력해야됩니다.</font>
+														</font>
+													</div>
+												</div>
+												<div class="card-body">
+													
+													<div class="form-group row gutters">
+														<label for="inputName" class="col-sm-3 col-form-label text-right">
+															<font style="vertical-align: inherit;">
+																<font style="vertical-align: inherit;">아이디</font>
+															</font>
+														</label>
+														<div class="col-sm-6">
+															<input type="text" class="form-control" id="inputName" placeholder="아이디">
+														</div>
+													</div>
+													
+													<div class="form-group row gutters">
+														<label for="inputName" class="col-sm-3 col-form-label text-right">
+															<font style="vertical-align: inherit;">
+																<font style="vertical-align: inherit;">비밀번호</font>
+															</font>
+														</label>
+														<div class="col-sm-6">
+															<input type="text" class="form-control" id="inputName" placeholder="비밀번호">
+														</div>
+													</div>
+													
+													<div class="form-group row gutters">
+														<label for="inputName" class="col-sm-3 col-form-label text-right">
+															<font style="vertical-align: inherit;">
+																<font style="vertical-align: inherit;">대표자명</font>
+															</font>
+														</label>
+														<div class="col-sm-6">
+															<input type="text" class="form-control" id="inputName" placeholder="대표자이름">
+														</div>
+													</div>
+														
+													<div class="form-group row gutters">
+														<label for="inputEmail" class="col-sm-3 col-form-label text-right">
+															<font style="vertical-align: inherit;">
+																<font style="vertical-align: inherit;">사업자등록번호</font>
+															</font>
+														</label>
+														<div class="col-sm-6">
+															<input type="email" class="form-control" id="inputEmail" placeholder="사업자등록번호">
+														</div>
+													</div>
+													
+													<div class="form-group row gutters">
+														<label for="inputMobNumber" class="col-sm-3 col-form-label text-right">
+															<font style="vertical-align: inherit;">
+																<font style="vertical-align: inherit;">사업장명</font>
+															</font>
+														</label>
+														<div class="col-sm-6">
+															<input type="text" class="form-control" id="inputMobNumber" placeholder="사업장명">
+														</div>
+													</div>
+													
+													<div class="form-group row gutters">
+														<label for="inputSubject" class="col-sm-3 col-form-label text-right">
+															<font style="vertical-align: inherit;">
+																<font style="vertical-align: inherit;">주거래은행</font>
+															</font>
+														</label>
+														<div class="col-sm-6">
+															<input type="text" class="form-control" id="inputSubject" placeholder="주거래은행">
+														</div>
+													</div>
+													
+													<div class="form-group row gutters">
+														<label for="inputSubject" class="col-sm-3 col-form-label text-right">
+															<font style="vertical-align: inherit;">
+																<font style="vertical-align: inherit;">계좌번호</font>
+															</font>
+														</label>
+														<div class="col-sm-6">
+															<input type="text" class="form-control" id="inputSubject" placeholder="계좌번호">
+														</div>
+													</div>
+													<button type="button" id="submit" name="submit" class="btn btn-primary float-right">
+														<font style="vertical-align: inherit;">
+															<font style="vertical-align: inherit;">양식 제출</font>
+														</font>
+													</button>
+												</div>
+											</div>
+										</form>
+									</div>
+								</div>			
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 </th:block>
 		
 </html>
