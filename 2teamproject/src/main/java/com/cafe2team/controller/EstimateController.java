@@ -1,5 +1,7 @@
 package com.cafe2team.controller;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -26,7 +28,7 @@ public class EstimateController {
 			estimateservice.addEstimateAnother(estimate);
 			log.info("estimate", estimate);
 			
-			return "redirect:/estimatePermit";
+			return "redirect:/estimateLook";
 			
 		}
 		
@@ -36,17 +38,15 @@ public class EstimateController {
 			return "estimate/estimateAnother";
 		}
 	
-		@GetMapping("/estimate")
-		public String estimate(Model model) {
-			
-			model.addAttribute("title", "견적신청");
-			return "estimate/estimate";
-		}
 		
+		//견적신청 검토 - 견적신청 한 리스트조회
 		@GetMapping("/estimatePermit")
-		public String estimatePermit(Model model) {
+		public String getEstimatePermit(Model model) {
 			
+			List<Estimate> estimatePermit = estimateservice.getEstimatePermit();
 			model.addAttribute("title", "견적신청 검토");
+			model.addAttribute("estimatePermit", estimatePermit);
+			
 			return "estimate/estimatePermit";
 		}
 		
@@ -55,6 +55,22 @@ public class EstimateController {
 			
 			model.addAttribute("title", "견적신청 조회하기");
 			return "estimate/estimateLook";
+		}
+		
+		@PostMapping("/addEstimate")
+		public String addEstimate(Estimate estimate) {
+			
+			estimateservice.addEstimate(estimate);
+			log.info("estimate", estimate);
+			
+			return "redirect:/estimateLook";
+		}
+		
+		@GetMapping("/estimate")
+		public String estimate(Model model) {
+			
+			model.addAttribute("title", "견적신청");
+			return "estimate/estimate";
 		}
 		
 	}

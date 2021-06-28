@@ -30,82 +30,123 @@
 <th:block layout:fragment="container">
 	<!-- Main container start -->
 <div class="main-container">
-	<div class="row gutters justify-content-center">
-		<div class="col-xl-8 col-lg-12 col-md-12 col-sm-12 col-12">
-			
-			<div class="card h-100" >
-				<div class="card-header">
-					<div class="card-title"> 견적신청 </div>
-				</div>
-			
-				<div class="card-body">
-					<div class="row gutters">
-						<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-						
-							<div class="form-group">
-								<label for="name">업체명</label>
-								<input type="text" class="form-control" id="name" name="companyName" value="업체명" readonly />
+	<div class="justify-content-center">
+		<form id="addEstimateForm" th:action="@{/estimate}" method="POST">
+			<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+				
+				<div class="card h-100" >
+					<div class="card-header">
+						<div class="card-title"> 견적신청 </div>
+					</div>
+				
+					<div class="card-body">
+						<div class="row gutters">
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+							
+								<div class="form-group">
+									<label for="companyName">업체명</label>
+									<input type="text" class="form-control" id="companyName" name="spmGuestName" value="업체명" readonly />
+								</div>
+								
+								<div class="form-group">
+									<label for="companyId">아이디</label>
+									<input type="text" class="form-control" id="companyId" name="spmGuestId" value="아이디" readonly/>
+								</div>
+														
+								<div class="form-group">
+									<label for="counselTime">상담가능 시간</label>
+									<select class="custom-select" id="counselTime" name="spmGuestCounselTime" required/>
+										<option value="">상담가능 시간을 선택해주세요.</option>
+										<option value="0900시 ~ 1000시">0900시 ~ 1000시</option>
+										<option value="1000시 ~ 1100시">1000시 ~ 1100시</option>
+										<option value="1100시 ~ 1200시">1100시 ~ 1200시</option>
+										<option value="1400시 ~ 1500시">1400시 ~ 1500시</option>
+										<option value="1500시 ~ 1600시">1500시 ~ 1600시</option>
+										<option value="1600시 ~ 1700시">1600시 ~ 1700시</option>
+									</select>
+								</div>
 							</div>
 							
-							<div class="form-group">
-								<label for="manager">아이디</label>
-								<input type="text" class="form-control" id="manager" name="companyManager" value="아이디" readonly/>
-							</div>
-							
-							<div class="form-group">
-								<label for="companyProduct">품목</label>
-								<input type="text" class="form-control" id="companyProduct" placeholder="취급하고 있는 상품 품목을 입력해주세요."/>
-							</div>
-							
-						
-							<div class="form-group">
-								<label for="counselTime">상담가능 시간</label>
-								<input type="text" class="form-control" id="counselTime" placeholder="상담가능한 시간을 입력해주세요."/>
-							</div>
-						</div>
-						
-						<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-							<div class="form-group">
-								<label for="phone">담당자 연락처</label>
-								<input type="text" class="form-control" id="phone" name="companyPhone" value="담당자 연락처" readonly/>
-							</div>
-							<div class="form-group">
-								<label for="sectors">업종</label>
-								<select class="custom-select" id="sectors">
-									<option selected>미선택</option>
-									<option value="식/음료">식/음료</option>
-									<option value="수리/인테리어">수리/인테리어</option>
-									<option value="스포츠 용품">스포츠 용품</option>
-									<option value="유아용품">유아용품</option>
-									<option value="전자제품">전자제품</option>
-									<option value="건강/뷰티">건강/뷰티</option>
-									<option value="의류 및 악세서리">의류 및 악세서리</option>
-								</select>
-							</div>
-							<div class="form-group">
-								<label for="industries">직원 수</label>
-								<select class="custom-select" id="industries">
-									<option selected>미선택</option>
-									<option value="20">0 ~ 20</option>
-									<option value="50">21 ~ 50</option>
-									<option value="80">51 ~ 80</option>
-									<option value="100">81 ~ 100</option>
-								</select>
-							</div>
-						</div>	
-						<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-							<div class="text-right">
-								<button type="button" id="submit" class="btn btn-primary">신청완료</button>
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+								<div class="form-group">
+									<label for="companyPhone">담당자 연락처</label>
+									<input type="text" class="form-control" id="companyPhone" name="spmGuestPhone" value="담당자 연락처" readonly/>
+								</div>
+								<div class="form-group">
+									<label for="sectors">업종</label>
+									<select class="custom-select" id="sectors" name="spmGuestSectors">
+										<option value="">미선택</option>
+										<option value="식/음료">식/음료</option>
+										<option value="수리/인테리어">수리/인테리어</option>
+										<option value="스포츠 용품">스포츠 용품</option>
+										<option value="유아용품">유아용품</option>
+										<option value="전자제품">전자제품</option>
+										<option value="건강/뷰티">건강/뷰티</option>
+										<option value="의류 및 악세서리">의류 및 악세서리</option>
+									</select>
+								</div>
+								<div class="form-group">
+									<label for="industries">직원 수</label>
+									<select class="custom-select" id="industries" name="spmGuestIndustries">
+										<option value="">미선택</option>
+										<option value="20">0 ~ 20</option>
+										<option value="50">21 ~ 50</option>
+										<option value="80">51 ~ 80</option>
+										<option value="100">81 ~ 100</option>
+									</select>
+								</div>
+							</div>	
+							<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+								<div class="text-right">
+									<button type="button" id="submitDone" class="btn btn-primary">신청완료</button>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
+		</form>
 	</div>
 </div>
+</th:block>
 				<!-- Main container end -->
-
+<th:block layout:fragment="customJs">
+	<script>
+		$('#submitDone').click(function(){
+			var  addEstimateForm = $('#addEstimateForm');
+			var submitFlag = true;
+			var counselTime = $('#counselTime').val();
+			var sectors = $('#sectors').val();
+			var industries = $('#industries').val();
+			
+				
+			/************************************상담가능시간 선택여부 검사 ************************************/
+			if(counselTime == null || counselTime == '' || counselTime == undefined){
+				alert('상담가능시간을 다시 선택해주세요.');
+				$(this).focus();
+				submitFlag = false;
+				return submitFlag;
+			
+			/***********************************업종 선택여부 검사 ************************************/
+			}else if(sectors == null || sectors == '' || sectors == undefined){
+				alert('업종을 다시 선택해주세요.');
+				$(this).focus();
+				submitFlag = false;
+				return submitFlag;
+			/************************************직원수 선택여부 검사 ************************************/
+			}else if(industries == null || industries == '' || industries == undefined){
+				alert('직원수를 다시 선택해주세요.');
+				$(this).focus();
+				submitFlag = false;
+				return submitFlag;
+			}
+			if(submitFlag){
+				alert('신청이 완료되었습니다. 확인 후 연락드리겠습니다.')
+				addEstimateForm.submit();
+			}
+			
+		});
+	</script>
 </th:block>
 		
 </html>

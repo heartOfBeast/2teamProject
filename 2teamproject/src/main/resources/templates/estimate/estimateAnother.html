@@ -30,7 +30,7 @@
 <th:block layout:fragment="container">
 	<!-- Main container start -->
 <div class="main-container">
-	<div class="row gutters justify-content-center">
+	<div class="justify-content-center">
 		<form id="addEstimateAnotherForm" th:action="@{/estimateAnother}" method="POST">
 			<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 				
@@ -44,29 +44,29 @@
 							<div class="col-xl-6 col-lg-12 col-md-6 col-sm-6 col-12">
 								<div class="form-group">
 									<label for="companyName">업체명</label>
-									<input type="text" class="form-control" id="companyName" placeholder="업체명을 입력해주세요."/>
+									<input type="text" class="form-control" id="companyName" name="spmGuestName" placeholder="업체명을 입력해주세요."/>
 								</div>
 								<div class="form-group">
 									<label for="companyManager">담당자명</label>
-									<input type="text" class="form-control" id="companyManager" placeholder="성함을 입력해주세요."/>
+									<input type="text" class="form-control" id="companyManager" name="spmGuestAdmin" placeholder="성함을 입력해주세요."/>
 								</div>
 								<div class="form-group">
 									<label for="companyPhone">휴대폰 번호</label>
-									<input type="text" class="form-control" id="companyPhone" placeholder="번호를 '-' 포함하여 입력해주세요."/>
+									<input type="text" class="form-control" id="companyPhone" name="spmGuestPhone" placeholder="번호를 '-' 포함하여 입력해주세요."/>
 								</div>
 								<div class="form-group">
 									<label for="companyEmail">이메일 주소</label>
-									<input type="email" class="form-control" id="companyEmail" placeholder="이메일 주소를 @포함하여 입력해주세요."/>
+									<input type="email" class="form-control" id="companyEmail" name="spmGuestEmail" placeholder="이메일 주소를 '@'포함하여 입력해주세요."/>
 								</div>
 								<div class="form-group">
 									<label for="companyAddr">주소</label>
-										<input type="text" class="form-control" id="companyAddr" placeholder="주소를 입력해주세요."/>
+										<input type="text" class="form-control" id="companyAddr" name="spmGuestAddress" placeholder="주소를 입력해주세요."/>
 								</div>
 							</div>
 							<div class="col-xl-6 col-lg-12 col-md-6 col-sm-6 col-12">
 								<div class="form-group">
 									<label for="sectors">업종</label>
-									<select class="custom-select" id="sectors" required>
+									<select class="custom-select" id="sectors" name="spmGuestSectors" required>
 										<option value="">업종을 선택해주세요.</option>
 										<option value="의류">의류</option>
 										<option value="신발">신발</option>
@@ -85,26 +85,26 @@
 								</div>
 								<div class="form-group">
 									<label for="companyProduct">품목</label>
-									<input type="text" class="form-control" id="companyProduct" placeholder="취급하고 있는 상품 품목을 입력해주세요."/>
+									<input type="text" class="form-control" id="companyProduct" name="spmGuestProduct" placeholder="취급하고 있는 상품 품목을 입력해주세요."/>
 								</div>
 								<div class="form-group">
 									<label for="dailySales">일일 판매수량</label>
-									<input type="text" class="form-control" id="dailySales" placeholder="쇼핑몰사업자 연락처"/>
+									<input type="text" class="form-control" id="dailySales" name="spmGuestDailySales" placeholder="일일 평균 판매수량을 입력해주세요."/>
 								</div>
 								<div class="form-group">
 									<label for="industries">직원 수</label>
-									<select class="custom-select" id="industries" required>
+									<select class="custom-select" id="industries" name="spmGuestIndustries" required>
 										<option value="">직원 수를 선택해주세요.</option>
 										<option value="0 ~ 20명">0 ~ 20명</option>
 										<option value="21 ~ 50명">21 ~ 50명</option>
 										<option value="51 ~ 80명">51 ~ 80명</option>
 										<option value="81 ~ 100명">81 ~ 100명</option>
-										<option value="81 ~ 100명이상">81 ~ 100명</option>
+										<option value="81 ~ 100명이상">81 ~ 100명이상</option>
 									</select>
 								</div>	
 								<div class="form-group">
 									<label for="counselTime">상담가능 시간</label>
-									<select class="custom-select" id="counselTime" required/>
+									<select class="custom-select" id="counselTime" name="spmGuestCounselTime" required/>
 										<option value="">상담가능 시간을 선택해주세요.</option>
 										<option value="0900시 ~ 1000시">0900시 ~ 1000시</option>
 										<option value="1000시 ~ 1100시">1000시 ~ 1100시</option>
