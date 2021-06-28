@@ -43,6 +43,13 @@ public class MemberService {
 	
 	}
 	
+	public int updateMember(Member member) {
+		
+		int memberUpdate = memberMapper.updateMember(member);
+		
+		return memberUpdate;
+	}
+	
 	public List<WareAdmin> getAdminList(){
 		log.info("=========getAdminList service 실행======");
 		List<WareAdmin> getAdminList = memberMapper.getAdminList();
