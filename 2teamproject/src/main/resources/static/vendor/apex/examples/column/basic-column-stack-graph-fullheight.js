@@ -30,16 +30,16 @@ var options = {
     enabled: true
   },
   series: [{
-    name: 'Product A',
+    name: '식료품',
     data: [44, 55, 41, 67, 22, 43]
   },{
-    name: 'Product B',
+    name: '비품',
     data: [13, 23, 20, 8, 13, 27]
   },{
-    name: 'Product C',
+    name: '임금',
     data: [11, 17, 15, 15, 21, 14]
   },{
-    name: 'Product D',
+    name: '생필품',
     data: [21, 7, 25, 13, 22, 8]
   }],
   xaxis: {

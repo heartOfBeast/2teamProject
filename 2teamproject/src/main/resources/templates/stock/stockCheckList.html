@@ -3,6 +3,7 @@
 	xmlns:th="http://www.thymeleaf.org"
  	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="@{layout/default}">
+
 	
 <th:block layout:fragment="pageTitle">
 <div class="page-header">
@@ -36,25 +37,30 @@
 				<div class="t-header">재고실사조회</div>
 				<select>
 					<option> :: 선택 ::</option>
-					<option> A창고 </option>
-					<option> B창고 </option>
-					<option> C창고 </option>
-					<option> D창고 </option>
-					<option> E창고 </option>
-					<option> F창고 </option>
+					<option value="w001"> 군산물류 </option>
+					<option value="w002">익산물류 </option>
+					<option value="w003"> 경기물류 </option>
+					<option value="w004"> 인천물류 </option>
+					<option value="w005"> 용인물류 </option>
+					<option value="w006"> 광주물류</option>
+					<option value="w007"> 충북물류</option>
+					<option value="w008"> 안산물류</option>
+					<option value="w009"> 충남물류</option>
+					<option value="w010"> 진천물류</option>
+
 				</select>
 				<select>
 					<option> :: 선택 ::</option>
-					<option> 섹터1 </option>
-					<option> 섹터2 </option>
-					<option> 섹터3 </option>
-					<option> 섹터4 </option>
-					<option> 섹터5 </option>
-					<option> 섹터6 </option>
-					<option> 섹터7 </option>
-					<option> 섹터8 </option>
-					<option> 섹터9 </option>
-					<option> 섹터10 </option>
+					<option value="s001"> 1구역 </option>
+					<option value="s002"> 2구역 </option>
+					<option value="s003"> 3구역 </option>
+					<option value="s004"> 4구역 </option>
+					<option value="s005"> 5구역 </option>
+					<option value="s006"> 6구역 </option>
+					<option value="s007"> 7구역 </option>
+					<option value="s008"> 8구역 </option>
+					<option value="s009"> 9구역 </option>
+					<option value="s010"> 10구역 </option>
 				</select>
 				
 				<div class="table-responsive">
@@ -74,8 +80,8 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr th:each="L : ${stockCheckList}">
-								  <td th:text="${L.seccheckCode}"></td>
+							<tr th:each="L : ${stockCheckList}">		
+								  <td th:text="${L.seccheckCode}" th:onclick="'location.href=\''+ @{/#} + '\''"></td>
 								  <td th:text="${L.warehouseCode}"></td>
 								  <td th:text="${L.secstatusCode}"></td>
 								  <td th:text="${L.memberid}"></td>
@@ -109,6 +115,6 @@
 
 
 </th:block>
-
-		
+<th:block layout:fragment="customJs">
+</th:block>
 </html>
