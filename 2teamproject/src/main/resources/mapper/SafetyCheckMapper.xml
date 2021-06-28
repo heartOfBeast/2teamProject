@@ -96,4 +96,12 @@
 			, CURDATE()
 			, #{facilityCheck})
 	</insert>
+	
+	<delete id="deleteSafetyCheckByCode" parameterType="String">
+		DELETE 
+		FROM 
+			tb_safety_facility
+		WHERE 
+			facility_code = #{paramList};
+	</delete>
 </mapper> 

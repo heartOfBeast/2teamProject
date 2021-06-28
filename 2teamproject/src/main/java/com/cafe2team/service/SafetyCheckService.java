@@ -33,5 +33,10 @@ public class SafetyCheckService {
 	public int addSafetyCheck(SafetyCheck safetyCheck) {
 		return safetyCheckMapper.addSafetyCheck(safetyCheck);
 	}
+	
+	public int deleteSafetyCheck(String paramList) {
+		System.out.println(paramList);
+		return safetyCheckMapper.deleteSafetyCheckByCode(paramList);
+	}
 }
 
