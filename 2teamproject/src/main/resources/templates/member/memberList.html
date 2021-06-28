@@ -52,8 +52,8 @@
 						<tbody>
 							<tr th:if="${#lists.size(memberList) > 0}" th:each="l : ${memberList}">
 								<td th:text="${l.memberId}"></td>
-								<td th:text="${l.memberPw}"></td>
-								<td th:text="${l.memberLevelcode}"></td>
+								<td th:text="${l.memberName}"></td>
+								<td th:text="${l.memberLevel.levelName}"></td>
 								<td th:text="${l.memberAddress}"></td>
 								<td th:text="${l.memberEmail}"></td>
 								<td th:text="${l.memberPhone}"></td>
@@ -62,7 +62,7 @@
 								<td th:text="${l.memberIncentive}"></td>
 								
 							<td>
-								<a th:href="@{#}">수정</a>
+								<a th:href="@{/myPage(memberId=${l.memberId})}">수정</a>
 							</td>
 							<td>
 								<a th:href="@{#}">삭제</a>

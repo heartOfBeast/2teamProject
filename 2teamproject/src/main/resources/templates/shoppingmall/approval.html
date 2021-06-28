@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html
+	xmlns:th="http://www.thymeleaf.org"
+ 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="@{layout/default}">
+
+<th:block layout:fragment="pageTitle">
+<div class="page-header">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item">shoppingmall</li>
+		<li class="breadcrumb-item active">approval</li>
+	</ol>
+
+	<ul class="app-actions">
+		<li>
+			<a href="#" id="reportrange">
+				<span class="range-text"></span>
+				<i class="icon-chevron-down"></i>	
+			</a>
+		</li>
+		<li>
+			<a href="#">
+				<i class="icon-export"></i>
+			</a>
+		</li>
+	</ul>
+</div>
+</th:block>
+
+<th:block layout:fragment="container">
+	<div class="main-container">
+		<div class="row gutters">
+			<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+				<div class="table-container">
+					<div class="t-header">계약 및 	권한 승인 페이지</div>
+						<div class="table-responsive">
+							<table id="copy-print-csv" class="table custom-table">
+							<thead>
+								<tr>
+								  <th>아이디</th>
+								  <th>거래처명</th>
+								  <th>담당자명</th>
+								  <th>사업자번호</th>
+								  <th>거래상품</th>
+								  <th>거래처이메일</th>
+								  <th>거래처주소</th>
+								  <th>거래처전화번호</th>
+								  <th>거래처가입일</th>
+								  <th>주거래은행</th>
+								  <th>계좌번호</th>
+								  <th>계정상태</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>1</td>
+									<td>2</td>
+									<td>3</td>
+									<td>4</td>
+									<td>5</td>
+									<td>6</td>
+									<td>7</td>
+									<td>8</td>
+									<td>9</td>
+									<td>0</td>
+									<td>1</td>
+									<td>2</td>
+								</tr>									
+							</tbody>
+			    		</table>
+					</div>
+				</div>
+			
+			</div>
+		</div>
+	</div>
+
+</th:block>
+		
+</html>

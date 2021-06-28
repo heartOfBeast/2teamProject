@@ -36,79 +36,81 @@
 					<!-- Row start -->
 					<div class="row gutters justify-content-center">
 						<div class="col-xl-5 col-lg-5 col-md-6 col-sm-6 col-12">
-							<form>
+							<form id="addProductForm" th:action="@{/addProduct}" method="post"> 
+							<table>
 								<div class="card m-0">
 									<div class="card-header">
 										<div class="card-title">상품등록</div>
 									</div>
 									<div class="card-body">
 										<div class="form-group">
-											<select class="form-control" id="storageLocation">
-												<option name="storageLocation" value="">::보관유형::</option>
-												<option name="storageLocation" value="ordinaryTemperature">::상온::</option>
-												<option name="storageLocation" value="refrigerateTemperature">::냉장::</option>
-												<option name="storageLocation" value="freezeTemperature">::냉동::</option>
+											<select class="form-control" id="productFreezeCoolCondition" name="productFreezeCoolCondition">
+												<option name="productFreezeCoolCondition" value="">::보관유형::</option>
+												<option name="productFreezeCoolCondition" value="상온">::상온::</option>
+												<option name="productFreezeCoolCondition" value="냉장">::냉장::</option>
+												<option name="productFreezeCoolCondition" value="냉동">::냉동::</option>
 											</select>
 										</div>
 										<div class="form-group">
-											<select class="form-control">
-												<option name="bigCategory">::대분류::</option>
-												<option name="bigCategory">::큰거::</option>
-												<option name="bigCategory">::큰거::</option>
-												<option name="bigCategory">::큰거::</option>
+											<select id="productBigCategory" name="productBigCategory" class="form-control">
+												<option name="productBigCategory" value="">::대분류::</option>
+												<option name="productBigCategory" value="식음표">::식음료::</option>
+												<option name="productBigCategory" value="생활용품">::생활용품::</option>
+												<option name="productBigCategory" value="집수리">::집수리::</option>
 											</select>
 										</div>
 										<div class="form-group">
-											<select class="form-control">
-												<option name="mediumCategory">::중분류::</option>
-												<option name="mediumCategory">::상온::</option>
-												<option name="mediumCategory">::냉장::</option>
-												<option name="mediumCategory">::냉동::</option>
+											<select id="productMiddleCategory" name="productMiddleCategory" class="form-control">
+												<option name="productMiddleCategory" value="">::중분류::</option>
+												<option name="productMiddleCategory" value="음식">::음식::</option>
+												<option name="productMiddleCategory" value="청소도구">::청소도구::</option>
+												<option name="productMiddleCategory" value="주방도구">::주방도구::</option>
 											</select>
 										</div>
 										<div class="form-group">
-											<select class="form-control">
-												<option name="smallCategory">::소분류::</option>
-												<option name="smallCategory">::상온::</option>
-												<option name="smallCategory">::냉장::</option>
-												<option name="smallCategory">::냉동::</option>
+											<select id="productSmallCategory" name="productSmallCategory" class="form-control">
+												<option name="productSmallCategory" value="">::소분류::</option>
+												<option name="productSmallCategory" value="죽">::죽::</option>
+												<option name="productSmallCategory" value="스프">::스프::</option>
+												<option name="productSmallCategory" value="페인팅도구">::페인팅도구::</option>
 											</select>
 										</div>
 										<div class="form-group">
-											<input type="addCategory" class="form-control" id="addCategory" name="addCategory" placeholder="추가카테고리" required="">
+											<input type="text" class="form-control" id="productAddCategory" name="productAddCategory" placeholder="추가카테고리" required="">
 										</div>
 										<div class="form-group">
-											<input type="text" class="form-control" id="productName" name="productName" placeholder="productName" required="">
+											<input type="text" class="form-control" id="productName" name="productName" placeholder="상품명" required="">
 										</div>
 										<div class="form-group">
-											<input type="text" class="form-control" id="productWeight" name="productWeight" placeholder="productWeight" required="">
+											<input type="text" class="form-control" id="productWeight" name="productWeight" placeholder="무게" required="">
 										</div>
 										<div class="form-group">
-											<select class="form-control">
-												<option name="weightUnit">::무게단위::</option>
-												<option name="weightUnit">::kg::</option>
-												<option name="weightUnit">::g::</option>
-												<option name="weightUnit">::ton::</option>
+											<select id="productWeightUnit" name="productWeightUnit" class="form-control">
+												<option name="productWeightUnit" value="">::무게단위::</option>
+												<option name="productWeightUnit" value="kg">::kg::</option>
+												<option name="productWeightUnit" value="g">::g::</option>
+												<option name="productWeightUnit" value="ton">::ton::</option>
 											</select>
 										</div>
 										<div class="form-group">
 											<div class="custom-date-input">
-												<input type="text" name="" class="form-control datepicker-dropdowns" placeholder="produceDate" style="width: 100%;">
+												<input type="text" id="productDateOfManufacture" name="productDateOfManufacture" class="form-control datepicker-dropdowns" placeholder="제조일" style="width: 100%;">
 											</div>
 										</div>
 										<div class="form-group">
 											<div class="custom-date-input">
-												<input type="text" name="" class="form-control datepicker-dropdowns" placeholder="expiryDate" style="width: 100%;">
+												<input type="text" id="productExpirationDate" name="productExpirationDate" class="form-control datepicker-dropdowns" placeholder="유통기한" style="width: 100%;">
 											</div>
 										</div>
 										<div class="form-group">
-											<textarea class="form-control" id="productDetail" placeholder="productDetail" maxlength="140" rows="4" style="resize: none;"></textarea>
+											<textarea class="form-control" id="productDetail" name="productDetail" placeholder="productDetail" maxlength="140" rows="4" style="resize: none;"></textarea>
 										</div>
 										
-										<button type="button" id="addProductBtn" name="submit" class="btn btn-primary float-right" style="margin: 3px;">상품추가</button>
-										<button type="button" id="bundleAddBtn" name="bundleAddBtn" class="btn btn-primary float-right" style="margin: 3px;">일괄추가</button>
 									</div>
 								</div>
+										<button type="submit" id="addProductBtn" class="btn btn-primary float-right" style="margin: 3px;">상품수정</button>
+										<button type="button" id="bundleAddBtn" name="bundleAddBtn" class="btn btn-primary float-right" style="margin: 3px;">일괄추가</button>
+							</table>	
 							</form>
 						</div>
 					</div>
@@ -122,6 +124,82 @@
 
 </th:block>
 		
+<th:block layout:fragment="customJs">
+	<script>
+		$(function(){
+			$('#addProductBtn').click(function(){
+				var productForm = $('#addProductForm');
+ 				var submitFlag = true;
+				var productFreezeCoolCondition = $('#productFreezeCoolCondition').val();
+				var productBigCategory = $('#productBigCategory').val();
+				var productMiddleCategory = $('#productMiddleCategory').val();
+				var productSmallCategory = $('#productSmallCategory').val();
+				var productAddCategory = $('#productAddCategory').val();
+				var productName = $('#productName').val();
+				var productWeight = $('#productWeight').val();
+				var productWeightUnit = $('#productWeightUnit').val();
+				var productDateOfManufacture = $('#productDateOfManufacture').val();
+				var productExpirationDate = $('#productExpirationDate').val();
+				var productDetail = $('#productDetail').val();
+				
+				if(productFreezeCoolCondition ==null||productFreezeCoolCondition==undefined||productFreezeCoolCondition==''){
+					alert('보관유형을 선택해주세요');
+					submitFlag = false;
+					$(this).focus();
+					return submitFlag;
+				}else if(productBigCategory ==null||productBigCategory==undefined||productBigCategory==''){
+					alert('대분류를 선택해주세요');
+					submitFlag = false;
+					$(this).focus();
+					return submitFlag;
+				}else if(productMiddleCategory ==null||productMiddleCategory==undefined||productMiddleCategory==''){
+					alert('중분류를 선택해주세요');
+					submitFlag = false;
+					$(this).focus();
+					return submitFlag;
+				}else if(productSmallCategory ==null||productSmallCategory==undefined||productSmallCategory==''){
+					alert('소분류를 선택해주세요');
+					submitFlag = false;
+					$(this).focus();
+					return submitFlag;
+				}else if(productSmallCategory ==null||productSmallCategory==undefined||productSmallCategory==''){
+					alert('소분류를 선택해주세요');
+					submitFlag = false;
+					$(this).focus();
+					return submitFlag;
+				}else if(productName ==null||productName==undefined||productName==''){
+					alert('상품명을 입력해주세요');
+					submitFlag = false;
+					$(this).focus();
+					return submitFlag;
+				}else if(productWeight ==null||productWeight==undefined||productWeight==''){
+					alert('상품무게를 입력해주세요');
+					submitFlag = false;
+					$(this).focus();
+					return submitFlag;
+				}else if(productWeightUnit ==null||productWeightUnit==undefined||productWeightUnit==''){
+					alert('무게단위를 선택해주세요');
+					submitFlag = false;
+					$(this).focus();
+					return submitFlag;
+				}else if(productDateOfManufacture ==null||productDateOfManufacture==undefined||productDateOfManufacture==''){
+					alert('제조날짜를 선택해주세요');
+					submitFlag = false;
+					$(this).focus();
+					return submitFlag;
+				}else if(productExpirationDate ==null||productExpirationDate==undefined||productExpirationDate==''){
+					alert('유통기한을 선택해주세요');
+					submitFlag = false;
+					$(this).focus();
+					return submitFlag;
+				}
+				
+				
+			});
+				if(submitFlag) productForm.submit();
+		});
+	</script>
+</th:block> 
 		
 		
 </html>

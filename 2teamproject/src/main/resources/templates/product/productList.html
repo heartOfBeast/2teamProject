@@ -68,7 +68,7 @@
 									  <td th:text="${l.productExpirationDate}"></td>
 									  <td th:text="${l.shoppingmallUserId}"></td>
 									  <td>
-									  	<a th:href="@{modifyProduct}">수정</a>
+									  	<a th:href="@{modifyProduct(productCode=${l.productCode})}">수정</a>
 								  	  </td>
 									  <td>
 									  	<a href="#">삭제</a>

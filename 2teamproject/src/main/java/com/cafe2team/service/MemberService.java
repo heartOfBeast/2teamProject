@@ -35,11 +35,34 @@ public class MemberService {
 		
 	}
 	
+	public Member getMemberInfoById(String memberId) {
+		
+		Member member = memberMapper.getMemberById(memberId);
+		
+		return member;
+	
+	}
+	
+	public List<WareAdmin> getAdminList(){
+		log.info("=========getAdminList service 실행======");
+		List<WareAdmin> getAdminList = memberMapper.getAdminList();
+		
+		return getAdminList;
+	}
+	
+	
 	public int adminSignUp(WareAdmin wareAdmin) {
 		
 		int result = memberMapper.adminSignUp(wareAdmin);
 		
 		return result;
+	}
+	
+	public int memberShopInsert(Member member) {
+		
+		int reulst = memberMapper.memberShopInsert(member);
+		
+		return reulst;
 	}
 	
 	
