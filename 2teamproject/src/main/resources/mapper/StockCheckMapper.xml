@@ -1,27 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.cafe2team.dao.StockMapper">
+<mapper namespace="com.cafe2team.dao.StockCheckMapper">
 
-	<resultMap type="Stock" id="stockResultMap">
+	<resultMap type="StockCheck" id="stockCheckResultMap">
 		<result property="seccheckCode"			column="stock_sector_check_code"/>
-		<result property="warehouseCode"			column="warehouse_code"/>
-		<result property="secstatusCode"			column="sector_stock_status_code"/>
-		<result property="memberid"		column="member_id"/>
+		<result property="warehouseCode"		column="warehouse_code"/>
+		<result property="secstatusCode"		column="sector_stock_status_code"/>
+		<result property="memberid"				column="member_id"/>
 		<result property="seccheckError"		column="stock_check_error_amount"/>
 		<result property="seccheckAmount"		column="stock_sector_check_amount"/>
-		<result property="checkUnit"		column="stock_check_unit"/>
-		<result property="checkDetail"		column="stock_check_detail"/>
-		<result property="checkDate"		column="stock_check_date"/>
-		<result property="checkRegdate"		column="stock_check_reg_date"/>
-
+		<result property="checkUnit"			column="stock_check_unit"/>
+		<result property="checkDetail"			column="stock_check_detail"/>
+		<result property="checkDate"			column="stock_check_date"/>
+		<result property="checkRegdate"			column="stock_check_reg_date"/>
 	</resultMap>
 	
 	
-	<!-- <select id="getStockCheckList" resultType="StockCheck" fetchSize="700" resultMap="stockCheckResultMap">
+	<select id="getStockCheckList" resultType="StockCheck" fetchSize="700" resultMap="stockCheckResultMap">
 	SELECT 
 		stock_sector_check_code,
 		warehouse_code,
-		sector_stock_status_code,
 		sector_stock_status_code,
 		member_id,
 		stock_check_error_amount,
@@ -32,6 +30,30 @@
 		stock_check_reg_date
 	FROM
 		tb_stock_sector_check;
-	</select> -->
+	</select> 
+	
+	<select id="getStockCheckListDetail" resultType="StockCheck" fetchSize="700" resultMap="stockCheckResultMap">
+	SELECT 
+		stock_sector_check_code,
+		warehouse_code,
+		sector_stock_status_code,
+		member_id,
+		stock_check_error_amount,
+		stock_sector_check_amount,
+		stock_check_unit,
+		stock_check_detail,
+		stock_check_date,
+		stock_check_reg_date
+	FROM
+		tb_stock_sector_check
+	WHERE
+		warehouse_code=#{warehouse_code}
+		<if test="sector_stock_status_code !=null and sector_stock_status_code != '' ">
+		AND sector_stock_status_code =#{sector_stock_status_code}
+		</if>
+		;
+	</select> 
+	
+	
 	
 </mapper>

@@ -35,11 +35,11 @@
 		<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-6">
 			<div class="table-container">
 				<div class="t-header">재고실사조회</div>
-				<select>
+				<select id="ware" >
 					<option> :: 선택 ::</option>
 					<option value="w001"> 군산물류 </option>
-					<option value="w002">익산물류 </option>
-					<option value="w003"> 경기물류 </option>
+					<option value="w002"> 익산물류 </option>
+					<option value="w003"> 경기물류 </opt()ion>
 					<option value="w004"> 인천물류 </option>
 					<option value="w005"> 용인물류 </option>
 					<option value="w006"> 광주물류</option>
@@ -49,7 +49,7 @@
 					<option value="w010"> 진천물류</option>
 
 				</select>
-				<select>
+				<select id="sector">
 					<option> :: 선택 ::</option>
 					<option value="s001"> 1구역 </option>
 					<option value="s002"> 2구역 </option>
@@ -79,8 +79,8 @@
 							  <th>등록일자</th>
 							</tr>
 						</thead>
-						<tbody>
-							<tr th:each="L : ${stockCheckList}">		
+						<tbody id="stockResultData">
+								<tr th:each="L : ${stockCheckList}">		
 								  <td th:text="${L.seccheckCode}" th:onclick="'location.href=\''+ @{/#} + '\''"></td>
 								  <td th:text="${L.warehouseCode}"></td>
 								  <td th:text="${L.secstatusCode}"></td>
@@ -116,5 +116,71 @@
 
 </th:block>
 <th:block layout:fragment="customJs">
+<script>
+var values = [];
+var ware = document.getElementById('ware');
+var sector = document.getElementById('sector');
+var wareSel = "";
+var sectorSel = "";
+
+	ware.addEventListener('change', (event) => {
+		console.log('ㅁㅁㅁㅁ1');
+		wareSel = ware.value;
+		console.log(wareSel);
+		/* 
+		 */
+		 getData()
+	});
+	sector.addEventListener('change', (event) => {
+		console.log('ㅁㅁㅁㅁ2');
+		sectorSel = sector.value;
+		console.log(sectorSel);
+		/* 
+		 */
+		 getData()
+	});
+	
+	function getData(){
+		$.ajax({
+			url : "/stockCheckListDetail", 
+			//method: "POST", 
+			data : { 
+				warehouse_code : wareSel,
+				sector_stock_status_code : sectorSel
+			},
+				success : function(res) {
+				$('#stockResultData').children().remove();
+				
+				
+				var innerHtml = "";
+				$.each(res, function( index, value ) {
+		            innerHtml += '<tr>'	
+		            	innerHtml += '    <td>'+value.seccheckCode+'</td>'
+		            		innerHtml += '    <td>'+value.warehouseCode+'</td>'
+		            			innerHtml += '    <td>'+value.secstatusCode+'</td>'
+		            				innerHtml += '    <td>'+value.memberid+'</td>'
+		            					innerHtml += '    <td>'+value.seccheckError+'</td>'
+		            						innerHtml += '    <td>'+value.seccheckAmount+'</td>'
+		            							innerHtml += '    <td>'+value.checkUnit+'</td>'
+		            								innerHtml += '    <td>'+value.checkDetail+'</td>'
+		            									innerHtml += '    <td>'+value.checkDate+'</td>'
+		            										innerHtml += '    <td>'+value.checkRegdate+'</td>'
+		            											innerHtml += '    </tr>'
+		            
+		            
+                    console.log( index + " : " + value.seccheckCode ); 
+//                     console.log( index + " : " + value.warehouseCode ); 
+                 });
+		         $('#stockResultData').append(innerHtml);
+				
+			}
+		})	
+		
+	}
+	
+
+</script>
 </th:block>
+
+
 </html>
