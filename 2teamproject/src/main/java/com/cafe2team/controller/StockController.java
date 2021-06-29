@@ -23,6 +23,7 @@ public class StockController {
 		
 		List<Stock> stockList = stockService.getStockList();
 		model.addAttribute("title", "재고목록조회");
+		model.addAttribute("stockList", stockList);
 
 		return "stock/stockList";
 	}

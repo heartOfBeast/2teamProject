@@ -4,49 +4,49 @@
 
 	<select id="getStockList" resultType="Stock">
 SELECT 
-	product_name,
-	shoppingmall_name,
-	warehouse_name,
-	warehouseSectorColumnFinal.sector_column_final_code,
-	stockStatus.stock_unit,
-	stockStatus.stock_recent_warehousing_amonut,
-	stockStatus.stock_recent_release_amount,
-	stockStatus.stock_total_amount,
-	stockStatus.ware_admin_id,
-	wareAdminId.ware_admin_phone,
-	stockStatus.stock_reg_date 
+	p.product_name										AS productName,
+	spmu.shoppingmall_name								AS shoppingmallName,
+	w.warehouse_name									AS warehouseName,
+	wscf.sector_column_final_code						AS finalSector,
+	ss.stock_unit										AS stockUnit,
+	ss.stock_recent_warehousing_amonut					AS recentWarehousingAmount,
+	ss.stock_recent_release_amount						AS recentReleaseAmount,
+	ss.stock_total_amount								AS totalAmount,
+	wai.ware_admin_id									AS wareAdminId,
+	wai.ware_admin_phone								AS wareAdminPhone,
+	ss.stock_reg_date 									AS stockRegDate
 FROM 
-	kan9jun.tb_stock_status as stockStatus
+	tb_stock_status as ss
 	inner join
-	kan9jun.tb_sector_stock_status as sectorStockStatus
+	tb_sector_stock_status as sss
 	ON
-	stockStatus.sector_stock_status_code = sectorStockStatus.sector_stock_status_code
+	ss.sector_stock_status_code = sss.sector_stock_status_code
 	inner join 
-	kan9jun.tb_product as product
+	tb_product as p
 	ON
-	sectorStockStatus.product_code = product.product_code
+	sss.product_code = p.product_code
 	inner join
-	kan9jun.tb_contract_final as contractFinal
+	tb_contract_final as cf
 	ON
-	product.product_code = contractFinal.product_code
+	p.product_code = cf.product_code
 	inner join 
-	kan9jun.tb_shoppingmall_user as spmUser
+	tb_shoppingmall_user as spmu
 	ON
-	contractFinal.shoppingmall_user_id = spmUser.shoppingmall_user_id
+	cf.shoppingmall_user_id = spmu.shoppingmall_user_id
 	inner join 
-	kan9jun.tb_warehouse_sector_column_final as warehouseSectorColumnFinal
+	tb_warehouse_sector_column_final as wscf
 	ON
-	warehouseSectorColumnFinal.ware_admin_id = stockStatus.ware_admin_id
+	wscf.ware_admin_id = ss.ware_admin_id
 	inner join 
-	kan9jun.tb_warehouse as warehouse
+	tb_warehouse as w
 	ON
-	stockStatus.ware_admin_id = warehouse.ware_admin_id
+	ss.ware_admin_id = w.ware_admin_id
 	inner join 
-	tb_ware_admin as wareAdminId
+	tb_ware_admin as wai
 	ON
-	stockStatus.ware_admin_id = wareAdminId.ware_admin_id ;
-	ON
-	ss.ware_admin_id = wad.ware_admin_id ;
+	ss.ware_admin_id = wai.ware_admin_id ;
+
+
 	</select>
 	
 </mapper>
