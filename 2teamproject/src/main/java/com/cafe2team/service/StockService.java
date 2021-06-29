@@ -14,6 +14,9 @@ public class StockService {
 	
 	@Autowired
 	private StockMapper stockMapper;
+	
+
+	@Autowired
 	private StockCheckMapper stockCheckMapper;
 	
 		
@@ -24,6 +27,13 @@ public class StockService {
 			
 			return stockCheckList;
 		}
+
+		//창고별섹터별 실사조회
+		public List<StockCheck> getStockCheckListDetail(String warehouse_code, String sector_stock_status_code) {
+			List<StockCheck> stockCheckListDetail = stockCheckMapper.getStockCheckListDetail(warehouse_code, sector_stock_status_code);
+			return stockCheckListDetail;
+		}
+		
 		//재고 조회
 		public List<Stock> getStockList(){
 			List<Stock> stockList = stockMapper.getStockList();

@@ -10,4 +10,7 @@ import com.cafe2team.domain.StockCheck;
 public interface StockCheckMapper {
 
 	public List<StockCheck> getStockCheckList();
+	
+	public List<StockCheck> getStockCheckListDetail(String warehouse_code, String sector_stock_status_code);
+
 }
