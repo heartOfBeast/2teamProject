@@ -45,6 +45,17 @@
   </div>
 </nav>
 <br/>
+<div class="row gutters" style="margin: 0px 100px 0px 100px;">
+		<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12" >
+		<div class="jumbotron">
+			<h1 class="display-4 text-primary">쇼핑몰 샘플 페이지를 만든 이유</h1>
+			<p class="lead">- 출고하는 과정에서의 프로세스의 흐름을 파악하기 위해서 쇼핑몰 샘플 페이지를 만들었다.</p>
+			<h3>프로세스 흐름 순서</h3>
+			<p> 고객이 상품을 구매 -> 구매한 상품에 대한 정보가 리스트에 들어옴 -> 쇼핑몰 관리자는 리스트에 들어온 상품을 통해 창고로 출고 요청을 한다</p> 
+			<p> -> 출고 요청을 바탕으로 출고 지시서를 작성 -> 배차 및 운송장 작성 -> 승인 및 출고 </p> <br/>
+		</div>
+		</div>
+		</div>
 	<div class="main-container">
 			<div class="row gutters">
 				<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
@@ -69,7 +80,7 @@
 									</tr>
 								</thead>
 								<tbody>
-									<tr th:each="l: ${smapleList}">
+									<tr th:each="l: ${sampleList}">
 										  <td class="sorting_1" th:text="${l.releases_Code}"></td>
 										  <td class="sorting_1" th:text="${l.product_Name}"></td>
 										  <td class="sorting_1" th:text="${l.war_Name}"></td>
