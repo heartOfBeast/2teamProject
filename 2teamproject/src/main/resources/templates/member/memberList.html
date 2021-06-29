@@ -85,7 +85,7 @@
 </div>
 </th:block>
 
-<form th:action="@{/myPage}" method="post">
+<form th:action="@{/myPageModal}" method="post">
 	<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" style="display: none;" aria-hidden="true">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
@@ -97,32 +97,31 @@
 				</div>
 					<div class="modal-body">
 					<input type="hidden" class="form-control" name="memberId" id="memberId">
-					<input type="hidden" class="form-control" name="memberPw" id="memberPw">
 					<div class="form-group">
 						<label for="phone">핸드폰 번호</label>
-						<input type="text" class="form-control" name="memberPhone" id="phone" placeholder="Enter PhoneNumber">
+						<input type="text" class="form-control" name="memberPhone" id="memberPhone" placeholder="Enter PhoneNumber">
 					</div>
 					<div class="form-group">
 						<label for="email">이메일</label>
-						<input type="text" class="form-control" id="email" placeholder="Enter email">
+						<input type="text" class="form-control" name="memberEmail" id="memberEmail" placeholder="Enter email">
 					</div>
 					<div class="form-group" th:if="${session.SLEVEL != null && session.SLEVEL=='총관리자'}">
 						<label for="authority">권한</label>
-						<select class="form-control" id="authority">
-								<option value="2">창고관리자</option>
-								<option value="3">구역관리자</option>
-								<option value="4">일반직원</option>
-								<option value="5">배송기사</option>
-								<option value="6">사업자</option>
+						<select class="form-control" name="memberLevelcode" id="memberAuthority">
+								<option value="2">물류센터 창고관리자</option>
+								<option value="3">물류센터 창고 구역관리자</option>
+								<option value="4">물류센터 일반직원</option>
+								<option value="5">물류센터 배송기사</option>
+								<option value="6">쇼핑몰사업자</option>
 							</select>
 					</div>
 					<div class="form-group" th:if="${session.SLEVEL != null && session.SLEVEL=='총관리자'}">
 						<label for="activation">활성화 여부</label>
-						<input type="text" class="form-control" id="activation" placeholder="Enter activation">
+						<input type="text" class="form-control" id="memberActivation" placeholder="Enter activation">
 					</div>
 						<div class="form-group" th:if="${session.SLEVEL != null && session.SLEVEL=='총관리자'}">
 							<label for="incentive">인센티브</label>
-							<select class="form-control" id="incentive">
+							<select class="form-control" name="memberIncentive" id="memberIncentive">
 								<option value="A">A</option>
 								<option value="B">B</option>
 								<option value="C">C</option>
@@ -133,8 +132,8 @@
 						</div>
 					</div>
 				<div class="modal-footer">
-					<button type="submit" name="submit" class="btn btn-secondary" data-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary">Save</button>
+					<button class="btn btn-secondary" data-dismiss="modal">Close</button>
+					<button type="submit" name="submit"  class="btn btn-primary">Save</button>
 			</div>
 		</div>
 	  </div>
@@ -148,7 +147,6 @@
 		$('.modifyBtn').each(function(){
 			$(this).click(function(){
 				var dataId 				= $(this).parents('tr').children('.dataId').text();
-				var dataPw				= $(this).parents('tr').children('.memberPw').text();
 				var dataName 			= $(this).parents('tr').children('.dataName').text();
 				var dataLevel 			= $(this).parents('tr').children('.dataLevel').text();
 				var dataAddress 		= $(this).parents('tr').children('.dataAddress').text();
@@ -158,16 +156,17 @@
 				var dataAccountStatus 	= $(this).parents('tr').children('.dataAccountStatus').text();
 				var dataIncentive 		= $(this).parents('tr').children('.dataIncentive').text();
 				
-				console.log(dataIncentive);
+				
+				var dataLevelSeleted = $('#memberAuthority option:contains(' + dataLevel + ')').val();
+				var dataIncentiveSeleted = $('#memberIncentive option:contains(' + dataIncentive + ')').val();
 				
 				
-				
-				$('#dataId').val(dataId);
-				$('#phone').val(dataPhone);
-				$('#email').val(dataEmail);
-				$('#authority').val(dataLevel);
-				$('#activation').val(dataAccountStatus);
-				$('#incentive').val(dataPhone);
+				$('#memberId').val(dataId);
+				$('#memberPhone').val(dataPhone);
+				$('#memberEmail').val(dataEmail);
+				$('#memberAuthority').val(dataLevelSeleted);
+				$('#memberActivation').val(dataAccountStatus);
+				$('#memberIncentive').val(dataIncentiveSeleted);
 			})
 		})
 	
