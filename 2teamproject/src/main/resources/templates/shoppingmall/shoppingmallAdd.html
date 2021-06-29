@@ -25,7 +25,8 @@
 			</li>
 		</ul>
 	</div>
-	<script>
+	<th:block layout:fragment="customJs">
+		<script>
 			$(function(){
 							
 				$('#businessNumbtn').click(function(){
@@ -50,23 +51,6 @@
 								return submitFlag;
 							}
 						}
-						if(inputName == 'businessNum2'){
-							if(!regexbusinessNum.test(inputValue)){
-								alert(inputLabel + ' 을 다시 입력해주세요.');
-								$(this).focus();
-								submitFlag = false;
-								return submitFlag;
-							}
-						}
-						if(inputName == 'businessNum3'){
-							if(!regexbusinessNum.test(inputValue)){
-								alert(inputLabel + ' 을 다시 입력해주세요.');
-								$(this).focus();
-								submitFlag = false;
-								return submitFlag;
-							}
-						}
-							
 					});
 					
 					if(submitFlag) goodsForm.submit();
@@ -74,6 +58,7 @@
 				});
 			});
 		</script>
+	<th:block>
 </th:block>
 
 <th:block layout:fragment="container">
@@ -93,9 +78,8 @@
 							<div class="row gutters">
 								<h4> 사업자번호등록</h4>
 								<div class="form-group">
-									<input type="number" name='businessNum1' />-
-							        <input type='number' name='businessNum2' />-
-							        <input type='number' name='businessNum3' />  
+									<input type="number" name='businessNum'/>
+							       
 								</div>
 								<button class="btn btn-primary btn-sm" type="submit" id="businessNumbtn" style="margin-bottom: 16px;">확인</button>	
 							</div>
