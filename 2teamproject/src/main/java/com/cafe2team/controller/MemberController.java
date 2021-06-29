@@ -99,6 +99,13 @@ public class MemberController {
 		return "redirect:/main";
 	}
 	
+	@PostMapping("/myPageModal")
+	public String myPageModal(Member member) {
+		memberService.updateMember(member);
+		
+		return "redirect:/memberList";
+	}
+	
 	@GetMapping("/whzoneinquiry")
 	public String whzoneinquiry() {
 		

@@ -69,15 +69,31 @@
 <!-- 업데이트 -->
 <update id ="updateMember" parameterType="Member">
 		UPDATE tb_member
-			SET
+		<trim prefix="SET" prefixOverrides=",">
+		<if test="memberPw != null and memberPw != ''.toString()">			
 			member_pw=#{memberPw}
+		</if>
+		<if test="memberLevelcode != null and memberLevelcode != ''.toString()">			
+			,level_code=#{memberLevelcode}		
+		</if>
+		<if test="memberAddress != null and memberAddress != ''.toString()">			
 			,member_address=#{memberAddress}
+		</if>
+		<if test="memberEmail != null and memberEmail != ''.toString()">			
 			,member_email=#{memberEmail}
+		</if>
+		<if test="memberPhone != null and memberPhone != ''.toString()">			
 			,member_phone=#{memberPhone}
+		</if>
+		<if test="memberAccountStatus != null and memberAccountStatus != ''.toString()">			
 			,member_account_status=#{memberAccountStatus}
+		</if>
+		<if test="memberIncentive != null and memberIncentive != ''.toString()">			
 			,member_incentive=#{memberIncentive}
+		</if>
 		WHERE
 		 	member_id=#{memberId};
+		 </trim>
 </update>
 
 	 <resultMap type="WareAdmin" id="wareAdminResultMap">
