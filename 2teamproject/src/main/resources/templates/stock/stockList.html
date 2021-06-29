@@ -52,8 +52,18 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td></td>
+							<tr th:each="L : ${stockList}">
+								<td th:text="${L.productName}"></td>
+								<td th:text="${L.shoppingmallName}"></td>
+								<td th:text="${L.warehouseName}"></td>
+								<td th:text="${L.finalSector}"></td>
+								<td th:text="${L.stockUnit}"></td>
+								<td th:text="${L.recentWarehousingAmount}"></td>
+								<td th:text="${L.recentReleaseAmount}"></td>
+								<td th:text="${L.totalAmount}"></td>
+								<td th:text="${L.wareAdminId}"></td>
+								<td th:text="${L.wareAdminPhone}"></td>
+								<td th:text="${L.stockRegDate}"></td>
 							</tr>
 						</tbody>
 		    		</table>
