@@ -34,6 +34,12 @@ public class StockService {
 			return stockCheckListDetail;
 		}
 		
+		public List<Stock> getStockListDetail(){
+			List<Stock> stockListDetail = stockMapper.getStockListDetail();
+			
+			return stockListDetail;
+		}
+		
 		//재고 조회
 		public List<Stock> getStockList(){
 			List<Stock> stockList = stockMapper.getStockList();
