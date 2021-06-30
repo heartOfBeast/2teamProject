@@ -104,4 +104,13 @@
 		WHERE 
 			facility_code = #{paramList};
 	</delete>
+	
+	<select id="getWareHouseInfo" resultType="Warehouse" fetchSize="1000">
+		SELECT 
+			warehouse_code AS warehouseCode
+	 	  , warehouse_name AS warehouseName
+	
+		FROM 
+			tb_warehouse
+	</select>
 </mapper> 

@@ -35,7 +35,7 @@
 						<div class="table-responsive">
 							<table id="copy-print-csv" class="table custom-table">
 								<thead>
-									<tr>
+									<tr >
 									  <th>
 									  		<input type="checkbox" id="checkAll" style="position: relative; top: 1.5px;">
 									  </th>
@@ -79,6 +79,8 @@
 				</div>
 			</div>
 		</div>
+		
+	
 </th:block>
 <th:block layout:fragment="customJs">
 	<script>
@@ -90,6 +92,8 @@
 						$('.checkOne').prop('checked', false);
 					}
 				})
+				
+				
 			})
 			function deleteDate(){
 				var dataArr = new Array();
