@@ -43,5 +43,9 @@ public class SafetyCheckService {
 		List<Warehouse> warehouse = safetyCheckMapper.getWareHouseInfo();
 		return warehouse;
 	}
+	
+	public int modifySafeCheck(SafetyCheck safetyCheck) {
+		return safetyCheckMapper.modifySafeCheck(safetyCheck);
+	}
 }
 

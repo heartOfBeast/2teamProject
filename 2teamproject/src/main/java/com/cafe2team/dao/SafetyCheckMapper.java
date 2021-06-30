@@ -23,4 +23,7 @@ public interface SafetyCheckMapper {
 	
 	//등록화면 창고정보조회
 	public List<Warehouse> getWareHouseInfo();
+	
+	//수정 실행
+	public int modifySafeCheck(SafetyCheck safetyCheck);
 } 
