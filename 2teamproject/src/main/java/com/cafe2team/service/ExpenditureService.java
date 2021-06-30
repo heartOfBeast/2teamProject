@@ -31,4 +31,9 @@ public class ExpenditureService {
  		 
  		 return result;
  	 }
+ 	 
+ 	public int expenditureDelete(String paramList) {
+		return expenditureMapper.expenditureDeleteByCode(paramList);
+		
+	}
 }
