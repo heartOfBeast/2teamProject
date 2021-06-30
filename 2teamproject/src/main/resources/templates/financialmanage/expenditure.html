@@ -7,7 +7,7 @@
 <div class="page-header">
 	<ol class="breadcrumb">
 		<li class="breadcrumb-item">재무관리</li>
-		<li class="breadcrumb-item active">지출관리</li>
+		<li class="breadcrumb-item active">지출내역조회</li>
 	</ol>
 
 	<ul class="app-actions">
@@ -33,10 +33,10 @@
 					
 							<div class="card">
 								<div class="card-header">
-									<div class="card-title">월별 지출현황(그래프)</div>
+									<div class="card-title">21년 지출현황(그래프)</div>
 								</div>
 								<div class="card-body">
-									<div id="basic-column-stack-graph-fullheight" class="primary-graph"></div>
+									<div id="basic-column-stack-graph-fullheight2" class="primary-graph"></div>
 								</div>
 							</div>
 
@@ -47,7 +47,7 @@
 					<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 							
 						<div class="table-container">
-							<div class="t-header">월별 지출현황(표)</div>
+							<div class="t-header">21년 지출현황(표)</div>
 								<div class="table-responsive">
 									<table id="copy-print-csv" class="table custom-table">
 										<thead>
@@ -80,8 +80,8 @@
 												<td th:text ="${L.expenseCashCard}"></td>
 												<td th:text ="${L.expenseCardInfo}"></td>
 												<td th:text ="${L.expenseStore}"></td>
-												<td th:text ="${L.expenseCate}"></td>
-												<td th:text ="${L.expensePayment}"></td>
+												<td id="cate" th:text ="${L.expenseCate}"></td>
+												<td id="pay" th:text ="${L.expensePayment}"></td>
 												<td th:text ="${L.wareadminId}"></td>
 												<td th:text ="${L.expensRegDate}"></td>
 												<td></td>
@@ -97,78 +97,147 @@
 	</div>
 </div>
 </th:block>
+
 <th:block layout:fragment="customJs">
-	<script>
-	<script>
-	/**********************************************************************************/
+	<script th:inline="javascript">
+	
+			/*******************************그래프양식(?)******************************************/
 	window.onload = function(){
 		
 	var options = {
-		  chart: {
-		    height: 350,
-		    type: 'bar',
-		    stacked: true,
-		    stackType: '100%',
-		    toolbar: {
-		      show: false
-		    },
-		    zoom: {
-		      enabled: true
-		    }
-		  },
-		  responsive: [{
-		    breakpoint: 480,
-		    options: {
-		      legend: {
-		        position: 'bottom',
-		        offsetX: -10,
-		        offsetY: 0
-		      }
-		    }
-		  }],
-		  plotOptions: {
-		    bar: {
-		      horizontal: false,
-		    },
-		  },
-		  dataLabels: {
-		    enabled: true
-		  },
-		  series: [{
-		    name: '식료품2',
-		    data: [44, 55, 41, 67, 22, 43]
-		  },{
-		    name: '비품2',
-		    data: [13, 23, 20, 8, 13, 27]
-		  },{
-		    name: '임금2',
-		    data: [11, 17, 15, 15, 21, 14]
-		  },{
-		    name: '생필품2',
-		    data: [21, 7, 25, 13, 22, 8]
-		  }],
-		  xaxis: {
-		    type: 'datetime',
-		    categories: ['01/01/2011 GMT', '01/02/2011 GMT', '01/03/2011 GMT', '01/04/2011 GMT', '01/05/2011 GMT', '01/06/2011 GMT'],
-		  },
-		  legend: {
-		    position: 'top',
-		    offsetY: 10
-		  },
-		  fill: {
-		    opacity: 1
-		  },
-		  colors: ['#1646b3', '#194eca', '#225de4', '#4274e8', '#628cec', '#81a3f0'],
-		}
+		  chart:	 	{
+		    				height: 350,
+		    				type: 'bar',
+		    				stacked: true,
+		    				stackType: '100%',
+		   					toolbar: {
+		      				show: false
+		    				},
+		    				zoom: {
+		      				enabled: true
+		    				}
+		  				},
+		 responsive: 	[{
+		    				breakpoint: 480,
+		    				options: {
+		      				legend: {
+		        			position: 'bottom',
+		        			offsetX: -10,
+		        			offsetY: 0
+		     			    }
+		    			}
+		  				}],
+		plotOptions: 	{
+		    				bar: {
+		      				horizontal: false,
+		    				},
+		  				},
+		dataLabels: 	{
+		    				enabled: true
+		  				},
+		  
+		series: 		[{
+		    				name: '식료품',
+		    				data: [foodPercent]
+		  				},{
+		    				name: '비품',
+		    				data: [equipPercent]
+		  				},{
+						    name: '임금',
+						    data: [wagePercent]
+					    },{
+						    name: '생필품',
+						    data: [necessityPercent]
+					 	}],	
+		  xaxis: 		{
+						    type: 'datetime',
+						    categories: ['01/01/2021 GMT', '02/01/2021 GMT', '03/01/2021 GMT', '04/01/2021 GMT', '05/01/2021 GMT', '06/01/2021 GMT'
+						    			,'07/01/2021 GMT', '08/01/2021 GMT', '09/01/2021 GMT', '10/01/2021 GMT', '11/01/2021 GMT', '12/01/2021 GMT','01/01/2022 GMT'],
+				  		},
+		  legend: 		{
+						    position: 'top',
+						    offsetY: 10
+		  				},
+		  fill: 		{
+						    opacity: 1
+						},
+		  colors: 		['#FE2E2E', '#2EFE64', '#DA81F5', '#81F7F3'],
+						}
+	
 		var chart2 = new ApexCharts(
 		  document.querySelector("#basic-column-stack-graph-fullheight2"),
 		  options
 		);
 		chart2.render();
+		}
+	/********************************위에꺼 계산식***************************************/
+		
+	/*<![CDATA[*/
+		var result =/*[[${expenditureList}]]*/;
+	/*]]>*/
+		var SumPrice =0;
+		var Percent = 0;
+		var food = '식료품';
+		var equip = '비품';
+		var wage = '임금';
+		var necessity = '생필품';
+		var foodSumPrice = 0;
+		var equipSumPrice = 0;
+		var wageSumPrice = 0;
+		var necessitySumPrice = 0;
+		var foodPercent = 0;
+		var equipPercent = 0;
+		var wagePercent = 0;
+		var necessityPercent = 0;
+		var totalPrice = 0;
+		var FinalTotalPrice = 0;
+		
+	for(i=0; i<result.length; i++){
+		var exCate = result[i].expenseCate
+		var exDate = result[i].expenseDate
+		totalPrice += parseInt(result[i].expensePayment);
+		
+		if(exDate.substring(0,7) ==  '2021-01' && exCate == food){
+			foodSumPrice += parseInt(result[i].expensePayment);
+			
+		}else if (exDate.substring(0,7) == '2021-01' && exCate == equip){
+			equipSumPrice += parseInt(result[i].expensePayment);
+	
+		}else if (exDate.substring(0,7) == '2021-01' && exCate == wage){
+			wageSumPrice += parseInt(result[i].expensePayment);
+			
+		}else if (exDate.substring(0,7) == '2021-01' && exCate == necessity){
+			necessitySumPrice += parseInt(result[i].expensePayment);
+			
+		} 
 	}
+	
+			foodPercent = Math.floor((foodSumPrice/totalPrice) * 100);
+			equipPercent = Math.floor((equipSumPrice/totalPrice) * 100);
+			wagePercent = Math.floor((wageSumPrice/totalPrice) * 100);
+			necessityPercent = 100 - foodPercent - equipPercent - wagePercent ;  
+// 			necessityPercent = (necessitySumPrice/totalPrice) * 100
 
 
-
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	/**********************************************************************************/
 			$(function(){
