@@ -27,5 +27,7 @@ public interface MemberMapper {
 	
 	//관리자 조회
 	public List<WareAdmin> getAdminList();
+	
+	public int deleteMember(String memberId);
 
 }

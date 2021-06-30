@@ -19,6 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cafe2team.domain.Member;
 import com.cafe2team.domain.WareAdmin;
@@ -104,6 +105,25 @@ public class MemberController {
 		memberService.updateMember(member);
 		
 		return "redirect:/memberList";
+	}
+	
+	@PostMapping("/memberDeleteCheck")
+	@ResponseBody
+	public int deleteSafetyCheck(@RequestParam(value = "dataArr[]") String[] paramList) {
+		
+		System.out.println(paramList.toString());
+		
+		for(String memberId : paramList) {
+			memberService.deleteMember(memberId); 
+		}
+		
+		int result= 1;
+		
+		/*
+		 * int size = paramList.length; for(int i=0; i<size; i++) {
+		 */
+		
+		return result;
 	}
 	
 	@GetMapping("/whzoneinquiry")

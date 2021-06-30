@@ -96,6 +96,15 @@
 		 </trim>
 </update>
 
+<delete id="deleteMember" parameterType="String">
+	DELETE 
+	FROM 
+		tb_member 
+	WHERE 
+		member_id=#{paramList};
+
+</delete>
+
 	 <resultMap type="WareAdmin" id="wareAdminResultMap">
 		<result property="wareAdminId" 				column="ware_admin_id"/>
 		<result property="wareAdminPw" 				column="ware_admin_pw"/>
