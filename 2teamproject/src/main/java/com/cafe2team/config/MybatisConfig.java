@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@MapperScan(basePackages = "com.cafe2team.dao", sqlSessionFactoryRef = "mybatisSqlSessionFactory")
+@MapperScan(basePackages = {"com.cafe2team.dao, com.cafe2team.sample.dao"}, sqlSessionFactoryRef = "mybatisSqlSessionFactory")
 public class MybatisConfig {
 	
 	@Bean("mybatisSqlSessionFactory")

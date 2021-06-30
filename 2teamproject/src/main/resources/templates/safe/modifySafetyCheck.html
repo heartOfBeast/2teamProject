@@ -40,18 +40,7 @@
 								<div class="form-group">
 									<select class="form-control">
 										<option value="">창고를 선택해주세요.</option>
-										<option value="w001" th:selected="${safetyCheck.warehouseCode == 'w001'}">군산 물류</option>
-										<option value="w002" th:selected="${safetyCheck.warehouseCode == 'w002'}">익산 물류</option>
-										<option value="w003" th:selected="${safetyCheck.warehouseCode == 'w003'}">경기 물류</option>
-										<option value="w004" th:selected="${safetyCheck.warehouseCode == 'w004'}">인천 물류</option>
-										<option value="w005" th:selected="${safetyCheck.warehouseCode == 'w005'}">용인 물류</option>
-										<option value="w006" th:selected="${safetyCheck.warehouseCode == 'w006'}">광주 물류</option>
-										<option value="w007" th:selected="${safetyCheck.warehouseCode == 'w007'}">충북 물류</option>
-										<option value="w008" th:selected="${safetyCheck.warehouseCode == 'w008'}">안산 물류</option>
-										<option value="w009" th:selected="${safetyCheck.warehouseCode == 'w009'}">충남 물류</option>
-										<option value="w010" th:selected="${safetyCheck.warehouseCode == 'w010'}">진천 물류</option>
-										<option value="w011" th:selected="${safetyCheck.warehouseCode == 'w011'}">인천 물류</option>
-										<option value="w012" th:selected="${safetyCheck.warehouseCode == 'w012'}">전라 물류</option>
+									    <option th:each="w : ${warehouse}" th:value="${w.warehouseCode}" th:text="${w.warehouseName}" th:selected="${w.warehouseCode == safetyCheck.warehouseCode}"></option>
 									</select>
 								</div>
 								<div class="safeAddRadio">

@@ -68,6 +68,10 @@ public class ProductController {
 
 		
 		List<Product> productList = productService.getProductList();
+		
+		log.info("========================================");
+		log.info("화면에서 입력받은 값(회원수정폼) productList: {}", productList);
+		log.info("========================================");
 		model.addAttribute("title", "상품목록");
 		model.addAttribute("productList", productList);
 		return "product/productList";
@@ -86,17 +90,13 @@ public class ProductController {
 		productService.addProduct(product);
 		return "redirect:/productList";
 	}
-	
+	//상품추가
 	@GetMapping("addProduct")
 	public String addProduct(Model model) {
-		
-
-		
-
-		
 		model.addAttribute("title", "상품등록");
-
 
 		return "product/addProduct";
 	}
+	
+
 }

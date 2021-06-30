@@ -10,6 +10,7 @@ public class Warehouse {
 	private String warehouseRegNumber;
 	private String warehouseDetail;
 	private String warehouseRegDate;
+	private String wareAdminId;
 	
 	public String getWarehouseCode() {
 		return warehouseCode;
@@ -65,12 +66,20 @@ public class Warehouse {
 	public void setWarehouseRegDate(String warehouseRegDate) {
 		this.warehouseRegDate = warehouseRegDate;
 	}
+	public String getWareAdminId() {
+		return wareAdminId;
+	}
+	public void setWareAdminId(String wareAdminId) {
+		this.wareAdminId = wareAdminId;
+	}
 	@Override
 	public String toString() {
 		return "Warehouse [warehouseCode=" + warehouseCode + ", warehouseName=" + warehouseName + ", warehouseAddr="
 				+ warehouseAddr + ", warehouseCate=" + warehouseCate + ", warehouseArea=" + warehouseArea
 				+ ", warehousePhone=" + warehousePhone + ", warehouseRegNumber=" + warehouseRegNumber
-				+ ", warehouseDetail=" + warehouseDetail + ", warehouseRegDate=" + warehouseRegDate + "]";
+				+ ", warehouseDetail=" + warehouseDetail + ", warehouseRegDate=" + warehouseRegDate + ", wareAdminId="
+				+ wareAdminId + "]";
 	}
 	
+
 }

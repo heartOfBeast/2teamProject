@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cafe2team.dao.StockMapper">
+
+	<select id="getStockList" resultType="Stock">
+SELECT 
+	p.product_name										AS productName,
+	spmu.shoppingmall_name								AS shoppingmallName,
+	w.warehouse_name									AS warehouseName,
+	wscf.sector_column_final_code						AS finalSector,
+	ss.stock_unit										AS stockUnit,
+	ss.stock_recent_warehousing_amonut					AS recentWarehousingAmount,
+	ss.stock_recent_release_amount						AS recentReleaseAmount,
+	ss.stock_total_amount								AS totalAmount,
+	wai.ware_admin_id									AS wareAdminId,
+	wai.ware_admin_phone								AS wareAdminPhone,
+	ss.stock_reg_date 									AS stockRegDate
+FROM 
+	tb_stock_status as ss
+	inner join
+	tb_sector_stock_status as sss
+	ON
+	ss.sector_stock_status_code = sss.sector_stock_status_code
+	inner join 
+	tb_product as p
+	ON
+	sss.product_code = p.product_code
+	inner join
+	tb_contract_final as cf
+	ON
+	p.product_code = cf.product_code
+	inner join 
+	tb_shoppingmall_user as spmu
+	ON
+	cf.shoppingmall_user_id = spmu.shoppingmall_user_id
+	inner join 
+	tb_warehouse_sector_column_final as wscf
+	ON
+	wscf.ware_admin_id = ss.ware_admin_id
+	inner join 
+	tb_warehouse as w
+	ON
+	ss.ware_admin_id = w.ware_admin_id
+	inner join 
+	tb_ware_admin as wai
+	ON
+	ss.ware_admin_id = wai.ware_admin_id ;
+
+
+	</select>
+	
+</mapper>

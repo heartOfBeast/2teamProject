@@ -3,6 +3,7 @@
 	xmlns:th="http://www.thymeleaf.org"
  	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="@{layout/default}">
+
 	
 <th:block layout:fragment="pageTitle">
 <div class="page-header">
@@ -34,27 +35,32 @@
 		<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-6">
 			<div class="table-container">
 				<div class="t-header">재고실사조회</div>
-				<select>
+				<select id="ware" >
 					<option> :: 선택 ::</option>
-					<option> A창고 </option>
-					<option> B창고 </option>
-					<option> C창고 </option>
-					<option> D창고 </option>
-					<option> E창고 </option>
-					<option> F창고 </option>
+					<option value="w001"> 군산물류 </option>
+					<option value="w002"> 익산물류 </option>
+					<option value="w003"> 경기물류 </opt()ion>
+					<option value="w004"> 인천물류 </option>
+					<option value="w005"> 용인물류 </option>
+					<option value="w006"> 광주물류</option>
+					<option value="w007"> 충북물류</option>
+					<option value="w008"> 안산물류</option>
+					<option value="w009"> 충남물류</option>
+					<option value="w010"> 진천물류</option>
+
 				</select>
-				<select>
+				<select id="sector">
 					<option> :: 선택 ::</option>
-					<option> 섹터1 </option>
-					<option> 섹터2 </option>
-					<option> 섹터3 </option>
-					<option> 섹터4 </option>
-					<option> 섹터5 </option>
-					<option> 섹터6 </option>
-					<option> 섹터7 </option>
-					<option> 섹터8 </option>
-					<option> 섹터9 </option>
-					<option> 섹터10 </option>
+					<option value="s001"> 1구역 </option>
+					<option value="s002"> 2구역 </option>
+					<option value="s003"> 3구역 </option>
+					<option value="s004"> 4구역 </option>
+					<option value="s005"> 5구역 </option>
+					<option value="s006"> 6구역 </option>
+					<option value="s007"> 7구역 </option>
+					<option value="s008"> 8구역 </option>
+					<option value="s009"> 9구역 </option>
+					<option value="s010"> 10구역 </option>
 				</select>
 				
 				<div class="table-responsive">
@@ -73,9 +79,9 @@
 							  <th>등록일자</th>
 							</tr>
 						</thead>
-						<tbody>
-							<tr th:each="L : ${stockCheckList}">
-								  <td th:text="${L.seccheckCode}"></td>
+						<tbody id="stockResultData">
+								<tr th:each="L : ${stockCheckList}">		
+								  <td th:text="${L.seccheckCode}" th:onclick="'location.href=\''+ @{/#} + '\''"></td>
 								  <td th:text="${L.warehouseCode}"></td>
 								  <td th:text="${L.secstatusCode}"></td>
 								  <td th:text="${L.memberid}"></td>
@@ -109,6 +115,73 @@
 
 
 </th:block>
+<th:block layout:fragment="customJs">
+<script>
+var values = [];
+var ware = document.getElementById('ware');
+var sector = document.getElementById('sector');
+var wareSel = "";
+var sectorSel = "";
 
+	ware.addEventListener('change', (event) => {
+		console.log('ㅁㅁㅁㅁ1');
+		wareSel = ware.value;
+		console.log(wareSel);
+		/* 
+		 */
+		 getData()
+	});
+	sector.addEventListener('change', (event) => {
+		console.log('ㅁㅁㅁㅁ2');
+		sectorSel = sector.value;
+		sectorSel = "sec_stk_"+sectorSel.substring(1);
+
+		/* 
+		 */
+		 getData()
+	});
+	
+	function getData(){
+		$.ajax({
+			url : "/stockCheckListDetail", 
+			//method: "POST", 
+			data : { 
+				warehouse_code : wareSel,
+				sector_stock_status_code : sectorSel
+			},
+				success : function(res) {
+				$('#stockResultData').children().remove();
+				
+				
+				var innerHtml = "";
+				$.each(res, function( index, value ) {
+		            innerHtml += '<tr>'	
+	            	innerHtml += '<td>'+value.seccheckCode+'</td>'
+            		innerHtml += '<td>'+value.warehouseCode+'</td>'
+           			innerHtml += '<td>'+value.secstatusCode+'</td>'
+       				innerHtml += '<td>'+value.memberid+'</td>'
+    				innerHtml += '<td>'+value.seccheckError+'</td>'
+		            innerHtml += '<td>'+value.seccheckAmount+'</td>'
+		            innerHtml += '<td>'+value.checkUnit+'</td>'
+					innerHtml += '<td>'+value.checkDetail+'</td>'
+					innerHtml += '<td>'+value.checkDate+'</td>'
+					innerHtml += '<td>'+value.checkRegdate+'</td>'
+					innerHtml += '</tr>'
+		            
+		            
+                    console.log( index + " : " + value.seccheckCode ); 
+//                     console.log( index + " : " + value.warehouseCode ); 
+                 });
+		         $('#stockResultData').append(innerHtml);
+				
+			}
+		})	
 		
+	}
+	
+
+</script>
+</th:block>
+
+
 </html>

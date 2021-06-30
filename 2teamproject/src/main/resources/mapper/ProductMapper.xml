@@ -7,9 +7,6 @@
   	<resultMap type="Product" id="productResultMap">
 		<result property="productCode" 						column="product_code"/>
 		<result property="productFreezeCoolCondition" 		column="product_freeze_cool_condition"/>
-		<result property="productBigCategory" 				column="product_big_category"/>
-		<result property="productMiddleCategory" 			column="product_middle_category"/>
-		<result property="productSmallCategory" 			column="product_small_category"/>
 		<result property="productAddCategory" 				column="product_add_category"/>
 		<result property="productName" 						column="product_name"/>
 		<result property="productWeight" 					column="product_weight"/>
@@ -19,6 +16,12 @@
 		<result property="shoppingmallUserId"				column="shoppingmall_user_id"/>
 		<result property="productRegDate"					column="product_reg_date"/>
 		<result property="productDetail"					column="product_detail"/>
+		<association property="item" javaType="Item">
+			<id property="itemCode"					column="item_code"/>
+			<result property="itemBigCategory" 		column="item_big_category"/>
+			<result property="itemMiddleCategory"	column="item_middle_category"/>
+			<result property="itemSmallCategory" 	column="item_small_category"/>
+		</association>
 		
 	</resultMap>
 	
@@ -30,13 +33,7 @@
 				,product_freeze_cool_condition=#{productFreezeCoolCondition}
 			</if>
 			<if test="productBigCategory !=null and productBigCategory != ''.toString()">
-				,product_big_category=#{productBigCategory}
-			</if>
-			<if test="productMiddleCategory !=null and productMiddleCategory != ''.toString()">
-				,product_middle_category= #{productMiddleCategory}
-			</if>
-			<if test="productSmallCategory !=null and productSmallCategory != ''.toString()">
-				,product_small_category=#{productSmallCategory}
+				,product_category=#{productCategory}
 			</if>
 			<if test="productAddCategory !=null and productAddCategory != ''.toString()">
 				,product_add_category=#{productAddCategory}
@@ -68,9 +65,7 @@
 		SELECT 
 			product_code, 
 			product_freeze_cool_condition, 
-			product_big_category,	 
-			product_middle_category, 	
-			product_small_category, 
+			product_category,	 
 			product_add_category, 
 			product_name, product_weight, 
 			product_weight_unit, 
@@ -78,8 +73,14 @@
 			product_expiration_date, 
 			shoppingmall_user_id, 
 			product_reg_date, product_detail
-		FROM tb_product
-		WHERE product_code=#{productCode};
+		FROM 
+			tb_product
+			INNER JOIN
+			tb_item
+			ON
+			tb_product.product_category = tb_item.item_code
+			
+		WHERE tb_product.product_code=#{productCode};
 	</select>
 	
 	<!--상품추가  -->
@@ -92,9 +93,7 @@
 				(
 				product_code,
 				product_freeze_cool_condition,
-				product_big_category,
-				product_middle_category,
-				product_small_category,
+				product_category,
 				product_add_category,
 				product_name,
 				product_weight,
@@ -107,9 +106,7 @@
 			VALUES(
 				#{productCode},
 				#{productFreezeCoolCondition},
-				#{productBigCategory},
-				#{productMiddleCategory},
-				#{productSmallCategory},
+				#{productCategory},
 				#{productAddCategory},
 				#{productName},
 				#{productWeight},
@@ -124,26 +121,33 @@
 	</insert>
 	
 	<!-- 전체상품목록조회 -->
-	<select id="getProductList" resultType="Product" fetchSize="1000">
+	<select id="getProductList" resultMap="productResultMap" fetchSize="1000">
 		SELECT 
-			product_code							AS productCode
-			,product_freeze_cool_condition			AS productFreezeCoolCondition
-			,product_big_category					AS productBigCategory
-			,product_middle_category				AS productMiddleCategory
-			,product_small_category					AS productSmallCategory
-			,product_add_category					AS productAddCategory
-			,product_name							AS productName
-			,product_weight							AS productWeight
-			,product_weight_unit					AS productWeightUnit
-			,product_date_of_manufacture			AS productDateOfManufacture
-			,product_expiration_date				AS productExpirationDate
-			,shoppingmall_user_id					AS shoppingmallUserId
-			,product_reg_date						AS productRegDate
-			,product_detail							AS productDetail
+			product_code
+			,product_freeze_cool_condition
+			,product_category
+			,item_big_category
+			,item_middle_category
+			,item_small_category
+			,product_add_category
+			,product_name
+			,product_weight	
+			,product_weight_unit
+			,product_date_of_manufacture
+			,product_expiration_date
+			,shoppingmall_user_id	
+			,product_reg_date
+			,product_detail
 		FROM
 			tb_product
+			INNER JOIN
+			tb_item
+			ON
+			tb_product.product_category = tb_item.item_code
+			
 
 	</select>
+
 
 
 </mapper>

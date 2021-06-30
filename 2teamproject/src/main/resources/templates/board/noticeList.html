@@ -38,7 +38,8 @@
 											<thead>
 												<tr>
 													<th>공지사항코드</th>
-													<th>제  목</th>
+													<th>제   목</th>
+													<th>내   용</th>
 													<th>작성자</th>
 													<th>작성날짜</th>
 													<th>조회수</th>
@@ -46,15 +47,15 @@
 												</tr>
 											</thead>
 											<tbody>
-												<tr>
-													<td>001</td>
-													<td>공지다 이놈들아</td>
-													<td>김개똥</td>
-													<td>2021-06-13</td>
-													<td>1523124123</td>
-									
+												<tr th:each="L :${noticeList}">
+													<td th:text ="${L.noticeCode}"></td>
+													<td th:text ="${L.noticeSubject}"></td>
+													<td th:text ="${L.noticeContent}"></td>
+													<td th:text ="${L.memberid}"></td>
+													<td th:text ="${L.noticeRegdate}"></td>
+													<td th:text ="${L.noticeViews}"></td>
+													<td th:text ="${L.noticeTemp}"></td>
 												</tr>
-												
 											</tbody>
 										</table>
 								 <span>

@@ -7,8 +7,8 @@
 <th:block layout:fragment="pageTitle">
 <div class="page-header">
 	<ol class="breadcrumb">
-		<li class="breadcrumb-item">Member</li>
-		<li class="breadcrumb-item active">MemberList</li>
+		<li class="breadcrumb-item">재고</li>
+		<li class="breadcrumb-item active">재고조회</li>
 	</ol>
 
 	<ul class="app-actions">
@@ -34,164 +34,40 @@
 		<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-6">
 			<div class="table-container">
 				<div class="t-header">재고조회</div>
+				<select id="ware" name="ware">
+					<option value="">:: 창고명 ::</option>
+					<option th:each="stockList : ${stockList}" th:value="${stockList.warehouseName}" th:text="${stockList.warehouseName}"></option>
+				</select>
 				<div class="table-responsive">
 					<table id="copy-print-csv" class="table custom-table">
 						<thead>
 							<tr >
-							  <th>창고명</th>
-							  <th>상품코드</th>
 							  <th>상품명</th>
+							  <th>거래처명</th>
+							  <th>창고명</th>
 							  <th>보관위치</th>
-							  <th>전체수량</th>
 							  <th>단위</th>
+							  <th>최근입고수량</th>
+							  <th>최근출고수량</th>
+							  <th>전체수량</th>
 							  <th>등록담당자</th>
 							  <th>담당자연락처</th>
 							  <th>등록일</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-							  <td>익산 물류</td>
-							  <td>2103489-2105</td>
-							  <td>Edinburgh</td>
-							  <td>w001-s001-2-16</td>
-							  <td>2011/04/25</td>
-							  <td>$320,800</td>
-							  <td>$320,800</td>
-							  <td>$320,800</td>
-							  <td>$320,800</td>
-							</tr>
-							<tr>
-							  <td>익산 물류</td>
-							  <td>2103489-2105</td>
-							  <td>Edinburgh</td>
-							  <td>w001-s001-2-16</td>
-							  <td>2011/04/25</td>
-							  <td>$320,800</td>
-							  <td>$320,800</td>
-							  <td>$320,800</td>
-							  <td>$320,800</td>
-							</tr>
-							<tr>
-							  <td>익산 물류</td>
-							  <td>2103489-2105</td>
-							  <td>Edinburgh</td>
-							  <td>w001-s001-2-16</td>
-							  <td>2011/04/25</td>
-							  <td>$320,800</td>
-							  <td>$320,800</td>
-							  <td>$320,800</td>
-							  <td>$320,800</td>
-							</tr>
-							<tr>
-							  <td>익산 물류</td>
-							  <td>2103489-2105</td>
-							  <td>Edinburgh</td>
-							  <td>w001-s001-2-16</td>
-							  <td>2011/04/25</td>
-							  <td>$320,800</td>
-							  <td>$320,800</td>
-							  <td>$320,800</td>
-							  <td>$320,800</td>
-							</tr>
-							<tr>
-							  <td>익산 물류</td>
-							  <td>2103489-2105</td>
-							  <td>Edinburgh</td>
-							  <td>w001-s001-2-16</td>
-							  <td>2011/04/25</td>
-							  <td>$320,800</td>
-							  <td>$320,800</td>
-							  <td>$320,800</td>
-							  <td>$320,800</td>
-							</tr>
-							<tr>
-							  <td>익산 물류</td>
-							  <td>2103489-2105</td>
-							  <td>Edinburgh</td>
-							  <td>w001-s001-2-16</td>
-							  <td>2011/04/25</td>
-							  <td>$320,800</td>
-							  <td>$320,800</td>
-							  <td>$320,800</td>
-							  <td>$320,800</td>
-							</tr>
-							<tr>
-							  <td>익산 물류</td>
-							  <td>2103489-2105</td>
-							  <td>Edinburgh</td>
-							  <td>w001-s001-2-16</td>
-							  <td>2011/04/25</td>
-							  <td>$320,800</td>
-							  <td>$320,800</td>
-							  <td>$320,800</td>
-							  <td>$320,800</td>
-							</tr>
-							<tr>
-							  <td>익산 물류</td>
-							  <td>2103489-2105</td>
-							  <td>Edinburgh</td>
-							  <td>w001-s001-2-16</td>
-							  <td>2011/04/25</td>
-							  <td>$320,800</td>
-							  <td>$320,800</td>
-							  <td>$320,800</td>
-							  <td>$320,800</td>
-							</tr>
-							<tr>
-							  <td>익산 물류</td>
-							  <td>2103489-2105</td>
-							  <td>Edinburgh</td>
-							  <td>w001-s001-2-16</td>
-							  <td>2011/04/25</td>
-							  <td>$320,800</td>
-							  <td>$320,800</td>
-							  <td>$320,800</td>
-							  <td>$320,800</td>
-							</tr>
-							<tr>
-							  <td>익산 물류</td>
-							  <td>2103489-2105</td>
-							  <td>Edinburgh</td>
-							  <td>w001-s001-2-16</td>
-							  <td>2011/04/25</td>
-							  <td>$320,800</td>
-							  <td>$320,800</td>
-							  <td>$320,800</td>
-							  <td>$320,800</td>
-							</tr>
-							<tr>
-							  <td>Tiger Nixon</td>
-							  <td>System Architect</td>
-							  <td>Edinburgh</td>
-							  <td>61</td>
-							  <td>2011/04/25</td>
-							  <td>$320,800</td>
-							  <td>$320,800</td>
-							  <td>$320,800</td>
-							  <td>$320,800</td>
-							</tr>
-							<tr>
-							  <td>Tiger Nixon</td>
-							  <td>System Architect</td>
-							  <td>Edinburgh</td>
-							  <td>61</td>
-							  <td>2011/04/25</td>
-							  <td>$320,800</td>
-							  <td>$320,800</td>
-							  <td>$320,800</td>
-							  <td>$320,800</td>
-							</tr>
-							<tr>
-							  <td>Tiger Nixon</td>
-							  <td>System Architect</td>
-							  <td>Edinburgh</td>
-							  <td>61</td>
-							  <td>2011/04/25</td>
-							  <td>$320,800</td>
-							  <td>$320,800</td>
-							  <td>$320,800</td>
-							  <td>$320,800</td>
+							<tr th:each="L : ${stockList}">
+								<td th:text="${L.productName}"></td>
+								<td th:text="${L.shoppingmallName}"></td>
+								<td th:text="${L.warehouseName}"></td>
+								<td th:text="${L.finalSector}"></td>
+								<td th:text="${L.stockUnit}"></td>
+								<td th:text="${L.recentWarehousingAmount}"></td>
+								<td th:text="${L.recentReleaseAmount}"></td>
+								<td th:text="${L.totalAmount}"></td>
+								<td th:text="${L.wareAdminId}"></td>
+								<td th:text="${L.wareAdminPhone}"></td>
+								<td th:text="${L.stockRegDate}"></td>
 							</tr>
 						</tbody>
 		    		</table>
@@ -204,6 +80,72 @@
 
 
 </th:block>
+<th:block layout:fragment="customJs">
+	<script>
+	var values = [];
+	var ware = $('ware')
+	var ware = document.getElementById('ware');
+	var sector = document.getElementById('sector');
+	var wareSel = "";
+	var sectorSel = "";
+	
+		ware.addEventListener('change', (event) => {
+			console.log('ㅁㅁㅁㅁ1');
+			wareSel = ware.value;
+			console.log(wareSel);
+			/* 
+			 */
+			 getData()
+		});
+		sector.addEventListener('change', (event) => {
+			console.log('ㅁㅁㅁㅁ2');
+			sectorSel = sector.value;
+			console.log(sectorSel);
+			/* 
+			 */
+			 getData()
+		});
+		
+		function getData(){
+			$.ajax({
+				url : "/stockCheckListDetail", 
+				//method: "POST", 
+				data : { 
+					warehouse_code : wareSel,
+					sector_stock_status_code : sectorSel
+				},
+					success : function(res) {
+					$('#stockResultData').children().remove();
+					
+					
+					var innerHtml = "";
+					$.each(res, function( index, value ) {
+			            innerHtml += '<tr>'	
+			            	innerHtml += '    <td>'+value.seccheckCode+'</td>'
+			            		innerHtml += '    <td>'+value.warehouseCode+'</td>'
+			            			innerHtml += '    <td>'+value.secstatusCode+'</td>'
+			            				innerHtml += '    <td>'+value.memberid+'</td>'
+			            					innerHtml += '    <td>'+value.seccheckError+'</td>'
+			            						innerHtml += '    <td>'+value.seccheckAmount+'</td>'
+			            							innerHtml += '    <td>'+value.checkUnit+'</td>'
+			            								innerHtml += '    <td>'+value.checkDetail+'</td>'
+			            									innerHtml += '    <td>'+value.checkDate+'</td>'
+			            										innerHtml += '    <td>'+value.checkRegdate+'</td>'
+			            											innerHtml += '    </tr>'
+			            
+			            
+	                    console.log( index + " : " + value.seccheckCode ); 
+	//                     console.log( index + " : " + value.warehouseCode ); 
+	                 });
+			         $('#stockResultData').append(innerHtml);
+					
+				}
+			})	
+			
+		}
+		
 
+	</script>
+</th:block>
 		
 </html>

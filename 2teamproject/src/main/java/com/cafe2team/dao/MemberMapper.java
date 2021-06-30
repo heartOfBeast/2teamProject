@@ -19,10 +19,15 @@ public interface MemberMapper {
 	//관리자 등록
 	public int adminSignUp(WareAdmin wareAdmin);
 	
+	//멤버 업데이트
+	public int updateMember(Member member);
+	
 	//거래처 등록
 	public int memberShopInsert(Member member);
 	
 	//관리자 조회
 	public List<WareAdmin> getAdminList();
+	
+	public int deleteMember(String memberId);
 
 }

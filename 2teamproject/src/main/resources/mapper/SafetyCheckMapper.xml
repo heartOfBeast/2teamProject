@@ -75,4 +75,42 @@
 			WHERE 
 				facility_code=#{facilityCode};
 	</update> -->
+	
+	<insert id="addSafetyCheck" parameterType="SafetyCheck">
+		INSERT INTO tb_safety_facility(
+			  facility_code
+			, warehouse_code
+			, facility_firesafety
+			, facility_logistics
+			, facility_main_equipemnt
+			, ware_admin_id
+			, facility_reg_date
+			, facility_check
+		)VALUES (
+			sf_newSafetyCode()
+			, #{warehouseCode}
+			, #{facilityFiresafety}
+			, #{facilityLogistics}
+			, #{facilityMainEquipemnt}
+			, #{wareAdminId}
+			, CURDATE()
+			, #{facilityCheck})
+	</insert>
+	
+	<delete id="deleteSafetyCheckByCode" parameterType="String">
+		DELETE 
+		FROM 
+			tb_safety_facility
+		WHERE 
+			facility_code = #{paramList};
+	</delete>
+	
+	<select id="getWareHouseInfo" resultType="Warehouse" fetchSize="1000">
+		SELECT 
+			warehouse_code AS warehouseCode
+	 	  , warehouse_name AS warehouseName
+	
+		FROM 
+			tb_warehouse
+	</select>
 </mapper> 

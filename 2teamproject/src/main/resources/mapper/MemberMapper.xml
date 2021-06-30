@@ -47,7 +47,7 @@
 			m.level_code=l.level_code;
 	</select>
 	
-	<!-- 로그인 -->
+	<!-- 로그인 // 아이디값 받아오기-->
 	 <select id="getMemberById" parameterType="String" resultMap="memberResultMap">
 	 SELECT 
 		  member_id
@@ -66,6 +66,45 @@
 		member_id=#{memberId};
 	 </select>
 	
+<!-- 업데이트 -->
+<update id ="updateMember" parameterType="Member">
+		UPDATE tb_member
+		<trim prefix="SET" prefixOverrides=",">
+		<if test="memberPw != null and memberPw != ''.toString()">			
+			member_pw=#{memberPw}
+		</if>
+		<if test="memberLevelcode != null and memberLevelcode != ''.toString()">			
+			,level_code=#{memberLevelcode}		
+		</if>
+		<if test="memberAddress != null and memberAddress != ''.toString()">			
+			,member_address=#{memberAddress}
+		</if>
+		<if test="memberEmail != null and memberEmail != ''.toString()">			
+			,member_email=#{memberEmail}
+		</if>
+		<if test="memberPhone != null and memberPhone != ''.toString()">			
+			,member_phone=#{memberPhone}
+		</if>
+		<if test="memberAccountStatus != null and memberAccountStatus != ''.toString()">			
+			,member_account_status=#{memberAccountStatus}
+		</if>
+		<if test="memberIncentive != null and memberIncentive != ''.toString()">			
+			,member_incentive=#{memberIncentive}
+		</if>
+		WHERE
+		 	member_id=#{memberId};
+		 </trim>
+</update>
+
+<delete id="deleteMember" parameterType="String">
+	DELETE 
+	FROM 
+		tb_member 
+	WHERE 
+		member_id=#{paramList};
+
+</delete>
+
 	 <resultMap type="WareAdmin" id="wareAdminResultMap">
 		<result property="wareAdminId" 				column="ware_admin_id"/>
 		<result property="wareAdminPw" 				column="ware_admin_pw"/>
@@ -129,6 +168,7 @@
 	, 	CURDATE());
 	
 </insert>
+
 
 <!-- 거래처 등록 insert -->
 <insert id="memberShopInsert" parameterType="Member">

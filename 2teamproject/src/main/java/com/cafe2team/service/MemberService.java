@@ -43,6 +43,13 @@ public class MemberService {
 	
 	}
 	
+	public int updateMember(Member member) {
+		
+		int memberUpdate = memberMapper.updateMember(member);
+		
+		return memberUpdate;
+	}
+	
 	public List<WareAdmin> getAdminList(){
 		log.info("=========getAdminList service 실행======");
 		List<WareAdmin> getAdminList = memberMapper.getAdminList();
@@ -63,6 +70,12 @@ public class MemberService {
 		int reulst = memberMapper.memberShopInsert(member);
 		
 		return reulst;
+	}
+
+	public int deleteMember(String memberId) {
+		
+		return memberMapper.deleteMember(memberId);
+		
 	}
 	
 	

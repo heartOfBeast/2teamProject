@@ -35,7 +35,10 @@
 						<div class="table-responsive">
 							<table id="copy-print-csv" class="table custom-table">
 								<thead>
-									<tr>
+									<tr >
+									  <th>
+									  		<input type="checkbox" id="checkAll" style="position: relative; top: 1.5px;">
+									  </th>
 									  <th>창고정보코드</th>
 									  <th>창고명</th>
 									  <th>화재안전점검내용</th>
@@ -45,11 +48,13 @@
 									  <th>등록일</th>
 									  <th>이상사유</th>
 									  <th>수정</th>
-									  <th>삭제</th>
 									</tr>
 								</thead>
 								<tbody>
 									<tr th:if="${#lists.size(safetyCheck)>0}" th:each="s : ${safetyCheck}">
+									  <td>
+								  	  	<input type="checkbox" class="checkOne" style="position: relative; top: 1.5px;" th:value="${s.facilityCode}">
+									  </td>
 									  <td th:text="${s.warehouseCode}"></td>
 									  <td th:text="${s.warehouse.warehouseName}"></td>
 									  <td th:text="${s.facilityFiresafety}"></td>
@@ -61,21 +66,72 @@
 									  <td>
 									  	<a th:href="@{/modifySafetyCheck(facilityCode=${s.facilityCode})}">수정</a>
 								  	  </td>
-									  <td>
-									  	<a href="#">삭제</a>
-								  	  </td>
 									</tr>
 									<tr th:unless="${#lists.size(safetyCheck)>0}" style="text-align: center;">
 										<td th:text="${검색 결과가 없습니다.}" colspan="8"></td>
 									</tr>
 								</tbody>
 				    	</table>
+						<button type="button" class="btn btn-primary float-right" onclick="deleteDate();">삭제</button>
 						</div>
 					</div>
 				
 				</div>
 			</div>
 		</div>
-</th:block>
 		
+	
+</th:block>
+<th:block layout:fragment="customJs">
+	<script>
+			$(function(){
+				$('#checkAll').click(function(){
+					if($('#checkAll').prop('checked')){
+						$('.checkOne').prop('checked', true);
+					}else{
+						$('.checkOne').prop('checked', false);
+					}
+				})
+				
+				
+			})
+			function deleteDate(){
+				var dataArr = new Array();
+				var list = $('.checkOne');
+				for(var i=0; i<list.length; i++){
+					if(list[i].checked){
+						dataArr.push(list[i].value);
+					}
+				}
+				if(dataArr.length == 0){
+					alert('삭제할 항목을 선택해주세요.');
+				}
+				else{
+					var chk = confirm('정말 삭제하시겠습니까?');
+					if(chk){
+						$.ajax({
+							url : "/deleteSafetyCheck",
+							method : 'post',
+							async : true,
+							dataType : "json",
+							data : {'dataArr':dataArr},
+							success: function(jdata){
+								if(jdata != 1){
+									alert('오류 : 삭제 실패');
+								}else{
+									alert('삭제 되었습니다.');
+									location.replace("safetyCheck");
+								}
+							}
+				    	});
+					}else{
+						return false;
+					}
+						
+					
+				}
+			}
+			
+	</script>
+</th:block>
 </html>
