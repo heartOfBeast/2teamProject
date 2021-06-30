@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -31,11 +32,22 @@ public class StockController {
 		List<Stock> stockList = stockService.getStockList();
 		model.addAttribute("title", "재고목록조회");
 		model.addAttribute("stockList", stockList);
-		List<Stock> stockListDetail = stockService.getStockListDetail();
 
 		return "stock/stockList";
 	}
-	
+	/************************************************************
+	 * 재고조회 필터 
+	 ************************************************************/
+	@GetMapping("/StockListDetail")
+	@ResponseBody
+	public List<Stock> StockListDetail(@RequestParam Map<String, Object> param, Model model){
+		String warehouse_name = (String) param.get("warehouse_name");
+		List<Stock> stockList = stockService.getStockListDetail(warehouse_name);
+		System.out.println(stockList);
+		System.out.println(warehouse_name);
+		return stockList;
+		
+	}
 	
 	/************************************************************
 	 * 재고실사

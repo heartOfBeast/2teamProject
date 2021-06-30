@@ -35,8 +35,7 @@
 			<div class="table-container">
 				<div class="t-header">재고조회</div>
 				<select id="ware" name="ware">
-					<option value="">:: 창고명 ::</option>
-					<option th:each="stockList : ${stockList}" th:value="${stockList.warehouseName}" th:text="${stockList.warehouseName}"></option>
+					<option class="ware" th:each="stockList : ${stockList}" th:value="${stockList.warehouseName}" th:text="${stockList.warehouseName}"></option>
 				</select>
 				<div class="table-responsive">
 					<table id="copy-print-csv" class="table custom-table">
@@ -55,7 +54,7 @@
 							  <th>등록일</th>
 							</tr>
 						</thead>
-						<tbody>
+						<tbody id="stockData">
 							<tr th:each="L : ${stockList}">
 								<td th:text="${L.productName}"></td>
 								<td th:text="${L.shoppingmallName}"></td>
@@ -81,69 +80,64 @@
 
 </th:block>
 <th:block layout:fragment="customJs">
-	<script>
-	var values = [];
-	var ware = $('ware')
-	var ware = document.getElementById('ware');
-	var sector = document.getElementById('sector');
-	var wareSel = "";
-	var sectorSel = "";
+	<script th:inline="javascript">
 	
-		ware.addEventListener('change', (event) => {
-			console.log('ㅁㅁㅁㅁ1');
-			wareSel = ware.value;
-			console.log(wareSel);
-			/* 
-			 */
-			 getData()
-		});
-		sector.addEventListener('change', (event) => {
-			console.log('ㅁㅁㅁㅁ2');
-			sectorSel = sector.value;
-			console.log(sectorSel);
-			/* 
-			 */
-			 getData()
-		});
+ 	var test = [[${stockList}]];
+	var warehouseName = [];
+	for(var i = 0; i < test.length; i++){
+		warehouseName.push(test[i].warehouseName);
+	}
+	var warehouseUnique = [...new Set(warehouseName)];
+	
+	var html = "";
+
+	for(var i = 0; i < warehouseUnique.length; i++){
+			html += '<option>';
+			html += warehouseUnique[i];
+			html += '</option>';
+
+	}
+	$('#ware').html(html); 
+	
+	var selectValue = "";
+	
+	$('#ware').change(function(){
+		selectValue = $("#ware option:selected").val();
+		getData()
+	}); 
+	function getData(){  	
+		$.ajax({
+	   		url : "/StockListDetail", 
+			data : { warehouse_name : selectValue },
+			success : function(res){
+			$('#stockData').children().remove();
 		
-		function getData(){
-			$.ajax({
-				url : "/stockCheckListDetail", 
-				//method: "POST", 
-				data : { 
-					warehouse_code : wareSel,
-					sector_stock_status_code : sectorSel
-				},
-					success : function(res) {
-					$('#stockResultData').children().remove();
-					
-					
-					var innerHtml = "";
-					$.each(res, function( index, value ) {
-			            innerHtml += '<tr>'	
-			            	innerHtml += '    <td>'+value.seccheckCode+'</td>'
-			            		innerHtml += '    <td>'+value.warehouseCode+'</td>'
-			            			innerHtml += '    <td>'+value.secstatusCode+'</td>'
-			            				innerHtml += '    <td>'+value.memberid+'</td>'
-			            					innerHtml += '    <td>'+value.seccheckError+'</td>'
-			            						innerHtml += '    <td>'+value.seccheckAmount+'</td>'
-			            							innerHtml += '    <td>'+value.checkUnit+'</td>'
-			            								innerHtml += '    <td>'+value.checkDetail+'</td>'
-			            									innerHtml += '    <td>'+value.checkDate+'</td>'
-			            										innerHtml += '    <td>'+value.checkRegdate+'</td>'
-			            											innerHtml += '    </tr>'
-			            
-			            
-	                    console.log( index + " : " + value.seccheckCode ); 
-	//                     console.log( index + " : " + value.warehouseCode ); 
-	                 });
-			         $('#stockResultData').append(innerHtml);
-					
-				}
-			})	
-			
-		}
+		var innerHtml = '';
+		$.each(res, function( index, value){
+			innerHtml += '<tr>'	
+            	innerHtml += '<td>'+value.productName+'</td>'
+        		innerHtml += '<td>'+value.shoppingmallName+'</td>'
+       			innerHtml += '<td>'+value.warehouseName+'</td>'
+   				innerHtml += '<td>'+value.finalSector+'</td>'
+				innerHtml += '<td>'+value.stockUnit+'</td>'
+	            innerHtml += '<td>'+value.recentWarehousingAmount+'</td>'
+	            innerHtml += '<td>'+value.recentReleaseAmount+'</td>'
+				innerHtml += '<td>'+value.totalAmount+'</td>'
+				innerHtml += '<td>'+value.wareAdminId+'</td>'
+				innerHtml += '<td>'+value.wareAdminPhone+'</td>'
+				innerHtml += '<td>'+value.stockRegDate+'</td>'
+				innerHtml += '</tr>'
+				
+		});
+		$('#stockData').append(innerHtml);
 		
+			}
+		})
+	}
+	
+	
+	
+	
 
 	</script>
 </th:block>
