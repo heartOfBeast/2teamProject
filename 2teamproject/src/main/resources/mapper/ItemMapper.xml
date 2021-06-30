@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.cafe2team.dao.ItemMapper">
+  
+  <resultMap type="Item" id="itemResultMap">
+  	<result property="itemCode"					column="item_code"/>
+  	<result property="itemBigCategory"			column="item_big_category"/>
+  	<result property="itemMiddleCategory"		column="item_middle_category"/>
+  	<result property="itemSmallCategory"		column="item_small_category"/>
+  	<result property="itemUsingCheck"			column="item_using_check"/>
+  	<result property="itemRegDate"				column="item_reg_date"/>
+  	<result property="wareAdminId"				column="ware_admin_id"/>
+
+  </resultMap>
+  
+  	<!--품목리스트 조회 -->
+  	<select id="getItemList" resultType="Item"  fetchSize="1000">
+  	SELECT 
+		item_code				AS itemCode, 
+		item_big_category		AS itemBigCategory, 
+		item_middle_category	AS itemMiddleCategory, 
+		item_small_category		AS itemSmallCategory, 
+		item_using_check		AS itemUsingCheck, 
+		item_reg_date			AS itemRegDate, 
+		ware_admin_id			AS WareAdminId
+	FROM 
+		tb_item
+  	</select>
+  
+  
+  </mapper>
