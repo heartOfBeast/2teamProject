@@ -15,39 +15,72 @@
 		<result property="warehouseRegDate"	column="warehouse_reg_date"/>
 	</resultMap>
 	
+	<update id="warehouseUpdateModal" parameterType="Warehouse">
+		UPDATE tb_warehouse
+		SET
+			warehouse_name = #{warehouseName},
+			warehouse_addr = #{warehouseAddr},
+			warehouse_cate = #{warehouseCate},
+			warehouse_area = #{warehouseArea},
+			warehouse_phone = #{warehousePhone},
+			warehouse_reg_number = #{warehouseRegNumber},
+			warehouse_detail = #{warehouseDetail}
+		WHERE
+			warehouse_code = #{warehouseCode};
+	</update>
+	
+	<select id="getWarehouseInfoByCode" parameterType="String" resultMap="warehouseResultMap">
+		SELECT
+			warehouse_code,
+			warehouse_name,
+			warehouse_addr,
+			warehouse_cate,
+			warehouse_area,
+			warehouse_phone,
+			warehouse_reg_number,
+			warehouse_detail,
+			warehouse_reg_date,
+			ware_admin_id
+		FROM
+			tb_warehouse as w
+		WHERE
+			w.warehouse_name = #{warehouseName};
+	</select>
+	
 	<insert id="addWarehouse" parameterType="Warehouse">
 		<selectKey keyColumn="warehouse_code" keyProperty="warehouseCode" resultType="String" order="BEFORE">
 	      SELECT CONCAT('w','',(SELECT LPAD(COUNT(*)+1,3,'0')FROM tb_warehouse));
 	     </selectKey>
 	INSERT INTO 
-	tb_warehouse
-		(
-		warehouse_code,
-		warehouse_name,
-		warehouse_addr,
-		warehouse_cate,
-		warehouse_area,
-		warehouse_phone,
-		warehouse_reg_number,
-		warehouse_detail,
-		warehouse_reg_date,
-		ware_admin_id
-		)
+		tb_warehouse
+			(
+			warehouse_code,
+			warehouse_name,
+			warehouse_addr,
+			warehouse_cate,
+			warehouse_area,
+			warehouse_phone,
+			warehouse_reg_number,
+			warehouse_detail,
+			warehouse_reg_date,
+			ware_admin_id
+			)
 	VALUES (
-		#{warehouseCode},
-		#{warehouseName},
-		#{warehouseAddr},
-		#{warehouseCate},
-		#{warehouseArea},
-		#{warehousePhone},
-		#{warehouseRegNumber},
-		#{warehouseDetail},
-		CURDATE(),
-		#{wareAdminId});
+			#{warehouseCode},
+			#{warehouseName},
+			#{warehouseAddr},
+			#{warehouseCate},
+			#{warehouseArea},
+			#{warehousePhone},
+			#{warehouseRegNumber},
+			#{warehouseDetail},
+			CURDATE(),
+			#{wareAdminId});
 	</insert>
 	
 	<select id="getWarehouseList" resultType="Warehouse" fetchSize="1000" resultMap="warehouseResultMap">
 	SELECT 
+		warehouse_code,
 		warehouse_name,
 		warehouse_addr,
 		warehouse_cate,

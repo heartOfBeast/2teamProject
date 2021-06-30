@@ -34,6 +34,10 @@
 		<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-6">
 			<div class="table-container">
 				<div class="t-header">재고조회</div>
+				<select id="ware" name="ware">
+					<option value="">:: 창고명 ::</option>
+					<option th:each="stockList : ${stockList}" th:value="${stockList.warehouseName}" th:text="${stockList.warehouseName}"></option>
+				</select>
 				<div class="table-responsive">
 					<table id="copy-print-csv" class="table custom-table">
 						<thead>
@@ -76,6 +80,72 @@
 
 
 </th:block>
+<th:block layout:fragment="customJs">
+	<script>
+	var values = [];
+	var ware = $('ware')
+	var ware = document.getElementById('ware');
+	var sector = document.getElementById('sector');
+	var wareSel = "";
+	var sectorSel = "";
+	
+		ware.addEventListener('change', (event) => {
+			console.log('ㅁㅁㅁㅁ1');
+			wareSel = ware.value;
+			console.log(wareSel);
+			/* 
+			 */
+			 getData()
+		});
+		sector.addEventListener('change', (event) => {
+			console.log('ㅁㅁㅁㅁ2');
+			sectorSel = sector.value;
+			console.log(sectorSel);
+			/* 
+			 */
+			 getData()
+		});
+		
+		function getData(){
+			$.ajax({
+				url : "/stockCheckListDetail", 
+				//method: "POST", 
+				data : { 
+					warehouse_code : wareSel,
+					sector_stock_status_code : sectorSel
+				},
+					success : function(res) {
+					$('#stockResultData').children().remove();
+					
+					
+					var innerHtml = "";
+					$.each(res, function( index, value ) {
+			            innerHtml += '<tr>'	
+			            	innerHtml += '    <td>'+value.seccheckCode+'</td>'
+			            		innerHtml += '    <td>'+value.warehouseCode+'</td>'
+			            			innerHtml += '    <td>'+value.secstatusCode+'</td>'
+			            				innerHtml += '    <td>'+value.memberid+'</td>'
+			            					innerHtml += '    <td>'+value.seccheckError+'</td>'
+			            						innerHtml += '    <td>'+value.seccheckAmount+'</td>'
+			            							innerHtml += '    <td>'+value.checkUnit+'</td>'
+			            								innerHtml += '    <td>'+value.checkDetail+'</td>'
+			            									innerHtml += '    <td>'+value.checkDate+'</td>'
+			            										innerHtml += '    <td>'+value.checkRegdate+'</td>'
+			            											innerHtml += '    </tr>'
+			            
+			            
+	                    console.log( index + " : " + value.seccheckCode ); 
+	//                     console.log( index + " : " + value.warehouseCode ); 
+	                 });
+			         $('#stockResultData').append(innerHtml);
+					
+				}
+			})	
+			
+		}
+		
 
+	</script>
+</th:block>
 		
 </html>

@@ -10,9 +10,9 @@ import com.cafe2team.domain.Warehouse;
 public interface WarehouseMapper {
 	
 	//창고정보수정
-	public int warehouseUpdate(Warehouse warehouse);
+	public int warehouseUpdateModal(Warehouse warehouse);
 	//창고정보조회
-	public Warehouse getWarehouseInfoByName(String warehouseName);
+	public Warehouse getWarehouseInfoByCode(String warehouseCode);
 	//창고조회
 	public List<Warehouse> getWarehouseList();
 	//창고등록

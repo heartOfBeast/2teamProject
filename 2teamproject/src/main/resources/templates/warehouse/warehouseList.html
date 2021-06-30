@@ -33,13 +33,14 @@
 	<div class="row gutters">
 		<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 			<div class="table-container">
-				<div class="t-header"> </div>
+				<div class="t-header"> 창고조회 </div>
 				<div class="table-responsive">
 					<div id="basicExample_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
 					
 					<table id="copy-print-csv" class="table custom-table">
 						<thead>
 						<tr>
+							<th>창고코드</th>
 							<th>창고명</th>
 							<th>소재지</th>
 							<th>종류</th>
@@ -49,19 +50,29 @@
 							<th>상세설명</th>
 							<th>등록일</th>
 							<th>등록자</th>
+							<th>수정</th>
+							<th>삭제</th>
 						</tr>
 						</thead>
 						<tbody>
-						<tr th:each="L : ${warehouseList}">
-							<td th:text="${L.warehouseName}"></td>
-							<td th:text="${L.warehouseAddr}"></td>
-							<td th:text="${L.warehouseCate}"></td>
-							<td th:text="${L.warehouseArea}"></td>
-							<td th:text="${L.warehousePhone}"></td>
-							<td th:text="${L.warehouseRegNumber}"></td>
-							<td th:text="${L.warehouseDetail}"></td>
+						<tr th:if="${#lists.size(warehouseList) > 0}" th:each="L : ${warehouseList}">
+							<td th:text="${L.warehouseCode}" id="dataCode"></td>
+							<td th:text="${L.warehouseName}" id="dataName"></td>
+							<td th:text="${L.warehouseAddr}" id="dataAddr"></td>
+							<td th:text="${L.warehouseCate}" id="dataCate"></td>
+							<td th:text="${L.warehouseArea}" id="dataArea"></td>
+							<td th:text="${L.warehousePhone}" id="dataPhone"></td>
+							<td th:text="${L.warehouseRegNumber}" id="dataRegNum"></td>
+							<td th:text="${L.warehouseDetail}" id="dataDetail"></td>
 							<td th:text="${L.warehouseRegDate}"></td>
 							<td th:text="${L.wareAdminId}"></td>
+							<td>
+								<!-- <a th:href="@{warehouseUpdate(warehouseCode=${L.warehouseCode})}">수정</a> -->
+								<a type="button" class="btn btn-primary modifyBtn" data-toggle="modal" data-target=".bd-example-modal-lg" id="viewModal">수정</a>
+							</td>
+							<td>
+								<a th:href="@{#}">삭제</a>
+							</td>
 						</tr>
 						</tbody>
 		    		</table>
@@ -74,6 +85,95 @@
 	</div>
 </div>
 
+<form th:action="@{warehouseUpdateModal}" method="POST">
+	<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" style="display: none;" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="myLargeModalLabel">창고수정</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+				</div>
+					<div class="modal-body">
+						<div class="form-group">
+							<label for="warehouseCode">창고코드</label>
+							<input type="text" class="form-control" name="warehouseCode" id="wareCode" readonly>
+						</div>
+						<div class="form-group">
+							<label for="warehouseName">창고명</label>
+							<input type="text" class="form-control" name="warehouseName" id="wareName">
+						</div>
+						<div class="form-group">
+							<label for="warehouseAddr">소재지</label>
+							<input type="text" class="form-control" name="warehouseAddr" id="wareAddr">
+						</div>
+						<div class="form-group">
+							<label for="warehouseCate">종류</label>
+							<select class="form-control" name="warehouseCate" id="wareCategory">
+								<option value="">:::  창고 종류(형태)를 선택해주세요.  :::</option>
+								<option value="일반">일반</option>
+								<option value="냉장/냉동">냉장/냉동</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label for="warehouseArea">면적</label>
+							<input type="text" class="form-control" name="warehouseArea" id="wareArea">
+						</div>
+						<div class="form-group">
+							<label for="warehousePhone">연락처</label>
+							<input type="text" class="form-control" name="warehousePhone" id="warePhone">
+						</div>
+						<div class="form-group">
+							<label for="warehouseRegNumber">사업자 등록번호</label>
+							<input type="text" class="form-control" name="warehouseRegNumber" id="wareRegNum">
+						</div>
+						<div class="form-group">
+							<label for="detail">상세설명</label>
+							<textarea class="form-control" id="detail" name="warehouseDetail" rows="3" maxlength="50"></textarea>
+								<div class="form-text text-muted">
+									<p id="characterLeftaddWare" class="help-block">50 characters left</p>
+								</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button class="btn btn-secondary" data-dismiss="modal">닫기</button>
+						<button type="buttone" name="submitDone"  class="btn btn-primary">수정완료</button>
+					</div>
+			</div>
+		</div>
+	</div>
+</form>
+</th:block>
+
+<th:block layout:fragment="customJs">
+	<script>
+$('.modifyBtn').each(function(){
+	$(this).click(function(){
+		var dataCode 			= $(this).parents('tr').children('#dataCode').text();
+		var dataName 			= $(this).parents('tr').children('#dataName').text();
+		var dataAddr 			= $(this).parents('tr').children('#dataAddr').text();
+		var dataCate 			= $(this).parents('tr').children('#dataCate').text();
+		var dataArea 			= $(this).parents('tr').children('#dataArea').text();
+		var dataPhone			= $(this).parents('tr').children('#dataPhone').text();
+		var dataRegNum 			= $(this).parents('tr').children('#dataRegNum').text();
+		var dataDetail			= $(this).parents('tr').children('#dataDetail').text();		
+		
+		var dataCate = $('#wareCategory option:contains(' + dataCate + ')').val();
+		
+		$('#wareCode').val(dataCode);
+		$('#wareName').val(dataName);
+		$('#wareAddr').val(dataAddr);
+		$('#wareCategory').val(dataCate);
+		$('#wareArea').val(dataArea);
+		$('#warePhone').val(dataPhone);
+		$('#wareRegNum').val(dataRegNum);
+		$('#wareDetail').val(dataDetail);
+	})
+})
+	
+	
+	</script>
 </th:block>
 
 		

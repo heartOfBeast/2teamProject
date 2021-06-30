@@ -15,13 +15,14 @@ public class WarehouseService {
 	private WarehouseMapper warehouseMapper;
 		
 		//창고정보 수정
-		public int warehouseUpdate(Warehouse warehouse) {
-			return warehouseMapper.warehouseUpdate(warehouse);
+		public int warehouseUpdateModal(Warehouse warehouse) {
+			
+			return warehouseMapper.warehouseUpdateModal(warehouse);
 		}
 	
 		//창고이름 정보 가져오기
-		public Warehouse getWarehouseInfoByName(String warehouseName) {
-			return warehouseMapper.getWarehouseInfoByName(warehouseName);
+		public Warehouse getWarehouseInfoByCode(String warehouseCode) {
+			return warehouseMapper.getWarehouseInfoByCode(warehouseCode);
 		}
 		
 		//창고조회

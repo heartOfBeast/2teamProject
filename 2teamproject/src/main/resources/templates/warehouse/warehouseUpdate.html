@@ -26,33 +26,87 @@
 	</ul>
 </div>
 </th:block>
-<th:block layout:fragment="container">
-	<!-- Main container start -->
-<div class="main-container">
-	<div class="row justify-content-md-center">
-		<div class="col-xl-4 col-lg-5 col-md-6 col-sm-12">
-			<form id="warehouseUpdateForm" th:action="@{/warehouseUpdate}" method="POST">
-				<div class="login-screen">
-					<div class="login-box">
-						<h5>
-						수정을 위해 사용자 확인이 필요합니다.<br>
-						비밀번호를 입력해주세요.
-						</h5>
+
+<form th:action="@{warehouseUpdateModal}" method="POST">
+	<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" style="display: none;" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="myLargeModalLabel">창고수정</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+				</div>
+					<div class="modal-body">
 						<div class="form-group">
-							<input type="text" class="form-control" name="memberId" readonly />
+							<label for="name">창고명</label>
+							<input type="text" class="form-control" name="name" id="warePhone" placeholder="수정하실 창고명을 입력해주세요.">
 						</div>
 						<div class="form-group">
-							<input type="password" class="form-control" placeholder="비밀번호를 입력해주세요." />
+							<label for="address">소재지</label>
+							<input type="text" class="form-control" name="address" id="wareAddr" placeholder="수정하실 소재지를 입력해주세요.">
 						</div>
-						<div class="actions mb-4">
-							<button type="submit" class="btn btn-primary">완료</button>
+						<div class="form-group">
+							<label for="category">종류</label>
+							<select class="form-control" name="category" id="wareCategory">
+								<option value="">:::  창고 종류(형태)를 선택해주세요.  :::</option>
+								<option value="일반">일반</option>
+								<option value="냉장/냉동">냉장/냉동</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label for="area">면적</label>
+							<input type="text" class="form-control" name="area" id="wareArea" placeholder="수정하실 면적을 입력해주세요.">
+						</div>
+						<div class="form-group">
+							<label for="phone">연락처</label>
+							<input type="text" class="form-control" name="phone" id="warePhone" placeholder="수정하실 연락처를 입력해주세요.">
+						</div>
+						<div class="form-group">
+							<label for="regNum">연락처</label>
+							<input type="text" class="form-control" name="regNum" id="wareRegNum" placeholder="수정하실 연락처를 입력해주세요.">
+						</div>
+						<div class="form-group">
+							<label for="detail">상세설명</label>
+							<textarea class="form-control" id="detail" name="warehouseDetail" placeholder="등록하실 창고의 추가설명이 필요하다면 입력해주세요." rows="3" maxlength="50"></textarea>
+								<div class="form-text text-muted">
+									<p id="characterLeftaddWare" class="help-block">50 characters left</p>
+								</div>
 						</div>
 					</div>
-				</div>	
-			</form>
+					<div class="modal-footer">
+						<button class="btn btn-secondary" data-dismiss="modal">닫기</button>
+						<button type="buttone" name="submitDone"  class="btn btn-primary">수정완료</button>
+					</div>
+			</div>
 		</div>
 	</div>
-</div>
-				<!-- Main container end -->
+</form>
+
+<th:block layout:fragment="customJs">
+	<script>
+$('#viewModal').each(function(){
+	$(this).click(function(){
+		var dataName 			= $(this).parents('tr').children('#dataName').text();
+		var dataAddr 			= $(this).parents('tr').children('#dataAddr').text();
+		var dataArea 			= $(this).parents('tr').children('#dataArea').text();
+		var dataPhone			= $(this).parents('tr').children('#dataPhone').text();
+		var dataRegNum 			= $(this).parents('tr').children('#dataRegNum').text();
+		var dataDetail			= $(this).parents('tr').children('#dataDetail').text();		
+		
+		var dataCate = $('#wareCategory option:contains(' + dataCate + ')').val();
+		
+		$('#wareName').val(dataName);
+		$('#wareAddr').val(dataAddr);
+		$('#wareArea').val(dataArea);
+		$('#warePhone').val(dataPhone);
+		$('#wareRegNum').val(dataRegNum);
+		$('#wareDetail').val(dataDetail);
+		$('#wareCate').val(dataCate);
+	})
+})
+	
+	
+	</script>
 </th:block>
 </html>

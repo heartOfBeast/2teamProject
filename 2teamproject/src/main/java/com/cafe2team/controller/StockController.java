@@ -21,15 +21,25 @@ public class StockController {
 	public StockController(StockService stockService) {
 		this.stockService = stockService;
 	}
+	
+	/************************************************************
+	 * 재고조회
+	 ************************************************************/
 	@GetMapping("/stockList")
 	public String stockList(Model model) {
 		
 		List<Stock> stockList = stockService.getStockList();
 		model.addAttribute("title", "재고목록조회");
 		model.addAttribute("stockList", stockList);
+		List<Stock> stockListDetail = stockService.getStockListDetail();
 
 		return "stock/stockList";
 	}
+	
+	
+	/************************************************************
+	 * 재고실사
+	 ************************************************************/
 	
 	@GetMapping("/stockCheckList")
 	public String getStockCheckList(Model model) {
