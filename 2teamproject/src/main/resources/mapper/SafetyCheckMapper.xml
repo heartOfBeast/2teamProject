@@ -58,23 +58,17 @@
 			s.facility_code = #{facilityCode};
 	</select>
 	
-<!-- 	<update id="modifySafeCheck" parameterType="SafetyCheck">
+ 	<update id="modifySafeCheck" parameterType="SafetyCheck">
 		UPDATE tb_safety_facility
-			<trim prefix="SET" prefixOverrides=",">
-				warehouse_code = #{warehouseCode}
-				,facility_firesafety = #{facilityFiresafety}
-				,facility_logistics = #{facilityLogistics}
-				,facility_main_equipemnt = #{facilityMainEquipemnt}
-				<if test="wareAdminId != null and wareAdminId != ''.toString()">
-				,ware_admin_id = #{wareAdminId}
-				</if>
-				<if test="facilityCheck != null and facilityCheck != ''.toString()">
-				,facility_check = #{facilityCheck}
-				</if>
-			</trim>
-			WHERE 
-				facility_code=#{facilityCode};
-	</update> -->
+		SET
+			warehouse_code = #{warehouseCode}
+			,facility_firesafety = #{facilityFiresafety}
+			,facility_logistics = #{facilityLogistics}
+			,facility_main_equipemnt = #{facilityMainEquipemnt}
+			,facility_check = #{facilityCheck}
+		WHERE 
+			facility_code=#{facilityCode};
+	</update>
 	
 	<insert id="addSafetyCheck" parameterType="SafetyCheck">
 		INSERT INTO tb_safety_facility(
