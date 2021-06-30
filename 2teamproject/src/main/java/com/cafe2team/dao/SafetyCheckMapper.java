@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import com.cafe2team.domain.SafetyCheck;
+import com.cafe2team.domain.Warehouse;
 
 @Mapper
 public interface SafetyCheckMapper {
@@ -19,4 +20,7 @@ public interface SafetyCheckMapper {
 	
 	//삭제
 	public int deleteSafetyCheckByCode(String paramList);
-}
+	
+	//등록화면 창고정보조회
+	public List<Warehouse> getWareHouseInfo();
+} 

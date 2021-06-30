@@ -22,6 +22,7 @@ import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cafe2team.domain.SafetyCheck;
+import com.cafe2team.domain.Warehouse;
 import com.cafe2team.service.SafetyCheckService;
 
 @Controller
@@ -55,7 +56,10 @@ public class SafetyCheckController {
 	//등록화면
 	@GetMapping("/safetyCheckAdd")
 	public String safetyCheckAdd(Model model) {
+		List<Warehouse> warehouse = safetyCheckService.getWareHouseInfo();
 		model.addAttribute("title", "안전점검등록");
+		model.addAttribute("warehouse", warehouse);
+		log.info("warehouse: {}", warehouse);
 		return "safe/safetyCheckAdd";
 	}
 	
@@ -67,6 +71,7 @@ public class SafetyCheckController {
 			safetyCheck.setWareAdminId(addAdminID);
 			safetyCheckService.addSafetyCheck(safetyCheck);
 			reAttr.addAttribute("wareAdminId", addAdminID);
+			log.info("safetyCheck : {}", safetyCheck);
 		}
 		return "redirect:/safetyCheck";
 	}
@@ -78,8 +83,10 @@ public class SafetyCheckController {
 		log.info("facilityCode : {}", facilityCode);
 		log.info("=============================");
 		SafetyCheck safetyCheck = safetyCheckService.getSafetyCheckById(facilityCode);
+		List<Warehouse> warehouse = safetyCheckService.getWareHouseInfo();
 		model.addAttribute("title", "안전점검수정");
 		model.addAttribute("safetyCheck", safetyCheck);
+		model.addAttribute("warehouse", warehouse);
 		return "safe/modifySafetyCheck";
 	}
 	

@@ -38,23 +38,10 @@
 							</div>
 							<div class="card-body">
 								<div class="form-group">
-									<select class="form-control" required="required" name="warehouseCode">
+									<select class="form-control" required="required" name="warehouseCode" >
 										<!-- 기능 구현시 db에서 창고코드와 이름 가져올 수 있으려나? -->
 										<option value="">창고를 선택해주세요.</option>
-										<option value="w001">군산 물류</option>
-										<option value="w002">익산 물류</option>
-										<option value="w003">경기 물류</option>
-										<option value="w004">인천 물류</option>
-										<option value="w005">용인 물류</option>
-										<option value="w006">광주 물류</option>
-										<option value="w007">충북 물류</option>
-										<option value="w008">안산 물류</option>
-										<option value="w009">충남 물류</option>
-										<option value="w010">진천 물류</option>
-										<option value="w011">인천 물류</option>
-										<option value="w012">전라 물류</option>
-										<option value="w013">전주 물류</option>
-										<option value="w014">정읍 물류</option>
+										<option th:each="w : ${warehouse}" th:value="${w.warehouseCode}" th:text="${w.warehouseName}"></option>
 									</select>
 								</div>
 								<div class="safeAddRadio">
@@ -110,5 +97,5 @@
 		<!-- Main container end -->
 	
 	</th:block>
-		
+	
 </html>
