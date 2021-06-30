@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cafe2team.dao.ProductMapper;
+import com.cafe2team.domain.Item;
 import com.cafe2team.domain.Product;
 
 @Service
@@ -17,6 +18,8 @@ public class ProductService {
 	
 	@Autowired
 	private ProductMapper productMapper;
+	
+
 	
 	//상품목록
 	public List<Product> getProductList(){
@@ -46,4 +49,7 @@ public class ProductService {
 		log.info("========================================");
 		return productMapper.modifyProduct(product);
 	}
+	
+	
+
 }
