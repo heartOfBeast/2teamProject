@@ -134,7 +134,8 @@ var sectorSel = "";
 	sector.addEventListener('change', (event) => {
 		console.log('ㅁㅁㅁㅁ2');
 		sectorSel = sector.value;
-		console.log(sectorSel);
+		sectorSel = "sec_stk_"+sectorSel.substring(1);
+
 		/* 
 		 */
 		 getData()
@@ -155,17 +156,17 @@ var sectorSel = "";
 				var innerHtml = "";
 				$.each(res, function( index, value ) {
 		            innerHtml += '<tr>'	
-		            	innerHtml += '    <td>'+value.seccheckCode+'</td>'
-		            		innerHtml += '    <td>'+value.warehouseCode+'</td>'
-		            			innerHtml += '    <td>'+value.secstatusCode+'</td>'
-		            				innerHtml += '    <td>'+value.memberid+'</td>'
-		            					innerHtml += '    <td>'+value.seccheckError+'</td>'
-		            						innerHtml += '    <td>'+value.seccheckAmount+'</td>'
-		            							innerHtml += '    <td>'+value.checkUnit+'</td>'
-		            								innerHtml += '    <td>'+value.checkDetail+'</td>'
-		            									innerHtml += '    <td>'+value.checkDate+'</td>'
-		            										innerHtml += '    <td>'+value.checkRegdate+'</td>'
-		            											innerHtml += '    </tr>'
+	            	innerHtml += '<td>'+value.seccheckCode+'</td>'
+            		innerHtml += '<td>'+value.warehouseCode+'</td>'
+           			innerHtml += '<td>'+value.secstatusCode+'</td>'
+       				innerHtml += '<td>'+value.memberid+'</td>'
+    				innerHtml += '<td>'+value.seccheckError+'</td>'
+		            innerHtml += '<td>'+value.seccheckAmount+'</td>'
+		            innerHtml += '<td>'+value.checkUnit+'</td>'
+					innerHtml += '<td>'+value.checkDetail+'</td>'
+					innerHtml += '<td>'+value.checkDate+'</td>'
+					innerHtml += '<td>'+value.checkRegdate+'</td>'
+					innerHtml += '</tr>'
 		            
 		            
                     console.log( index + " : " + value.seccheckCode ); 

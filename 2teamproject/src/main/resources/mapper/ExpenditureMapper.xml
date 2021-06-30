@@ -61,5 +61,13 @@
 		CURDATE()
 		);
 	</insert>
+	
+		<delete id="expenditureDeleteByCode" parameterType="String">
+		DELETE 
+		FROM 
+			tb_expenditure
+		WHERE 
+			expenditure_code = #{paramList};
+	</delete>
 
 </mapper>
