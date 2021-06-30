@@ -12,7 +12,7 @@ public interface StockMapper {
 	//재고조회
 	public List<Stock> getStockList();
 	
-	public List<Stock> getStockListDetail();
+	public List<Stock> getStockListDetail(String warehouse_name);
 	
 	
 }
