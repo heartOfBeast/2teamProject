@@ -71,6 +71,12 @@ public class MemberService {
 		
 		return reulst;
 	}
+
+	public int deleteMember(String memberId) {
+		
+		return memberMapper.deleteMember(memberId);
+		
+	}
 	
 	
 	
