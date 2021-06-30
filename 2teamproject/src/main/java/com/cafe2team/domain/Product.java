@@ -6,9 +6,7 @@ public class Product {
 
 	private String productCode;
 	private String productFreezeCoolCondition;
-	private String productBigCategory;
-	private String productMiddleCategory;
-	private String productSmallCategory;
+	private String productCategory;
 	private String productAddCategory;
 	private String productName;
 	private String productWeight;
@@ -18,6 +16,9 @@ public class Product {
 	private String shoppingmallUserId;
 	private String productRegDate;
 	private String productDetail;
+	
+	private Shoppingmall shoppingmall;
+	private Item item;
 	public String getProductCode() {
 		return productCode;
 	}
@@ -30,23 +31,11 @@ public class Product {
 	public void setProductFreezeCoolCondition(String productFreezeCoolCondition) {
 		this.productFreezeCoolCondition = productFreezeCoolCondition;
 	}
-	public String getProductBigCategory() {
-		return productBigCategory;
+	public String getProductCategory() {
+		return productCategory;
 	}
-	public void setProductBigCategory(String productBigCategory) {
-		this.productBigCategory = productBigCategory;
-	}
-	public String getProductMiddleCategory() {
-		return productMiddleCategory;
-	}
-	public void setProductMiddleCategory(String productMiddleCategory) {
-		this.productMiddleCategory = productMiddleCategory;
-	}
-	public String getProductSmallCategory() {
-		return productSmallCategory;
-	}
-	public void setProductSmallCategory(String productSmallCategory) {
-		this.productSmallCategory = productSmallCategory;
+	public void setProductCategory(String productCategory) {
+		this.productCategory = productCategory;
 	}
 	public String getProductAddCategory() {
 		return productAddCategory;
@@ -102,15 +91,28 @@ public class Product {
 	public void setProductDetail(String productDetail) {
 		this.productDetail = productDetail;
 	}
+	public Shoppingmall getShoppingmall() {
+		return shoppingmall;
+	}
+	public void setShoppingmall(Shoppingmall shoppingmall) {
+		this.shoppingmall = shoppingmall;
+	}
+	public Item getItem() {
+		return item;
+	}
+	public void setItem(Item item) {
+		this.item = item;
+	}
 	@Override
 	public String toString() {
 		return "Product [productCode=" + productCode + ", productFreezeCoolCondition=" + productFreezeCoolCondition
-				+ ", productBigCategory=" + productBigCategory + ", productMiddleCategory=" + productMiddleCategory
-				+ ", productSmallCategory=" + productSmallCategory + ", productAddCategory=" + productAddCategory
+				+ ", productCategory=" + productCategory + ", productAddCategory=" + productAddCategory
 				+ ", productName=" + productName + ", productWeight=" + productWeight + ", productWeightUnit="
 				+ productWeightUnit + ", productDateOfManufacture=" + productDateOfManufacture
 				+ ", productExpirationDate=" + productExpirationDate + ", shoppingmallUserId=" + shoppingmallUserId
-				+ ", productRegDate=" + productRegDate + ", productDetail=" + productDetail + "]";
+				+ ", productRegDate=" + productRegDate + ", productDetail=" + productDetail + ", shoppingmall="
+				+ shoppingmall + ", item=" + item + "]";
 	}
-
+	
+	
 }

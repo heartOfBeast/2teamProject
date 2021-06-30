@@ -44,35 +44,19 @@
 									</div>
 									<div class="card-body">
 										<div class="form-group">
-											<select class="form-control" id="productFreezeCoolCondition" name="productFreezeCoolCondition">
-												<option name="productFreezeCoolCondition" value="">::보관유형::</option>
-												<option name="productFreezeCoolCondition" value="상온">::상온::</option>
-												<option name="productFreezeCoolCondition" value="냉장">::냉장::</option>
-												<option name="productFreezeCoolCondition" value="냉동">::냉동::</option>
+											<select id="itemBigCategory" name="itemBigCategory" class="form-control">
+												<option name="itemBigCategory" value="">::대분류::</option>
+
 											</select>
 										</div>
 										<div class="form-group">
-											<select id="productBigCategory" name="productBigCategory" class="form-control">
-												<option name="productBigCategory" value="">::대분류::</option>
-												<option name="productBigCategory" value="식음표">::식음료::</option>
-												<option name="productBigCategory" value="생활용품">::생활용품::</option>
-												<option name="productBigCategory" value="집수리">::집수리::</option>
-											</select>
-										</div>
-										<div class="form-group">
-											<select id="productMiddleCategory" name="productMiddleCategory" class="form-control">
-												<option name="productMiddleCategory" value="">::중분류::</option>
-												<option name="productMiddleCategory" value="음식">::음식::</option>
-												<option name="productMiddleCategory" value="청소도구">::청소도구::</option>
-												<option name="productMiddleCategory" value="주방도구">::주방도구::</option>
+											<select id="itemMiddleCategory" name="itemMiddleCategory" class="form-control">
+												<option name="itemMiddleCategory" value="">::중분류::</option>
 											</select>
 										</div>
 										<div class="form-group">
 											<select id="productSmallCategory" name="productSmallCategory" class="form-control">
 												<option name="productSmallCategory" value="">::소분류::</option>
-												<option name="productSmallCategory" value="죽">::죽::</option>
-												<option name="productSmallCategory" value="스프">::스프::</option>
-												<option name="productSmallCategory" value="페인팅도구">::페인팅도구::</option>
 											</select>
 										</div>
 										<div class="form-group">
@@ -80,6 +64,14 @@
 										</div>
 										<div class="form-group">
 											<input type="text" class="form-control" id="productName" name="productName" placeholder="상품명" required="">
+										</div>
+										<div class="form-group">
+											<select class="form-control" id="productFreezeCoolCondition" name="productFreezeCoolCondition">
+												<option name="productFreezeCoolCondition" value="">::보관유형::</option>
+												<option name="productFreezeCoolCondition" value="상온">::상온::</option>
+												<option name="productFreezeCoolCondition" value="냉장">::냉장::</option>
+												<option name="productFreezeCoolCondition" value="냉동">::냉동::</option>
+											</select>
 										</div>
 										<div class="form-group">
 											<input type="text" class="form-control" id="productWeight" name="productWeight" placeholder="무게" required="">
@@ -200,6 +192,18 @@
 		});
 	</script>
 </th:block> 
-		
+<th:block>
+	<script>
+		$(function(){
+			var itemBigCategoryArray = new Array();
+			var itemBigCategoryObject = new Object();
+			
+			itemBigCategoryObject = new Object();
+			itemBigCategoryObject.itemBigCategory="1";
+			
+		})
+	</script>
+
+</th:block>		
 		
 </html>
