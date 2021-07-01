@@ -5,6 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cafe2team.domain.Price;
 import com.cafe2team.service.UnitPriceService;
@@ -70,28 +71,27 @@ public class ContractController {
 	}
 	
 	// 요금안내 삭제
-	@GetMapping("/priceRemove")
-	public String priceRemove(@RequestParam(value = "price_Code", required = false)String price_Code, Model model) {
+	@PostMapping("/priceRemove")
+	@ResponseBody
+	public int priceRemove(@RequestParam(value="dataArr[]") String[] price) {
+		int result = 1;
+		System.out.println(price);
+		int size = price.length;
+		for(int i=0; i<size; i++) {
+			unitPriceService.priceRemove(price[i]);
+		}
+		return result;
 		
-		Price price = unitPriceService.priceInfo(price_Code);
-		
-		model.addAttribute("title", "요금안내 삭제");
-		model.addAttribute("price", price);
-		
-		return "unitPrice/priceRemove";
-	}
-	
-	@PostMapping("priceRemove")
-	public String priceRemove(Price price) {
-		
-		unitPriceService.priceRemove(price);
-		
-		return "redirect:/priceList";
 	}
 	
 	/******************************** 요금안내 종료 ********************************/
 	
-	
+	// 계약 신청
+	@GetMapping("/contractAdd")
+	public String contractAdd() {
+		
+		return "contract/contractAdd";
+	}
 	
 	
 	

@@ -18,7 +18,6 @@ public class SampleService {
 	}
 	
 	// 샘플 출고 요청 리스트
-		
 	public List<Sample> getSampleList(){
 	 
 	List<Sample> sampleList = sampleMapper.getSampleList();
@@ -27,5 +26,22 @@ public class SampleService {
 	 
 	}
 	 
+	// 샘플 출고 요청 내용 삭제 및 줄고 지시서 정보 등록
+	
+	public int releasesInsert(String release) {
+		
+		
+		return sampleMapper.releasesInsert(release);
+	}
+	
+	/*
+	 * public int releasesRemove(String releaseD) {
+	 * 
+	 * int releaseD = sampleMapper.releasesRemove(releaseD);
+	 * 
+	 * return releaseD; }
+	 */
+	
+	
 	
 }

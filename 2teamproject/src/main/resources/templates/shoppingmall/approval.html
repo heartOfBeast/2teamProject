@@ -41,7 +41,6 @@
 								  <th>거래처명</th>
 								  <th>담당자명</th>
 								  <th>사업자번호</th>
-								  <th>거래상품</th>
 								  <th>거래처이메일</th>
 								  <th>거래처주소</th>
 								  <th>거래처전화번호</th>
@@ -52,19 +51,18 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr>
-									<td>1</td>
-									<td>2</td>
-									<td>3</td>
-									<td>4</td>
-									<td>5</td>
-									<td>6</td>
-									<td>7</td>
-									<td>8</td>
-									<td>9</td>
-									<td>0</td>
-									<td>1</td>
-									<td>2</td>
+								<tr th:each="l: ${shoppingmallList}">
+									<td th:text="${l.shId}"></td>
+									<td th:text="${l.shName}"></td>
+									<td th:text="${l.shUserName}"></td>
+									<td th:text="${l.shNum}"></td>
+									<td th:text="${l.shEmail}"></td>
+									<td th:text="${l.shAddr}"></td>
+									<td th:text="${l.shPhone}"></td>
+									<td th:text="${l.shReg}"></td>
+									<td th:text="${l.shBank}"></td>
+									<td th:text="${l.shBankNum}"></td>
+									<td th:text="${l.shStatus}"></td>
 								</tr>									
 							</tbody>
 			    		</table>

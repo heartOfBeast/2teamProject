@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.cafe2team.dao.MemberMapper;
 import com.cafe2team.dao.ShoppingmallMapper;
 import com.cafe2team.domain.Shoppingmall;
 
@@ -18,18 +17,26 @@ public class ShoppingmallService {
 	
 	@Autowired
 	private final ShoppingmallMapper shoppingmallMapper;
-	/* private MemberMapper memberMapper; */
 	
-	public ShoppingmallService(ShoppingmallMapper shoppingmallMapper, MemberMapper memberMapper) {
+	public ShoppingmallService(ShoppingmallMapper shoppingmallMapper) {
 		this.shoppingmallMapper = shoppingmallMapper;
-		/* this.memberMapper = memberMapper; */
 	}
+	
+	
+	// 쇼핑몰 사업자 등록
+	public int shoppingmallAdd(Shoppingmall shoppingmall) {
+		
+		int result = shoppingmallMapper.shoppingmallAdd(shoppingmall);
+		
+		return result;
+	}
+	
 	
 /******************************** 계약 시작 ********************************/
 	// 계약 리스트 조회
-	public List<Shoppingmall> getShoppingmallList(){
+	public List<Shoppingmall> ShoppingmallList(){
 		
-		List<Shoppingmall> shoppingmallList = shoppingmallMapper.getShoppingmallList();
+		List<Shoppingmall> shoppingmallList = shoppingmallMapper.ShoppingmallList();
 		
 		return shoppingmallList;
 	}

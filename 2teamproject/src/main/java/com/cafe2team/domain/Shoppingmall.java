@@ -13,10 +13,10 @@ public class Shoppingmall {
 	private String shNum;
 	private String shReg;
 	private String shStatus;
-	private String shProduct;
-	private String shProductName;
 	private String shBank;
 	private String shBankNum;
+	
+	
 	public String getShId() {
 		return shId;
 	}
@@ -89,18 +89,6 @@ public class Shoppingmall {
 	public void setShStatus(String shStatus) {
 		this.shStatus = shStatus;
 	}
-	public String getShProduct() {
-		return shProduct;
-	}
-	public void setShProduct(String shProduct) {
-		this.shProduct = shProduct;
-	}
-	public String getShProductName() {
-		return shProductName;
-	}
-	public void setShProductName(String shProductName) {
-		this.shProductName = shProductName;
-	}
 	public String getShBank() {
 		return shBank;
 	}
@@ -118,10 +106,8 @@ public class Shoppingmall {
 		return "Shoppingmall [shId=" + shId + ", shPw=" + shPw + ", shUserName=" + shUserName + ", shName=" + shName
 				+ ", shLLevel=" + shLLevel + ", shLLevelName=" + shLLevelName + ", shAddr=" + shAddr + ", shEmail="
 				+ shEmail + ", shPhone=" + shPhone + ", shNum=" + shNum + ", shReg=" + shReg + ", shStatus=" + shStatus
-				+ ", shProduct=" + shProduct + ", shProductName=" + shProductName + ", shBank=" + shBank
-				+ ", shBankNum=" + shBankNum + "]";
+				+ ", shBank=" + shBank + ", shBankNum=" + shBankNum + "]";
 	}
-	
 	
 	
 	

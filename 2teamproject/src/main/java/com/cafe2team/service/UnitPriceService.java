@@ -56,11 +56,9 @@ public class UnitPriceService {
 	}
 	
 	// 요금안내 삭제
-	public int priceRemove(Price price) {
+	public int priceRemove(String price) {
 		
-		int result = unitPriceMapper.priceRemove(price);
-		
-		return result;
+		return unitPriceMapper.priceRemove(price);
 	}
 	
 
