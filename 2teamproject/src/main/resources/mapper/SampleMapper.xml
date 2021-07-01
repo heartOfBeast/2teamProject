@@ -33,4 +33,39 @@
 		ON 
 			releases.shoppingmall_user_id = shUser.shoppingmall_user_id
 	</select>
+	
+	<insert id="releasesInsert" parameterType="String">
+		<selectKey keyColumn="releaseOrderCode" keyProperty="releaseOrderCode" resultType="String" order="BEFORE">
+			SELECT CONCAT('contract_code',MAX(SUBSTRING(release_order_code,15))+1) FROM tb_release_order
+		</selectKey>
+		INSERT INTO tb_release_order
+		( release_order_code
+		, releases.release_request_code
+		, product_code
+		, release_order_quantity
+		, release_recipient_name
+		, release_recipient_address
+		, release_recipient_phone
+		, shoppingmall_user_id
+		, release_order_reg_date
+		)VALUES(
+		   #{releaseOrderCode}
+		 , #{releases_Code}
+		 , #{product_Code}
+		 , #{releases_Amount}
+		 , #{releases_Name}
+		 , #{releases_Addr}
+		 , #{releases_Phone}
+		 , #{shUser_Id}
+		 , NOW())
+	</insert>
+	
+	<delete id="releasesRemove" parameterType="String">
+		DELETE 
+		FROM 
+			tb_release
+		WHERE 
+			releases.release_request_code = #{releases_Code};
+	</delete>
+	
 </mapper>

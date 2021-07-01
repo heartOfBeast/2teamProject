@@ -22,7 +22,7 @@ public interface UnitPriceMapper {
 	public int priceUpdate(Price price);
 	
 	// 요금안내 삭제
-	public int priceRemove(Price price);
+	public int priceRemove(String price);
 	
 	
 }

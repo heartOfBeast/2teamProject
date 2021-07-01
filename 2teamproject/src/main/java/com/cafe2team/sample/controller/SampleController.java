@@ -5,7 +5,10 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cafe2team.sample.domain.Sample;
 import com.cafe2team.sample.service.SampleService;
@@ -29,9 +32,13 @@ public class SampleController {
 	model.addAttribute("title", "샘플 쇼핑몰 출고요청"); 
 	model.addAttribute("sampleList", sampleList);
 	
-	System.out.println(sampleList + "@@@@@@@@@@@@@@@@@@@@");
-		 
 	return "sample/sample";
 	
+	}
+	
+	@GetMapping("/releasePush")
+	public String release() {
+		
+		return "sample/releasePush";
 	}
 }
