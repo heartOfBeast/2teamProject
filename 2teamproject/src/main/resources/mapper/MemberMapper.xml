@@ -65,6 +65,7 @@
 	WHERE 
 		member_id=#{memberId};
 	 </select>
+
 	
 <!-- 업데이트 -->
 <update id ="updateMember" parameterType="Member">
@@ -101,7 +102,7 @@
 	FROM 
 		tb_member 
 	WHERE 
-		member_id=#{paramList};
+		member_id=#{memberId};
 
 </delete>
 
@@ -146,51 +147,74 @@
 	</select>
 	
 	
-<!-- 관리자 등록 insert -->
-<insert id="adminSignUp" parameterType="WareAdmin">
-		INSERT INTO tb_ware_admin
-	( ware_admin_id
-	, ware_admin_pw
-	, ware_admin_name
-	, level_code
-	, ware_admin_address
-	, ware_admin_email
-	, ware_admin_phone
-	, ware_admin_reg_date
-	) VALUES (
-		#{wareAdminId}
-	, 	#{wareAdminPw}
-	, 	#{wareAdminName}
-	, 	#{wareAdminLevel}
-	, 	#{wareAdminAddress}
-	, 	#{wareAdminEmail}
-	, 	#{wareAdminPhone}
-	, 	CURDATE());
-	
-</insert>
-
-
-<!-- 거래처 등록 insert -->
-<insert id="memberShopInsert" parameterType="Member">
-	INSERT INTO tb_member
-		(member_id
-		, member_pw
-		, member_name
+	<!-- 관리자 등록 insert -->
+	<insert id="adminSignUp" parameterType="WareAdmin">
+			INSERT INTO tb_ware_admin
+		( ware_admin_id
+		, ware_admin_pw
+		, ware_admin_name
 		, level_code
-		, member_address
-		, member_email
-		, member_phone
-		, member_reg_date)
-	VALUES (
-		#{memberId}
-		,#{memberPw}
-		,#{memberName}
-		, '6'
-		,#{memberAddress}
-		,#{memberEmail}
-		,#{memberPhone}
-		, CURDATE());
-</insert>
+		, ware_admin_address
+		, ware_admin_email
+		, ware_admin_phone
+		, ware_admin_reg_date
+		) VALUES (
+			#{wareAdminId}
+		, 	#{wareAdminPw}
+		, 	#{wareAdminName}
+		, 	#{wareAdminLevel}
+		, 	#{wareAdminAddress}
+		, 	#{wareAdminEmail}
+		, 	#{wareAdminPhone}
+		, 	CURDATE());
 		
+	</insert>
+
+	<!-- 거래처 등록 insert -->
+	<insert id="memberShopInsert" parameterType="Shoppingmall">
+		INSERT INTO tb_shoppingmall_user
+			( 
+			  shoppingmall_user_id
+			, shoppingmall_user_pw
+			, shoppingmall_user_name
+			, shoppingmall_level_code
+			, shoppingmall_user_address
+			, shoppingmall_user_email
+			, shoppingmall_user_phone
+			, shoppingmall_user_reg_date
+		)VALUES(
+			  #{shId}
+			, #{shPw}
+			, #{shUserName}
+			, '6'
+			, #{shAddr}
+			, #{shEmail}
+			, #{shPhone}
+			, CURDATE());
+	</insert>
+	 
+	 <!-- 쇼핑몰 회원 조회 -->
+	<select id="getShoppingmallList" resultType="Shoppingmall">
+	SELECT 
+		  shU.shoppingmall_user_id						AS shId
+		, shU.shoppingmall_user_pw						AS shPw
+		, shU.shoppingmall_user_name					AS shUserName
+		, shU.shoppingmall_name							AS shName
+		, shL.level_name  							    AS shLLevelName
+		, shU.shoppingmall_user_address					AS shAddr
+		, shU.shoppingmall_user_email					AS shEmail
+		, shU.shoppingmall_user_phone					AS shPhone
+		, shU.shoppingmall_user_iden_num				AS shNum
+		, shU.shoppingmall_user_reg_date				AS shReg
+		, shU.shoppingmall_user_account_status			AS shStatus
+		, shU.shoppingmall_bank							AS shBank
+		, shU.shoppingmall_bank_number					AS shBankNum
+	FROM 
+		tb_shoppingmall_user AS shU
+		JOIN
+		tb_member_level AS shL
+		ON
+		shU.shoppingmall_level_code = shL.level_code;
+	</select>
 
 </mapper>

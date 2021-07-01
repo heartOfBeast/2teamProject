@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cafe2team.domain.Member;
+import com.cafe2team.domain.Shoppingmall;
 import com.cafe2team.domain.WareAdmin;
 import com.cafe2team.service.MemberService;
 
@@ -42,10 +43,9 @@ public class MemberController {
 		
 	}
 
-
+	//회원 리스트 조회
 	@GetMapping("/memberList")
 	public String memberList(Model model) {
-			
 	
 	model.addAttribute("memberList", memberService.getMemberList());
 	
@@ -53,7 +53,10 @@ public class MemberController {
 	}
 	
 	@GetMapping("/accountInquiry")
-	public String accountInquiry() {
+	public String getShoppingmallList(Model model) {
+		
+		
+		model.addAttribute("getshopList", memberService.getShoppingmallList());
 		
 		return "member/accountInquiry";
 	}
@@ -141,9 +144,9 @@ public class MemberController {
 	
 	
 	@PostMapping("/accountsignup")
-	public String accountsignup(Member member) {
+	public String accountsignup(Shoppingmall shoppingMall) {
 		
-		memberService.memberShopInsert(member);
+		memberService.memberShopInsert(shoppingMall);
 		
 		return "redirect:/";
 	}
@@ -266,7 +269,6 @@ public class MemberController {
 		return "redirect:/";
 		
 	}
-	
 
 	
 	

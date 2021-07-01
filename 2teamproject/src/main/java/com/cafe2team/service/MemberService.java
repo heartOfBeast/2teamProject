@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.cafe2team.dao.MemberMapper;
 import com.cafe2team.domain.Member;
+import com.cafe2team.domain.Shoppingmall;
 import com.cafe2team.domain.WareAdmin;
 
 @Service
@@ -24,7 +25,8 @@ public class MemberService {
 	public MemberService(MemberMapper memberMapper){
 		this.memberMapper = memberMapper;
 	}
-
+	
+	//멤버 조회
 	public List<Member> getMemberList(){
 		
 		log.info("=========memberList service 실행======");
@@ -35,6 +37,13 @@ public class MemberService {
 		
 	}
 	
+	public List<Member> getShoppingmallList(){
+		
+		
+		return memberMapper.getShoppingmallList();
+	}
+	
+	//Id만 조회 서비스
 	public Member getMemberInfoById(String memberId) {
 		
 		Member member = memberMapper.getMemberById(memberId);
@@ -43,12 +52,14 @@ public class MemberService {
 	
 	}
 	
+	//업데이트
 	public int updateMember(Member member) {
 		
 		int memberUpdate = memberMapper.updateMember(member);
 		
 		return memberUpdate;
 	}
+	
 	
 	public List<WareAdmin> getAdminList(){
 		log.info("=========getAdminList service 실행======");
@@ -65,9 +76,9 @@ public class MemberService {
 		return result;
 	}
 	
-	public int memberShopInsert(Member member) {
+	public int memberShopInsert(Shoppingmall shoppingMall) {
 		
-		int reulst = memberMapper.memberShopInsert(member);
+		int reulst = memberMapper.memberShopInsert(shoppingMall);
 		
 		return reulst;
 	}

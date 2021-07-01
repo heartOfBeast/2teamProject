@@ -10,6 +10,8 @@
 	************************************************
 ************************************************/
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&display=swap");
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/nanumsquare.css">
+
 /************************************************
 	************************************************
 											Body Css							
@@ -19,6 +21,11 @@ html {
   height: 100%;
   font-size: 100%; }
 
+
+/*
+ 글꼴 추가
+*/
+
 body {
   margin: 0;
   padding: 0;
@@ -26,7 +33,8 @@ body {
   color: #333333;
   background: #eff1f5;
   min-height: 100%;
-  position: relative; }
+  position: relative; 
+ }
   body.authentication {
     display: flex;
     align-items: center;
@@ -668,7 +676,8 @@ ul.header-tasks:last-child {
           border-radius: 0px; }
     .page-wrapper .sidebar-wrapper .sidebar-content {
       position: relative;
-      height: calc(100% - 90px) !important; }
+      height: calc(100% - 90px) !important; 
+      }
     .page-wrapper .sidebar-wrapper .sidebar-menu {
       padding-bottom: 10px; }
       .page-wrapper .sidebar-wrapper .sidebar-menu .header-menu {
@@ -778,7 +787,8 @@ ul.header-tasks:last-child {
             white-space: nowrap;
             text-overflow: ellipsis;
             padding: 9px 35px 9px 42px;
-            font-size: .8rem; }
+            font-size: .8rem;
+             }
             .page-wrapper .sidebar-wrapper .sidebar-menu .sidebar-dropdown .sidebar-submenu ul li a:before {
               font-family: "icomoon";
               font-weight: 700;

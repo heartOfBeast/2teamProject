@@ -36,42 +36,28 @@
 						<thead>
 							<tr>
 							  <th>아이디</th>
-							  <th>사업장 이름</th>
-							  <th>번호</th>
+							  <th>권한</th>
+							  <th>담당자명</th>
 							  <th>이메일</th>
-							  <th>신청 물류센터</th>
-							  <th>승인</th>
+							  <th>번호</th>
+							  <th>계정상태</th>
+							  <th>등록일</th>
+							  <th>수정</th>
 							  <th>삭제</th>
 							</tr>
 							
 						</thead>
 						<tbody>
-							<tr>
-							  <td>shop01</td>
-							  <td>다모아 신발</td>
-							  <td>010-1111-1111</td>
-							  <td>111@111</td>
-							  <td>전주 물류센터</td>
-							  <td>승인</td>
-							  <td>삭제</td>
-							</tr>
-							<tr>
-							  <td>shop02</td>
-							  <td>커피여행</td>
-							  <td>010-1111-1111</td>
-							  <td>111@111</td>
-							  <td>익산 물류센터</td>
-  							  <td>승인</td>
-							  <td>삭제</td>
-							</tr>
-							<tr>
-							  <td>shop03</td>
-							  <td>시계나라</td>
-							  <td>010-0000-0000</td>
-							  <td>1111@1111</td>
-							  <td>전주 물류센터</td>
-							  <td>승인</td>
-							  <td>삭제</td>
+							<tr th:if="${#lists.size(getshopList) > 0}" th:each="l : ${getshopList}">
+							  <td th:text="${l.shId}"></td>
+							  <td th:text="${l.shLLevelName}"></td>
+							  <td th:text="${l.shUserName}"></td>
+							  <td th:text="${l.shEmail}"></td>
+							  <td th:text="${l.shPhone}"></td>
+							  <td th:text="${l.shStatus}"></td>
+							  <td th:text="${l.shReg}"></td>
+							  <td></td>
+							  <td></td>
 							</tr>
 						</tbody>
 		    	</table>

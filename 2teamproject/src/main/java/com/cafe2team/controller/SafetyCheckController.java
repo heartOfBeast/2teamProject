@@ -48,8 +48,10 @@ public class SafetyCheckController {
 	@GetMapping("/safetyCheck")
 	public String safetyCheck(Model model) {
 		List<SafetyCheck> safetyCheck = safetyCheckService.getSafetyCheck();
+		List<Warehouse> warehouse = safetyCheckService.getWareHouseInfo();
 		model.addAttribute("title", "안전점검 내역조회");
 		model.addAttribute("safetyCheck", safetyCheck);
+		model.addAttribute("warehouse", warehouse);
 		return "safe/safetyCheck";
 	}
 	
@@ -65,29 +67,37 @@ public class SafetyCheckController {
 	
 	//등록실행
 	@PostMapping("/safetyCheckAdd")
-	public String safetyCheckAdd(SafetyCheck safetyCheck, HttpSession session, RedirectAttributes reAttr) {
+	public String safetyCheckAdd(SafetyCheck safetyCheck, HttpSession session) {
 		String addAdminID = (String) session.getAttribute("SID");
 		if(addAdminID != null) {
 			safetyCheck.setWareAdminId(addAdminID);
 			safetyCheckService.addSafetyCheck(safetyCheck);
-			reAttr.addAttribute("wareAdminId", addAdminID);
 			log.info("safetyCheck : {}", safetyCheck);
 		}
 		return "redirect:/safetyCheck";
 	}
 	
 	//수정화면
-	@GetMapping("/modifySafetyCheck")
-	public String modifySafetyCheck(Model model, @RequestParam(name = "facilityCode" ,required = false)String facilityCode) {
-		log.info("=============================");
-		log.info("facilityCode : {}", facilityCode);
-		log.info("=============================");
-		SafetyCheck safetyCheck = safetyCheckService.getSafetyCheckById(facilityCode);
-		List<Warehouse> warehouse = safetyCheckService.getWareHouseInfo();
-		model.addAttribute("title", "안전점검수정");
-		model.addAttribute("safetyCheck", safetyCheck);
-		model.addAttribute("warehouse", warehouse);
-		return "safe/modifySafetyCheck";
+	/*
+	 * @GetMapping("/modifySafetyCheck") public String modifySafetyCheck(Model
+	 * model, @RequestParam(name = "facilityCode" ,required = false)String
+	 * facilityCode) { log.info("=============================");
+	 * log.info("facilityCode : {}", facilityCode);
+	 * log.info("============================="); SafetyCheck safetyCheck =
+	 * safetyCheckService.getSafetyCheckById(facilityCode); List<Warehouse>
+	 * warehouse = safetyCheckService.getWareHouseInfo();
+	 * model.addAttribute("title", "안전점검수정"); model.addAttribute("safetyCheck",
+	 * safetyCheck); model.addAttribute("warehouse", warehouse); return
+	 * "safe/modifySafetyCheck"; }
+	 */
+	
+	
+	//수정실행
+	@PostMapping("/modifySafetyCheck")
+	public String modifySafetyCheck(SafetyCheck safetyCheck) {
+		log.info("safetyCheck : {}", safetyCheck);
+		safetyCheckService.modifySafeCheck(safetyCheck);
+		return "redirect:/safetyCheck";
 	}
 	
 	//삭제

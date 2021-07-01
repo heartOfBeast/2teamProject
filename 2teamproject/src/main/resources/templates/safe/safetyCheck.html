@@ -39,6 +39,7 @@
 									  <th>
 									  		<input type="checkbox" id="checkAll" style="position: relative; top: 1.5px;">
 									  </th>
+									  <th style="display: none;">안전점검코드</th>
 									  <th>창고정보코드</th>
 									  <th>창고명</th>
 									  <th>화재안전점검내용</th>
@@ -55,16 +56,18 @@
 									  <td>
 								  	  	<input type="checkbox" class="checkOne" style="position: relative; top: 1.5px;" th:value="${s.facilityCode}">
 									  </td>
-									  <td th:text="${s.warehouseCode}"></td>
-									  <td th:text="${s.warehouse.warehouseName}"></td>
-									  <td th:text="${s.facilityFiresafety}"></td>
-									  <td th:text="${s.facilityLogistics}"></td>
-									  <td th:text="${s.facilityMainEquipemnt}"></td>
+									  <td style="display: none;" th:text="${s.facilityCode}" id="facilityCodeData"></td>	
+									  <td th:text="${s.warehouseCode}" id="warehouseCodeData"></td>
+									  <td th:text="${s.warehouse.warehouseName}" ></td>
+									  <td th:text="${s.facilityFiresafety}" id="facilityFiresafetyData"></td>
+									  <td th:text="${s.facilityLogistics}" id="facilityLogisticsData"></td>
+									  <td th:text="${s.facilityMainEquipemnt}" id="facilityMainEquipemntData"></td>
 									  <td th:text="${s.wareAdminId}"></td>
 									  <td th:text="${s.facilityRegDate}"></td>
-									  <td th:text="${s.facilityCheck}"></td>
+									  <td th:text="${s.facilityCheck}" id="facilityCheckData"></td>
 									  <td>
-									  	<a th:href="@{/modifySafetyCheck(facilityCode=${s.facilityCode})}">수정</a>
+									  	<!-- <a th:href="@{/modifySafetyCheck(facilityCode=${s.facilityCode})}">수정</a> -->
+									  	<a type="button" class="btn btn-primary modifyBtn" data-toggle="modal" data-target=".bd-example-modal-lg" id="viewModal" style="color: white;">수정</a>
 								  	  </td>
 									</tr>
 									<tr th:unless="${#lists.size(safetyCheck)>0}" style="text-align: center;">
@@ -79,7 +82,59 @@
 				</div>
 			</div>
 		</div>
-		
+<form th:action="@{/modifySafetyCheck}" method="post">
+	<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" style="display: none;" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="myLargeModalLabel">수정하기</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<input type="hidden" class="form-control" name="facilityCode" id="facilityCode">
+					<div class="form-group">
+						<label for="wareHouseCodeModal">창고선택</label>	
+						<select class="form-control" id="wareHouseCodeModal" name="warehouseCode">
+							<option value="">창고를 선택해주세요.</option>
+						    <option th:each="w : ${warehouse}" th:value="${w.warehouseCode}" th:text="${w.warehouseName}" ></option>
+						</select>
+					</div>	
+					<div class="form-group">
+						<label for="fireInspection">화재안전점검</label>	
+						<select class="form-control" id="fireInspection" name="facilityFiresafety">
+							<option value="점검완료">점검완료</option>
+							<option value="점검 미실시">점검 미실시</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="logisticsInspection">물류안전점검</label>	
+						<select class="form-control" id="logisticsInspection" name="facilityLogistics">
+							<option value="점검완료">점검완료</option>
+							<option value="점검 미실시">점검 미실시</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="equipmentInspection">주요설비 및 장비안전점검</label>	
+						<select class="form-control" id="equipmentInspection" name="facilityMainEquipemnt">
+							<option value="점검완료">점검완료</option>
+							<option value="점검 미실시">점검 미실시</option>
+						</select>
+					</div>
+						<div class="form-group">
+							<label for="facilityCheckModal">이상사유</label>
+							<textarea class="form-control" id="facilityCheckModal" placeholder="이상여부를 작성해주세요." maxlength="140" rows="4" name="facilityCheck" ></textarea>
+						</div>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-secondary" data-dismiss="modal">취소</button>
+					<button type="submit" name="submit"  class="btn btn-primary">수정</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>		
 	
 </th:block>
 <th:block layout:fragment="customJs">
@@ -92,8 +147,6 @@
 						$('.checkOne').prop('checked', false);
 					}
 				})
-				
-				
 			})
 			function deleteDate(){
 				var dataArr = new Array();
@@ -131,7 +184,27 @@
 					
 				}
 			}
-			
+			$('.modifyBtn').each(function(){
+				$(this).click(function(){
+					var facilityCheckData = $(this).parents('tr').children('#facilityCheckData').text();
+					var facilityFiresafetyData = $(this).parents('tr').children('#facilityFiresafetyData').text();
+					var facilityLogisticsData = $(this).parents('tr').children('#facilityLogisticsData').text();
+					var facilityMainEquipemntData = $(this).parents('tr').children('#facilityMainEquipemntData').text();
+					var facilityCodeData = $(this).parents('tr').children('#facilityCodeData').text();
+					var warehouseCodeData = $(this).parents('tr').children('#warehouseCodeData').text();
+					
+					var firesafetySelected = $('#fireInspection option:contains(' + facilityFiresafetyData + ')').val();
+					var logisticsDataSelected = $('#logisticsInspection option:contains(' + facilityLogisticsData + ')').val();
+					var equipemntDataSelected = $('#equipmentInspection option:contains(' + facilityMainEquipemntData + ')').val();
+					
+					$('#facilityCheckModal').val(facilityCheckData);
+					$('#fireInspection').val(firesafetySelected);
+					$('#logisticsInspection').val(logisticsDataSelected);
+					$('#equipmentInspection').val(equipemntDataSelected);
+					$('#facilityCode').val(facilityCodeData);
+					$('#wareHouseCodeModal').val(warehouseCodeData);
+				})
+			})
 	</script>
 </th:block>
 </html>
