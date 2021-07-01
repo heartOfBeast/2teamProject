@@ -8,7 +8,7 @@
 <div class="page-header">
 	<ol class="breadcrumb">
 		<li class="breadcrumb-item">견적</li>
-		<li class="breadcrumb-item active">견적신청 검토</li>
+		<li class="breadcrumb-item active">견전신청 조회</li>
 	</ol>
 
 	<ul class="app-actions">
@@ -51,7 +51,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr th:each="L : ${estimatePermit}">
+							<tr th:each="L : ${estimate}">
 								<td th:text="${L.spmGuestName}"></td>
 								<td th:text="${L.spmGuestAdmin}"></td>
 								<td th:text="${L.spmGuestPhone}"></td>

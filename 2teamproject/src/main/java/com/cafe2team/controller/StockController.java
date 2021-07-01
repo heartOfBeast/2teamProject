@@ -41,10 +41,11 @@ public class StockController {
 	@GetMapping("/StockListDetail")
 	@ResponseBody
 	public List<Stock> StockListDetail(@RequestParam Map<String, Object> param, Model model){
+		
+		String shoppingmall_name = (String) param.get("shoppingmall_name");
 		String warehouse_name = (String) param.get("warehouse_name");
-		List<Stock> stockList = stockService.getStockListDetail(warehouse_name);
+		List<Stock> stockList = stockService.getStockListDetail(shoppingmall_name, warehouse_name);
 		System.out.println(stockList);
-		System.out.println(warehouse_name);
 		return stockList;
 		
 	}

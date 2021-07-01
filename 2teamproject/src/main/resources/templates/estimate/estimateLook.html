@@ -8,7 +8,7 @@
 <div class="page-header">
 	<ol class="breadcrumb">
 		<li class="breadcrumb-item">견적</li>
-		<li class="breadcrumb-item active">견전식청 조회</li>
+		<li class="breadcrumb-item active">견적신청 조회</li>
 	</ol>
 
 	<ul class="app-actions">
@@ -32,7 +32,7 @@
 <div class="main-container">
 	<div class="row gutters justify-content-center">
 		<div class="col-xl-5 col-lg-5 col-md-6 col-sm-6 col-12">
-			<form id="estimateLookForm" th:action="@{#}" method="POST">
+			<form id="estimateLookForm" th:action="@{/estimateCheck}" method="POST">
 				<div class="card m-0" >
 					<div class="card-header">
 						<div class="card-title"> 견적조회 </div>
@@ -42,11 +42,11 @@
 					<div class="card-body">
 						<div class="form-group">
 								<label for="companyPhone">휴대폰 번호</label>
-								<input type="text" class="form-control" id="companyPhone" placeholder="번호를 ' - ' 없이 숫자만 입력해주세요."/>
+								<input type="text" class="form-control" id="companyPhone" name="companyPhone" placeholder="번호를 ' - ' 없이 숫자만 입력해주세요."/>
 						</div>
 						<div class="form-group">
 								<label for="companyEmail">이메일 주소</label>
-								<input type="email" class="form-control" id="companyEmail" placeholder="이메일 주소를 입력해주세요."/>
+								<input type="email" class="form-control" id="companyEmail" name="companyEmail" placeholder="이메일 주소를 입력해주세요."/>
 						</div>
 						<div class="text-center">
 							<button type="button" id="submitDone" class="btn btn-primary">조회하기</button>

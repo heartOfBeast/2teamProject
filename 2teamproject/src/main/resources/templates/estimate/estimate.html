@@ -8,7 +8,7 @@
 <div class="page-header">
 	<ol class="breadcrumb">
 		<li class="breadcrumb-item">견적</li>
-		<li class="breadcrumb-item active">견적신청</li>
+		<li class="breadcrumb-item active">견적신청(shId)</li>
 	</ol>
 
 	<ul class="app-actions">
@@ -102,6 +102,9 @@
 									<button type="button" id="submitDone" class="btn btn-primary">신청완료</button>
 								</div>
 							</div>
+						</div>
+						<div class="form-text text-muted">
+							<div type="button" class="btn btn-outline-primary" th:onclick="@{location.href='priceList'}">단가표 확인</div>
 						</div>
 					</div>
 				</div>

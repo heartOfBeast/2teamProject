@@ -34,6 +34,15 @@
 		<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 			<div class="table-container">
 				<div class="t-header"> 창고조회 </div>
+				<select id="name" name="name">
+					<option class="wareName" th:each="w : ${warehouseList}" th:value="${w.warehouseName}" th:text="${w.warehouseName}"></option>
+				</select>
+				<select id="addr" name="addr">
+					<option class="wareAddr" th:each="w : ${warehouseList}" th:value="${w.warehouseAddr}" th:text="${w.warehouseAddr}"></option>
+				</select>
+				<select id="cate" name="cate">
+					<option class="wareCate" th:each="w : ${warehouseList}" th:value="${w.warehouseCate}" th:text="${w.warehouseCate}"></option>
+				</select>
 				<div class="table-responsive">
 					<div id="basicExample_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
 					
@@ -51,10 +60,10 @@
 							<th>등록일</th>
 							<th>등록자</th>
 							<th>수정</th>
-							<th>삭제</th>
+							<!-- <th>삭제</th> -->
 						</tr>
 						</thead>
-						<tbody>
+						<tbody id="warehouseData">
 						<tr th:if="${#lists.size(warehouseList) > 0}" th:each="L : ${warehouseList}">
 							<td th:text="${L.warehouseCode}" id="dataCode"></td>
 							<td th:text="${L.warehouseName}" id="dataName"></td>
@@ -68,11 +77,11 @@
 							<td th:text="${L.wareAdminId}"></td>
 							<td>
 								<!-- <a th:href="@{warehouseUpdate(warehouseCode=${L.warehouseCode})}">수정</a> -->
-								<a type="button" class="btn btn-primary modifyBtn" data-toggle="modal" data-target=".bd-example-modal-lg" id="viewModal">수정</a>
+								<a style="color: white;" type="button" class="btn btn-primary modifyBtn" data-toggle="modal" data-target=".bd-example-modal-lg" id="viewModal">수정</a>
 							</td>
-							<td>
+ 							<!-- <td>
 								<a th:href="@{#}">삭제</a>
-							</td>
+							</td> -->
 						</tr>
 						</tbody>
 		    		</table>
@@ -89,7 +98,7 @@
 	<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" style="display: none;" aria-hidden="true">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
-				<div class="modal-header">
+				<div class="modal-header">*
 					<h5 class="modal-title" id="myLargeModalLabel">창고수정</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">×</span>
@@ -138,7 +147,7 @@
 					</div>
 					<div class="modal-footer">
 						<button class="btn btn-secondary" data-dismiss="modal">닫기</button>
-						<button type="buttone" name="submitDone"  class="btn btn-primary">수정완료</button>
+						<button type="button" name="submitDone"  class="btn btn-primary">수정완료</button>
 					</div>
 			</div>
 		</div>
@@ -147,31 +156,129 @@
 </th:block>
 
 <th:block layout:fragment="customJs">
-	<script>
-$('.modifyBtn').each(function(){
-	$(this).click(function(){
-		var dataCode 			= $(this).parents('tr').children('#dataCode').text();
-		var dataName 			= $(this).parents('tr').children('#dataName').text();
-		var dataAddr 			= $(this).parents('tr').children('#dataAddr').text();
-		var dataCate 			= $(this).parents('tr').children('#dataCate').text();
-		var dataArea 			= $(this).parents('tr').children('#dataArea').text();
-		var dataPhone			= $(this).parents('tr').children('#dataPhone').text();
-		var dataRegNum 			= $(this).parents('tr').children('#dataRegNum').text();
-		var dataDetail			= $(this).parents('tr').children('#dataDetail').text();		
-		
-		var dataCate = $('#wareCategory option:contains(' + dataCate + ')').val();
-		
-		$('#wareCode').val(dataCode);
-		$('#wareName').val(dataName);
-		$('#wareAddr').val(dataAddr);
-		$('#wareCategory').val(dataCate);
-		$('#wareArea').val(dataArea);
-		$('#warePhone').val(dataPhone);
-		$('#wareRegNum').val(dataRegNum);
-		$('#wareDetail').val(dataDetail);
+<script type="text/javascript" th:inline="javascript">
+	$('.modifyBtn').each(function(){
+		$(this).click(function(){
+			var dataCode 			= $(this).parents('tr').children('#dataCode').text();
+			var dataName 			= $(this).parents('tr').children('#dataName').text();
+			var dataAddr 			= $(this).parents('tr').children('#dataAddr').text();
+			var dataCate 			= $(this).parents('tr').children('#dataCate').text();
+			var dataArea 			= $(this).parents('tr').children('#dataArea').text();
+			var dataPhone			= $(this).parents('tr').children('#dataPhone').text();
+			var dataRegNum 			= $(this).parents('tr').children('#dataRegNum').text();
+			var dataDetail			= $(this).parents('tr').children('#dataDetail').text();		
+			
+			var dataCate = $('#wareCategory option:contains(' + dataCate + ')').val();
+			
+			$('#wareCode').val(dataCode);
+			$('#wareName').val(dataName);
+			$('#wareAddr').val(dataAddr);
+			$('#wareCategory').val(dataCate);
+			$('#wareArea').val(dataArea);
+			$('#warePhone').val(dataPhone);
+			$('#wareRegNum').val(dataRegNum);
+			$('#wareDetail').val(dataDetail);
+		})
 	})
-})
 	
+	//<![CDATA[
+	var test = [[${warehouseList}]];
+	//]]>
+var warehouseName = [];
+var warehouseAddr = [];
+var warehouseCate = [];
+
+for(var i = 0; i < test.length; i++){
+	warehouseName.push(test[i].warehouseName);
+}
+var nameUnique = [...new Set(warehouseName)];
+
+for(var i = 0; i < test.length; i++){
+	warehouseAddr.push(test[i].warehouseAddr);
+}
+var addrUnique = [...new Set(warehouseAddr)];
+
+for(var i = 0; i < test.length; i++){
+	warehouseCate.push(test[i].warehouseCate);
+}
+var cateUnique = [...new Set(warehouseCate)];
+
+var htmlName = "";
+var htmlAddr = "";
+var htmlCate = "";
+
+	htmlName += '<option disabled="disabled" selected="selected">:: 창고명 선택 ::</option>';
+	htmlAddr += '<option disabled="disabled" selected="selected">:: 소재지 선택 ::</option>';
+	htmlCate += '<option disabled="disabled" selected="selected">:: 종류 선택 ::</option>';
+	
+	for(var i = 0; i < nameUnique.length; i++){
+		htmlName += '<option>';
+		htmlName += nameUnique[i];
+		htmlName += '</option>';
+	}
+	for(var i = 0; i < addrUnique.length; i++){
+		htmlAddr += '<option>';
+		htmlAddr += addrUnique[i];
+		htmlAddr += '</option>';
+	}
+	for(var i = 0; i < cateUnique.length; i++){
+		htmlCate += '<option>';
+		htmlCate += cateUnique[i];
+		htmlCate += '</option>';
+	}
+	
+	$('#name').html(htmlName); 
+	$('#addr').html(htmlAddr); 
+	$('#cate').html(htmlCate); 
+
+	var selectNameValue = "";
+	var selectAddrValue = "";
+	var selectCateValue = "";
+	
+	$('#name').change(function(){
+		selectNameValue = $('#name option:selected').val();
+		getData();
+	});
+	
+	$('#addr').change(function(){
+		selectAddrValue = $('#addr option:selected').val();
+		getData();
+	}); 
+	
+	$('#cate').change(function(){
+		selectCateValue = $('#cate option:selected').val();
+		getData();
+	}); 
+	
+	function getData(){
+		$.ajax({
+			url : "/warehouseListDetail",
+			data : { warehouse_name : selectNameValue, warehouse_addr : selectAddrValue, warehouse_cate : selectCateValue },
+			success : function(res){
+				console.log(res);
+				$('#warehouseData').children().remove();
+				
+				var innerHtml = '';
+				$.each(res, function(index, value){
+						innerHtml += '<tr>'	
+		            	innerHtml += '<td>'+value.warehouseCode+'</td>'
+		        		innerHtml += '<td>'+value.warehouseName+'</td>'
+		       			innerHtml += '<td>'+value.warehouseAddr+'</td>'
+		   				innerHtml += '<td>'+value.warehouseCate+'</td>'
+						innerHtml += '<td>'+value.warehouseArea+'</td>'
+			            innerHtml += '<td>'+value.warehousePhone+'</td>'
+			            innerHtml += '<td>'+value.warehouseRegNumber+'</td>'
+						innerHtml += '<td>'+value.warehouseDetail+'</td>'
+						innerHtml += '<td>'+value.warehouseRegDate+'</td>'
+						innerHtml += '<td>'+value.wareAdminId+'</td>'
+						innerHtml += '<td><a style="color: white;" type="button" class="btn btn-primary modifyBtn" data-toggle="modal" data-target=".bd-example-modal-lg" id="viewModal">수정</a></td>'
+						innerHtml += '</tr>'
+
+				});
+				$('#warehouseData').append(innerHtml);
+			}
+		})
+	}
 	
 	</script>
 </th:block>

@@ -94,4 +94,39 @@
 		tb_warehouse;
 	</select>
 	
+	
+	<select id="getWarehouseListDetail" resultType="Warehouse" fetchSize="1000" resultMap="warehouseResultMap">
+	
+	SELECT 
+		warehouse_code,
+		warehouse_name,
+		warehouse_addr,
+		warehouse_cate,
+		warehouse_area,
+		warehouse_phone,
+		warehouse_reg_number,
+		warehouse_detail,
+		warehouse_reg_date,
+		ware_admin_id
+	FROM
+		tb_warehouse
+	WHERE
+		<if test="warehouse_name !=null and warehouse_name != '' ">
+		warehouse_name = #{warehouse_name}
+	</if>
+	<if test="(warehouse_name !=null and warehouse_name != '') and (warehouse_addr !=null and warehouse_addr != '' )">
+	AND
+	</if>
+	<if test="warehouse_addr !=null and warehouse_addr != '' ">
+		warehouse_addr = #{warehouse_addr}
+	</if>
+	<if test="(warehouse_addr !=null and warehouse_addr != '') and (warehouse_cate !=null and warehouse_cate != '' )">
+	AND
+	</if>
+	<if test="warehouse_cate !=null and warehouse_cate != '' ">
+		warehouse_cate = #{warehouse_cate};
+	</if>
+	
+	</select>
+	
 </mapper>
