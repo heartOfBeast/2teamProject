@@ -13,6 +13,8 @@ public interface WarehouseMapper {
 	public int warehouseUpdateModal(Warehouse warehouse);
 	//창고정보조회
 	public Warehouse getWarehouseInfoByCode(String warehouseCode);
+	//
+	public List<Warehouse> getWarehouseListDetail(String warehouse_name, String warehouse_addr, String warehouse_cate);
 	//창고조회
 	public List<Warehouse> getWarehouseList();
 	//창고등록

@@ -34,6 +34,9 @@
 		<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-6">
 			<div class="table-container">
 				<div class="t-header">재고조회</div>
+				<select id="spm" name="spm">
+					<option class="spm" th:each="stockList : ${stockList}" th:value="${stockList.shoppingmallName}" th:text="${stockList.shoppingmallName}"></option>
+				</select>
 				<select id="ware" name="ware">
 					<option class="ware" th:each="stockList : ${stockList}" th:value="${stockList.warehouseName}" th:text="${stockList.warehouseName}"></option>
 				</select>
@@ -81,34 +84,63 @@
 </th:block>
 <th:block layout:fragment="customJs">
 	<script th:inline="javascript">
+
 	
+/********************************************* select 제이쿼리 이용 중복 제거 *********************************************/
  	var test = [[${stockList}]];
+ 	var shoppingmallName = [];
 	var warehouseName = [];
+	
+	for(var i = 0; i < test.length; i++){
+		shoppingmallName.push(test[i].shoppingmallName);
+	}
+	var spmUniqie = [...new Set(shoppingmallName)];
+	
 	for(var i = 0; i < test.length; i++){
 		warehouseName.push(test[i].warehouseName);
 	}
 	var warehouseUnique = [...new Set(warehouseName)];
 	
-	var html = "";
-
-	for(var i = 0; i < warehouseUnique.length; i++){
-			html += '<option>';
-			html += warehouseUnique[i];
-			html += '</option>';
-
-	}
-	$('#ware').html(html); 
 	
-	var selectValue = "";
+	var htmlSpm = "";
+	var htmlWare = "";
+	
+		htmlSpm += '<option disabled="disabled" selected="selected">:: 거래처명 선택 ::</option>';
+		htmlWare += '<option disabled="disabled" selected="selected">:: 창고명 선택 ::</option>';
+	
+	for(var i = 0; i < spmUniqie.length; i++){
+		htmlSpm += '<option>';
+		htmlSpm += spmUniqie[i];
+		htmlSpm += '</option>';
+	}
+	
+	for(var i = 0; i < warehouseUnique.length; i++){
+		htmlWare += '<option>';
+		htmlWare += warehouseUnique[i];
+		htmlWare += '</option>';
+	}
+	
+	$('#spm').html(htmlSpm); 
+	$('#ware').html(htmlWare); 
+	
+	
+	/*********************************************  *********************************************/	
+	var selectSpmValue = "";
+	var selectWareValue = "";
+	
+	$('#spm').change(function(){
+		selectSpmValue = $('#spm option:selected').val();
+		getData();
+	});
 	
 	$('#ware').change(function(){
-		selectValue = $("#ware option:selected").val();
-		getData()
+		selectWareValue = $('#ware option:selected').val();
+		getData();
 	}); 
 	function getData(){  	
 		$.ajax({
 	   		url : "/StockListDetail", 
-			data : { warehouse_name : selectValue },
+			data : { shoppingmall_name : selectSpmValue, warehouse_name : selectWareValue },
 			success : function(res){
 			$('#stockData').children().remove();
 		

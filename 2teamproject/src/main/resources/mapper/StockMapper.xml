@@ -48,7 +48,7 @@ FROM
 
 	</select>
 
-	<select id="getStockListDetail" resultType="Stock">
+	<select id="getStockListDetail" parameterType="String" resultType="Stock">
 	SELECT 
 		p.product_name										AS productName,
 		spmu.shoppingmall_name								AS shoppingmallName,
@@ -92,6 +92,15 @@ FROM
 	ON
 		ss.ware_admin_id = wai.ware_admin_id
 	WHERE
-		warehouse_name = #{warehouseName};
+	<if test="shoppingmall_name !=null and shoppingmall_name != '' ">
+		spmu.shoppingmall_name = #{shoppingmall_name}
+	</if>
+	<if test="(shoppingmall_name !=null and shoppingmall_name != '') and (warehouse_name !=null and warehouse_name != '' )">
+	AND
+	</if>
+	<if test="warehouse_name !=null and warehouse_name != '' ">
+		w.warehouse_name = #{warehouse_name};
+	</if>
+		
 	</select>
 </mapper>

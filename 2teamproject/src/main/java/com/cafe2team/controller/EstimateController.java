@@ -1,6 +1,13 @@
 package com.cafe2team.controller;
 
 import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,6 +15,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cafe2team.domain.Estimate;
 import com.cafe2team.service.EstimateService;
@@ -50,11 +59,69 @@ public class EstimateController {
 			return "estimate/estimatePermit";
 		}
 		
+		/************************************************************
+		 * 비회원 견적신청 조회
+		 ************************************************************/		
 		@GetMapping("/estimateLook")
 		public String estimateLook(Model model) {
 			
 			model.addAttribute("title", "견적신청 조회하기");
+
 			return "estimate/estimateLook";
+		}
+		
+//		비회원 견적신청 조회 - 연락처, 이메일 체크
+		@PostMapping("/estimateCheck")
+		public String estimateLook(Model model, String companyPhone, String companyEmail,HttpServletResponse response) throws IOException {
+			boolean estimateCheck = true;
+			
+			Estimate estimate = estimateservice.getEstimateInfoCheck(companyPhone, companyEmail); 
+			if(estimate != null) estimateCheck = false;
+			log.info("estimate", estimate);
+			log.info("companyPhone", companyPhone);
+			log.info("companyEmail", companyEmail);
+			
+			if(estimateCheck) {
+				response.setContentType("text/html; charset=UTF-8");
+				PrintWriter out = response.getWriter();
+				out.println("<script>alert('없는 데이터입니다. 다시 확인하여 입력해주세요.');</script>");
+				out.flush();
+				return "estimate/estimateLook";
+			}else {
+				model.addAttribute("estimate", estimate);
+					log.info("estimate", estimate);
+				return "estimate/estimateLookList";
+			}
+			
+		}
+		
+//		 비회원 견적신청 조회 리스트
+		@GetMapping("estimateLookList")
+		public String getEistmateLookList(Model model) {
+			
+			List<Estimate> estimateLookList = estimateservice.getEstimateLookList();
+			
+			
+			model.addAttribute("title", "견적신청 조회");
+			model.addAttribute("estimateLookList");
+			log.info("estimateLookList", estimateLookList);
+			
+			return "estimate/estimateLookList";
+		}
+		/************************************************************
+		 * 비회원 견적신청 조회 끝
+		 ************************************************************/		
+		
+		
+		
+		/************************************************************
+		 * 기존 쇼핑몰회원 새 견적신청 시작
+		 ************************************************************/	
+		@GetMapping("/estimate")
+		public String estimate(Model model) {
+			
+			model.addAttribute("title", "견적신청");
+			return "estimate/estimate";
 		}
 		
 		@PostMapping("/addEstimate")
@@ -66,13 +133,9 @@ public class EstimateController {
 			return "redirect:/estimateLook";
 		}
 		
-		@GetMapping("/estimate")
-		public String estimate(Model model) {
-			
-			model.addAttribute("title", "견적신청");
-			return "estimate/estimate";
-		}
-		
+		/************************************************************
+		 * 기존 쇼핑몰회원 새 견적신청 끝
+		 ************************************************************/	
 	}
 
 

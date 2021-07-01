@@ -34,8 +34,8 @@ public class StockService {
 			return stockCheckListDetail;
 		}
 		
-		public List<Stock> getStockListDetail(String warehouse_name){
-			List<Stock> stockListDetail = stockMapper.getStockListDetail(warehouse_name);
+		public List<Stock> getStockListDetail(String shoppingmall_name, String warehouse_name){
+			List<Stock> stockListDetail = stockMapper.getStockListDetail(shoppingmall_name, warehouse_name);
 			
 			return stockListDetail;
 		}
