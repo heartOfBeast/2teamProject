@@ -18,31 +18,33 @@
 	<!-- 요금안내 조회 -->
 	<select id="getPriceList" resultType="Price" fetchSize="1000">
 		SELECT 
-			  unit_price_code				AS price_Code
-			, unit_price_warehouse_type		AS wareHouse_Type
-			, unit_price_contract_type		AS contract_Type
-			, unit_price_contract_weight	AS price_Weight
-			, unit_price_contract_number	AS price_Number
-			, unit_price_contract_zone		AS price_Zone
-			, unit_price_contract_day		AS price_Day
-			, unit_Price_Contract_Price		AS price_Price
-			, m.member_id					AS unit_Id
-			, unit_price_reg_date			AS unit_reg_date
+			  Price.unit_price_code				AS priceCode
+			, Price.unit_price_name				as priceName
+			, Price.unit_price_warehouse_type	AS wareHouseType
+			, Price.unit_price_contract_type	AS contractType
+			, Price.unit_price_contract_weight	AS priceWeight
+			, Price.unit_price_contract_number	AS priceNumber
+			, Price.unit_price_contract_zone	AS priceZone
+			, Price.unit_price_contract_day		AS priceDay
+			, Price.unit_Price_Contract_Price	AS pricePrice
+			, Member.member_id					AS unitPriceId
+			, Price.unit_price_reg_date			AS unitPriceRegDate
 		FROM 
-			tb_contract_unit_price			AS p
+			tb_contract_unit_price				AS Price
 		INNER JOIN 
-			tb_member 						AS m
+			tb_member 							AS Member
 		ON 
-			p.member_id = m.member_id;		
+			Price.member_id = Member.member_id;		
 	</select>
 	
 	<!-- 요금안내추가 -->
 	<insert id="priceAdd" parameterType="String">
-		<selectKey keyColumn="price_Code" keyProperty="price_Code" resultType="String" order="BEFORE">
+		<selectKey keyColumn="priceCode" keyProperty="priceCode" resultType="String" order="BEFORE">
 			SELECT CONCAT('contract_code',MAX(SUBSTRING(unit_price_code,14))+1) FROM tb_contract_unit_price
 		</selectKey>
 		INSERT INTO tb_contract_unit_price
 			( unit_price_code
+			, unit_price_name
 			, unit_price_warehouse_type
 			, unit_price_contract_type
 			, unit_price_contract_weight
@@ -53,14 +55,15 @@
 			, member_id
 			, unit_price_reg_date
 		)VALUES (
-			  #{price_Code}
-			, #{wareHouse_Type}
-			, #{contract_Type}
-			, #{price_Weight}
-			, #{price_Number}
-			, #{price_Zone}
-			, #{price_Day}
-			, #{price_Price}
+			  #{priceCode}
+			, #{priceName}
+			, #{wareHouseType}
+			, #{contractType}
+			, "20KG 미만"
+			, #{priceNumber}
+			, #{priceZone}
+			, #{priceDay}
+			, #{pricePrice}
 			, 'id001' <!-- 세션을 통해서 자동으로 들어가게 만들어야된다. -->
 			, NOW());		
 	</insert>
@@ -69,25 +72,26 @@
 	<select id="priceInfo" resultType="Price" fetchSize="1000">
 	
 		SELECT 
-			  unit_price_code				AS price_Code
-			, unit_price_warehouse_type		AS wareHouse_Type
-			, unit_price_contract_type		AS contract_Type
-			, unit_price_contract_weight	AS price_Weight
-			, unit_price_contract_number	AS price_Number
-			, unit_price_contract_zone		AS price_Zone
-			, unit_price_contract_day		AS price_Day
-			, unit_Price_Contract_Price		AS price_Price
-			, m.member_id					AS unit_Id
-			, unit_price_reg_date			AS unit_reg_date			
-			, unit_price_update				AS unit_update		
+			  Price.unit_price_code					AS priceCode
+			, Price.unit_price_name					as priceName
+			, Price.unit_price_warehouse_type		AS wareHouseType
+			, Price.unit_price_contract_type		AS contractType
+			, Price.unit_price_contract_weight		AS priceWeight
+			, Price.unit_price_contract_number		AS priceNumber
+			, Price.unit_price_contract_zone		AS priceZone
+			, Price.unit_price_contract_day			AS priceDay
+			, Price.unit_Price_Contract_Price		AS pricePrice
+			, Member.member_id						AS unitPriceId
+			, Price.unit_price_reg_date				AS unitPriceRegDate			
+			, Price.unit_price_update				AS unitPriceUpdate		
 		FROM 
-			tb_contract_unit_price			AS p
+			tb_contract_unit_price					AS Price
 		INNER JOIN 
-			tb_member 						AS m
+			tb_member 								AS Member
 		ON 
-			p.member_id = m.member_id
+			Price.member_id = Member.member_id
 		WHERE
-			unit_price_code = #{unit_price_code};	
+			unit_price_code = #{priceCode};	
 	</select>
 	
 	<!-- 요금안내 수정 -->
@@ -96,16 +100,17 @@
 		UPDATE 
 			tb_contract_unit_price
 		SET
-			 unit_price_warehouse_type	=  #{wareHouse_Type}
-			,unit_price_contract_type	=  #{contract_Type}
-			,unit_price_contract_weight	=  #{price_Weight}
-			,unit_price_contract_number	=  #{price_Number}
-			,unit_price_contract_zone	=  #{price_Zone}
-			,unit_price_contract_day	=  #{price_Day}
-			,unit_price_contract_price	=  #{price_Price}
+			 unit_price_name			=  #{priceName}
+			,unit_price_warehouse_type	=  #{wareHouseType}
+			,unit_price_contract_type	=  #{contractType}
+			,unit_price_contract_weight	=  #{priceWeight}
+			,unit_price_contract_number	=  #{priceNumber}
+			,unit_price_contract_zone	=  #{priceZone}
+			,unit_price_contract_day	=  #{priceDay}
+			,unit_price_contract_price	=  #{pricePrice}
 			,unit_price_update			=  NOW()
 		WHERE 
-			unit_price_code 			=  #{price_Code};
+			unit_price_code 			=  #{priceCode};
 	</update>
 	
 	<delete id="priceRemove" parameterType="String">
@@ -113,6 +118,6 @@
 		FROM 
 			tb_contract_unit_price 
 		WHERE 
-			unit_price_code = #{price};		
+			unit_price_code = #{priceCode};		
 	</delete>
 </mapper>

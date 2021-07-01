@@ -75,7 +75,7 @@ public class ShoppingmallController {
 	public String shoppingmallAdd(Shoppingmall shoppingmall, HttpSession session) {
 		
 		String SDID = (String)session.getAttribute("SID");
-		shoppingmall.setShId(SDID);
+		shoppingmall.setShoppingmallId(SDID);
 		shoppingmallService.shoppingmallAdd(shoppingmall);
 		
 		System.out.println(shoppingmallService.shoppingmallAdd(shoppingmall)+"@@@@@@@@@@@@@@@");
@@ -111,26 +111,9 @@ public class ShoppingmallController {
 
 	
 	
-/******************************* 거래처 마이페이지 시작 *******************************/
-	
-	// 거래처 마이페이지
-	@GetMapping("/shoppingmallMypage")
-	public String shoppingmallMypage() {
-		
-		return "shoppingmall/shoppingmallMypage";
-	}
-	
-/******************************* 거래처 마이페이지 동료 *******************************/
 	
 	
-	
-	
-	
-/*############################### 거래처 조회 시작 ###############################*/
-	
-	
-/*############################### 거래처 조회 종료 ###############################*/
-	
+	/*Tab test*/
 	@GetMapping("/test")
 	public String test() {
 		return "test/test";
