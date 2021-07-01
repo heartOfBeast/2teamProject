@@ -3,21 +3,21 @@
 <mapper namespace="com.cafe2team.sample.dao.SampleMapper">
 	<select id="getSampleList" resultType="com.cafe2team.sample.domain.Sample">
 		SELECT 
-			  releases.release_request_code					AS releases_Code
-			, product.product_code							AS product_Code
-			, product.product_name							AS product_Name
-			, war.warehouse_code							AS war_Code
-			, war.warehouse_name							AS war_Name
-			, releases.sector_column_final_code				AS releases_Final
-			, releases.release_request_amount				AS releases_Amount
-			, releases.release_request_name					AS releases_Name
-			, releases.release_request_address				AS releases_Addr
-			, releases.release_request_phone				AS releases_Phone
-			, shUser.shoppingmall_user_id					AS shUser_Id
-			, shUser.shoppingmall_user_name					AS shUser_Name
-			, releases.release_request_status				AS releases_Status
-			, releases.ware_admin_id						AS releases_Admin
-			, releases.release_request_reg_date				AS releases_Reg
+			  releases.release_request_code					AS releasesCode
+			, product.product_code							AS productCode
+			, product.product_name							AS productName
+			, war.warehouse_code							AS wareHouseCode
+			, war.warehouse_name							AS wareHouseName
+			, releases.sector_column_final_code				AS releasesFinal
+			, releases.release_request_amount				AS releasesAmount
+			, releases.release_request_name					AS releasesName
+			, releases.release_request_address				AS releasesAddr
+			, releases.release_request_phone				AS releasesPhone
+			, shUser.shoppingmall_user_id					AS shoppingmallUserserId
+			, shUser.shoppingmall_user_name					AS shoppingmallUserName
+			, releases.release_request_status				AS releasesStatus
+			, releases.ware_admin_id						AS releasesAdmin
+			, releases.release_request_reg_date				AS releasesReg
 		FROM
 			tb_release  									AS releases
 		INNER JOIN 
@@ -50,13 +50,13 @@
 		, release_order_reg_date
 		)VALUES(
 		   #{releaseOrderCode}
-		 , #{releases_Code}
-		 , #{product_Code}
-		 , #{releases_Amount}
-		 , #{releases_Name}
-		 , #{releases_Addr}
-		 , #{releases_Phone}
-		 , #{shUser_Id}
+		 , #{releasesCode}
+		 , #{productCode}
+		 , #{releasesAmount}
+		 , #{releasesName}
+		 , #{releasesAddr}
+		 , #{releasesPhone}
+		 , #{shoppingmallUserserId}
 		 , NOW())
 	</insert>
 	
@@ -65,7 +65,7 @@
 		FROM 
 			tb_release
 		WHERE 
-			releases.release_request_code = #{releases_Code};
+			releases.release_request_code = #{releasesCode};
 	</delete>
 	
 </mapper>

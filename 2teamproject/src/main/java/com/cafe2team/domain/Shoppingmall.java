@@ -1,114 +1,115 @@
 package com.cafe2team.domain;
 
 public class Shoppingmall {
-	private String shId;
-	private String shPw;
-	private String shUserName;
-	private String shName;
-	private String shLLevel;
-	private String shLLevelName;
-	private String shAddr;
-	private String shEmail;
-	private String shPhone;
-	private String shNum;
-	private String shReg;
-	private String shStatus;
-	private String shBank;
-	private String shBankNum;
+	private String shoppingmallId;
+	private String shoppingmallPw;
+	private String shoppingmallUserName;
+	private String shoppingmallName;
+	private String shoppingmallLevel;
+	private String shoppingmallLevelName;
+	private String shoppingmallAddr;
+	private String shoppingmallEmail;
+	private String shoppingmallPhone;
+	private String shoppingmallNumber;
+	private String shoppingmallRegDay;
+	private String shoppingmallStatus;
+	private String shoppingmallBank;
+	private String shoppingmallBankNum;
 	
-	
-	public String getShId() {
-		return shId;
+	public String getShoppingmallId() {
+		return shoppingmallId;
 	}
-	public void setShId(String shId) {
-		this.shId = shId;
+	public void setShoppingmallId(String shoppingmallId) {
+		this.shoppingmallId = shoppingmallId;
 	}
-	public String getShPw() {
-		return shPw;
+	public String getShoppingmallPw() {
+		return shoppingmallPw;
 	}
-	public void setShPw(String shPw) {
-		this.shPw = shPw;
+	public void setShoppingmallPw(String shoppingmallPw) {
+		this.shoppingmallPw = shoppingmallPw;
 	}
-	public String getShUserName() {
-		return shUserName;
+	public String getShoppingmallUserName() {
+		return shoppingmallUserName;
 	}
-	public void setShUserName(String shUserName) {
-		this.shUserName = shUserName;
+	public void setShoppingmallUserName(String shoppingmallUserName) {
+		this.shoppingmallUserName = shoppingmallUserName;
 	}
-	public String getShName() {
-		return shName;
+	public String getShoppingmallName() {
+		return shoppingmallName;
 	}
-	public void setShName(String shName) {
-		this.shName = shName;
+	public void setShoppingmallName(String shoppingmallName) {
+		this.shoppingmallName = shoppingmallName;
 	}
-	public String getShLLevel() {
-		return shLLevel;
+	public String getShoppingmallLevel() {
+		return shoppingmallLevel;
 	}
-	public void setShLLevel(String shLLevel) {
-		this.shLLevel = shLLevel;
+	public void setShoppingmallLevel(String shoppingmallLevel) {
+		this.shoppingmallLevel = shoppingmallLevel;
 	}
-	public String getShLLevelName() {
-		return shLLevelName;
+	public String getShoppingmallLevelName() {
+		return shoppingmallLevelName;
 	}
-	public void setShLLevelName(String shLLevelName) {
-		this.shLLevelName = shLLevelName;
+	public void setShoppingmallLevelName(String shoppingmallLevelName) {
+		this.shoppingmallLevelName = shoppingmallLevelName;
 	}
-	public String getShAddr() {
-		return shAddr;
+	public String getShoppingmallAddr() {
+		return shoppingmallAddr;
 	}
-	public void setShAddr(String shAddr) {
-		this.shAddr = shAddr;
+	public void setShoppingmallAddr(String shoppingmallAddr) {
+		this.shoppingmallAddr = shoppingmallAddr;
 	}
-	public String getShEmail() {
-		return shEmail;
+	public String getShoppingmallEmail() {
+		return shoppingmallEmail;
 	}
-	public void setShEmail(String shEmail) {
-		this.shEmail = shEmail;
+	public void setShoppingmallEmail(String shoppingmallEmail) {
+		this.shoppingmallEmail = shoppingmallEmail;
 	}
-	public String getShPhone() {
-		return shPhone;
+	public String getShoppingmallPhone() {
+		return shoppingmallPhone;
 	}
-	public void setShPhone(String shPhone) {
-		this.shPhone = shPhone;
+	public void setShoppingmallPhone(String shoppingmallPhone) {
+		this.shoppingmallPhone = shoppingmallPhone;
 	}
-	public String getShNum() {
-		return shNum;
+	public String getShoppingmallNumber() {
+		return shoppingmallNumber;
 	}
-	public void setShNum(String shNum) {
-		this.shNum = shNum;
+	public void setShoppingmallNumber(String shoppingmallNumber) {
+		this.shoppingmallNumber = shoppingmallNumber;
 	}
-	public String getShReg() {
-		return shReg;
+	public String getShoppingmallRegDay() {
+		return shoppingmallRegDay;
 	}
-	public void setShReg(String shReg) {
-		this.shReg = shReg;
+	public void setShoppingmallRegDay(String shoppingmallRegDay) {
+		this.shoppingmallRegDay = shoppingmallRegDay;
 	}
-	public String getShStatus() {
-		return shStatus;
+	public String getShoppingmallStatus() {
+		return shoppingmallStatus;
 	}
-	public void setShStatus(String shStatus) {
-		this.shStatus = shStatus;
+	public void setShoppingmallStatus(String shoppingmallStatus) {
+		this.shoppingmallStatus = shoppingmallStatus;
 	}
-	public String getShBank() {
-		return shBank;
+	public String getShoppingmallBank() {
+		return shoppingmallBank;
 	}
-	public void setShBank(String shBank) {
-		this.shBank = shBank;
+	public void setShoppingmallBank(String shoppingmallBank) {
+		this.shoppingmallBank = shoppingmallBank;
 	}
-	public String getShBankNum() {
-		return shBankNum;
+	public String getShoppingmallBankNum() {
+		return shoppingmallBankNum;
 	}
-	public void setShBankNum(String shBankNum) {
-		this.shBankNum = shBankNum;
+	public void setShoppingmallBankNum(String shoppingmallBankNum) {
+		this.shoppingmallBankNum = shoppingmallBankNum;
 	}
 	@Override
 	public String toString() {
-		return "Shoppingmall [shId=" + shId + ", shPw=" + shPw + ", shUserName=" + shUserName + ", shName=" + shName
-				+ ", shLLevel=" + shLLevel + ", shLLevelName=" + shLLevelName + ", shAddr=" + shAddr + ", shEmail="
-				+ shEmail + ", shPhone=" + shPhone + ", shNum=" + shNum + ", shReg=" + shReg + ", shStatus=" + shStatus
-				+ ", shBank=" + shBank + ", shBankNum=" + shBankNum + "]";
+		return "Shoppingmall [shoppingmallId=" + shoppingmallId + ", shoppingmallPw=" + shoppingmallPw
+				+ ", shoppingmallUserName=" + shoppingmallUserName + ", shoppingmallName=" + shoppingmallName
+				+ ", shoppingmallLevel=" + shoppingmallLevel + ", shoppingmallLevelName=" + shoppingmallLevelName
+				+ ", shoppingmallAddr=" + shoppingmallAddr + ", shoppingmallEmail=" + shoppingmallEmail
+				+ ", shoppingmallPhone=" + shoppingmallPhone + ", shoppingmallNumber=" + shoppingmallNumber
+				+ ", shoppingmallRegDay=" + shoppingmallRegDay + ", shoppingmallStatus=" + shoppingmallStatus
+				+ ", shoppingmallBank=" + shoppingmallBank + ", shoppingmallBankNum=" + shoppingmallBankNum + "]";
 	}
-	
 	
 	
 	

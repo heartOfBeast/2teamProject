@@ -39,6 +39,7 @@
 						<th>
 					  		<input type="checkbox" id="priceCheck" style="position: relative; top: 1.5px;">
 					    </th>
+						<th>계약 이름</th>
 						<th>창고 종류</th>
 						<th>계약 종류</th>
 						<th>물품 개당 무게</th>
@@ -52,23 +53,79 @@
 				<tbody>
 					<tr th:each="l: ${priceList}">
 						<td>
-				  	  		<input type="checkbox" class="checkOne" style="position: relative; top: 1.5px;" th:value="${l.price_Code}">
+				  	  		<input type="checkbox" class="checkOne" style="position: relative; top: 1.5px;" th:value="${l.priceCode}">
 					    </td>
-						<td th:text="${l.wareHouse_Type}"></td>
-						<td th:text="${l.contract_Type}"></td>
-						<td th:text="${l.price_Weight}"></td>
-						<td th:text="${l.price_Number}" ></td>
-						<td th:text="${l.price_Zone}"></td>
-						<td th:text="${l.price_Day}"></td>
-						<td th:text="${l.price_Price}"></td>
+						<td th:text="${l.priceName}" 		id="priceName"></td>
+						<td th:text="${l.wareHouseType}" 	id="WareHoseType"></td>
+						<td th:text="${l.contractType}"		id="contractType"></td>
+						<td th:text="${l.priceWeight}" 		id="priceWeight"></td>
+						<td th:text="${l.priceNumber}"		id="priceNumber" ></td>
+						<td th:text="${l.priceZone}"		id="priceZone"></td>
+						<td th:text="${l.priceDay}" 		id="priceDay"></td>
+						<td th:text="${l.pricePrice}"		id="price"></td>
 						<td>
-							<a th:href="@{/priceUpdate(price_Code=${l.price_Code})}" >수정</a>
+							<!-- <a th:href="@{/priceUpdate(price_Code=${l.price_Code})}" >수정</a> -->
+							<a type="button" class="btn btn-primary priceBtn" data-toggle="modal" data-target=".bd-example-modal-lg" id="viewModel" style="color: white;">수정</a>
 						</td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
 	</div>
+<form th:action="@{/priceList}" method="post">
+	<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" style="display: none;" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="myLargeModalLabel">수정하기</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<label for="wareHouseCodeModal">계약이름</label>	
+						<textarea class="form-control" id="priceNameModel" placeholder="이상여부를 작성해주세요." maxlength="140" rows="4" name="priceName" ></textarea>
+					</div>	
+					
+					<div class="form-group">
+						<label for="fireInspection">창고종류</label>	
+						<textarea class="form-control" id="WareHoseTypeModel" placeholder="이상여부를 작성해주세요." maxlength="140" rows="4" name="WareHoseType" ></textarea>
+					</div>
+					<div class="form-group">
+						<label for="logisticsInspection">계약 종류</label>	
+						<textarea class="form-control" id="contractTypeModel" placeholder="이상여부를 작성해주세요." maxlength="140" rows="4" name="contractType" ></textarea>
+					</div>
+					<div class="form-group">
+						<label for="equipmentInspection">물품 개당 무게</label>	
+						<textarea class="form-control" id="priceWeightModel" placeholder="이상여부를 작성해주세요." maxlength="140" rows="4" name="priceWeight" ></textarea>
+					</div>
+					<div class="form-group">
+						<label for="facilityCheckModal">제한 수량</label>
+						<textarea class="form-control" id="priceNumberModel" placeholder="이상여부를 작성해주세요." maxlength="140" rows="4" name="priceNumber" ></textarea>
+					</div>
+					<div class="form-group">
+						<label for="facilityCheckModal">구역 개수</label>
+						<textarea class="form-control" id="priceZoneModel" placeholder="이상여부를 작성해주세요." maxlength="140" rows="4" name="priceZone" ></textarea>
+					</div>
+					<div class="form-group">
+						<label for="facilityCheckModal">계약 기간</label>
+						<textarea class="form-control" id="priceDayModel" placeholder="이상여부를 작성해주세요." maxlength="140" rows="4" name="priceDay" ></textarea>
+					</div>
+					<div class="form-group">
+						<label for="facilityCheckModal">사용 요금</label>
+						<textarea class="form-control" id="price" placeholder="이상여부를 작성해주세요." maxlength="140" rows="4" name="pricePrice" ></textarea>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-secondary" data-dismiss="modal">취소</button>
+					<button type="submit" name="submit"  class="btn btn-primary">수정</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>		
+
 </th:block>
 <th:block layout:fragment="customJs">
 	<script>
@@ -117,7 +174,27 @@
 					
 				}
 			}
-			
+			$('.priceBtn').each(function(){
+				$(this).click(function(){
+					var WareHoseTypeData = $(this).parents('tr').children('#WareHoseType').text();
+					var contractTypeData = $(this).parents('tr').children('#contractType').text();
+					var priceWeightData = $(this).parents('tr').children('#priceWeight').text();
+					var priceNumberData = $(this).parents('tr').children('#priceNumber').text();
+					var priceZoneData = $(this).parents('tr').children('#priceZone').text();
+					var priceDayData = $(this).parents('tr').children('#priceDay').text();
+					
+					var firesafetySelected = $('#fireInspection option:contains(' + facilityFiresafetyData + ')').val();
+					var logisticsDataSelected = $('#logisticsInspection option:contains(' + facilityLogisticsData + ')').val();
+					var equipemntDataSelected = $('#equipmentInspection option:contains(' + facilityMainEquipemntData + ')').val();
+					
+					$('#WareHoseType').val(WareHoseTypeData);
+					$('#contractType').val(contractTypeData);
+					$('#priceWeight').val(priceWeightData);
+					$('#priceNumber').val(priceNumberData);
+					$('#priceZone').val(priceZoneData);
+					$('#priceDay').val(priceDayData);
+				})
+			})
 	</script>
 </th:block>
 </html>

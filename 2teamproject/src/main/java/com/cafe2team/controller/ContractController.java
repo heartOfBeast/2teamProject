@@ -93,7 +93,12 @@ public class ContractController {
 		return "contract/contractAdd";
 	}
 	
-	
+	// 스케줄 관리 페이지
+	@GetMapping("/schedule")
+	public String Schedule() {
+		
+		return "contract/schedule";
+	}
 	
 		
 

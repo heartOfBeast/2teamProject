@@ -34,30 +34,51 @@
 			
 				<form id="priceAddFrom" th:action="@{/priceAdd}" method="post">
 					<div class="card m-0">
-						<div class="card-header">
-							<div class="card-title">단가표 등록</div>
-						</div>
 						<div class="card-body">
 							<div class="form-group">
-								<input type="text" class="form-control" id="wareHouse_Type" name="wareHouse_Type" placeholder="창고종류" required="required" />
+								<h4>단가표 등록</h4>
+								<ul class="text-muted custom">
+										<li>* 계약이름 입력방식 ex)창고종류_계약종류_계약일_최대수량</li>
+								</ul>
+								<input type="text" class="form-control" id="priceName" name="priceName" placeholder="계약이름" required="required" />
 							</div>
 							<div class="form-group">
-								<input type="text" class="form-control" id="contract_Type" name="contract_Type" placeholder="계약종류" required="required" />
+								<select class="form-control" required="required" name="wareHouseType">
+									<option value="">등록할 창고 종류를 골라주세요.</option>
+									<option value="일반창고">일반창고</option>
+									<option value="냉장/냉동창고">냉장/냉동창고</option>
+								</select>
 							</div>
 							<div class="form-group">
-								<input type="text" class="form-control" id="price_Weight" name="price_Weight" placeholder="물품 개당무게" required="required"/>
+								<input type="text" class="form-control" id="contractType" name="contractType" placeholder="계약종류" required="required" />
 							</div>
 							<div class="form-group">
-								<input type="text" class="form-control" id="price_Number" name="price_Number" placeholder="제한수량" required="required"/>
+								<input type="text" class="form-control" id="priceWeight" name="priceWeight" placeholder="20Kg 미만" required="required" readonly="readonly"/>
 							</div>
 							<div class="form-group">
-								<input type="text" class="form-control" id="price_Zone" name="price_Zone" placeholder="구역개수" required="required" />
+								<input type="text" class="form-control" id="priceNumber" name="priceNumber" placeholder="제한수량" required="required"/>
 							</div>
 							<div class="form-group">
-								<input type="text" class="form-control" id="price_Day" name="price_Day" placeholder="계약기간" required="required" />
+								<select class="form-control" required="required" name="priceZone">
+									<option value="섹터선택 개수없음">섹터선택 없음</option>
+									<option value="섹터 1개">섹터 1개</option>
+									<option value="섹터 2개">섹터 2개</option>
+									<option value="섹터 3개">섹터 3개</option>
+									<option value="섹터 4개">섹터 4개</option>
+									<option value="섹터 5개">섹터 5개</option>
+									<option value="섹터 6개">섹터 6개</option>
+								</select>
 							</div>
 							<div class="form-group">
-								<input type="text" class="form-control" id="price_Price" name="price_Price" placeholder="사용요금" required="required" />
+								<select class="form-control" required="required" name="priceDay">
+									<option value="">등록할 기간을 선택해주세요</option>
+									<option value="30일">30일</option>
+									<option value="180일">180일</option>
+									<option value="365일">365일</option>
+								</select>
+							</div>
+							<div class="form-group">
+								<input type="number" class="form-control" id="pricePrice" name="pricePrice" placeholder="사용요금" required="required" />
 							</div>
 							
 							<button type="submit" id="submit" name="submit" class="btn btn-primary float-right" >단가표 등록 버튼</button>
