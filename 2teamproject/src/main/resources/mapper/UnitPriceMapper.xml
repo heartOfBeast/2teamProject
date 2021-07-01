@@ -108,11 +108,11 @@
 			unit_price_code 			=  #{price_Code};
 	</update>
 	
-	<delete id="priceRemove" parameterType="Price">
+	<delete id="priceRemove" parameterType="String">
 		DELETE 
 		FROM 
 			tb_contract_unit_price 
 		WHERE 
-			unit_price_code = #{price_Code};		
+			unit_price_code = #{price};		
 	</delete>
 </mapper>
