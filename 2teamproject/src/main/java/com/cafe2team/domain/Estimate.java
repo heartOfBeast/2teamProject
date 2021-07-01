@@ -14,6 +14,14 @@ public class Estimate {
 	private String spmGuestIndustries;
 	private String spmGuestRegDate;
 	
+	private String estimateCode;
+	private String companyId;
+	private String companyName;
+	private String companyPhone;
+	private String industries;
+	private String sectors;
+	private String counselTime;
+	private String estimateRegDate;
 	public String getSpmGuestCode() {
 		return spmGuestCode;
 	}
@@ -86,6 +94,54 @@ public class Estimate {
 	public void setSpmGuestRegDate(String spmGuestRegDate) {
 		this.spmGuestRegDate = spmGuestRegDate;
 	}
+	public String getEstimateCode() {
+		return estimateCode;
+	}
+	public void setEstimateCode(String estimateCode) {
+		this.estimateCode = estimateCode;
+	}
+	public String getCompanyId() {
+		return companyId;
+	}
+	public void setCompanyId(String companyId) {
+		this.companyId = companyId;
+	}
+	public String getCompanyName() {
+		return companyName;
+	}
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
+	public String getCompanyPhone() {
+		return companyPhone;
+	}
+	public void setCompanyPhone(String companyPhone) {
+		this.companyPhone = companyPhone;
+	}
+	public String getIndustries() {
+		return industries;
+	}
+	public void setIndustries(String industries) {
+		this.industries = industries;
+	}
+	public String getSectors() {
+		return sectors;
+	}
+	public void setSectors(String sectors) {
+		this.sectors = sectors;
+	}
+	public String getCounselTime() {
+		return counselTime;
+	}
+	public void setCounselTime(String counselTime) {
+		this.counselTime = counselTime;
+	}
+	public String getEstimateRegDate() {
+		return estimateRegDate;
+	}
+	public void setEstimateRegDate(String estimateRegDate) {
+		this.estimateRegDate = estimateRegDate;
+	}
 	@Override
 	public String toString() {
 		return "Estimate [spmGuestCode=" + spmGuestCode + ", spmGuestName=" + spmGuestName + ", spmGuestAdmin="
@@ -93,7 +149,12 @@ public class Estimate {
 				+ ", spmGuestSectors=" + spmGuestSectors + ", spmGuestProduct=" + spmGuestProduct
 				+ ", spmGuestDailySales=" + spmGuestDailySales + ", spmGuestCounselTime=" + spmGuestCounselTime
 				+ ", spmGuestAddress=" + spmGuestAddress + ", spmGuestIndustries=" + spmGuestIndustries
-				+ ", spmGuestRegDate=" + spmGuestRegDate + "]";
+				+ ", spmGuestRegDate=" + spmGuestRegDate + ", estimateCode=" + estimateCode + ", companyId=" + companyId
+				+ ", companyName=" + companyName + ", companyPhone=" + companyPhone + ", industries=" + industries
+				+ ", sectors=" + sectors + ", counselTime=" + counselTime + ", estimateRegDate=" + estimateRegDate
+				+ "]";
 	}
+	
+
 	
 }
