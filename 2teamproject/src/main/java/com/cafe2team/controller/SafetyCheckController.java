@@ -94,9 +94,13 @@ public class SafetyCheckController {
 	
 	//수정실행
 	@PostMapping("/modifySafetyCheck")
-	public String modifySafetyCheck(SafetyCheck safetyCheck) {
-		log.info("safetyCheck : {}", safetyCheck);
-		safetyCheckService.modifySafeCheck(safetyCheck);
+	public String modifySafetyCheck(SafetyCheck safetyCheck, HttpSession session) {
+		String addAdminID = (String) session.getAttribute("SID");
+		if(addAdminID != null) {
+			safetyCheck.setWareAdminId(addAdminID);
+			safetyCheckService.modifySafeCheck(safetyCheck);
+			log.info("safetyCheck : {}", safetyCheck);
+		}
 		return "redirect:/safetyCheck";
 	}
 	
