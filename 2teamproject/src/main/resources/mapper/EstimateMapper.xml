@@ -15,6 +15,16 @@
 		<result property="spmGuestAddress" column="shoppingmall_guest_address"/>
 		<result property="spmGuestIndustries" column="shoppingmall_guest_industries"/>
 		<result property="spmGuestRegDate" column="estimate_guest_reg_date"/>
+		
+		<result property="estimateCode" column="estimate_code"/>
+		<result property="companyId" column="shoppingmall_user_id"/>
+		<result property="companyName" column="shoppingmall_name"/>
+		<result property="companyPhone" column="shoppingmall_user_phone"/>
+		<result property="industries" column="estimate_industries"/>
+		<result property="sectors" column="estimate_sectors"/>
+		<result property="counselTime" column="estimate_counsel_time"/>
+		<result property="estimateRegDate" column="estimate_reg_date"/>
+
 	</resultMap>
 	
 	<select id="getEstimatePermit" resultType="Estimate" fetchSize="1000" resultMap="estimateResultMap">
@@ -62,7 +72,34 @@
 	     	);
 	</insert>
 	
+	<insert id="addEstimate" parameterType="Estimate">
+ 	<selectKey keyColumn="estimate_code" keyProperty="estimateCode" resultType="String" order="BEFORE">
+	      SELECT CONCAT('estimate_code_','',(SELECT LPAD(COUNT(*)+1,3,'0')FROM tb_estimate));
+	     </selectKey>
+		INSERT INTO tb_estimate
+			(
+			estimate_code,
+			shoppingmall_user_id,
+			shoppingmall_name,
+			shoppingmall_user_phone,
+			estimate_industries,	
+			estimate_sectors,
+			estimate_counsel_time,
+			estimate_reg_date
+			)
+		VALUES
+		(
+		#{estimateCode},
+		#{companyId},
+		#{companyName},
+		#{companyPhone},
+		#{industries},
+		#{sectors},
+		#{counselTime},
+		CURDATE()
+		);
 	
+	</insert>
 </mapper>
 
 

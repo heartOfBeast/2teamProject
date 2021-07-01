@@ -32,7 +32,7 @@
 <div class="main-container">
 	<div class="row gutters justify-content-center">
 		<div class="col-xl-5 col-lg-5 col-md-6 col-sm-6 col-12">
-			<form>
+			<form id="estimateLookForm" th:action="@{#}" method="POST">
 				<div class="card m-0" >
 					<div class="card-header">
 						<div class="card-title"> 견적조회 </div>
@@ -63,7 +63,36 @@
 <th:block layout:fragment="customJs">
 	<script>
 		$('#submitDone').click(function(){
-			var 
+			var estimateLookForm = $('#estimateLookForm');
+			var submitFlag = true;
+			var companyPhone = $('#companyPhone').val();
+			var companyEmail = $('#companyEmail').val();
+			var regPhone = /^[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}/.test(companyPhone);
+			
+			/************************************연락처 입력여부 검사 ************************************/
+			if(companyPhone == null || companyPhone == '' || companyPhone == undefined){
+					alert('연락처를 다시 입력해주세요.');
+					$(this).focus();
+					submitFlag = false;
+					return submitFlag;
+						
+			/************************************연락처 유효성 검사 ************************************/
+			}else if(!regPhone){
+					alert('연락처를  -  포함하여 다시 입력해주세요.');
+					$(this).focus();
+					submitFlag = false;
+					return submitFlag;
+					
+			/************************************이메일 입력여부 검사 ************************************/
+			}else if(companyEmail == null || companyEmail == '' || companyEmail == undefined){
+				alert('이메일을 다시 입력해주세요.');
+				$(this).focus();
+				submitFlag = false;
+				return submitFlag;
+			}
+			if(submitFlag){
+				estimateLookForm.submit();
+			}
 		});
 	</script>
 </th:block>
