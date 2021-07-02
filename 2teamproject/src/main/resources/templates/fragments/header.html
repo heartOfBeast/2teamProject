@@ -109,7 +109,12 @@
 						<p>! [[${session.SLEVEL}]] (준)</p>
 					</div>
 				<div>
-					<a th:href="@{/myPage(memberId=${session.SID})}"><i class="icon-log-out1"></i>!내 정보 관리(준)</a>
+					<a th:if="${session.SLEVEL == '총관리자' or session.SLEVEL == '창고관리자' or session.SLEVEL == '구역관리자' or session.SLEVEL == '배송기사'}" 
+					th:href="@{/myPage(memberId=${session.SID})}"><i class="icon-log-out1"></i>!내 정보 관리(준)</a>
+					
+					<a th:unless="${session.SLEVEL == '총관리자' or session.SLEVEL == '창고관리자' or session.SLEVEL == '구역관리자' or session.SLEVEL == '배송기사'}" 
+					th:href="@{/myShopPage(memberId=${session.SID})}"><i class="icon-log-out1"></i>!내 정보 관리(준)</a>
+					
 					<a th:href="@{/logout}"><i class="icon-log-out1"></i>!로그아웃(준)</a>
 				</div>
 			</div>

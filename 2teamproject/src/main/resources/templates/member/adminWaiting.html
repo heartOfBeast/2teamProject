@@ -35,6 +35,9 @@
 						<table id="copy-print-csv" class="table custom-table">
 						<thead>
 							<tr>
+								<th>
+							  		<input type="checkbox" id="checkAll" style="position: relative; top: 1.5px;">
+							  	</th>
 							  <th>아이디</th>
 							  <th>이름</th>
 							  <th>권한</th>
@@ -44,7 +47,6 @@
 							  <th>등록일</th>
 							  <th>활성화</th>
 							  <th>인센티브</th>
-							  <th>승인</th>
 							  <th>수정</th>
 							  <th>삭제</th>
 							</tr>
@@ -52,6 +54,9 @@
 						</thead>
 						<tbody>
 							<tr th:if="${#lists.size(adminList) > 0}" th:each="l : ${adminList}">
+								<td>
+									<input type="checkbox" class="checkOne" style="position: relative; top: 1.5px;" th:value="${l.wareAdminId}">
+								</td>
 								<td th:text="${l.wareAdminId}"></td>
 								<td th:text="${l.wareAdminName}"></td>
 								<td th:text="${l.memberLevel.levelName}"></td>
@@ -63,13 +68,10 @@
 								<td th:text="${l.wareAdminIncentive}"></td>
 								
 							<td>
-								<a th:href="@{#}">승인</a>
+								<a th:href="@{#}" class="btn btn-primary float-right">수정</a>
 							</td>
 							<td>
-								<a th:href="@{#}">수정</a>
-							</td>
-							<td>
-								<a th:href="@{#}">삭제</a>
+								<a th:href="@{#}" class="btn btn-primary float-right">삭제</a>
 							</td>
 							</tr>
 							
@@ -79,6 +81,7 @@
 						</tr>
 							</tbody>
 		    		</table>
+						<button type="button" class="btn btn-primary float-right" onclick="wareAdminApproval();">승인</button>
 				</div>
 			</div>
 		

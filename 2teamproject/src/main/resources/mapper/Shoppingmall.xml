@@ -4,26 +4,26 @@
 	
 	<select id="ShoppingmallList" resultType="Shoppingmall">
 		SELECT 
-			  shU.shoppingmall_user_id						AS shId
-			, shU.shoppingmall_user_pw						AS shPw
-			, shU.shoppingmall_user_name					AS shUserName
-			, shU.shoppingmall_name							AS shName
-			, shL.level_code								AS shLevel
-			, shL.level_name								AS shLLevelName
-			, shU.shoppingmall_user_address					AS shAddr
-			, shU.shoppingmall_user_email					AS shEmail
-			, shU.shoppingmall_user_phone					AS shPhone
-			, shU.shoppingmall_user_iden_num				AS shNum
-			, shU.shoppingmall_user_reg_date				AS shReg
-			, shU.shoppingmall_user_account_status			AS shStatus
-			, shU.shoppingmall_bank							AS shBank
-			, shU.shoppingmall_bank_number					AS shBankNum
+			  shoppingmallUser.shoppingmall_user_id						AS shoppingmallId
+			, shoppingmallUser.shoppingmall_user_pw						AS shoppingmallPw
+			, shoppingmallUser.shoppingmall_user_name					AS shoppingmallUserName
+			, shoppingmallUser.shoppingmall_name						AS shoppingmallName
+			, shoppingmallLevel.level_code								AS shoppingmallLevel
+			, shoppingmallLevel.level_name								AS shoppingmallLevelName
+			, shoppingmallUser.shoppingmall_user_address				AS shoppingmallAddr
+			, shoppingmallUser.shoppingmall_user_email					AS shoppingmallEmail
+			, shoppingmallUser.shoppingmall_user_phone					AS shoppingmallPhone
+			, shoppingmallUser.shoppingmall_user_iden_num				AS shoppingmallNumber
+			, shoppingmallUser.shoppingmall_user_reg_date				AS shoppingmallRegDay
+			, shoppingmallUser.shoppingmall_user_account_status			AS shoppingmallStatus
+			, shoppingmallUser.shoppingmall_bank						AS shoppingmallBank
+			, shoppingmallUser.shoppingmall_bank_number					AS shoppingmallBankNum
 		FROM 
-			tb_shoppingmall_user							AS shU 
-			INNER JOIN	
-			tb_member_level									AS shL
+			tb_shoppingmall_user										AS shoppingmallUser 
+			INNER JOIN		
+			tb_member_level												AS shoppingmallLevel
 			on
-			shU.shoppingmall_level_code = shL.level_code;
+			shoppingmallUser.shoppingmall_level_code = shoppingmallLevel.level_code;
 	</select>
 	
 	
@@ -31,13 +31,13 @@
 		UPDATE 
 			tb_shoppingmall_user
 		SET
-			shoppingmall_name					=		#{shName},
-			shoppingmall_user_iden_num			=		#{shNum},
+			shoppingmall_name					=		#{shoppingmallName},
+			shoppingmall_user_iden_num			=		#{shoppingmallNumber},
 			shoppingmall_user_reg_date			=		NOW(),
 			shoppingmall_user_account_status	=		"승인요청",
-			shoppingmall_bank					=		#{shBank},
-			shoppingmall_bank_number			=		#{shBankNum}
+			shoppingmall_bank					=		#{shoppingmallBank},
+			shoppingmall_bank_number			=		#{shoppingmallBankNum}
 		WHERE 
-			shoppingmall_user_id				=		#{shId}
+			shoppingmall_user_id				=		#{shoppingmallId}
 	</update>
 </mapper>

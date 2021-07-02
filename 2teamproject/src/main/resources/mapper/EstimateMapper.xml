@@ -100,6 +100,36 @@
 		);
 	
 	</insert>
+	
+	<select id="getEstimateInfoCheck" parameterType="String" resultType="Estimate" fetchSize="1000" resultMap="estimateResultMap">
+		SELECT
+			*
+		FROM
+			tb_estimate_guest
+		WHERE
+			shoppingmall_guest_phone = #{companyPhone}
+		AND
+			shoppingmall_guest_email = #{companyEmail};
+	</select>
+	
+	
+ 	<select id="getEstimateLookList" resultType="Estimate" fetchSize="1000" resultMap="estimateResultMap">
+		SELECT
+			*
+		FROM
+			tb_estimate_guest
+		WHERE
+	<if test="shoppingmall_guest_phone !=null and shoppingmall_guest_phone != '' ">
+			shoppingmall_guest_phone = #{companyPhone}
+	</if>
+	<if test="(shoppingmall_guest_email !=null and shoppingmall_guest_email != '') and (shoppingmall_guest_email !=null and shoppingmall_guest_email != '' )">
+		AND
+	</if>
+	<if test="shoppingmall_guest_email !=null and shoppingmall_guest_email != '' ">
+			shoppingmall_guest_email = #{companyEmail};
+	</if>
+	</select>
+	
 </mapper>
 
 

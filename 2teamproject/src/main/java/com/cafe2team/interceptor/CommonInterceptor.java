@@ -11,7 +11,6 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.cafe2team.dao.MemberMapper;
 
 @Component
 public class CommonInterceptor implements HandlerInterceptor{

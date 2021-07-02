@@ -17,4 +17,8 @@ public interface EstimateMapper {
 	
 	//기존 쇼핑몰회원 견적신청
 	public int addEstimate(Estimate estimate);
+	
+	public List<Estimate> getEstimateLookList();
+	
+	public Estimate getEstimateInfoCheck(String companyPhone, String companyEmail);
 }

@@ -28,6 +28,14 @@ private EstimateMapper estimateMapper;
 		return result;
 	}
 	
+	public Estimate getEstimateInfoCheck(String companyPhone, String companyEmail) {
+		return estimateMapper.getEstimateInfoCheck(companyPhone, companyEmail);
+	}
+	
+	public List<Estimate> getEstimateLookList(){
+		List<Estimate> getEstimateLookList = estimateMapper.getEstimateLookList();
+		return getEstimateLookList;
+	}
 	//기존 쇼핑몰회원 견적신청
 	public int addEstimate(Estimate estimate) {
 		int result = estimateMapper.addEstimate(estimate);

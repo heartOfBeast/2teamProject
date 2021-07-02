@@ -1,8 +1,0 @@
-@charset "UTF-8";
-
-.jumbotron{
-  background-image: url('/img/background.jpg');
-  background-size: cover;
-  text-shadow: black 0.2em 0.2em 0.2em;
-  color: white;
-}

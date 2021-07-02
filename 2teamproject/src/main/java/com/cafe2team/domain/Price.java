@@ -1,92 +1,101 @@
 package com.cafe2team.domain;
 
 public class Price {
-	private String price_Code;
-	private String wareHouse_Type;
-	private String contract_Type;
-	private String price_Weight;
-	private String price_Number;
-	private String price_Zone;
-	private String price_Day;
-	private String price_Price;
-	private String unit_Id;
-	private String unit_reg_date;
-	private String unit_price_update;
+	private String priceCode;
+	private String priceName;
+	private String wareHouseType;
+	private String contractType;
+	private String priceWeight;
+	private String priceNumber;
+	private String priceZone;
+	private String priceDay;
+	private String pricePrice;
+	private String unitPriceId;
+	private String unitPriceRegDate;
+	private String unitPriceUpdate;
 	
-	public String getPrice_Code() {
-		return price_Code;
+	public String getPriceCode() {
+		return priceCode;
 	}
-	public void setPrice_Code(String price_Code) {
-		this.price_Code = price_Code;
+	public void setPriceCode(String priceCode) {
+		this.priceCode = priceCode;
 	}
-	public String getWareHouse_Type() {
-		return wareHouse_Type;
+	public String getPriceName() {
+		return priceName;
 	}
-	public void setWareHouse_Type(String wareHouse_Type) {
-		this.wareHouse_Type = wareHouse_Type;
+	public void setPriceName(String priceName) {
+		this.priceName = priceName;
 	}
-	public String getContract_Type() {
-		return contract_Type;
+	public String getWareHouseType() {
+		return wareHouseType;
 	}
-	public void setContract_Type(String contract_Type) {
-		this.contract_Type = contract_Type;
+	public void setWareHouseType(String wareHouseType) {
+		this.wareHouseType = wareHouseType;
 	}
-	public String getPrice_Weight() {
-		return price_Weight;
+	public String getContractType() {
+		return contractType;
 	}
-	public void setPrice_Weight(String price_Weight) {
-		this.price_Weight = price_Weight;
+	public void setContractType(String contractType) {
+		this.contractType = contractType;
 	}
-	public String getPrice_Number() {
-		return price_Number;
+	public String getPriceWeight() {
+		return priceWeight;
 	}
-	public void setPrice_Number(String price_Number) {
-		this.price_Number = price_Number;
+	public void setPriceWeight(String priceWeight) {
+		this.priceWeight = priceWeight;
 	}
-	public String getPrice_Zone() {
-		return price_Zone;
+	public String getPriceNumber() {
+		return priceNumber;
 	}
-	public void setPrice_Zone(String price_Zone) {
-		this.price_Zone = price_Zone;
+	public void setPriceNumber(String priceNumber) {
+		this.priceNumber = priceNumber;
 	}
-	public String getPrice_Day() {
-		return price_Day;
+	public String getPriceZone() {
+		return priceZone;
 	}
-	public void setPrice_Day(String price_Day) {
-		this.price_Day = price_Day;
+	public void setPriceZone(String priceZone) {
+		this.priceZone = priceZone;
 	}
-	public String getPrice_Price() {
-		return price_Price;
+	public String getPriceDay() {
+		return priceDay;
 	}
-	public void setPrice_Price(String price_Price) {
-		this.price_Price = price_Price;
+	public void setPriceDay(String priceDay) {
+		this.priceDay = priceDay;
 	}
-	public String getUnit_Id() {
-		return unit_Id;
+	public String getPricePrice() {
+		return pricePrice;
 	}
-	public void setUnit_Id(String unit_Id) {
-		this.unit_Id = unit_Id;
+	public void setPricePrice(String pricePrice) {
+		this.pricePrice = pricePrice;
 	}
-	public String getUnit_reg_date() {
-		return unit_reg_date;
+	public String getUnitPriceId() {
+		return unitPriceId;
 	}
-	public void setUnit_reg_date(String unit_reg_date) {
-		this.unit_reg_date = unit_reg_date;
+	public void setUnitPriceId(String unitPriceId) {
+		this.unitPriceId = unitPriceId;
 	}
-	public String getUnit_price_update() {
-		return unit_price_update;
+	public String getUnitPriceRegDate() {
+		return unitPriceRegDate;
 	}
-	public void setUnit_price_update(String unit_price_update) {
-		this.unit_price_update = unit_price_update;
+	public void setUnitPriceRegDate(String unitPriceRegDate) {
+		this.unitPriceRegDate = unitPriceRegDate;
 	}
-	
+	public String getUnitPriceUpdate() {
+		return unitPriceUpdate;
+	}
+	public void setUnitPriceUpdate(String unitPriceUpdate) {
+		this.unitPriceUpdate = unitPriceUpdate;
+	}
 	@Override
 	public String toString() {
-		return "Price [price_Code=" + price_Code + ", wareHouse_Type=" + wareHouse_Type + ", contract_Type="
-				+ contract_Type + ", price_Weight=" + price_Weight + ", price_Number=" + price_Number + ", price_Zone="
-				+ price_Zone + ", price_Day=" + price_Day + ", price_Price=" + price_Price + ", unit_Id=" + unit_Id
-				+ ", unit_reg_date=" + unit_reg_date + ", unit_price_update=" + unit_price_update + "]";
+		return "Price [priceCode=" + priceCode + ", priceName=" + priceName + ", wareHouseType=" + wareHouseType
+				+ ", contractType=" + contractType + ", priceWeight=" + priceWeight + ", priceNumber=" + priceNumber
+				+ ", priceZone=" + priceZone + ", priceDay=" + priceDay + ", pricePrice=" + pricePrice
+				+ ", unitPriceId=" + unitPriceId + ", unitPriceRegDate=" + unitPriceRegDate + ", unitPriceUpdate="
+				+ unitPriceUpdate + "]";
 	}
+	
+	
 	
 	
 }

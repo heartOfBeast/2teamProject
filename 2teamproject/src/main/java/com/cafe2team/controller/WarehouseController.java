@@ -3,6 +3,7 @@ package com.cafe2team.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -55,6 +56,22 @@ public class WarehouseController {
 		return "redirect:/warehouseList";
 	}
 
+	@GetMapping("/warehouseListDetail")
+	@ResponseBody
+	public List<Warehouse> warehouseListDetail(@RequestParam Map<String, Object> param, Model model){
+		String warehouse_name = (String) param.get("warehouse_name");
+		String warehouse_addr = (String) param.get("warehouse_addr");
+		String warehouse_cate = (String) param.get("warehouse_cate");
+		
+		log.info("name", warehouse_name);
+		log.info("addr", warehouse_addr);
+		log.info("cate", warehouse_cate);
+		
+		List<Warehouse> warehouseList = warehouseservice.getWarehouseListDetail(warehouse_name, warehouse_addr, warehouse_cate);
+		log.info("warehouseList", warehouseList);
+		return warehouseList;
+	}
+	
 	/************************************************************
 	 * 창고조회
 	 ************************************************************/

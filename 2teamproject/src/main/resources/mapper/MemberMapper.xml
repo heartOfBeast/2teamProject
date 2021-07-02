@@ -47,7 +47,7 @@
 			m.level_code=l.level_code;
 	</select>
 	
-	<!-- 로그인 // 아이디값 받아오기-->
+	<!-- 멤버로그인 // 아이디값 받아오기-->
 	 <select id="getMemberById" parameterType="String" resultMap="memberResultMap">
 	 SELECT 
 		  member_id
@@ -66,6 +66,27 @@
 		member_id=#{memberId};
 	 </select>
 
+	<select id="getShopById" parameterType="String" resultType="Shoppingmall">
+		SELECT 
+		  shoppingmall_user_id AS shoppingmallId
+		, shoppingmall_user_pw AS shoppingmallPw
+		, shoppingmall_user_name As shoppingmallUserName
+		, shoppingmall_name AS shoppingmallName
+		, shoppingmall_level_code AS shoppingmallLevel
+		, shoppingmall_user_address AS shoppingmallAddr
+		, shoppingmall_user_email AS shoppingmallEmail
+		, shoppingmall_user_phone AS shoppingmallPhone
+		, shoppingmall_user_iden_num AS shoppingmallNumber
+		, shoppingmall_user_reg_date AS shoppingmallRegDay
+		, shoppingmall_user_account_status AS shoppingmallStatus
+		, shoppingmall_bank AS shoppingmallBank
+		, shoppingmall_bank_number AS shoppingmallBankNum
+		FROM 
+			tb_shoppingmall_user
+		WHERE 
+			shoppingmall_user_id = #{shoppingmallId};
+	
+	</select>
 	
 <!-- 업데이트 -->
 <update id ="updateMember" parameterType="Member">

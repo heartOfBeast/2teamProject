@@ -18,18 +18,21 @@ html,body {
     				<form th:action="@{/memberlogin}" method="post">
 	                  <div class="card" style="padding:8px">
 						<span>!준</span>
-	                    <h4>로그인</h4>
+	                    <h4>로그인</h4> <span>
+	                    	<input type="radio" name="Check" value="memberCheck" checked="checked"> 관리자
+	                    	<input type="radio" name="Check" value="shopCheck"> 거래처
+	                    </span>
 	                        <div class="input-group flex-nowrap" style="padding:8px">
 	                            <div class="input-group-prepend">
 	                                <span class="input-group-text" id="addon-wrapping">아이디</span>
 	                            </div>
-	                            <input type="text" name="memberId" id="user_name" class="form-control">
+	                            <input type="text" name="memberId" id="user_name" class="form-control" value="id001">
 	                        </div>
 	                        <div class="input-group flex-nowrap" style="padding:8px">
 	                            <div class="input-group-prepend">
 	                                <span class="input-group-text"id="addon-wrapping">비밀번호</span>
 	                            </div>
-	                            <input type="password" name="memberPw" id="user_Pw" class="form-control" style="color: #292A2D">
+	                            <input type="password" name="memberPw" id="user_Pw" class="form-control" style="color: #292A2D" value="pw001">
 	                        </div>
 	                        <button type="submit" style="margin:8px" class="btn btn-outline-info">로그인</button>
 	                        <a th:href="@{/adminsignup}" type="submit" style="margin:8px" class="btn btn-outline-info" >아이디찾기</a>
@@ -43,5 +46,15 @@ html,body {
 	</div>
 
 </div>
+</th:block>
+
+<th:block layout:fragment="customJs">
+<script src="js/jquery.min.js"></script>
+<script>
+document.getElementsByName('Check')[1].addEventListener('click',function(){
+    document.getElementById('user_name').value = 'sh001';
+})
+</script>
+
 </th:block>
 </body>

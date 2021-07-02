@@ -25,6 +25,12 @@ public class WarehouseService {
 			return warehouseMapper.getWarehouseInfoByCode(warehouseCode);
 		}
 		
+		//
+		public List<Warehouse> getWarehouseListDetail(String warehouse_name, String warehouse_addr, String warehouse_cate){
+			List<Warehouse> warehouseListDetail = warehouseMapper.getWarehouseListDetail(warehouse_name, warehouse_addr, warehouse_cate);
+			return warehouseListDetail;
+		}
+		
 		//창고조회
 		public List<Warehouse> getWarehouseList() {
 			List<Warehouse> warehouseList = warehouseMapper.getWarehouseList();
