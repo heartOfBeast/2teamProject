@@ -1,0 +1,98 @@
+<!doctype html>
+<html
+	xmlns:th="http://www.thymeleaf.org"
+ 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="@{layout/default}">
+	
+<th:block layout:fragment="pageTitle">
+<div class="page-header">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item">Member</li>
+		<li class="breadcrumb-item active">myPage</li>
+	</ol>
+
+	<ul class="app-actions">
+		<li>
+			<a href="#" id="reportrange">
+				<span class="range-text"></span>
+				<i class="icon-chevron-down"></i>	
+			</a>
+		</li>
+		<li>
+			<a href="#">
+				<i class="icon-export"></i>
+			</a>
+		</li>
+	</ul>
+</div>
+</th:block>
+
+<th:block layout:fragment="container">
+<form th:action="@{/myPage}" method="post">
+	<div class="main-container">
+					<!-- Row start -->
+					<div class="row gutters">
+							<div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
+							<div class="card h-100">
+								<div class="card-header">
+									<div class="card-title">내 정보 수정</div>
+								</div>
+								<div class="card-body">
+									<div class="row gutters">
+										<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+												<input type="hidden" class="form-control" name="memberId" id="memberId" th:value="${shop.shoppingmallId}" >
+											<div class="form-group">
+												<label for="password">비밀번호</label>
+												<input type="password" class="form-control" name="memberPw" id="password" placeholder="Enter PW">
+											</div>
+											<div class="form-group">
+												<label for="passwordCheck">비밀번호 확인</label>
+												<input type="password" class="form-control" id="passwordCheck" placeholder="Enter CheckPW">
+											</div>
+											<div class="form-group">
+												<label for="phone">담당자 번호</label>
+												<input type="text" class="form-control" id="phone" name="memberPhone" th:value="${shop.shoppingmallPhone}" placeholder="Enter PhoneNumber">
+											</div>
+											<div class="form-group">
+												<label for="email">이메일</label>
+												<input type="email" class="form-control" id="email" name="memberEmail" th:value="${shop.shoppingmallEmail}" placeholder="Enter Email">
+											</div>
+											<div class="form-group">
+												<label for="addr">주소</label>
+												<input type="text" class="form-control" id="addr" name="memberAddress" th:value="${shop.shoppingmallAddr}" placeholder="Enter Address">
+											</div>
+											<div class="form-group">
+												<label for="shopName">사업자명</label>
+												<input type="text" class="form-control" id="shopName" name="memberShopName" th:value="${shop.shoppingmallName}" placeholder="Enter ShopName">
+											</div>
+											<div class="form-group">
+												<label for="shopBank">주거래은행</label>
+												<input type="text" class="form-control" id="shopBank" name="memberShopBank" th:value="${shop.shoppingmallBank}" placeholder="Enter Bank">
+											</div>
+											<div class="form-group">
+												<label for="shopBankNumber">주거래 계좌번호</label>
+												<input type="text" class="form-control" id="shopBankNumber" name="memberShopBankNumber" th:value="${shop.shoppingmallBankNum}" placeholder="Enter BankNumber">
+											</div>
+					
+											<br/>
+											
+											<span>더이상 서비스를 이용하지 않는다면  <a th:href="@{/memberWithdrawal}" class='text-info' style="text-decoration:underline">회원 탈퇴 바로가기</a></span>
+											
+										</div>
+										<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+											<div class="text-right">
+												<a th:href="@{/main}" type="button" class="btn btn-white">Cancel</a>
+												<button type="submit" name="submit" class="btn btn-primary">수정완료</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+		</div>
+	</div>
+</form>
+						
+</th:block>
+		
+</html>

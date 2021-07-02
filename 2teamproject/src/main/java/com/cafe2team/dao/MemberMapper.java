@@ -20,6 +20,9 @@ public interface MemberMapper {
 	//로그인, id 만 조회
 	public Member getMemberById(String memberId);
 	
+	
+	public Shoppingmall getShopById(String shId);
+	
 	//관리자 등록
 	public int adminSignUp(WareAdmin wareAdmin);
 	
