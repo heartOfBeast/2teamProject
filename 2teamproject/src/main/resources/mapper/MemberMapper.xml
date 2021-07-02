@@ -118,6 +118,8 @@
 		 </trim>
 </update>
 
+
+
 <delete id="deleteMember" parameterType="String">
 	DELETE 
 	FROM 
@@ -167,7 +169,22 @@
 			w.level_code = l.level_code;
 	</select>
 	
+	<insert id="adminIntotbMember" parameterType="String">
+	INSERT INTO tb_member(		SELECT 
+								*
+								FROM
+									tb_ware_admin
+								WHERE
+								 	ware_admin_id = #{wareAdminId});
+	</insert>
 	
+	<delete id="deleteWareAdmin" parameterType="String">
+		DELETE
+		FROM
+		  tb_ware_admin 
+		WHERE ware_admin_id=#{wareAdminId};
+	
+	</delete>	
 	<!-- 관리자 등록 insert -->
 	<insert id="adminSignUp" parameterType="WareAdmin">
 			INSERT INTO tb_ware_admin
@@ -217,19 +234,19 @@
 	 <!-- 쇼핑몰 회원 조회 -->
 	<select id="getShoppingmallList" resultType="Shoppingmall">
 	SELECT 
-		  shU.shoppingmall_user_id						AS shId
-		, shU.shoppingmall_user_pw						AS shPw
-		, shU.shoppingmall_user_name					AS shUserName
-		, shU.shoppingmall_name							AS shName
+		  shU.shoppingmall_user_id						AS shoppingmallId
+		, shU.shoppingmall_user_pw						AS shoppingmallPw
+		, shU.shoppingmall_user_name					AS shoppingmallUserName
+		, shU.shoppingmall_name							AS shoppingmallName
 		, shL.level_name  							    AS shLLevelName
-		, shU.shoppingmall_user_address					AS shAddr
-		, shU.shoppingmall_user_email					AS shEmail
-		, shU.shoppingmall_user_phone					AS shPhone
-		, shU.shoppingmall_user_iden_num				AS shNum
-		, shU.shoppingmall_user_reg_date				AS shReg
-		, shU.shoppingmall_user_account_status			AS shStatus
-		, shU.shoppingmall_bank							AS shBank
-		, shU.shoppingmall_bank_number					AS shBankNum
+		, shU.shoppingmall_user_address					AS shoppingmallAddr
+		, shU.shoppingmall_user_email					AS shoppingmallEmail
+		, shU.shoppingmall_user_phone					AS shoppingmallPhone
+		, shU.shoppingmall_user_iden_num				AS shoppingmallNumber
+		, shU.shoppingmall_user_reg_date				AS shoppingmallRegDay
+		, shU.shoppingmall_user_account_status			AS shoppingmallStatus
+		, shU.shoppingmall_bank							AS shoppingmallBank
+		, shU.shoppingmall_bank_number					AS shoppingmallBankNum
 	FROM 
 		tb_shoppingmall_user AS shU
 		JOIN

@@ -49,13 +49,13 @@
 						</thead>
 						<tbody>
 							<tr th:if="${#lists.size(getshopList) > 0}" th:each="l : ${getshopList}">
-							  <td th:text="${l.shId}"></td>
-							  <td th:text="${l.shLLevelName}"></td>
-							  <td th:text="${l.shUserName}"></td>
-							  <td th:text="${l.shEmail}"></td>
-							  <td th:text="${l.shPhone}"></td>
-							  <td th:text="${l.shStatus}"></td>
-							  <td th:text="${l.shReg}"></td>
+							  <td th:text="${l.shoppingmallId}"></td>
+							  <td th:text="${l.shoppingmallName}"></td>
+							  <td th:text="${l.shoppingmallUserName}"></td>
+							  <td th:text="${l.shoppingmallEmail}"></td>
+							  <td th:text="${l.shoppingmallPhone}"></td>
+							  <td th:text="${l.shoppingmallStatus}"></td>
+							  <td th:text="${l.shoppingmallRegDay}"></td>
 							  <td></td>
 							  <td></td>
 							</tr>
@@ -72,4 +72,4 @@
 </th:block>
 
 		
-</html> ㄴ
+</html>
