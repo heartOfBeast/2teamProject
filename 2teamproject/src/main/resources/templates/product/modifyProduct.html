@@ -49,35 +49,30 @@
 											<input type="text" class="form-control" id="productName" name="productName" th:value="${product.productName}" readonly="readonly" required="">
 										</div>
 										<div class="form-group">
-											<select class="form-control" id="productFreezeCoolCondition" th:value="${product.productFreezeCoolCondition}">
-												<option name="storageLocation" value="">::보관유형::</option>
-												<option name="storageLocation" value="ordinaryTemperature">::상온::</option>
-												<option name="storageLocation" value="refrigerateTemperature">::냉장::</option>
-												<option name="storageLocation" value="freezeTemperature">::냉동::</option>
+											<select class="form-control" id="productFreezeCoolCondition" name="productFreezeCoolCondition" th:value="${product.productFreezeCoolCondition}">
+												<option name="productFreezeCoolCondition" value="">::보관유형::</option>
+												<option name="productFreezeCoolCondition" value="상온">::상온::</option>
+												<option name="productFreezeCoolCondition" value="냉장">::냉장::</option>
+												<option name="productFreezeCoolCondition" value="냉동">::냉동::</option>
 											</select>
 										</div>
 										<div class="form-group">
-											<select id="productBigCategory" name="productBigCategory" class="form-control">
-												<option name="productBigCategory" value="">::대분류::</option>
-												<option name="productBigCategory" value="식음표">::식음료::</option>
-												<option name="productBigCategory" value="생활용품">::생활용품::</option>
-												<option name="productBigCategory" value="집수리">::집수리::</option>
-											</select>
-										</div>
-															<div class="form-group">
-											<select id="productMiddleCategory" name="productMiddleCategory" class="form-control">
-												<option name="productMiddleCategory" value="">::중분류::</option>
-												<option name="productMiddleCategory" value="음식">::음식::</option>
-												<option name="productMiddleCategory" value="청소도구">::청소도구::</option>
-												<option name="productMiddleCategory" value="주방도구">::주방도구::</option>
+											<select id="itemBigCategory" name="itemBigCategory" class="form-control">
+												<option name="itemBigCategory" value="">::대분류::</option>
+												<option th:each="b:${BigCategory}" th:value="${b.itemBigCategory}" th:text="${b.itemBigCategory}"></option>
+												
+
 											</select>
 										</div>
 										<div class="form-group">
-											<select id="productSmallCategory" name="productSmallCategory" class="form-control">
-												<option name="productSmallCategory" value="">::소분류::</option>
-												<option name="productSmallCategory" value="죽">::죽::</option>
-												<option name="productSmallCategory" value="스프">::스프::</option>
-												<option name="productSmallCategory" value="페인팅도구">::페인팅도구::</option>
+											<select id="itemMiddleCategory" name="itemMiddleCategory" required="required" class="form-control">
+												<option name="itemMiddleCategory" value="">::중분류::</option>
+											</select>
+										</div>
+										<div class="form-group">
+											<select id="productCategory" name="productCategory" required="required" class="form-control">
+												<option name="productCategory" value="">::소분류::</option>
+
 											</select>
 										</div>
 										<div class="form-group">
@@ -89,9 +84,9 @@
 										<div class="form-group">
 											<select id="productWeightUnit" name="productWeightUnit" class="form-control">
 												<option name="productWeightUnit" value="">::무게단위::</option>
-												<option name="productWeightUnit" value="kg">::kg::</option>
-												<option name="productWeightUnit" value="g">::g::</option>
-												<option name="productWeightUnit" value="ton">::ton::</option>
+												<option name="productWeightUnit" value="kg" th:selected="${product.productWeightUnit=='kg'}">::kg::</option>
+												<option name="productWeightUnit" value="g" th:selected="${product.productWeightUnit=='g'}">::g::</option>
+												<option name="productWeightUnit" value="ton" th:selected="${product.productWeightUnit=='ton'}">::ton::</option>
 											</select>
 										</div>
 										<div class="form-group">
@@ -123,6 +118,138 @@
 	<!-- Main container end -->
 
 </th:block>
+<th:block layout:fragment="customJs">
 
+	<script type="text/javascript">		
+		var itemMiddleCategory = $('#itemMiddleCategory');
+		$('#itemBigCategory').change(function(){
+			var request = $.ajax({
+				url: "/getMiddleCate",
+				method: "POST", 
+				data: { itemBigCategory : $('#itemBigCategory').val()}, 
+				dataType: "json" 
+			}); 
+
+			request.done(function( data ) {
+				console.log(data);
+				var html = '';
+				if(data != undefined && data != '' && data.length > 0){
+					html += '<option value=""> :: 중분류 선택 :: </option>';
+					for(var i=0; i < data.length; i++){
+						html += '<option value="'+data[i].itemMiddleCategory+'">';
+						html += data[i].itemMiddleCategory;
+						html += '</option>';
+					}
+				}else{
+					html = '<option value=""> :: 이건 뭐지? :: </option>';
+				}
+				itemMiddleCategory.html(html);
+			}); 
+			request.fail(function( jqXHR, textStatus ) {
+				alert( "Request failed: " + textStatus );
+			});			
+		});
+	</script>
+	<script type="text/javascript">		
+		var itemSmallCategory = $('#productCategory');
+		$('#itemMiddleCategory').change(function(){
+			var request = $.ajax({
+				url: "/getSmallCate",
+				method: "POST", 
+				data: { itemMiddleCategory : $('#itemMiddleCategory').val()	}, 
+				dataType: "json" 
+			}); 
+
+			request.done(function( data ) {
+				console.log(data);
+				var html = '';
+				if(data != undefined && data != '' && data.length > 0){
+					
+					html += '<option value=""> :: 소분류 선택 :: </option>';
+					for(var i=0; i < data.length; i++){
+						html += '<option value="'+data[i].itemSmallCategory+'">';
+						html += data[i].itemSmallCategory
+						html += '</option>';
+					}
+				}else{
+					html = '<option value=""> :: 이건 뭐지? :: </option>';
+				}
+				itemSmallCategory.html(html);
+			}); 
+			request.fail(function( jqXHR, textStatus ) {
+				alert( "Request failed: " + textStatus );
+			});			
+		});
+	</script>
+
+	<script>
+		$(function(){
+			$('#addProductBtn').click(function(){
+				var productForm = $('#addProductForm');
+ 				var submitFlag = true;
+ 				var itemBigCategory = $('#itemBigCategory').val()
+ 				var itemMiddleCategory = $('#itemBigCategory').val()
+ 				var itemSmallCategory = $('#itemBigCategory').val()
+				var productFreezeCoolCondition = $('#productFreezeCoolCondition').val();
+				var productName = $('#productName').val();
+				var productWeight = $('#productWeight').val();
+				var productWeightUnit = $('#productWeightUnit').val();
+				var productDateOfManufacture = $('#productDateOfManufacture').val();
+				var productExpirationDate = $('#productExpirationDate').val();
+				var productDetail = $('#productDetail').val();
+				
+				if(itemBigCategory == null||itemBigCategory ==undefined||itemBigCategory==''){
+					alert('대분류를 선택해주세요');
+					submitFlag = false;
+					$(this).focus();
+					return submitFlag;
+				}else if(itemMiddleCategory ==null||itemMiddleCategory==undefined||itemMiddleCategory==''.toString()){
+					alert('중분류를 선택해주세요');
+					submitFlag = false;
+					$(this).focus();
+					return submitFlag;
+				}else if(itemSmallCategory ==null||itemSmallCategory==undefined||itemSmallCategory==''.toString()){
+					alert('소분류를 선택해주세요');
+					submitFlag = false;
+					$(this).focus();
+					return submitFlag;
+				}else if(productName ==null||productName==undefined||productName==''){
+					alert('상품명을 선택해주세요');
+					submitFlag = false;
+					$(this).focus();
+					return submitFlag;
+				}else if(productFreezeCoolCondition ==null||productFreezeCoolCondition==undefined||productFreezeCoolCondition==''){
+					alert('보관유형을 입력해주세요');
+					submitFlag = false;
+					$(this).focus();
+					return submitFlag;
+				}else if(productWeight ==null||productWeight==undefined||productWeight==''){
+					alert('상품무게를 입력해주세요');
+					submitFlag = false;
+					$(this).focus();
+					return submitFlag;
+				}else if(productWeightUnit ==null||productWeightUnit==undefined||productWeightUnit==''){
+					alert('무게단위를 선택해주세요');
+					submitFlag = false;
+					$(this).focus();
+					return submitFlag;
+				}else if(productDateOfManufacture ==null||productDateOfManufacture==undefined||productDateOfManufacture==''){
+					alert('제조날짜를 선택해주세요');
+					submitFlag = false;
+					$(this).focus();
+					return submitFlag;
+				}else if(productExpirationDate ==null||productExpirationDate==undefined||productExpirationDate==''){
+					alert('유통기한을 선택해주세요');
+					submitFlag = false;
+					$(this).focus();
+					return submitFlag;
+				}
+				
+				
+			});
+				if(submitFlag) productForm.submit();
+		});
+	</script>
+</th:block> 
 		
 </html>

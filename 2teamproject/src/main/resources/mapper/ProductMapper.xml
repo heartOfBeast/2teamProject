@@ -32,8 +32,8 @@
 			<if test="productFreezeCoolCondition !=null and productFreezeCoolCondition != ''.toString()">
 				,product_freeze_cool_condition=#{productFreezeCoolCondition}
 			</if>
-			<if test="productBigCategory !=null and productBigCategory != ''.toString()">
-				,product_category=#{productCategory}
+			<if test="productCategory !=null and productCategory != ''.toString()">
+				,product_category=sf_selectItemCode(#{productCategory})
 			</if>
 			<if test="productAddCategory !=null and productAddCategory != ''.toString()">
 				,product_add_category=#{productAddCategory}
@@ -84,41 +84,69 @@
 	</select>
 	
 	<!--상품추가  -->
-	<insert id="addProduct" parameterType="Product">
-		<selectKey keyColumn="product_code" keyProperty="productCode" resultType="String" order="BEFORE">
-			SELECT CONCAT('p_c_','',(SELECT LPAD(COUNT(*)+1,10,'0')FROM tb_product));
-		</selectKey>
-		INSERT INTO 
-			tb_product
-				(
-				product_code,
-				product_freeze_cool_condition,
-				product_category,
-				product_add_category,
-				product_name,
-				product_weight,
-				product_weight_unit,
-				product_date_of_manufacture,
-				product_expiration_date,
-				shoppingmall_user_id,
-				product_reg_date,
-				product_detail)
-			VALUES(
-				#{productCode},
-				#{productFreezeCoolCondition},
-				#{productCategory},
-				#{productAddCategory},
-				#{productName},
-				#{productWeight},
-				#{productWeightUnit},
-				#{productDateOfManufacture},
-				#{productExpirationDate},
-				'sh001',<!--session 활용해서 입력 필요  -->
-				CURDATE(),
-				#{productDetail}
-				)
-				
+	<insert id="addProduct" parameterType="Product" >
+		INSERT INTO tb_product(
+			product_code					,
+			product_freeze_cool_condition	,
+			product_category				,
+	 		product_add_category			,
+	 		product_name					,
+	 		product_weight					,
+	 		product_weight_unit				,
+	 		product_date_of_manufacture		,
+	 		product_expiration_date			,
+	 		shoppingmall_user_id			,
+	 		product_reg_date				,
+	 		product_detail					)
+		VALUES (
+			sf_newProductCode(),
+			#{productFreezeCoolCondition},
+			sf_selectItemCode(#{productCategory}),
+			#{productAddCategory},
+			#{productName},
+			#{productWeight},
+			#{productWeightUnit},
+			#{productDateOfManufacture},
+			#{productExpirationDate},
+			'sh001',
+			NOW(),
+			#{productDetail})
 	</insert>
+	
+	<!--상품추가 페이지 품목 대분류 가져오기  -->
+	<select id="getItemBigCategoryInfo" resultType="Item" fetchSize="1000">
+		SELECT
+			DISTINCT tb_item.item_big_category AS itemBigCategory
+		FROM
+			tb_item
+			<!-- <if test="itemBigCategory !=null and itemBigCategory !=''">
+			SELECT
+				DISTINCT tb_item.item_middle_category AS itemMiddleCategory
+			FROM
+				tb_item
+			WHERE
+				tb_item.item_big_category = #{itemBigCategory}
+			
+			</if> -->
+	</select>
+	<!--상품추가 페이지 품목 중분류 가져오기  -->
+	<select id="getItemMiddleCategoryInfo" resultType="Item" fetchSize="1000">
+		SELECT
+			DISTINCT tb_item.item_middle_category AS itemMiddleCategory
+		FROM
+			tb_item
+		WHERE
+			tb_item.item_big_category = #{itemBigCategory}
+	</select>
+	<!--상품추가 페이지 품목 소분류 가져오기  -->
+	<select id="getItemSmallCategoryInfo" resultType="Item" fetchSize="1000">
+		SELECT
+			DISTINCT tb_item.item_small_category AS itemSmallCategory
+		FROM
+			tb_item
+		WHERE
+			tb_item.item_middle_category = #{itemMiddleCategory}
+	</select>
 	
 	<!-- 전체상품목록조회 -->
 	<select id="getProductList" resultMap="productResultMap" fetchSize="1000">
