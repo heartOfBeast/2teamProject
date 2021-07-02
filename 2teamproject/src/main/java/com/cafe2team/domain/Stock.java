@@ -13,6 +13,11 @@ public class Stock {
 	private String wareAdminPhone;
 	private String stockRegDate;
 	
+	private String warehousingRealAmount;
+	private String warehousingRealDate;
+	private String releaseRealAmount;
+	private String releaseRealDate;
+	
 	public String getProductName() {
 		return productName;
 	}
@@ -79,13 +84,40 @@ public class Stock {
 	public void setStockRegDate(String stockRegDate) {
 		this.stockRegDate = stockRegDate;
 	}
+	public String getWarehousingRealAmount() {
+		return warehousingRealAmount;
+	}
+	public void setWarehousingRealAmount(String warehousingRealAmount) {
+		this.warehousingRealAmount = warehousingRealAmount;
+	}
+	public String getWarehousingRealDate() {
+		return warehousingRealDate;
+	}
+	public void setWarehousingRealDate(String warehousingRealDate) {
+		this.warehousingRealDate = warehousingRealDate;
+	}
+	public String getReleaseRealAmount() {
+		return releaseRealAmount;
+	}
+	public void setReleaseRealAmount(String releaseRealAmount) {
+		this.releaseRealAmount = releaseRealAmount;
+	}
+	public String getReleaseRealDate() {
+		return releaseRealDate;
+	}
+	public void setReleaseRealDate(String releaseRealDate) {
+		this.releaseRealDate = releaseRealDate;
+	}
 	@Override
 	public String toString() {
 		return "Stock [productName=" + productName + ", shoppingmallName=" + shoppingmallName + ", warehouseName="
 				+ warehouseName + ", finalSector=" + finalSector + ", stockUnit=" + stockUnit
 				+ ", recentWarehousingAmount=" + recentWarehousingAmount + ", recentReleaseAmount="
 				+ recentReleaseAmount + ", totalAmount=" + totalAmount + ", wareAdminId=" + wareAdminId
-				+ ", wareAdminPhone=" + wareAdminPhone + ", stockRegDate=" + stockRegDate + "]";
+				+ ", wareAdminPhone=" + wareAdminPhone + ", stockRegDate=" + stockRegDate + ", warehousingRealAmount="
+				+ warehousingRealAmount + ", warehousingRealDate=" + warehousingRealDate + ", releaseRealAmount="
+				+ releaseRealAmount + ", releaseRealDate=" + releaseRealDate + "]";
 	}
 	
+
 }

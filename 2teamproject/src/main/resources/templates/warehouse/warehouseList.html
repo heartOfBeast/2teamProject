@@ -34,11 +34,11 @@
 		<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 			<div class="table-container">
 				<div class="t-header"> 창고조회 </div>
-				<select id="name" name="name">
-					<option class="wareName" th:each="w : ${warehouseList}" th:value="${w.warehouseName}" th:text="${w.warehouseName}"></option>
-				</select>
 				<select id="addr" name="addr">
 					<option class="wareAddr" th:each="w : ${warehouseList}" th:value="${w.warehouseAddr}" th:text="${w.warehouseAddr}"></option>
+				</select>
+				<select id="name" name="name">
+					<option class="wareName" th:each="w : ${warehouseList}" th:value="${w.warehouseName}" th:text="${w.warehouseName}"></option>
 				</select>
 				<select id="cate" name="cate">
 					<option class="wareCate" th:each="w : ${warehouseList}" th:value="${w.warehouseCate}" th:text="${w.warehouseCate}"></option>
@@ -249,7 +249,7 @@ var htmlCate = "";
 		selectCateValue = $('#cate option:selected').val();
 		getData();
 	}); 
-	
+	 
 	function getData(){
 		$.ajax({
 			url : "/warehouseListDetail",
