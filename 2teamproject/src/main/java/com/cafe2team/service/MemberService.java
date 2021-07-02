@@ -52,9 +52,9 @@ public class MemberService {
 	
 	}
 	
-	public Shoppingmall getsShopById(String shId) {
+	public Shoppingmall getsShopById(String shoppingmallId) {
 		
-		Shoppingmall shop = memberMapper.getShopById(shId);
+		Shoppingmall shop = memberMapper.getShopById(shoppingmallId);
 		
 		return shop;
 	}
@@ -65,6 +65,18 @@ public class MemberService {
 		int memberUpdate = memberMapper.updateMember(member);
 		
 		return memberUpdate;
+	}
+	
+	
+	public int adminIntotbMember(String wareAdminId) {
+		
+		return memberMapper.adminIntotbMember(wareAdminId);
+	}
+	
+	public int deleteWareAdmin(String wareAdminId) {
+		
+			
+		return memberMapper.deleteWareAdmin(wareAdminId);
 	}
 	
 	

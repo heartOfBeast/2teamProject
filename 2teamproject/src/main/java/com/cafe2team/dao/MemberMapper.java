@@ -21,10 +21,19 @@ public interface MemberMapper {
 	public Member getMemberById(String memberId);
 	
 	
-	public Shoppingmall getShopById(String shId);
+	public Shoppingmall getShopById(String shoppingmallId);
 	
 	//관리자 등록
 	public int adminSignUp(WareAdmin wareAdmin);
+	
+	//관리자 업데이트 수정
+	public int adminUpdate(WareAdmin wareAdmin);
+	
+	//관리자 아이디 => 멤버아이디로 복사
+	public int adminIntotbMember(String wareAdmin);
+	
+	//어드민 아이디 삭제
+	public int deleteWareAdmin(String wareAdminId);
 	
 	//멤버 업데이트
 	public int updateMember(Member member);

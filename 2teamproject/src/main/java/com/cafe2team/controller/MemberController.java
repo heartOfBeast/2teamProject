@@ -157,6 +157,19 @@ public class MemberController {
 		return result;
 	}
 	
+	@PostMapping("/wareAdminApproval")
+	@ResponseBody
+	public int wareAdminApproval(@RequestParam(value = "dataArr[]") List<String> paramList) {
+		int reuslt = 1;
+		
+		for(String wareAdminId : paramList) {
+			memberService.adminIntotbMember(wareAdminId);
+			memberService.deleteWareAdmin(wareAdminId);
+		}
+		
+		return reuslt;
+	}
+	
 	@GetMapping("/whzoneinquiry")
 	public String whzoneinquiry() {
 		
