@@ -91,7 +91,9 @@
 		warehouse_reg_date,
 		ware_admin_id
 	FROM
-		tb_warehouse;
+		tb_warehouse
+	ORDER BY
+		binary(warehouse_addr);
 	</select>
 	
 	
@@ -124,9 +126,10 @@
 	AND
 	</if>
 	<if test="warehouse_cate !=null and warehouse_cate != '' ">
-		warehouse_cate = #{warehouse_cate};
+		warehouse_cate = #{warehouse_cate}
 	</if>
-	
+	ORDER BY
+		binary(warehouse_addr);
 	</select>
 	
 </mapper>

@@ -44,32 +44,30 @@
 					<table id="copy-print-csv" class="table custom-table">
 						<thead>
 							<tr >
-							  <th>상품명</th>
-							  <th>거래처명</th>
-							  <th>창고명</th>
-							  <th>보관위치</th>
-							  <th>단위</th>
-							  <th>최근입고수량</th>
-							  <th>최근출고수량</th>
-							  <th>전체수량</th>
-							  <th>등록담당자</th>
-							  <th>담당자연락처</th>
-							  <th>등록일</th>
+							<th style="width: 100px">상품명</th>
+							<th>거래처명</th>
+							<th>창고명</th>
+							<th style="width: 50px">단위</th>
+							<th style="width: 100px">전체수량</th>
+							<th style="width: 100px">최근입고수량</th>
+					 		<th style="width: 100px">최근출고수량</th>
+				<!--		<th>등록담당자</th>
+							<th>담당자연락처</th>
+							<th>등록일</th> -->
 							</tr>
 						</thead>
 						<tbody id="stockData">
-							<tr th:each="L : ${stockList}">
+							<tr th:each="L : ${stockList}" th:onclick="'location.href=@{${detailModal}}'" data-toggle="modal" data-target=".bd-example-modal-lg">
 								<td th:text="${L.productName}"></td>
 								<td th:text="${L.shoppingmallName}"></td>
 								<td th:text="${L.warehouseName}"></td>
-								<td th:text="${L.finalSector}"></td>
 								<td th:text="${L.stockUnit}"></td>
+								<td th:text="${L.totalAmount}"></td>
 								<td th:text="${L.recentWarehousingAmount}"></td>
 								<td th:text="${L.recentReleaseAmount}"></td>
-								<td th:text="${L.totalAmount}"></td>
-								<td th:text="${L.wareAdminId}"></td>
+					<!--		<td th:text="${L.wareAdminId}"></td>
 								<td th:text="${L.wareAdminPhone}"></td>
-								<td th:text="${L.stockRegDate}"></td>
+								<td th:text="${L.stockRegDate}"></td> -->
 							</tr>
 						</tbody>
 		    		</table>
@@ -79,11 +77,74 @@
 		</div>
 	</div>
 </div>
+ <form th:action="@{stockListDetailModal}" method="GET" id="detailModal">
+	<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" style="display: none;" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="myLargeModalLabel">상세페이지</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">X</span>
+					</button>
+				</div>
+					<div class="modal-body">
+						<div class="table-container">
+							<div class="table-responsive">
+								<table class="table custom-table m-0">
+									<tbody  th:each="w : ${stockList}">
+										<tr>
+											<th class="text-left"  style="width: 150px">보관위치</th>
+											<td th:text="${w.finalSector}"></td>
+										</tr>
+										<tr>
+											<th class="text-left">상품명</th>
+											<td th:text="${w.productName}"  id="dataPName"></td>
+										</tr>
+										<tr>
+											<th>보관위치</th>
+											<td th:text="${w.finalSector}" id="dataFinalSector"></td>
+										</tr>
+										<tr>
+											<th class="text-left">입고수량</th>
+											<td th:text="${w.warehousingRealAmount}" id="dataWareAmount"></td>
+										</tr>
+										<tr>
+											<th class="text-left">입고날짜</th>
+											<td th:text="${w.warehousingRealDate}" id="dataWareDate"></td>
+										</tr>
+										<tr>
+											<th class="text-left">출고수량</th>
+											<td th:text="${w.releaseRealAmount}" id="dataRelAmount"></td>
+										</tr>
+										<tr>
+											<th class="text-left">출고날짜</th>
+											<td th:text="${w.releaseRealDate}" id="dataRelDate"></td>
+										</tr>
+										<tr>
+											<th class="text-left">등록담당자</th>
+											<td th:text="${w.wareAdminId}" id="dataAdminId"></td>
+										</tr>
+										<tr>
+											<th class="text-left">담당자연락처</th>
+											<td th:text="${w.wareAdminPhone}" id="dataAdminPhone"></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button class="btn btn-secondary" data-dismiss="modal">닫기</button>
+					</div>
+			</div>
+		</div>
+	</div>
+</form>
 
 
 </th:block>
 <th:block layout:fragment="customJs">
-	<script th:inline="javascript">
+	<script type="text/javascript" th:inline="javascript">
 
 	
 /********************************************* select 제이쿼리 이용 중복 제거 *********************************************/
@@ -150,14 +211,13 @@
             	innerHtml += '<td>'+value.productName+'</td>'
         		innerHtml += '<td>'+value.shoppingmallName+'</td>'
        			innerHtml += '<td>'+value.warehouseName+'</td>'
-   				innerHtml += '<td>'+value.finalSector+'</td>'
 				innerHtml += '<td>'+value.stockUnit+'</td>'
 	            innerHtml += '<td>'+value.recentWarehousingAmount+'</td>'
 	            innerHtml += '<td>'+value.recentReleaseAmount+'</td>'
 				innerHtml += '<td>'+value.totalAmount+'</td>'
-				innerHtml += '<td>'+value.wareAdminId+'</td>'
-				innerHtml += '<td>'+value.wareAdminPhone+'</td>'
-				innerHtml += '<td>'+value.stockRegDate+'</td>'
+//				innerHtml += '<td>'+value.wareAdminId+'</td>'
+//				innerHtml += '<td>'+value.wareAdminPhone+'</td>'
+//				innerHtml += '<td>'+value.stockRegDate+'</td>'
 				innerHtml += '</tr>'
 				
 		});
@@ -166,8 +226,18 @@
 			}
 		})
 	}
+/********************************************* 모달 관련 Js *********************************************/	
+	var modalValue = $('#stockData').children();
 	
-	
+	$('#stockData').children().each(function(){
+		$(this).click(function(){
+	//<![CDATA[
+		var test1 = [[${stockList}]];
+	//]]>
+		console.log(test1);
+		})
+		
+	})
 	
 	
 

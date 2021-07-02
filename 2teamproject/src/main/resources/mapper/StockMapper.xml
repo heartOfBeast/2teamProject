@@ -103,4 +103,32 @@ FROM
 	</if>
 		
 	</select>
+	<select id="getStockListDetailModal" parameterType="String" resultType="Stock">
+	SELECT
+		ss.stock_code 								AS stock_code,
+		p.product_name								AS productName,
+		sss.sector_column_final_code				AS finalSector,
+		rec.warehousing_real_amount					AS warehousingRealAmount,
+		rec.warehousing_real_date					AS warehousingRealDate,
+		re.release_real_amount						AS releaseRealAmount,
+		re.release_real_date						AS releaseRealDate
+	FROM 
+ 	  tb_stock_status AS ss
+	INNER JOIN
+  		tb_sector_stock_status AS sss
+	ON
+   		ss.sector_stock_status_code = sss.sector_stock_status_code
+	INNER JOIN
+  		tb_product AS p   
+	ON
+   		sss.product_code = p.product_code
+	INNER JOIN
+		tb_receiving_info AS rec
+	ON
+		p.product_code = rec.product_code
+	INNER JOIN
+		tb_release_info AS re
+	ON
+		rec.product_code = re.product_code;
+	</select>
 </mapper>
