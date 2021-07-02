@@ -20,7 +20,6 @@ public class ProductService {
 	private ProductMapper productMapper;
 	
 
-	
 	//상품목록
 	public List<Product> getProductList(){
 		List<Product> productList = productMapper.getProductList();
@@ -28,6 +27,12 @@ public class ProductService {
 		return productList;
 	}
 
+	//상품등록 위해 대분류 가져요기
+	public List<Item> getItemBigCategoryInfo(){
+		List<Item> item = productMapper.getItemBigCategoryInfo();
+		return item;
+	}
+	
 	//상품등록
 	public int addProduct(Product product) {
 
@@ -48,6 +53,17 @@ public class ProductService {
 		log.info("ProductService서비스  product: {}", product);
 		log.info("========================================");
 		return productMapper.modifyProduct(product);
+	}
+	
+	//중분류 찾아봅시다
+	public List<Item> getItemMiddleCategoryInfo(String itemBigCategory) {
+		List<Item> getItemMiddleCategoryInfo = productMapper.getItemMiddleCategoryInfo(itemBigCategory);
+		return getItemMiddleCategoryInfo;
+	}
+	//소분류 찾아봅시다
+	public List<Item> getItemSmallCategoryInfo(String itemMiddleCategory) {
+		List<Item> getItemSmallCategoryInfo = productMapper.getItemSmallCategoryInfo(itemMiddleCategory);
+		return getItemSmallCategoryInfo;
 	}
 	
 	

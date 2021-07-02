@@ -44,19 +44,20 @@
 									</div>
 									<div class="card-body">
 										<div class="form-group">
-											<select id="itemBigCategory" name="itemBigCategory" class="form-control">
+											<select id="itemBigCategory" name="itemBigCategory" required="required" class="form-control">
 												<option name="itemBigCategory" value="">::대분류::</option>
+												<option th:each="b:${BigCategory}" th:value="${b.itemBigCategory}" th:text="${b.itemBigCategory}"></option>
 
 											</select>
 										</div>
 										<div class="form-group">
-											<select id="itemMiddleCategory" name="itemMiddleCategory" class="form-control">
+											<select id="itemMiddleCategory" name="itemMiddleCategory" required="required" class="form-control">
 												<option name="itemMiddleCategory" value="">::중분류::</option>
 											</select>
 										</div>
 										<div class="form-group">
-											<select id="productSmallCategory" name="productSmallCategory" class="form-control">
-												<option name="productSmallCategory" value="">::소분류::</option>
+											<select id="productCategory" name="productCategory" required="required" class="form-control">
+												<option name="itemSmallCategory" value="">::소분류::</option>
 											</select>
 										</div>
 										<div class="form-group">
@@ -100,7 +101,7 @@
 										
 									</div>
 								</div>
-										<button type="submit" id="addProductBtn" class="btn btn-primary float-right" style="margin: 3px;">상품수정</button>
+										<button type="submit" id="addProductBtn" class="btn btn-primary float-right" style="margin: 3px;">상품추가</button>
 										<button type="button" id="bundleAddBtn" name="bundleAddBtn" class="btn btn-primary float-right" style="margin: 3px;">일괄추가</button>
 							</table>	
 							</form>
@@ -117,16 +118,78 @@
 </th:block>
 		
 <th:block layout:fragment="customJs">
+
+	<script type="text/javascript">		
+		var itemMiddleCategory = $('#itemMiddleCategory');
+		$('#itemBigCategory').change(function(){
+			var request = $.ajax({
+				url: "/getMiddleCate",
+				method: "POST", 
+				data: { itemBigCategory : $('#itemBigCategory').val()}, 
+				dataType: "json" 
+			}); 
+
+			request.done(function( data ) {
+				console.log(data);
+				var html = '';
+				if(data != undefined && data != '' && data.length > 0){
+					html += '<option value=""> :: 중분류 선택 :: </option>';
+					for(var i=0; i < data.length; i++){
+						html += '<option value="'+data[i].itemMiddleCategory+'">';
+						html += data[i].itemMiddleCategory;
+						html += '</option>';
+					}
+				}else{
+					html = '<option value=""> :: 이건 뭐지? :: </option>';
+				}
+				itemMiddleCategory.html(html);
+			}); 
+			request.fail(function( jqXHR, textStatus ) {
+				alert( "Request failed: " + textStatus );
+			});			
+		});
+	</script>
+	<script type="text/javascript">		
+		var itemSmallCategory = $('#productCategory');
+		$('#itemMiddleCategory').change(function(){
+			var request = $.ajax({
+				url: "/getSmallCate",
+				method: "POST", 
+				data: { itemMiddleCategory : $('#itemMiddleCategory').val()	}, 
+				dataType: "json" 
+			}); 
+
+			request.done(function( data ) {
+				console.log(data);
+				var html = '';
+				if(data != undefined && data != '' && data.length > 0){
+					
+					html += '<option value=""> :: 소분류 선택 :: </option>';
+					for(var i=0; i < data.length; i++){
+						html += '<option value="'+data[i].itemSmallCategory+'">';
+						html += data[i].itemSmallCategory
+						html += '</option>';
+					}
+				}else{
+					html = '<option value=""> :: 이건 뭐지? :: </option>';
+				}
+				itemSmallCategory.html(html);
+			}); 
+			request.fail(function( jqXHR, textStatus ) {
+				alert( "Request failed: " + textStatus );
+			});			
+		});
+	</script>
+
 	<script>
 		$(function(){
 			$('#addProductBtn').click(function(){
 				var productForm = $('#addProductForm');
  				var submitFlag = true;
+ 				var itemBigCategory = $('#itemBigCategory').val()
+ 				var itemMiddleCategory = $('#itemBigCategory').val()
+ 				var itemSmallCategory = $('#itemBigCategory').val()
 				var productFreezeCoolCondition = $('#productFreezeCoolCondition').val();
-				var productBigCategory = $('#productBigCategory').val();
-				var productMiddleCategory = $('#productMiddleCategory').val();
-				var productSmallCategory = $('#productSmallCategory').val();
-				var productAddCategory = $('#productAddCategory').val();
 				var productName = $('#productName').val();
 				var productWeight = $('#productWeight').val();
 				var productWeightUnit = $('#productWeightUnit').val();
@@ -134,33 +197,28 @@
 				var productExpirationDate = $('#productExpirationDate').val();
 				var productDetail = $('#productDetail').val();
 				
-				if(productFreezeCoolCondition ==null||productFreezeCoolCondition==undefined||productFreezeCoolCondition==''){
-					alert('보관유형을 선택해주세요');
-					submitFlag = false;
-					$(this).focus();
-					return submitFlag;
-				}else if(productBigCategory ==null||productBigCategory==undefined||productBigCategory==''){
+				if(itemBigCategory == null||itemBigCategory ==undefined||itemBigCategory==''){
 					alert('대분류를 선택해주세요');
 					submitFlag = false;
 					$(this).focus();
 					return submitFlag;
-				}else if(productMiddleCategory ==null||productMiddleCategory==undefined||productMiddleCategory==''){
+				}else if(itemMiddleCategory ==null||itemMiddleCategory==undefined||itemMiddleCategory==''.toString()){
 					alert('중분류를 선택해주세요');
 					submitFlag = false;
 					$(this).focus();
 					return submitFlag;
-				}else if(productSmallCategory ==null||productSmallCategory==undefined||productSmallCategory==''){
-					alert('소분류를 선택해주세요');
-					submitFlag = false;
-					$(this).focus();
-					return submitFlag;
-				}else if(productSmallCategory ==null||productSmallCategory==undefined||productSmallCategory==''){
+				}else if(itemSmallCategory ==null||itemSmallCategory==undefined||itemSmallCategory==''.toString()){
 					alert('소분류를 선택해주세요');
 					submitFlag = false;
 					$(this).focus();
 					return submitFlag;
 				}else if(productName ==null||productName==undefined||productName==''){
-					alert('상품명을 입력해주세요');
+					alert('상품명을 선택해주세요');
+					submitFlag = false;
+					$(this).focus();
+					return submitFlag;
+				}else if(productFreezeCoolCondition ==null||productFreezeCoolCondition==undefined||productFreezeCoolCondition==''){
+					alert('보관유형을 입력해주세요');
 					submitFlag = false;
 					$(this).focus();
 					return submitFlag;
@@ -192,18 +250,6 @@
 		});
 	</script>
 </th:block> 
-<th:block>
-	<script>
-		$(function(){
-			var itemBigCategoryArray = new Array();
-			var itemBigCategoryObject = new Object();
-			
-			itemBigCategoryObject = new Object();
-			itemBigCategoryObject.itemBigCategory="1";
-			
-		})
-	</script>
 
-</th:block>		
 		
 </html>
