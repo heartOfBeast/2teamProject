@@ -55,5 +55,18 @@
 	</select> 
 	
 	
+	<!-- 업데이트 -->
+<update id ="stockCheckUpdate" parameterType="StockCheck">
+		UPDATE tb_stock_sector_check
+	SET
+		stock_check_error_amount=#{seccheckError},
+		stock_sector_check_amount=#{seccheckAmount},
+		stock_check_unit=#{checkUnit},
+		stock_check_detail=#{checkDetail},
+		stock_check_date=NOW(),
+		stock_check_reg_date=NOW()
+	WHERE stock_sector_check_code=#{seccheckCode};
+</update>
+	
 	
 </mapper>
