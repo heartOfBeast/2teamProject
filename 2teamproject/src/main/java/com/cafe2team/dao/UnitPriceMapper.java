@@ -16,7 +16,7 @@ public interface UnitPriceMapper {
 	public int priceAdd(Price price);
 	
 	// 요금안내 수정을 위한 조회
-	public Price priceInfo(String price_Code);
+	public Price priceInfo(String priceCode);
 	
 	// 요금안내 수정
 	public int priceUpdate(Price price);

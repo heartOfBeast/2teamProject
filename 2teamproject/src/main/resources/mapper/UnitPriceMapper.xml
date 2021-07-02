@@ -100,7 +100,8 @@
 		UPDATE 
 			tb_contract_unit_price
 		SET
-			 unit_price_name			=  #{priceName}
+			 unit_price_code			=  #{priceCode}
+			,unit_price_name			=  #{priceName}
 			,unit_price_warehouse_type	=  #{wareHouseType}
 			,unit_price_contract_type	=  #{contractType}
 			,unit_price_contract_weight	=  #{priceWeight}
