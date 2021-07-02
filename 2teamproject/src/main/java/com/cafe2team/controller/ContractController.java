@@ -1,5 +1,6 @@
 package com.cafe2team.controller;
 
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,9 +22,10 @@ public class ContractController {
 	
 	/******************************** 요금안내 시작 ********************************/
 	
-	// 요금안내 조회
+	// 요금안내 조회 // 요금수정 조회
 	@GetMapping("/priceList")
 	public String getUnitPriceList(Model model) {
+		
 		
 		model.addAttribute("title", "요금안내");
 		model.addAttribute("priceList", unitPriceService.getPriceList());
@@ -38,6 +40,7 @@ public class ContractController {
 		model.addAttribute("title", "요금안내 추가");
 		
 		return "unitPrice/priceAdd";
+		
 	}
 	
 	// 요금안내 추가
@@ -50,16 +53,18 @@ public class ContractController {
 	}
 	
 	// 요금안내 수정
-	@GetMapping("/priceUpdate")
-	public String priceUpdate(@RequestParam(name = "price_Code", required = false)String price_Code, Model model) {
-		
-		Price price = unitPriceService.priceInfo(price_Code);
-		
-		model.addAttribute("title", "요금안내 수정");
-		model.addAttribute("price", price);
-		
-		return "unitPrice/priceUpdate";
-	}
+	/*
+	 * @GetMapping("/priceUpdate") public String priceUpdate(@RequestParam(name =
+	 * "priceCode", required = false)String priceCode, Model model) {
+	 * 
+	 * Price price = unitPriceService.priceInfo(priceCode);
+	 * 
+	 * model.addAttribute("title", "요금안내 수정"); model.addAttribute("price", price);
+	 * 
+	 * System.out.println(price+ "@@@@@@@@@@@@@@@@GETpriceUP");
+	 * 
+	 * return "unitPrice/priceUpdate"; }
+	 */
 	
 	// 요금안내 수정
 	@PostMapping("/priceUpdate")
@@ -68,7 +73,11 @@ public class ContractController {
 		unitPriceService.priceUpdate(price);
 		
 		return "redirect:/priceList";
+		
 	}
+		
+		
+		
 	
 	// 요금안내 삭제
 	@PostMapping("/priceRemove")
