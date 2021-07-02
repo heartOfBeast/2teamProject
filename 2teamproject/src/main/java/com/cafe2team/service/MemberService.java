@@ -43,13 +43,20 @@ public class MemberService {
 		return memberMapper.getShoppingmallList();
 	}
 	
-	//Id만 조회 서비스
+	//memberId만 조회
 	public Member getMemberInfoById(String memberId) {
 		
 		Member member = memberMapper.getMemberById(memberId);
 		
 		return member;
 	
+	}
+	
+	public Shoppingmall getsShopById(String shId) {
+		
+		Shoppingmall shop = memberMapper.getShopById(shId);
+		
+		return shop;
 	}
 	
 	//업데이트

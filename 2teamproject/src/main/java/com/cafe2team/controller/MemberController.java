@@ -34,6 +34,15 @@ public class MemberController {
 	
 	private static final Logger log = LoggerFactory.getLogger(MemberController.class);
 
+
+	private static final String SLEVEL = null;
+
+
+	private static final String SID = null;
+
+
+	private static final String SNAME = null;
+
 	
 	private final MemberService memberService;
 	
@@ -72,6 +81,8 @@ public class MemberController {
 	}
 	
 	
+	
+	//관리자 마이페이지
 	@GetMapping("/myPage")
 	public String mypage(@RequestParam(value = "memberId", required = false) String memberId
 			  			,Model model
@@ -79,8 +90,10 @@ public class MemberController {
 		
 		Member member = memberService.getMemberInfoById(memberId);
 		
-		model.addAttribute("title", "회원 수정");
 		model.addAttribute("member", member);
+		
+		
+		model.addAttribute("title", "회원 수정");
 		
 		String SID = (String)session.getAttribute("SID");
 		String SNAME = (String)session.getAttribute("SNAME");
@@ -91,6 +104,21 @@ public class MemberController {
 		log.info(SPHONE);
 		
 		return "member/myPage";
+	}
+	
+	//마이 샵페이지
+	@GetMapping("/myShopPage")
+	public String myShopPage(@RequestParam(value = "memberId", required = false) String memberId
+			,Model model
+			,HttpSession session) {
+		
+		Shoppingmall shop = memberService.getsShopById(memberId);
+		
+		model.addAttribute("shop", shop);
+		
+		model.addAttribute("title", "회원 수정");
+		
+		return "member/myShopPage";
 	}
 	
 	@PostMapping("/myPage")
@@ -178,88 +206,83 @@ public class MemberController {
 	
 	@PostMapping("/memberlogin")
 	public String commonLoginPage(@RequestParam(value = "memberId", required = false) String memberId,
-			@RequestParam(value = "memberPw", required = false) String memberPw, HttpSession session,
-			// RedirectAttributes rAttr,
-			HttpServletResponse response) throws IOException {
-
+								@RequestParam(value = "memberPw", required = false) String memberPw,
+								@RequestParam(value = "Check", required = false) String memberCheck,
+								HttpSession session,
+								// RedirectAttributes rAttr,
+								HttpServletResponse response) throws IOException {
+		
 
 		log.info("로그인 화면에서 입력받은 값->" + memberId);
 		log.info("로그인 화면에서 입력받은 값->" + memberPw);
+		log.info("로그인 화면에서 입력받은 값->" + memberCheck);
+		
 
-		Member member = memberService.getMemberInfoById(memberId);
+		if (memberCheck.equals("memberCheck")) {
 
-		if (memberId != null && memberPw != null && member != null && member.getMemberPw() != null
-				&& memberPw.equals(member.getMemberPw())) {
+			Member member = memberService.getMemberInfoById(memberId);
+			if (member != null && memberId != null && memberPw != null && memberPw.equals(member.getMemberPw())) {
+				String userLevel = member.getMemberLevelcode();
 
-			// 로그인 후 각 권한 체크하여 한글로 변환
-			String userLevel = member.getMemberLevelcode();
-			if (userLevel.equals("1")) {
-				member.setMemberLevelcode("총관리자");
-			} else if (userLevel.equals("2")) {
-				member.setMemberLevelcode("창고관리자");
-			} else if (userLevel.equals("3")) {
-				member.setMemberLevelcode("구역관리자");
-			} else if (userLevel.equals("4")) {
-				member.setMemberLevelcode("일반직원");
-			} else if (userLevel.equals("5")) {
-				member.setMemberLevelcode("배송기사");
+				if (userLevel.equals("1")) {
+					member.setMemberLevelcode("총관리자");
+				} else if (userLevel.equals("2")) {
+					member.setMemberLevelcode("창고관리자");
+				} else if (userLevel.equals("3")) {
+					member.setMemberLevelcode("구역관리자");
+				} else if (userLevel.equals("4")) {
+					member.setMemberLevelcode("일반직원");
+				} else {
+					member.setMemberLevelcode("배송기사");
+				}
+				
+				session.setAttribute("SID", member.getMemberId());
+				session.setAttribute("SLEVEL", member.getMemberLevelcode());
+				session.setAttribute("SNAME", member.getMemberName());
+
+				log.info(member.getMemberId());
+				log.info(member.getMemberLevelcode());
+				log.info(member.getMemberName());
+				
+				return "redirect:/main";
+
 			} else {
-				member.setMemberLevelcode("사업자");
+				response.setContentType("text/html; charset=UTF-8");
+				PrintWriter out = response.getWriter();
+				out.println("<script>alert('아이디 혹은 비밀번호가 일치하지 않습니다.'); location.href='/memberlogin';</script>");
+				out.flush();
+
+				return "redirect:/memberlogin";
 
 			}
-			
-				if (member.getMemberLevelcode().equals("총관리자")) {
-					session.setAttribute("SID", member.getMemberId());
-					session.setAttribute("SLEVEL", member.getMemberLevelcode());
-					session.setAttribute("SNAME", member.getMemberName());
-					
-				} else if (member.getMemberLevelcode().equals("창고관리자")) {
-					session.setAttribute("SID", member.getMemberId());
-					session.setAttribute("SLEVEL", member.getMemberLevelcode());
-					session.setAttribute("SNAME", member.getMemberName());
-					
-				} else if (member.getMemberLevelcode().equals("일반직원")) {
-					session.setAttribute("SID", member.getMemberId());
-					session.setAttribute("SLEVEL", member.getMemberLevelcode());
-					session.setAttribute("SNAME", member.getMemberName());
-					
-				} else if (member.getMemberLevelcode().equals("배송기사")) {
-					session.setAttribute("SID", member.getMemberId());
-					session.setAttribute("SLEVEL", member.getMemberLevelcode());
-					session.setAttribute("SNAME", member.getMemberName());
-					
-				} else if (member.getMemberLevelcode().equals("창고관리자")) {
-					session.setAttribute("SID", member.getMemberId());
-					session.setAttribute("SLEVEL", member.getMemberLevelcode());
-					session.setAttribute("SNAME", member.getMemberName());
-					
-				} else {
-					session.setAttribute("SID", member.getMemberId());
-					session.setAttribute("SLEVEL", member.getMemberLevelcode());
-					session.setAttribute("SNAME", member.getMemberName());
-					
-				}
-			
-			String SID = (String) session.getAttribute("SID");
-			String SLEVEL = (String) session.getAttribute("SLEVEL");
-			String SNAME = (String) session.getAttribute("SNAME");
-			
-			log.info(SID + "SID <<현재 아이디");
-			log.info(SLEVEL + "SLEVEL <<현재 권한");
-			log.info(SNAME + "SNAME <<현재 이름");
 
-		} else {
-			response.setContentType("text/html; charset=UTF-8");
-			PrintWriter out = response.getWriter();
-			out.println("<script>alert('아이디 혹은 비밀번호가 일치하지 않습니다.'); location.href='/memberlogin';</script>");
-			out.flush();
-			log.info(memberId + "로그인 실패");
+		} else if (memberCheck.equals("shopCheck")) {
+			Shoppingmall shop = memberService.getsShopById(memberId);
 
-			return "redirect:/memberlogin";
+			if (shop!=null && memberId != null && memberPw != null && memberPw.equals(shop.getShoppingmallPw())) {
+				String shopLevel = shop.getShoppingmallLevel();
+
+				if (shopLevel.equals("6")) shop.setShoppingmallLevel("사업자");
+				
+				session.setAttribute("SID", shop.getShoppingmallId());
+				session.setAttribute("SLEVEL", shop.getShoppingmallLevel());
+				session.setAttribute("SNAME", shop.getShoppingmallName());
+
+				return "redirect:/main";
+
+			} else {
+				response.setContentType("text/html; charset=UTF-8");
+				PrintWriter out = response.getWriter();
+				out.println("<script>alert('아이디 혹은 비밀번호가 일치하지 않습니다.'); location.href='/memberlogin';</script>");
+				out.flush();
+
+				return "redirect:/memberlogin";
+			}
+
 		}
-		
 		return "redirect:/main";
 	}
+		
 	
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
