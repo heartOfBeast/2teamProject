@@ -38,6 +38,7 @@
 								<th>
 							  		<input type="checkbox" id="checkAll" style="position: relative; top: 1.5px;">
 							  	</th>
+							  	
 							  <th>아이디</th>
 							  <th>이름</th>
 							  <th>권한</th>
@@ -48,30 +49,31 @@
 							  <th>활성화</th>
 							  <th>인센티브</th>
 							  <th>삭제</th>
+							  
 							</tr>
 							
 						</thead>
 						<tbody>
 							<tr th:if="${#lists.size(adminList) > 0}" th:each="l : ${adminList}">
 								<td>
-									<input type="checkbox" class="checkOne" style="position: relative; top: 1.5px;" th:value="${l.wareAdminId}">
+									<input type="checkbox" class="checkOne" style="position: relative; top: 1.5px;" th:value="${l.adminApprovalId}">
 								</td>
-								<td th:text="${l.wareAdminId}"></td>
-								<td th:text="${l.wareAdminName}"></td>
-								<td th:text="${l.memberLevel.levelName}"></td>
-								<td th:text="${l.wareAdminAddress}"></td>
-								<td th:text="${l.wareAdminEmail}"></td>
-								<td th:text="${l.wareAdminPhone}"></td>
-								<td th:text="${l.wareAdminRegDate}"></td>
-								<td th:text="${l.wareAdminAccountState}"></td>
-								<td th:text="${l.wareAdminIncentive}"></td>
+								<td th:text="${l.adminApprovalId}"></td>
+								<td th:text="${l.adminApprovalName}"></td>
+								<td th:text="${l.adminApprovalLevelName}"></td>
+								<td th:text="${l.adminApprovalAddress}"></td>
+								<td th:text="${l.adminApprovalEmail}"></td>
+								<td th:text="${l.adminApprovalPhone}"></td>
+								<td th:text="${l.adminApprovalRegDate}"></td>
+								<td th:text="${l.adminApprovalAccountState}"></td>
+								<td th:text="${l.adminApprovalIncentive}"></td>
 							<td>
-								<a th:href="@{#}" class="btn btn-primary float-right">삭제</a>
+								<a th:href="@{#}" class="btn btn-outline-primary">삭제</a>
 							</td>
 							</tr>
 							
 						<tr th:unless="${#lists.size(adminList) > 0}" style="text-align: center;">
-							<td colspan="9" th:text="${'검색한 결과가 없습니다.'}">
+							<td colspan="11" th:text="${'검색한 결과가 없습니다.'}">
 							</td>
 						</tr>
 							</tbody>
@@ -126,7 +128,6 @@
 						url : "/wareAdminApproval",
 						method : 'post',
 						async : true,
-						//traditional : true,
 						dataType : "json",
 						data : {'dataArr':dataArr},
 						success: function(jdata){
