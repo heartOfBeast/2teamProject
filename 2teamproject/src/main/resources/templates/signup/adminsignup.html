@@ -23,39 +23,39 @@ html,body {
 							<span>!준</span>
 								<h5>관리자 회원가입</h5>
 								<div class="form-group">
-									<input type="text" class="form-control" name="wareAdminId" placeholder="아이디 입력" required = "required"/>
+									<input type="text" class="form-control" name="adminApprovalId" placeholder="아이디 입력" required = "required"/>
 								</div>
 								<div class="form-group">
-									<button type="button" class="btn btn-outline-primary">ID중복체크</button>
+									<button type="button" class="btn btn-outline-primary" id="idCheck">ID중복체크</button>
 								</div>
 								<div class="form-group">
 									<div class="input-group">
-										<input type="password" name="wareAdminPw" class="form-control" placeholder="비밀번호"  required = "required"/>
+										<input type="password" name="adminApprovalPw" class="form-control" placeholder="비밀번호"  required = "required"/>
 										<input type="password" class="form-control" placeholder="비밀번호 확인"/>
 									</div>
 								</div>
 								<div class="form-group">
-									<input type="text" name="wareAdminName" class="form-control" placeholder="이름"  required = "required"/>
+									<input type="text" name="adminApprovalName" class="form-control" placeholder="이름"  required = "required"/>
 								</div>
 								<div class="input-group flex-nowrap" style="margin-bottom: 12px">
-		                         <select class="form-control form-control-lg" name="wareAdminLevel" >
+		                         <select class="form-control form-control-lg" name="adminApprovalLevel" >
 									<option value="2">창고 관리자</option>
 									<option value="5">배송 기사</option>
 								</select>
                        			 </div>	
                        			 <div class="form-group">
-									<input type="text" name="wareAdminAddress" class="form-control" placeholder="주소"  required = "required"/>
+									<input type="text" name="adminApprovalAddress" class="form-control" placeholder="주소"  required = "required"/>
 								</div>
                        			 <div class="form-group">
-									<input type="email" name="wareAdminEmail" class="form-control" placeholder="이메일"  required = "required"/>
+									<input type="email" name="adminApprovalEmail" class="form-control" placeholder="이메일"  required = "required"/>
 								</div>
 								<div class="form-group">
-									<input type="text"  name="wareAdminPhone" class="form-control" placeholder="핸드폰 번호" required = "required"/>
+									<input type="text"  name="adminApprovalPhone" class="form-control" placeholder="핸드폰 번호" required = "required"/>
 								</div>
 								
 								
 								<div class="actions mb-4">
-									<button type="submit" class="btn btn-outline-primary" style="margin-top: 10px">Signup</button>
+									<button type="submit" class="btn btn-outline-primary" style="margin-top: 10px" id="signUp">회원가입</button>
 								</div>
 								<hr>
 								<div class="m-0">
@@ -69,6 +69,52 @@ html,body {
 				</div>
 			</div>
     	</div> <!-- END OF ROW -->
+</th:block>
+<th:block layout:fragment="customJs">
+	<script src="js/jquery.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+	
+	<script>
+		$('#idCheck').click(function(){
+			
+			var adminApprovalId = $('input[name="adminApprovalId"]').val();
+			console.log(adminApprovalId);
+			
+			if(adminApprovalId != '' && adminApprovalId != undefined && adminApprovalId !=null){
+				var request = $.ajax({
+					  url: "/adminMemberIdCheck",
+					  method: "POST",
+					  data: { adminApprovalId : adminApprovalId },
+					  dataType: "json",
+					});
+					request.done(function(data) {
+						if(data){
+							Swal.fire({
+								  title: '일치하는 아이디가 없습니다',
+								  text: '회원등록이 가능합니다!',
+								  icon: 'success'
+								});
+						}else{
+							Swal.fire({
+								  title: '일치하는 아이디가 있습니다!',
+								  text: '다른 아이디로 회원등록을 해주세요.',
+								  icon: 'error'
+							});
+						}
+					});
+					request.fail(function( jqXHR, textStatus ) {
+					  alert( "Request failed: " + textStatus );
+					});
+				}
+			
+			});
+		
+		
+	
+	</script>
+		
+	
+	
 </th:block>
 </body>
 </html>

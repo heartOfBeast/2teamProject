@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.cafe2team.domain.AdminApproval;
 import com.cafe2team.domain.Member;
 import com.cafe2team.domain.Shoppingmall;
 import com.cafe2team.domain.WareAdmin;
@@ -33,15 +34,6 @@ import com.cafe2team.controller.MemberController;
 public class MemberController {
 	
 	private static final Logger log = LoggerFactory.getLogger(MemberController.class);
-
-
-	private static final String SLEVEL = null;
-
-
-	private static final String SID = null;
-
-
-	private static final String SNAME = null;
 
 	
 	private final MemberService memberService;
@@ -73,9 +65,9 @@ public class MemberController {
 	@GetMapping("/adminWaiting")
 	public String adminWaiting(Model model) {
 		
-		List<WareAdmin> adminList = memberService.getAdminList();
+		List<AdminApproval> approvalAdminList = memberService.getApprovalList();
 		
-		model.addAttribute("adminList", adminList);
+		model.addAttribute("adminList", approvalAdminList);
 		
 		return "member/adminWaiting";
 	}
@@ -160,11 +152,13 @@ public class MemberController {
 	@PostMapping("/wareAdminApproval")
 	@ResponseBody
 	public int wareAdminApproval(@RequestParam(value = "dataArr[]") List<String> paramList) {
+		
 		int reuslt = 1;
 		
-		for(String wareAdminId : paramList) {
-			memberService.adminIntotbMember(wareAdminId);
-			memberService.deleteWareAdmin(wareAdminId);
+		for(String approvalAdminId : paramList) {
+			memberService.adminIntotbAdminWare(approvalAdminId);
+			memberService.adminIntotbMember(approvalAdminId);
+			memberService.deleteWareAdmin(approvalAdminId);
 		}
 		
 		return reuslt;
@@ -192,6 +186,18 @@ public class MemberController {
 		return "redirect:/";
 	}
 	
+	@PostMapping("/adminMemberIdCheck")
+	@ResponseBody
+	public boolean adminMemberIdCheck(@RequestParam(name = "adminApprovalId", required = false) String adminApprovalId) {
+		boolean idCheck = true;
+		
+		AdminApproval adminApproval = memberService.getApprovalById(adminApprovalId);
+		
+		if(adminApproval != null) idCheck= false;
+		
+		return idCheck;
+	}
+	
 	@GetMapping("/adminsignup")
 	public String adminSignUp(Model model) {
 		model.addAttribute("title", "관리자 회원가입");
@@ -200,9 +206,9 @@ public class MemberController {
 	}
 	
 	@PostMapping("/adminSignUp")
-	public String adminSignUp(WareAdmin wareAdmin) {
+	public String adminSignUp(AdminApproval adminApproval) {
 		
-		memberService.adminSignUp(wareAdmin);
+		memberService.adminSignUp(adminApproval);
 		
 		return "redirect:/";
 	}
