@@ -79,15 +79,14 @@
 													</div>
 												</div>
 												<div class="card-body">
-													
-													<div class="form-group row gutters">
+													<div class="form-group row gutters" >
 														<label for="memberId" class="col-sm-3 col-form-label text-right">
 															<font style="vertical-align: inherit;">
 																<font style="vertical-align: inherit;">아이디</font>
 															</font>
 														</label>
 														<div class="col-sm-6">
-															<input type="text" class="form-control" id="memberId" th:value="${member.memberId}" readonly="readonly">
+															<input type="text" class="form-control" id="memberId" name="shoppingmallId" th:value="${member.memberId}" readonly="readonly">
 														</div>
 													</div>
 													
@@ -143,7 +142,12 @@
 													<input type="hidden" class="form-control" id="memberStatus" name="memberStatus" th:value="${member.memberAccountStatus}">
 													
 													
-													<button type="submit" id="submit" name="submit" class="btn btn-primary float-right">
+													<button th:if="${member.memberLevelcode == '4'}" type="submit" onclick="alert('쇼핑묠 회원가입 요청을 완료했습니다. \n요청 승인을 기다려주세요.')" id="shoppingmallAddBtn" name="submit" class="btn btn-primary float-right" >
+														<font style="vertical-align: inherit;">
+															<font style="vertical-align: inherit;">거래처 등록 버튼</font>
+														</font>
+													</button>
+													<button th:if="${member.memberLevelcode != '4'}" type="button" onclick="alert('거래처 등록이 불가능 합니다. \n등록은 일반직원 권한만 가능합니다.');" id="shoppingmallNotAddBtn"  class="btn btn-primary float-right" >
 														<font style="vertical-align: inherit;">
 															<font style="vertical-align: inherit;">거래처 등록 버튼</font>
 														</font>
@@ -160,5 +164,8 @@
 		</div>
 	</div>
 </th:block>
-		
+
+<th:block layout:fragment="customJs">
+	
+</th:block>		
 </html>

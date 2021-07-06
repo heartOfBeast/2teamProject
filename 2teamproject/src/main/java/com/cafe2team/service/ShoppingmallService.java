@@ -13,7 +13,6 @@ import com.cafe2team.domain.Shoppingmall;
 @Transactional
 public class ShoppingmallService {
 
-
 	
 	@Autowired
 	private final ShoppingmallMapper shoppingmallMapper;
@@ -34,12 +33,28 @@ public class ShoppingmallService {
 	
 /******************************** 계약 시작 ********************************/
 	// 계약 리스트 조회
-	public List<Shoppingmall> ShoppingmallList(){
+	public List<Shoppingmall> shoppingmallList(){
 		
-		List<Shoppingmall> shoppingmallList = shoppingmallMapper.ShoppingmallList();
+		List<Shoppingmall> shoppingmallList = shoppingmallMapper.shoppingmallList();
 		
 		return shoppingmallList;
 	}
+	
+	/*
+	 * public Shoppingmall shoppingmallInfo(String shoppingmallId) {
+	 * 
+	 * Shoppingmall result = shoppingmallMapper.shoppingmallInfo(shoppingmallId);
+	 * 
+	 * return result; }
+	 */
+	
+	
+	
+	
+	
+	
+	
+	
 	
 /******************************** 계약 종료 ********************************/
 }

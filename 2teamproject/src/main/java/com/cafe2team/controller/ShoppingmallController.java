@@ -75,12 +75,15 @@ public class ShoppingmallController {
 	public String shoppingmallAdd(Shoppingmall shoppingmall, HttpSession session) {
 		
 		String SDID = (String)session.getAttribute("SID");
+		String SLEVEL = (String)session.getAttribute("SLEVEL");
 		shoppingmall.setShoppingmallId(SDID);
+		shoppingmall.setShoppingmallId(SLEVEL);
+		
 		shoppingmallService.shoppingmallAdd(shoppingmall);
 		
 		System.out.println(shoppingmallService.shoppingmallAdd(shoppingmall)+"@@@@@@@@@@@@@@@");
 		
-		return "redirect:/approval";
+		return "redirect:/shoppingmallApproval";
 	}
 	
 	
@@ -88,35 +91,42 @@ public class ShoppingmallController {
 /******************************* 거래처 등록 종료 *******************************/
 	
 
-/*############################### 계약 및 권한 승인 페이지 시작 ###############################*/	
 
-	// 계약 및 권한 승인 페이지 시작
-	@GetMapping("/approval")
-	public String approval(Model model) {
-		
-		model.addAttribute("title", "계약 및 권한 승인 페이지");
-		model.addAttribute("shoppingmallList", shoppingmallService.ShoppingmallList());
-		
-		System.out.println(shoppingmallService.ShoppingmallList() +"shoppingmallControllerList");
-		
-		return "shoppingmall/approval";
-	}
+
+
+
+/******************************* 거래처 권한 관리 시작 *******************************/
 	
-	@PostMapping("/approval")
-	public String approval1() {
-		
-		return "redirect:/approval";
-	}
-/*############################### 계약 및 권한 승인 페이지 종료 ###############################*/	
+	  // 거래처 권한 관리 페이지 시작
+	  @GetMapping("/shoppingmallApproval") public String approval(Model model) {
+	  
+	  model.addAttribute("title", "계약 및 권한 승인 페이지");
+	  model.addAttribute("shoppingmallList",
+	  shoppingmallService.shoppingmallList());
+	  
+	  System.out.println(shoppingmallService.shoppingmallList()
+	  +"shoppingmallControllerList");
+	  
+	  return "shoppingmall/shoppingmallApproval"; }
+	  
+	  @PostMapping("/approval") public String approval1() {
+	  
+	  return "redirect:/shoppingmallApproval"; }
+
 
 	
-	
+  /******************************* 거래처 권한 관리 종료 *******************************/	
 	
 	
 	/*Tab test*/
 	@GetMapping("/test")
 	public String test() {
 		return "test/test";
+	}
+	/*Tab test*/
+	@GetMapping("/test2")
+	public String test2() {
+		return "test/test2";
 	}
 	
 }

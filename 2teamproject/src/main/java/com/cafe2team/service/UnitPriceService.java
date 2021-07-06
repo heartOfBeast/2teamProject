@@ -43,7 +43,6 @@ public class UnitPriceService {
 	public Price priceInfo(String priceCode) {
 		
 		Price result = unitPriceMapper.priceInfo(priceCode);
-		System.out.println(priceCode +"#####################Service");
 		
 		
 		return result;
