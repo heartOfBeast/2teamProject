@@ -2,35 +2,74 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cafe2team.dao.ContractMapper">
 	
-	<select id="getContractList" resultType="Contract">
+	<!-- 최종계약 조회  -->
+	<select id="ContractList" resultType="Contract">
 		SELECT 
-			  shU.shoppingmall_user_id					AS shId
-			, shU.shoppingmall_user_pw					AS shPw
-			, shU.shoppingmall_user_name				AS shUserName
-			, shU.shoppingmall_name						AS shName
-			, shL.level_code							AS shLLevel
-			, shL.level_name							AS shLLevelName
-			, shU.shoppingmall_user_address				AS shAddr
-			, shU.shoppingmall_user_email				AS shEmail
-			, shU.shoppingmall_user_phone				AS shPhone
-			, shU.shoppingmall_user_iden_num			AS shNum
-			, shU.shoppingmall_user_reg_date			AS shReg
-			, shU.shoppingmall_user_account_status		AS shStatus
-			, shP.product_code							AS shProduct
-			, shP.product_name							AS shProductName
-			, shU.shoppingmall_bank						AS shBank
-			, shU.shoppingmall_bank_number				AS shBankNum
-		FROM 
-			tb_shoppingmall_user							AS shU
-			INNER JOIN 
-			tb_member_level 								AS shL
-			ON 
-			shU.shoppingmall_level_code = shL.level_code
-			INNER JOIN 
-			tb_product										AS shP
-			ON 
-			shU.shoppingmall_product = shP.product_code
+			  contractFinal.contract_final_code				AS contractFinalCode
+			, contractFinal.unit_price_code					AS contractFinalPriceCode
+			, contractFinal.unit_price_final_name			AS contractFinalPriceName
+			, contractFinal.contract_final_start			AS contractFinalStart
+			, contractFinal.contract_final_end				AS contractFinalEnd
+			, contractFinal.contract_final_warehouse_type	AS contractFinalWarehouseType
+			, contractFinal.contract_final_zone				AS contractFinalZone
+			, contractFinal.contract_final_position			AS contractFinalPosition
+			, contractFinal.product_code					AS contractFinalProduct 
+			, contractFinal.contract_final_product_name		AS contractFinalProductName
+			, contractFinal.contract_final_quantity			AS contractFinalQuantity
+			, contractFinal.contract_final_pay				AS contractFinalPay
+			, shoppingmallUser.shoppingmall_user_id			AS contractFinalUser
+			, contractFinal.contract_final_reg_date			AS contractFinalRegDay
+			, memberId.member_id							AS contractFinalMember
+			, contractFinal.contract_final_memo				AS contractFinalMemo
+		FROM 												
+			tb_contract_final 								AS contractFinal			
+		INNER JOIN 
+			tb_shoppingmall_user 							AS shoppingmallUser
+		ON
+			contractFinal.shoppingmall_user_id = shoppingmallUser.shoppingmall_user_id
+		INNER JOIN 
+			tb_member										AS memberId
+		ON
+			contractFinal.member_id = memberId.member_id;
 	</select>
+	
+	<!-- 계약 등록  -->
+	<insert id="ContractAdd" parameterType="String">
+		<selectKey keyColumn="contractFinalCode" keyProperty="contractFinalCode" resultType="String" order="BEFORE">
+			SELECT CONCAT('conf_0',MAX(SUBSTRING(contract_final_code,6))+1) FROM tb_contract_final
+		</selectKey>
+		INSERT INTO tb_contract_final
+			( contract_final_code
+			, unit_price_code
+			, unit_price_final_name
+			, contract_final_start
+			, contract_final_end
+			, contract_final_warehouse_type
+			, contract_final_zone
+			, contract_final_product_name
+			, contract_final_quantity
+			, contract_final_pay
+			, shoppingmall_user_id
+			, contract_final_reg_date
+			, member_id
+			, contract_final_memo
+		)VALUES (
+			  #{contractFinalCode}
+			, #{priceCode}
+			, #{priceName}
+			, #{contractFinalStart}
+			, #{contractFinalEnd}
+			, #{wareHouseType}
+			, #{priceZone}
+			, #{contractFinalProductName}
+			, #{contractFinalQuantity}
+			, #{pricePrice}
+			, #{contractFinalUser}
+			, NOW()
+			, #{contractFinalMember}
+			, #{contractFinalMemo} )
+	</insert>
+	
 	
 	
 </mapper>
