@@ -34,12 +34,19 @@ public class StockService {
 			return stockCheckListDetail;
 		}
 		
-		public List<Stock> getStockListDetail(String warehouse_name){
-			List<Stock> stockListDetail = stockMapper.getStockListDetail(warehouse_name);
+		//재고조회 ajax
+		public List<Stock> getStockListDetail(String shoppingmall_name, String warehouse_name){
+			List<Stock> stockListDetail = stockMapper.getStockListDetail(shoppingmall_name, warehouse_name);
 			
 			return stockListDetail;
 		}
-		
+
+		//재고 상세 모달
+		public List<Stock> getStockListDetailModel(){
+			List<Stock> stockList = stockMapper.getStockListDetailModal();
+			return stockList;
+		}	
+				
 		//재고 조회
 		public List<Stock> getStockList(){
 			List<Stock> stockList = stockMapper.getStockList();

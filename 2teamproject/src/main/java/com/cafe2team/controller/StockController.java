@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -24,6 +23,15 @@ public class StockController {
 
 	public StockController(StockService stockService) {
 		this.stockService = stockService;
+	}
+	
+	@GetMapping("/stockListDetailModal")
+	public List<Stock> stockListDetailModal(Model model){
+		
+		List<Stock> stockList = stockService.getStockListDetailModel();
+		model.addAttribute("stockList", stockList);
+		
+		return stockList;
 	}
 	
 	/************************************************************
@@ -44,10 +52,11 @@ public class StockController {
 	@GetMapping("/StockListDetail")
 	@ResponseBody
 	public List<Stock> StockListDetail(@RequestParam Map<String, Object> param, Model model){
+		
+		String shoppingmall_name = (String) param.get("shoppingmall_name");
 		String warehouse_name = (String) param.get("warehouse_name");
-		List<Stock> stockList = stockService.getStockListDetail(warehouse_name);
+		List<Stock> stockList = stockService.getStockListDetail(shoppingmall_name, warehouse_name);
 		System.out.println(stockList);
-		System.out.println(warehouse_name);
 		return stockList;
 		
 	}
