@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cafe2team.dao.VehicleMapper">
+	<resultMap type="Vehicle" id="vehicleResultMap">
+		<result property="carCode" 				column="car_code"/>
+		<result property="carKind" 				column="car_kind"/>
+		<result property="carStatus" 			column="car_status"/>
+		<result property="carStatusDetail"		column="car_status_detail"/>
+		<result property="carUsingYear" 		column="car_using_year"/>
+		<result property="carNumber" 				column="car_num"/>
+		<result property="carUsingStatus" 		column="car_using_status"/>
+		<result property="wareAdminId" 			column="ware_admin_id"/>
+		<result property="carRegDate" 			column="car_reg_date"/>
+		<result property="carUpdateDate" 		column="car_update_date"/>
+	</resultMap>
+	
+	<select id="getVehicleInfo" resultMap="vehicleResultMap" resultType="Vehicle" fetchSize="1000">
+		SELECT 
+			car_code
+			, car_kind
+			, car_status
+			, car_status_detail
+			, car_using_year
+			, car_num
+			, car_using_status
+			, ware_admin_id
+			, car_reg_date
+			, car_update_date
+		FROM 
+			tb_car;
+	</select>
+	
+	<insert id="addVehicle" parameterType="Vehicle">
+	INSERT INTO 
+		tb_car(
+		car_code
+		, car_kind
+		, car_status
+		, car_status_detail
+		, car_using_year
+		, car_num
+		, car_using_status
+		, ware_admin_id
+		, car_reg_date
+		, car_update_date
+	)VALUES(
+		sf_newCarCode()
+		, #{carKind}
+		, #{carStatus}
+		, #{carStatusDetail}
+		, #{carUsingYear}
+		, #{carNumber}
+		, #{carUsingStatus}
+		, #{wareAdminId}
+		, NOW()
+		, NOW());
+	</insert>
+	
+	<update id="modifyVehicle" parameterType="Vehicle">
+		UPDATE tb_car
+		SET
+			car_kind= #{carKind}
+			, car_status= #{carStatus}
+			, car_status_detail=#{carStatusDetail}
+			, car_using_year= #{carUsingYear}
+			, car_num= #{carNumber}
+			, car_using_status= #{carUsingStatus}
+			, ware_admin_id= #{wareAdminId}
+			, car_update_date=NOW()
+		WHERE 
+			car_code= #{carCode};
+	</update>
+	
+	<delete id="deleteVehicle" parameterType="String">
+		DELETE FROM 
+			tb_car 
+		WHERE 
+			car_code= #{pramList};
+	</delete>
+</mapper>

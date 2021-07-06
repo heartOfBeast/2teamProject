@@ -40,13 +40,14 @@
 									  		<input type="checkbox" id="checkAll" style="position: relative; top: 1.5px;">
 									  </th>
 									  <th style="display: none;">안전점검코드</th>
-									  <th>창고정보코드</th>
+									  <th style="display: none;">창고정보코드</th>
 									  <th>창고명</th>
 									  <th>화재안전점검내용</th>
 									  <th>물류안전점검내용</th>
 									  <th>주유설비 및 장비 안전점검내용</th>
 									  <th>등록담당자</th>
 									  <th>등록일</th>
+									  <th>수정일</th>
 									  <th>이상사유</th>
 									  <th>수정</th>
 									</tr>
@@ -57,13 +58,14 @@
 								  	  	<input type="checkbox" class="checkOne" style="position: relative; top: 1.5px;" th:value="${s.facilityCode}">
 									  </td>
 									  <td style="display: none;" th:text="${s.facilityCode}" id="facilityCodeData"></td>	
-									  <td th:text="${s.warehouseCode}" id="warehouseCodeData"></td>
+									  <td style="display: none;" th:text="${s.warehouseCode}" id="warehouseCodeData"></td>
 									  <td th:text="${s.warehouse.warehouseName}" ></td>
 									  <td th:text="${s.facilityFiresafety}" id="facilityFiresafetyData"></td>
 									  <td th:text="${s.facilityLogistics}" id="facilityLogisticsData"></td>
 									  <td th:text="${s.facilityMainEquipemnt}" id="facilityMainEquipemntData"></td>
 									  <td th:text="${s.wareAdminId}"></td>
 									  <td th:text="${s.facilityRegDate}"></td>
+									  <td th:text="${s.facilityUpdateDate}"></td>
 									  <td th:text="${s.facilityCheck}" id="facilityCheckData"></td>
 									  <td>
 									  	<!-- <a th:href="@{/modifySafetyCheck(facilityCode=${s.facilityCode})}">수정</a> -->
@@ -82,7 +84,7 @@
 				</div>
 			</div>
 		</div>
-<form th:action="@{/modifySafetyCheck}" method="post">
+<form th:action="@{/modifySafetyCheck}" method="post" id="modifySafetyCheck">
 	<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" style="display: none;" aria-hidden="true">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
@@ -96,35 +98,35 @@
 					<input type="hidden" class="form-control" name="facilityCode" id="facilityCode">
 					<div class="form-group">
 						<label for="wareHouseCodeModal">창고선택</label>	
-						<select class="form-control" id="wareHouseCodeModal" name="warehouseCode">
+						<select class="form-control" id="wareHouseCodeModal" name="warehouseCode" required="required">
 							<option value="">창고를 선택해주세요.</option>
 						    <option th:each="w : ${warehouse}" th:value="${w.warehouseCode}" th:text="${w.warehouseName}" ></option>
 						</select>
 					</div>	
 					<div class="form-group">
 						<label for="fireInspection">화재안전점검</label>	
-						<select class="form-control" id="fireInspection" name="facilityFiresafety">
+						<select class="form-control" id="fireInspection" name="facilityFiresafety" required="required">
 							<option value="점검완료">점검완료</option>
 							<option value="점검 미실시">점검 미실시</option>
 						</select>
 					</div>
 					<div class="form-group">
 						<label for="logisticsInspection">물류안전점검</label>	
-						<select class="form-control" id="logisticsInspection" name="facilityLogistics">
+						<select class="form-control" id="logisticsInspection" name="facilityLogistics" required="required">
 							<option value="점검완료">점검완료</option>
 							<option value="점검 미실시">점검 미실시</option>
 						</select>
 					</div>
 					<div class="form-group">
 						<label for="equipmentInspection">주요설비 및 장비안전점검</label>	
-						<select class="form-control" id="equipmentInspection" name="facilityMainEquipemnt">
+						<select class="form-control" id="equipmentInspection" name="facilityMainEquipemnt" required="required">
 							<option value="점검완료">점검완료</option>
 							<option value="점검 미실시">점검 미실시</option>
 						</select>
 					</div>
 						<div class="form-group">
 							<label for="facilityCheckModal">이상사유</label>
-							<textarea class="form-control" id="facilityCheckModal" placeholder="이상여부를 작성해주세요." maxlength="140" rows="4" name="facilityCheck" ></textarea>
+							<textarea class="form-control" id="facilityCheckModal" placeholder="이상여부를 작성해주세요." maxlength="140" rows="4" name="facilityCheck" required="required"></textarea>
 						</div>
 				</div>
 				<div class="modal-footer">
@@ -180,8 +182,6 @@
 					}else{
 						return false;
 					}
-						
-					
 				}
 			}
 			$('.modifyBtn').each(function(){
@@ -204,6 +204,9 @@
 					$('#facilityCode').val(facilityCodeData);
 					$('#wareHouseCodeModal').val(warehouseCodeData);
 				})
+			})
+			$('#modifySafetyCheck').submit(function(){
+				alert('수정이 완료되었습니다.')
 			})
 	</script>
 </th:block>

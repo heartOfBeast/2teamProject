@@ -11,6 +11,7 @@
 		<result property="facilityMainEquipemnt" 	column="facility_main_equipemnt"/>
 		<result property="wareAdminId" 				column="ware_admin_id"/>
 		<result property="facilityRegDate" 			column="facility_reg_date"/>
+		<result property="facilityUpdateDate" 		column="facility_update_date"/>
 		<result property="facilityCheck" 			column="facility_check"/>
 		<association property="warehouse" javaType="Warehouse">
 			<id property="warehouseCode" 			column="warehouse_code" />
@@ -28,6 +29,7 @@
 			, s.facility_main_equipemnt
 			, s.ware_admin_id
 			, s.facility_reg_date
+			, s.facility_update_date
 			, s.facility_check
 		FROM 
 			tb_safety_facility AS s
@@ -47,6 +49,7 @@
 			, s.facility_main_equipemnt
 			, s.ware_admin_id
 			, s.facility_reg_date
+			, s.facility_update_date
 			, s.facility_check
 		FROM 
 			tb_safety_facility AS s
@@ -66,6 +69,7 @@
 			,facility_logistics = #{facilityLogistics}
 			,facility_main_equipemnt = #{facilityMainEquipemnt}
 			, ware_admin_id = #{wareAdminId}
+			, facility_update_date = CURDATE()
 			,facility_check = #{facilityCheck}
 		WHERE 
 			facility_code=#{facilityCode};
@@ -80,6 +84,7 @@
 			, facility_main_equipemnt
 			, ware_admin_id
 			, facility_reg_date
+			, facility_update_date
 			, facility_check
 		)VALUES (
 			sf_newSafetyCode()
@@ -88,6 +93,7 @@
 			, #{facilityLogistics}
 			, #{facilityMainEquipemnt}
 			, #{wareAdminId}
+			, CURDATE()
 			, CURDATE()
 			, #{facilityCheck})
 	</insert>
