@@ -118,7 +118,7 @@
 		, shoppingmall_user_phone AS shoppingmallPhone
 		, shoppingmall_user_iden_num AS shoppingmallNumber
 		, shoppingmall_user_reg_date AS shoppingmallRegDay
-		, shoppingmall_user_account_status AS shoppingmallStatus
+		, shoppingmall_user_status AS shoppingmallStatus
 		, shoppingmall_bank AS shoppingmallBank
 		, shoppingmall_bank_number AS shoppingmallBankNum
 		FROM 
@@ -317,7 +317,7 @@
 		, shU.shoppingmall_user_phone					AS shoppingmallPhone
 		, shU.shoppingmall_user_iden_num				AS shoppingmallNumber
 		, shU.shoppingmall_user_reg_date				AS shoppingmallRegDay
-		, shU.shoppingmall_user_account_status			AS shoppingmallStatus
+		, shU.shoppingmall_user_status					AS shoppingmallStatus
 		, shU.shoppingmall_bank							AS shoppingmallBank
 		, shU.shoppingmall_bank_number					AS shoppingmallBankNum
 	FROM 
