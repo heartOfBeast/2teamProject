@@ -31,94 +31,85 @@
 <th:block layout:fragment="container">
 
 	<!-- Main container start -->
-				<div class="main-container">
-
-					<!-- Row start -->
-					<div class="row gutters justify-content-center">
-						<div class="col-xl-5 col-lg-5 col-md-6 col-sm-6 col-12">
-							<form id="addProductForm" th:action="@{/addProduct}" method="post"> 
-							<table>
-								<div class="card m-0">
-									<div class="card-header">
-										<div class="card-title">상품등록</div>
-									</div>
-									<div class="card-body">
-										<div class="form-group">
-											<select id="itemBigCategory" name="itemBigCategory" required="required" class="form-control">
-												<option name="itemBigCategory" value="">::대분류::</option>
-												<option th:each="b:${BigCategory}" th:value="${b.itemBigCategory}" th:text="${b.itemBigCategory}"></option>
-
-											</select>
-										</div>
-										<div class="form-group">
-											<select id="itemMiddleCategory" name="itemMiddleCategory" required="required" class="form-control">
-												<option name="itemMiddleCategory" value="">::중분류::</option>
-											</select>
-										</div>
-										<div class="form-group">
-											<select id="productCategory" name="productCategory" required="required" class="form-control">
-												<option name="itemSmallCategory" value="">::소분류::</option>
-											</select>
-										</div>
-										<div class="form-group">
-											<input type="text" class="form-control" id="productAddCategory" name="productAddCategory" placeholder="추가카테고리" required="">
-										</div>
-										<div class="form-group">
-											<input type="text" class="form-control" id="productName" name="productName" placeholder="상품명" required="">
-										</div>
-										<div class="form-group">
-											<select class="form-control" id="productFreezeCoolCondition" name="productFreezeCoolCondition">
-												<option name="productFreezeCoolCondition" value="">::보관유형::</option>
-												<option name="productFreezeCoolCondition" value="상온">::상온::</option>
-												<option name="productFreezeCoolCondition" value="냉장">::냉장::</option>
-												<option name="productFreezeCoolCondition" value="냉동">::냉동::</option>
-											</select>
-										</div>
-										<div class="form-group">
-											<input type="text" class="form-control" id="productWeight" name="productWeight" placeholder="무게" required="">
-										</div>
-										<div class="form-group">
-											<select id="productWeightUnit" name="productWeightUnit" class="form-control">
-												<option name="productWeightUnit" value="">::무게단위::</option>
-												<option name="productWeightUnit" value="kg">::kg::</option>
-												<option name="productWeightUnit" value="g">::g::</option>
-												<option name="productWeightUnit" value="ton">::ton::</option>
-											</select>
-										</div>
-										<div class="form-group">
-											<div class="custom-date-input">
-												<input type="text" id="productDateOfManufacture" name="productDateOfManufacture" class="form-control datepicker-dropdowns" placeholder="제조일" style="width: 100%;">
-											</div>
-										</div>
-										<div class="form-group">
-											<div class="custom-date-input">
-												<input type="text" id="productExpirationDate" name="productExpirationDate" class="form-control datepicker-dropdowns" placeholder="유통기한" style="width: 100%;">
-											</div>
-										</div>
-										<div class="form-group">
-											<textarea class="form-control" id="productDetail" name="productDetail" placeholder="productDetail" maxlength="140" rows="4" style="resize: none;"></textarea>
-										</div>
-										
+	<div class="main-container">
+		<!-- Row start -->
+		<div class="row gutters justify-content-center">
+			<div class="col-xl-5 col-lg-5 col-md-6 col-sm-6 col-12">
+				<form id="addProductForm" th:action="@{/addProduct}" method="post"> 
+					<table id="copy-print-csv" class="table custom-table">
+						<div class="card m-0">
+							<div class="card-header">
+								<div class="card-title">상품등록</div>
+							</div>
+							<div class="card-body">
+								<div class="form-group">
+									<select id="itemBigCategory" name="itemBigCategory" required="required" class="form-control">
+										<option value="">::대분류::</option>
+										<option th:each="b:${BigCategory}" th:value="${b.itemBigCategory}" th:text="${b.itemBigCategory}"></option>
+									</select>
+								</div>
+								<div class="form-group">
+									<select id="itemMiddleCategory" name="itemMiddleCategory" required="required" class="form-control">
+										<option value="">::중분류::</option>
+									</select>
+								</div>
+								<div class="form-group">
+									<select id="productCategory" name="productCategory" required="required" class="form-control">
+										<option value="">::소분류::</option>
+									</select>
+								</div>
+								<div class="form-group">
+									<input type="text" class="form-control" id="productAddCategory" name="productAddCategory" placeholder="추가카테고리" required="required">
+								</div>
+								<div class="form-group">
+									<input type="text" class="form-control" id="productName" name="productName" placeholder="상품명" required="required">
+								</div>
+								<div class="form-group">
+									<select class="form-control" id="productFreezeCoolCondition" name="productFreezeCoolCondition">
+										<option name="productFreezeCoolCondition" value="">::보관유형::</option>
+										<option name="productFreezeCoolCondition" value="상온">::상온::</option>
+										<option name="productFreezeCoolCondition" value="냉장">::냉장::</option>
+										<option name="productFreezeCoolCondition" value="냉동">::냉동::</option>
+									</select>
+								</div>
+								<div class="form-group">
+									<input type="text" class="form-control" id="productWeight" name="productWeight" placeholder="무게" required="">
+								</div>
+								<div class="form-group">
+									<select id="productWeightUnit" name="productWeightUnit" class="form-control">
+										<option name="productWeightUnit" value="">::무게단위::</option>
+										<option name="productWeightUnit" value="kg">::kg::</option>
+										<option name="productWeightUnit" value="g">::g::</option>
+										<option name="productWeightUnit" value="ton">::ton::</option>
+									</select>
+								</div>
+								<div class="form-group">
+									<div class="custom-date-input">
+										<input type="text" id="productDateOfManufacture" name="productDateOfManufacture" class="form-control datepicker-dropdowns" placeholder="제조일" style="width: 100%;">
 									</div>
 								</div>
-										<button type="submit" id="addProductBtn" class="btn btn-primary float-right" style="margin: 3px;">상품추가</button>
-										<button type="button" id="bundleAddBtn" name="bundleAddBtn" class="btn btn-primary float-right" style="margin: 3px;">일괄추가</button>
-							</table>	
-							</form>
+								<div class="form-group">
+									<div class="custom-date-input">
+										<input type="text" id="productExpirationDate" name="productExpirationDate" class="form-control datepicker-dropdowns" placeholder="유통기한" style="width: 100%;">
+									</div>
+								</div>
+								<div class="form-group">
+									<textarea class="form-control" id="productDetail" name="productDetail" placeholder="productDetail" maxlength="140" rows="4" style="resize: none;"></textarea>
+								</div>
+							</div>
 						</div>
-					</div>
-					
-					
-
-					<!-- Row end -->
-
-				</div>
+						<button type="submit" id="addProductBtn" class="btn btn-primary float-right" style="margin: 3px;">상품추가</button>
+						<button type="button" id="bundleAddBtn" name="bundleAddBtn" class="btn btn-primary float-right" style="margin: 3px;">일괄추가</button>
+					</table>	
+				</form>
+			</div>
+		</div>
+	<!-- Row end -->
+	</div>
 	<!-- Main container end -->
-
 </th:block>
 		
 <th:block layout:fragment="customJs">
-
 
 	<script type="text/javascript">		
 		var itemMiddleCategory = $('#itemMiddleCategory');
