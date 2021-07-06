@@ -3,15 +3,20 @@
 <mapper namespace="com.cafe2team.dao.WarehousingOrderMapper">
 	<resultMap type="Warehousing" id="WarehousingOrderResultMap">
 		<result property="warehousingOrderCode" column="warehousing_order_code"/>
-		<result property="warehousingOrderCode" column="warehousing_request_code"/>
-		<result property="warehousingOrderCode" column="product_code"/>
-		<result property="warehousingOrderCode" column="product_name"/>
-		<result property="warehousingOrderCode" column="warehouse_code"/>
-		<result property="warehousingOrderCode" column="sector_column_final_code"/>
-		<result property="warehousingOrderCode" column="warehousing_order_code"/>
-		<result property="warehousingOrderCode" column="warehousing_order_code"/>
-		<result property="warehousingOrderCode" column="warehousing_order_code"/>
-		<result property="warehousingOrderCode" column="warehousing_order_code"/>
+		<result property="warehousingRequestCode" column="warehousing_request_code"/>
+		<result property="productCode" column="product_code"/>
+		<result property="productName" column="product_name"/>
+		<result property="warehouseCode" column="warehouse_code"/>
+		<result property="sectorColumnFinalCode" column="sector_column_final_code"/>
+		<result property="warehousingOrderRequestAmount" column="warehousing_order_request_amount"/>
+		<result property="shoppingmallUserId" column="shoppingmall_user_id"/>
+		<result property="shoppingmallName" column="shoppingmall_name"/>
+		<result property="warehousingLotNumber" column="warehousing_lot_number"/>
+		<result property="warehousingBarcode" column="warehousing_barcode"/>
+		<result property="warehousingProductManufactureDate" column="warehousing_product_manufacture_date"/>
+		<result property="warehousingProductExpirationDate" column="warehousing_product_expiration_date"/>
+		<result property="warehousingOrderDueDate" column="warehousing_order_due_date"/>
+		<result property="wareAdminId" column="ware_admin_id"/>
 	</resultMap>
 
 

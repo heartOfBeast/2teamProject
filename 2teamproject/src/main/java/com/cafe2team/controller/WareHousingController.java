@@ -13,6 +13,7 @@ public class WareHousingController {
 		return "warehousing/receivingRequest";
 	}
 	
+	//입고지시서 목록
 	@GetMapping("/receivingOrder")
 	public String receivingOrder(Model model) {
 		
