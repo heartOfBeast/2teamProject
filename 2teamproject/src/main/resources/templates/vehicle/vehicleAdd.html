@@ -30,7 +30,7 @@
 		<div class="main-container">
 			<div class="row gutters justify-content-center">
 				<div class="col-xl-5 col-lg-5 col-md-6 col-sm-6 col-12">
-					<form th:action="@{/vehicleAdd}" method="post">
+					<form th:action="@{/vehicleAdd}" method="post" id="addCarInfo">
 						<div class="card m-0">
 							<div class="card-header">
 								<div class="card-title">차량 등록</div>
@@ -40,11 +40,11 @@
 								<div class="safeAddRadio">
 									<span class="safeAddSpan">차량종류 : </span>
 									<div class="custom-control custom-radio custom-control-inline">
-										<input type="radio" id="carKind1" name="carKind" class="custom-control-input" checked="checked" value="일반 차량">
+										<input type="radio" id="carKind1" name="carKind" class="custom-control-input" checked="checked" value="일반 탑차">
 										<label class="custom-control-label" for="carKind1">일반 차량</label>
 									</div>
 									<div class="custom-control custom-radio custom-control-inline">
-										<input type="radio" id="carKind2" name="carKind" class="custom-control-input" value="냉동 차량">
+										<input type="radio" id="carKind2" name="carKind" class="custom-control-input" value="냉동 탑차">
 										<label class="custom-control-label" for="carKind2">냉동 차량</label>	
 									</div>
 								</div>
@@ -61,37 +61,34 @@
 								</div>
 								<div class="form-group">
 									<div class="safeAddText">
-										<span class="safeAddSpan">차량상태 상세내용</span>
+										<label for="carStatusInfo">차량상태 상세내용</label>
 									</div>
-									<textarea class="form-control" id="message" placeholder="차량상태 상새내용을 작성해주세요." maxlength="140" rows="4" required="required"></textarea>
+									<textarea class="form-control" id="carStatusInfo" placeholder="차량상태 상새내용을 작성해주세요." maxlength="140" rows="4"  name="carStatusDetail" required="required"></textarea>
 									<div class="form-text text-muted">
 										<p id="characterLeft" class="help-block">140 characters left</p>
 									</div>
 								</div>
+								<label for="carUseYear">차량사용 연식</label>
 								<div class="form-group">
-									<input type="number" class="form-control" id="name" name="name" placeholder="차량사용 연식을 입력해주세요." required="required" >
+									<input type="number" class="form-control" name="carUsingYear" placeholder="차량사용 연식을 입력해주세요."  id="carUseYear" required="required">
 								</div>
+								<label for="carNumCheck">번호판</label>
 								<div class="form-group">
-									<input type="text" class="form-control" id="name" name="name" placeholder="번호판을 입력해주세요."  required="required">
-								</div>
-								<div class="form-group">
-									<input type="text" class="form-control" id="name" name="name" placeholder="배송기사ID를 입력해주세요."  required="required">
-								</div>
-								<div class="form-group">
-									<input type="text" class="form-control" id="name" name="name" placeholder="배송기사명을 입력해주세요."  required="required">
+									<input type="text" class="form-control" id="carNumCheck" name="carNumber" placeholder="차량번호를 입력해주세요." maxlength="8">
 								</div>
 									<div class="safeAddRadio">
 									<span class="safeAddSpan">사용유무 : </span>
 									<div class="custom-control custom-radio custom-control-inline">
-										<input type="radio" id="carUse1" name=carUse class="custom-control-input" checked="checked" value="Y">
+										<input type="radio" id="carUse1" name=carUsingStatus class="custom-control-input" checked="checked" value="유">
 										<label class="custom-control-label" for="carUse1">유</label>
 									</div>
 									<div class="custom-control custom-radio custom-control-inline">
-										<input type="radio" id="carUse2" name="carUse" class="custom-control-input" value="N"> 
+										<input type="radio" id="carUse2" name="carUsingStatus" class="custom-control-input" value="무"> 
 										<label class="custom-control-label" for="carUse2">무</label>
 									</div>
 								</div>
-								<button type="submit" id="submit" name="submit" class="btn btn-primary float-right">등록</button>
+								<button type="button" class="btn btn-primary float-right" onClick="history.back(-1);" style="margin-left: 10px;">취소</button>
+								<button type="submit" id="submitDone" class="btn btn-primary float-right" >등록</button>
 							</div>
 						</div>
 					</form>
@@ -99,6 +96,46 @@
 			</div>
 		</div>
 		<!-- Main container end -->
-	</th:block>
 		
+	</th:block>
+<th:block layout:fragment="customJs">
+	<script>
+		$('#submitDone').click(function(){
+			var addCarInfo = $('#addCarInfo');
+			var submitFlag = true;
+			var carStatusInfo = $('#carStatusInfo').val();
+			var carUseYear = $('#carUseYear').val();
+			var carNumCheck = $('#carNumCheck');
+			var regCarNum = /^\d{3}[가-힣]\d{4}/.test(carNumCheck.val());
+			var regCarNum2 = /^\d{2}[가-힣]\d{4}/.test(carNumCheck.val());
+			
+			if(carStatusInfo == null || carStatusInfo == '' || carStatusInfo == undefined){
+				alert('차량상태 상세내용을 입력해주세요.');
+				submitFlag = false;
+				$('#carStatusInfo').focus();
+				return submitFlag;
+			}else if(carUseYear == null || carUseYear == '' || carUseYear == undefined){
+				alert('차량사용 연식을 입력해주세요.');
+				submitFlag = false;
+				$('#carUseYear').focus();
+				return submitFlag;
+			}else if($('#carNumCheck').val() == null || $('#carNumCheck').val() == '' || $('#carNumCheck').val() == undefined){
+				alert('차량번호를 입력해주세요.');
+				submitFlag = false;
+				$('#carNumCheck').focus();
+				return submitFlag;
+			}else if(!regCarNum && !regCarNum2){
+				alert('올바른 차량번호를 입력해주세요.');
+				submitFlag = false;
+				$('#carNumCheck').focus();
+				return submitFlag;
+			}
+			if(submitFlag){
+				$('#addCarInfo').submit(function(){
+					alert('차량이 등록되었습니다.')
+				});
+			}
+		});
+	</script>
+</th:block>	
 </html>

@@ -10,12 +10,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.cafe2team.dao.SafetyCheckMapper;
 import com.cafe2team.domain.SafetyCheck;
 import com.cafe2team.domain.Warehouse;
 
 @Service
+@Transactional
 public class SafetyCheckService {
 	@Autowired
 	private SafetyCheckMapper safetyCheckMapper;
