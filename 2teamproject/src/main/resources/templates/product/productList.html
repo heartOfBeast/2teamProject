@@ -49,8 +49,11 @@
 								  <th>소분류</th>
 								  <th>추가분류</th>
 								  <th>보관유형</th>
-								  <th>제조일자</th>
-								  <th>유통기한</th>
+								  <th>상품무게</th>
+								  <th>무게단위</th>
+								  <!-- <th>제조일자</th> -->
+								  <!-- <th>유통기한</th> -->
+								  <th>상세설명</th>
 	
 								  <th>수정</th>
 								</tr>
@@ -68,9 +71,12 @@
 								  <td style="display: none;" th:text="${l.productCategory}" id="productCategoryData"></td>
 								  <td th:text="${l.productAddCategory}" id="productAddCategoryData"></td>
 								  <td th:text="${l.productFreezeCoolCondition}" id="productFreezeCoolConditionData"></td>
-								  <td th:text="${l.productDateOfManufacture}" id="productDateOfManufactureData"></td>
-								  <td th:text="${l.productExpirationDate}" id="productExpirationDateData"></td>
+								  <td th:text="${l.productWeight}" id="productWeightData"></td>
+								  <td th:text="${l.productWeightUnit}" id="productWeightUnitData"></td>
+								  <td style="display: none;" th:text="${l.productDateOfManufacture}" id="productDateOfManufactureData"></td>
+								  <td style="display: none;" th:text="${l.productExpirationDate}" id="productExpirationDateData"></td>
 								  <!-- <td th:text="${l.shoppingmallUserId}"></td> -->
+								  <td th:text="${l.productDetail}" id="productDetailData"></td>
 	
 								  <td>
 								  	<!-- <a th:href="@{modifyProduct(productCode=${l.productCode})}">수정</a> -->
@@ -82,7 +88,7 @@
 								</tr>
 							</tbody>
 			    	</table>
-						<button type="button" class="btn btn-primary float-right" onclick="deleteDate();">삭제</button>
+						<button type="button" class="btn btn-primary float-right" onclick="deleteData();">삭제</button>
 					</div>
 				</div>
 			
@@ -92,61 +98,83 @@
 
 	<!-- Main container end -->
 	<!-- 수정 모달 -->
-<form th:action="@{/modifyProduct}" method="post">
-	<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" style="display: none;" aria-hidden="true">
-		<div class="modal-dialog modal-lg">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="myLargeModalLabel">수정하기</h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">×</span>
-					</button>
-				</div>
-				<div class="modal-body">
-					<input type="text" class="form-control" name="productCode" id="productCode">
-					<label for="productName">상품명</label>	
-						<input type="text" class="form-control" id="productName" name="productName" >
-					<div class="form-group">
-						<label for="itemBigCategoryModal">대분류 선택</label>	
-						<select class="form-control" id="itemBigCategoryModal" name="itemBigCategory">
-							<option value="">대분류를 선택해주세요</option>
-						    <option th:each="b : ${BigCategory}" th:value="${b.itemBigCategory}" th:text="${b.itemBigCategory}" ></option>
-						</select>
-					</div>	
-					<div class="form-group">
-						<label for="itemMiddleCategoryModal">중분류 선택</label>	
-						<select class="form-control" id="itemMiddleCategoryModal" name="itemMiddleCategory">
-							<option value="">중분류를 선택해주세요</option>
-						</select>
+	<form th:action="@{/modifyProduct}" method="post">
+		<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" style="display: none;" aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="myLargeModalLabel">수정하기</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">×</span>
+						</button>
 					</div>
-					<div class="form-group">
-						<label for="productCategoryModal">소분류</label>	
-						<select class="form-control" id="productCategoryModal" name="productCategory">
-							<option value="">소분류를 선택해주세요</option>
-						</select>
+					<div class="modal-body">
+						<input type="text" class="form-control" name="productCode" id="productCode">
+						<label for="productNameModal">상품명</label>	
+							<input type="text" class="form-control" id="productNameModal" name="productName" >
+						<div class="form-group">
+							<label for="itemBigCategoryModal">대분류 선택</label>	
+							<select class="form-control" id="itemBigCategoryModal" name="itemBigCategory">
+								<option value="">대분류를 선택해주세요</option>
+							    <option th:each="b : ${BigCategory}" th:value="${b.itemBigCategory}" th:text="${b.itemBigCategory}" ></option>
+							</select>
+						</div>	
+						<div class="form-group">
+							<label for="itemMiddleCategoryModal">중분류 선택</label>	
+							<select class="form-control" id="itemMiddleCategoryModal" name="itemMiddleCategory">
+								<option value="">중분류를 선택해주세요</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label for="productCategoryModal">소분류</label>	
+							<select class="form-control" id="productCategoryModal" name="productCategory">
+								<option value="">소분류를 선택해주세요</option>
+							</select>
+						</div>
+						<label for="productAddCategoryModal">추가분류</label>	
+						<input type="text" class="form-control" id="productAddCategoryModal" name="productAddCategory" >
+						<div class="form-group">
+							<label for="productFreezeCoolConditionModal">보관유형</label>	
+							<select class="form-control" id="productFreezeCoolConditionModal" name="productFreezeCoolCondition">
+								<option value="">보관유형을 선택해주세요</option>
+								<option value="상온" >상온</option>
+								<option value="냉장" >냉장</option>
+								<option value="냉동" >냉동</option>
+							</select>
+						</div>
+						<label for="productWeightModal">상품무게</label>	
+							<input type="text" class="form-control" id="productWeightModal" name="productName" >
+						<div class="form-group">
+							<label for="productWeightUnitModal">무게단위</label>	
+							<select class="form-control" id="productWeightUnitModal" name="productWeightUnit">
+								<option value="">보관유형을 선택해주세요</option>
+								<option value="ton" >ton</option>
+								<option value="kg" >kg</option>
+								<option value="g" >g</option>
+							</select>
+						</div>
+						<div class="custom-date-input">
+							<label for="productDateOfManufactureModal">제조일자</label>	
+							<input type="text" class="form-control datepicker-dropdowns" id="productDateOfManufactureModal" name="productDateOfManufacture" >
+						</div>
+						<div class="custom-date-input">
+							<label for="productExpirationDateModal">유통기한</label>	
+							<input type="text" class="form-control datepicker-dropdowns" id="productExpirationDateModal" name="productExpirationDate" >
+						</div>
+						
+						<div class="form-group">
+							<label for="productDetailModal">상세설명</label>
+							<textarea class="form-control" id="productDetailModal" maxlength="140" rows="4" name="productDetail" ></textarea>
+						</div>
 					</div>
-					<div class="form-group">
-						<label for="productFreezeCoolConditionModal">보관유형</label>	
-						<select class="form-control" id="productFreezeCoolCondition" name="productFreezeCoolCondition">
-							<option value="">보관유형을 선택해주세요</option>
-							<option value="상온">상온</option>
-							<option value="냉장">냉장</option>
-							<option value="냉동">냉동</option>
-						</select>
+					<div class="modal-footer">
+						<button class="btn btn-secondary" data-dismiss="modal">취소</button>
+						<button type="submit" name="submit"  class="btn btn-primary">수정</button>
 					</div>
-					<div class="form-group">
-						<label for="facilityCheckModal">이상사유</label>
-						<textarea class="form-control" id="facilityCheckModal" placeholder="이상여부를 작성해주세요." maxlength="140" rows="4" name="facilityCheck" ></textarea>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button class="btn btn-secondary" data-dismiss="modal">취소</button>
-					<button type="submit" name="submit"  class="btn btn-primary">수정</button>
 				</div>
 			</div>
 		</div>
-	</div>
-</form>			
+	</form>			
 </th:block>
 <th:block layout:fragment="customJs">
 	<script type="text/javascript">		
@@ -222,7 +250,7 @@
 				})
 			})
 		//삭제
-			function deleteDate(){
+			function deleteData(){
 				var dataArr = new Array();
 				var list = $('.checkOne');
 				for(var i=0; i<list.length; i++){
@@ -237,7 +265,7 @@
 					var chk = confirm('정말 삭제하시겠습니까?');
 					if(chk){
 						$.ajax({
-							url : "/deleteSafetyCheck",
+							url : "/deleteProduct",
 							method : 'post',
 							async : true,
 							dataType : "json",
@@ -266,21 +294,32 @@
 					var itemBigCategoryData = $(this).parents('tr').children('#itemBigCategoryData').text();
 					var productNameData = $(this).parents('tr').children('#productNameData').text();
 					var productFreezeCoolConditionData = $(this).parents('tr').children('#productFreezeCoolConditionData').text();
-					var facilityCodeData = $(this).parents('tr').children('#facilityCodeData').text();
-					var warehouseCodeData = $(this).parents('tr').children('#warehouseCodeData').text();
+					var productWeightData = $(this).parents('tr').children('#productWeightData').text();
+					var productWeightUnitData = $(this).parents('tr').children('#productWeightUnitData').text();
+					var productDateOfManufactureData = $(this).parents('tr').children('#productDateOfManufactureData').text();
+					var productExpirationDateData = $(this).parents('tr').children('#productExpirationDateData').text();
+					var productDetailData = $(this).parents('tr').children('#productDetailData').text();
+					var productAddCategoryData = $(this).parents('tr').children('#productAddCategoryData').text();
 					
 					//select
 					var bigCategorySelected = $('#itemBigCategoryModal option:contains(' + itemBigCategoryData + ')').val();
 					var middleCategorySelected = $('#itemMiddleCategoryModal option:contains(' + itemMiddleCategoryData + ')').val();
 					var smallCategorySelected = $('#itemMiddleCategoryModal option:contains(' + itemSmallCategoryData + ')').val();
 					var productFreezeCoolConditionSelected = $('#productFreezeCoolConditionModal option:contains(' + productFreezeCoolConditionData + ')').val();
+					var productWeightUnitSelected = $('#productWeightUnitModal option:contains(' + productWeightUnitData + ')').val();
 					
 					$('#productCode').val(productCodeData);
 					$('#itemBigCategoryModal').val(bigCategorySelected);
 					$('#itemMiddleCategoryModal').val(middleCategorySelected);
-					$('#itemMiddleCategoryModal').val(smallCategorySelected);
-					$('#productName').val(productNameData);
+					$('#itemSmallCategoryModal').val(smallCategorySelected);
+					$('#productNameModal').val(productNameData);
 					$('#productFreezeCoolConditionModal').val(productFreezeCoolConditionSelected);
+					$('#productWeightModal').val(productWeightData);
+					$('#productWeightUnitModal').val(productWeightUnitSelected);
+					$('#productDateOfManufactureModal').val(productDateOfManufactureData);
+					$('#productExpirationDateModal').val(productExpirationDateData);
+					$('#productDetailModal').val(productDetailData);
+					$('#productAddCategoryModal').val(productAddCategoryData);
 				})
 			})
 			

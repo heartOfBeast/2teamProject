@@ -117,7 +117,7 @@ public class ProductController {
 		return "product/addProduct";
 	}
 
-	
+	//상품추가 대분류
 	@PostMapping("getMiddleCate")
 	@ResponseBody 
 	public List<Item> getmiddlecate(Model model,
@@ -129,7 +129,21 @@ public class ProductController {
 		
 		return getMiddleCategory;
   
- }
+	}
+	
+	//상품추가 소분류 
+	@PostMapping("getSmallCate")
+	@ResponseBody 
+	public List<Item> getSmallCate(Model model,
+			@RequestParam Map<String, Object> param){
+		String itemMiddleCategory = (String)param.get("itemMiddleCategory");
+		List<Item> getSmallCategory =productService.getItemSmallCategoryInfo(itemMiddleCategory);
+		System.out.println(getSmallCategory);
+		
+		return getSmallCategory;
+		
+	}
+	//상품수정 중분류
 	@PostMapping("getMiddleCateModal")
 	@ResponseBody 
 	public List<Item> getmiddlecateModal(Model model,
@@ -143,7 +157,7 @@ public class ProductController {
 		
 	}
 	
-	
+	//상품수정 소분류
 	@PostMapping("getSmallCateModal")
 	@ResponseBody 
 	public List<Item> getSmallCateModal(Model model,

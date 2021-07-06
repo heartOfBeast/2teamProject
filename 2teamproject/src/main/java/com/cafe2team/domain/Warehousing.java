@@ -11,7 +11,7 @@ public class Warehousing {
 	private String shoppingmallUserId;
 	private String shoppingmallName;
 	private String warehousingLotNumber;
-	private String warehousingbarcode;
+	private String warehousingBarcode;
 	private String warehousingProductManufactureDate;
 	private String warehousingProductExpirationDate;
 	private String warehousingOrderDueDate;
@@ -82,11 +82,11 @@ public class Warehousing {
 	public void setWarehousingLotNumber(String warehousingLotNumber) {
 		this.warehousingLotNumber = warehousingLotNumber;
 	}
-	public String getWarehousingbarcode() {
-		return warehousingbarcode;
+	public String getWarehousingBarcode() {
+		return warehousingBarcode;
 	}
-	public void setWarehousingbarcode(String warehousingbarcode) {
-		this.warehousingbarcode = warehousingbarcode;
+	public void setWarehousingBarcode(String warehousingBarcode) {
+		this.warehousingBarcode = warehousingBarcode;
 	}
 	public String getWarehousingProductManufactureDate() {
 		return warehousingProductManufactureDate;
@@ -149,13 +149,12 @@ public class Warehousing {
 				+ ", warehouseCode=" + warehouseCode + ", sectorColumnFinalCode=" + sectorColumnFinalCode
 				+ ", warehousingOrderRequestAmount=" + warehousingOrderRequestAmount + ", shoppingmallUserId="
 				+ shoppingmallUserId + ", shoppingmallName=" + shoppingmallName + ", warehousingLotNumber="
-				+ warehousingLotNumber + ", warehousingbarcode=" + warehousingbarcode
+				+ warehousingLotNumber + ", warehousingBarcode=" + warehousingBarcode
 				+ ", warehousingProductManufactureDate=" + warehousingProductManufactureDate
 				+ ", warehousingProductExpirationDate=" + warehousingProductExpirationDate
 				+ ", warehousingOrderDueDate=" + warehousingOrderDueDate + ", wareAdminId=" + wareAdminId + ", item="
 				+ item + ", product=" + product + ", shoppingmall=" + shoppingmall + ", wareAdmin=" + wareAdmin
 				+ ", warehouse=" + warehouse + "]";
 	}
-	
 
 }
