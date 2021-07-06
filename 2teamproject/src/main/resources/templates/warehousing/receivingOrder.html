@@ -37,57 +37,38 @@
 						<table id="copy-print-csv" class="table custom-table">
 						<thead>
 							<tr>
-							  <th>아이디</th>
-							  <th>이름</th>
-							  <th>권한</th>
-							  <th>소속 물류센터</th>
-							  <th>번호</th>
+								<th>
+									<input type="checkbox" id="checkAll" style="position: relative; top: 1.5px;">
+								</th>
+							  <th>사업자명</th>
+							  <th>사업자아이디</th>
+							  <th>입고 창고</th>
+							  <th>보관 위치</th>
+							  <th>상품 대분류</th>
+							  <th>상품 중분류</th>
+							  <th>상품 소분류</th>
+							  <th>입고 상품명</th>
+							  <th>상품 제조일</th>
+							  <th>상품 유통기한</th>
+							  <th>입고 수량</th>
+							  <th>LOT번호</th>
+							  <th>바코드</th>
+							  <th>입고예정일</th>
 							</tr>
 							
 						</thead>
 						<tbody>
-							<tr>
-							  <td>id002</td>
-							  <td>강준</td>
-							  <td>창고관리자</td>
-							  <td>전주 물류센터</td>
-							  <td>010-1111-1111</td>
+							<tr th:if="${#lists.size(warehousingOrderList)>0}" th:each="l : ${warehousingOrderList}">
+								<td>
+									<input type="checkbox" class="checkOne" style="position: relative; top: 1.5px;" th:value="${l.warehousingOrderCode}">
+								</td>
+								<td>id002</td>
+								<td>강준</td>
+								<td>창고관리자</td>
+								<td>전주 물류센터</td>
+								<td>010-1111-1111</td>
 							</tr>
-							<tr>
-							  <td>id003</td>
-							  <td>고병윤</td>
-							  <td>창고관리자</td>
-							  <td>전주 물류센터</td>
-							  <td>010-1111-1111</td>
-							</tr>
-							<tr>
-							  <td>id004</td>
-							  <td>백종민</td>
-							  <td>창고관리자</td>
-							  <td>전주 물류센터</td>
-							  <td>010-1111-1111</td>
-							</tr>
-							<tr>
-							  <td>id006</td>
-							  <td>김동욱</td>
-							  <td>창고관리자</td>
-							  <td>전주 물류센터</td>
-							  <td>010-1111-1111</td>
-							</tr>
-							<tr>
-							  <td>id007</td>
-							  <td>박수현</td>
-							  <td>창고관리자</td>
-							  <td>전주 물류센터</td>
-							  <td>010-1111-1111</td>
-							</tr>
-							<tr>
-							  <td>id008</td>
-							  <td>최상범</td>
-							  <td>창고관리자</td>
-							  <td>전주 물류센터</td>
-							  <td>010-1111-1111</td>
-							</tr>
+						
 						</tbody>
 		    	</table>
 				</div>

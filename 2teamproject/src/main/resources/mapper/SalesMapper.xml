@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cafe2team.dao.SalesMapper">
+	<resultMap type="ShoppingmallCalculate" id="ShoppingmallCalculateResultMap">
+		<result property="calculateCode" column="calculate_code"/>
+		<result property="contractFinalCode" column="contract_final_code"/>
+		<result property="shoppingmallUserId" column="shoppingmall_user_id"/>
+		<result property="calculateType" column="calculate_type"/>
+		<result property="calculatePayment" column="calculate_payment"/>
+		<result property="calculateMemo" column="calculate_memo"/>
+		<result property="calculateDate" column="calculate_date"/>
+		<result property="calculateRegDate" column="calculate_reg_date"/>
+		<result property="calculateRegDate" column="calculate_reg_date"/>
+		<result property="wareAdminId" column="ware_admin_id"/>
+	</resultMap>
+	
+	<select id="getSalesList" resultType="ShoppingmallCalculate" resultMap="ShoppingmallCalculateResultMap">
+		SELECT 
+			calculate_code, 
+			contract_final_code, 
+			shoppingmall_user_id, 
+			calculate_type, 
+			calculate_payment, 
+			calculate_memo, 
+			calculate_date, 
+			calculate_reg_date, 
+			ware_admin_id
+		FROM 
+			tb_shoppingmall_calculate
+	</select>
+</mapper>
