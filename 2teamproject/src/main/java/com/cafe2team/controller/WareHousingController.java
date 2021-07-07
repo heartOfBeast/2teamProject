@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,10 +17,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cafe2team.domain.Item;
 import com.cafe2team.domain.Member;
+import com.cafe2team.domain.Product;
 import com.cafe2team.domain.Shoppingmall;
+import com.cafe2team.domain.Warehouse;
 import com.cafe2team.service.MemberService;
 import com.cafe2team.service.ProductService;
-
+import com.cafe2team.service.WarehouseService;
 import com.google.zxing.BarcodeFormat; 
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.EncodeHintType;
@@ -36,11 +39,13 @@ public class WareHousingController {
 	
 	private final ProductService productService;
 	private final MemberService memberService;
+	private final WarehouseService warehouseService;
 	
 	@Autowired
-	public WareHousingController(ProductService productService, MemberService memberService) {
+	public WareHousingController(ProductService productService, MemberService memberService, WarehouseService warehouseService) {
 		this.productService = productService;
 		this.memberService = memberService;
+		this.warehouseService = warehouseService;
 	}
 	
 	@GetMapping("/receivingRequest")
@@ -49,12 +54,22 @@ public class WareHousingController {
 		
 		
 		Shoppingmall shopmemberList = memberService.getsShopById(memberId);
-		List<Item>BigCategory =  productService.getItemBigCategoryInfo();
+		List<Warehouse> warehouseList = warehouseService.getWarehouseList();		
+		List<Product> productList = productService.getProductList();
 		
-		model.addAttribute("BigCategory", BigCategory);
+		
+		model.addAttribute("productList", productList);
 		model.addAttribute("shopmemberList", shopmemberList);
+		model.addAttribute("warehouseList", warehouseList);
 		
 		return "warehousing/receivingRequest";
+	}
+	
+	@PostMapping("/receivingRequest")
+	public String receivingRequest() {
+		
+		
+		return null;
 	}
 	
 	//입고지시서 목록
@@ -75,6 +90,7 @@ public class WareHousingController {
 		return "warehousing/receivingShopStatus";
 	}
 	
+	
 	@RequestMapping(value="/barCodeCreate", method = {RequestMethod.POST})
 	@ResponseBody
 	public int makeqr() throws WriterException, IOException {
@@ -82,11 +98,10 @@ public class WareHousingController {
 		Random random = new Random();
 		
 		int randomBarcode = random.nextInt();
+		String randomBarcodeUnsign = Integer.toUnsignedString(randomBarcode);
+	
 		
-		String randomBarcodeSet = String.valueOf(randomBarcode);
-		
-		
-		String url = randomBarcodeSet;
+		String url = randomBarcodeUnsign;
 		System.out.println(url);
 		int width = 250;
 		int height = 250;

@@ -46,48 +46,27 @@
 											<input type="text" class="form-control" id="shoppingmallId" name="shoppingmallId" placeholder="쇼핑몰 사업자 아이디" th:value="${shopmemberList.shoppingmallId}" readonly="readonly"/>
 										</div>
 											<div class="input-group flex-nowrap" style="margin-bottom: 12px">
-						                         <select class="form-control form-control-lg">
-													<option>(주)지엘통상</option>
-													<option>(주)마이박스</option>
-													<option>(주)의정부냉동식품</option>
-													<option>동성산업(주)</option>
-													<option>강릉수협제빙장</option>
-													<option>경남냉동</option>
-													<option>마산수산업협동조합</option>
-													<option>수산냉동</option>
-													<option>여수제빙</option>
-													<option>삼성산업주식회사</option>
-													<option>대안냉동상사</option>
-													<option>한성기업</option>
-													<option>목표수협</option>
-													<option>(주)동방목포지사</option>
+						                         <select class="form-control form-control-lg" id="warehouseName" name="warehouseName">
+													<option>:: 창고목록 ::</option>
+													<option th:each="b:${warehouseList}" th:value="${b.warehouseName}" th:text="${b.warehouseName}"></option>
 												</select>
 			                       			 </div>	
 											<div class="form-group" style="margin-bottom: 12px">
-						                         <select class="form-control form-control-lg" id="itemBigCategory" name="itemBigCategory" required="required">
-													<option>대분류</option>
-													<option th:each="b:${BigCategory}" th:value="${b.itemBigCategory}" th:text="${b.itemBigCategory}"></option>
+						                         <select class="form-control form-control-lg" id="productName" name="productName" required="required">
+													<option>:: 상품이름 ::</option>
+													<option th:each="c:${productList}" th:value="${c.productName}" th:text="${c.productName}"></option>
 												</select>
 			                       			 </div>	
-											<div class="input-group flex-nowrap" style="margin-bottom: 12px">
-						                         <select class="form-control form-control-lg" id="itemMiddleCategory"  name="itemMiddleCategory" required="required"> 
-													<option>중분류</option>
-												</select>
+											<div class="form-group" style="margin-bottom: 12px">
+												<input type="text" class="form-control" id="productAmount" name="productAmount" placeholder="입고요청수량"/>
 			                       			 </div>	
-											<div class="input-group flex-nowrap" style="margin-bottom: 12px">
-						                         <select class="form-control form-control-lg" id="productCategory" name="productCategory" required="required">
-													<option>소분류</option>
-												</select>
-			                       			 </div>	
-										<div class="form-group">
-											<input type="text" class="form-control" id="productLot" name="subject" placeholder="상품LOT번호">
-										</div>
 										<div class="form-group">
 										<div class="image-container">
 										    <img style="width: 500px;" id="preview-image" src="https://dummyimage.com/500x500/ffffff/000000.png&text=preview+image">
-										    <input style="display: block;" type="file" id="input-image" >
+										    <input style="display: block;" type="file" id="input-image" name="pro">
 										</div>
 											<a type="button" class="btn btn-outline-info" id="barCode" style="margin-top: 10px;">QR코드생성</a>
+											<span style="font-size: 12px; font-weight: bold;">QR코드를 생성하면 제품에 맞는 바코드가 생성됩니다!(저장경로 C:/QR)</span>
 										</div>
 										<div class="form-group">
 											<input type="Date" class="form-control" id="recevingDate"name="subject" placeholder="입고 예정일">
@@ -113,67 +92,98 @@
 <th:block layout:fragment="customJs">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script type="text/javascript">		
-		var itemMiddleCategory = $('#itemMiddleCategory');
+// 		var itemMiddleCategory = $('#itemMiddleCategory');
 		
-		$('#itemBigCategory').change(function(){
-			var request = $.ajax({
-				url: "/getMiddleCate",
-				method: "POST", 
-				data: { itemBigCategory : $('#itemBigCategory').val()}, 
-				dataType: "json" 
-			}); 
+// 		$('#itemBigCategory').change(function(){
+// 			var request = $.ajax({
+// 				url: "/getMiddleCate",
+// 				method: "POST", 
+// 				data: { itemBigCategory : $('#itemBigCategory').val()}, 
+// 				dataType: "json" 
+// 			}); 
 
-			request.done(function( data ) {
-				console.log(data);
-				var html = '';
-				if(data != undefined && data != '' && data.length > 0){
-					html += '<option value=""> :: 중분류 선택 :: </option>';
-					for(var i=0; i < data.length; i++){
-						html += '<option value="'+data[i].itemMiddleCategory+'">';
-						html += data[i].itemMiddleCategory;
-						html += '</option>';
-					}
-				}else{
-					html = '<option value=""> :: 이건 뭐지? :: </option>';
-				}
-				itemMiddleCategory.html(html);
-			}); 
-			request.fail(function( jqXHR, textStatus ) {
-				alert( "Request failed: " + textStatus );
-			});			
-		});
-	</script>
-	<script type="text/javascript">		
-		var itemSmallCategory = $('#productCategory');
+// 			request.done(function( data ) {
+// 				console.log(data);
+// 				var html = '';
+// 				if(data != undefined && data != '' && data.length > 0){
+// 					html += '<option value=""> :: 중분류 선택 :: </option>';
+// 					for(var i=0; i < data.length; i++){
+// 						html += '<option value="'+data[i].itemMiddleCategory+'">';
+// 						html += data[i].itemMiddleCategory;
+// 						html += '</option>';
+// 					}
+// 				}else{
+// 					html = '<option value=""> :: 이건 뭐지? :: </option>';
+// 				}
+// 				itemMiddleCategory.html(html);
+// 			}); 
+// 			request.fail(function( jqXHR, textStatus ) {
+// 				alert( "Request failed: " + textStatus );
+// 			});			
+// 		});
 		
-		$('#itemMiddleCategory').change(function(){
-			var request = $.ajax({
-				url: "/getSmallCate",
-				method: "POST", 
-				data: { itemMiddleCategory : $('#itemMiddleCategory').val()	}, 
-				dataType: "json" 
-			}); 
+		
+// 		var itemSmallCategory = $('#productCategory');
+		
+// 		$('#itemMiddleCategory').change(function(){
+// 			var request = $.ajax({
+// 				url: "/getSmallCate",
+// 				method: "POST", 
+// 				data: { itemMiddleCategory : $('#itemMiddleCategory').val()	}, 
+// 				dataType: "json" 
+// 			}); 
 
-			request.done(function( data ) {
-				console.log(data);
-				var html = '';
-				if(data != undefined && data != '' && data.length > 0){
+// 			request.done(function( data ) {
+// 				console.log(data);
+// 				var html = '';
+// 				if(data != undefined && data != '' && data.length > 0){
 					
-					html += '<option value=""> :: 소분류 선택 :: </option>';
-					for(var i=0; i < data.length; i++){
-						html += '<option value="'+data[i].itemSmallCategory+'">';
-						html += data[i].itemSmallCategory
-						html += '</option>';
-					}
-				}else{
-					html = '<option value=""> :: 이건 뭐지? :: </option>';
-				}
-				itemSmallCategory.html(html);
-			}); 
-			request.fail(function( jqXHR, textStatus ) {
-				alert( "Request failed: " + textStatus );
-			});			
-		});
+// 					html += '<option value=""> :: 소분류 선택 :: </option>';
+// 					for(var i=0; i < data.length; i++){
+// 						html += '<option value="'+data[i].itemSmallCategory+'">';
+// 						html += data[i].itemSmallCategory
+// 						html += '</option>';
+// 					}
+// 				}else{
+// 					html = '<option value=""> :: 이건 뭐지? :: </option>';
+// 				}
+// 				itemSmallCategory.html(html);
+// 			}); 
+// 			request.fail(function( jqXHR, textStatus ) {
+// 				alert( "Request failed: " + textStatus );
+// 			});			
+// 		});
+
+		
+// 		var WareHouseList = $('#WareHouseList')
+		
+// 		$('#WareHouseList').change(function(){
+			
+// 			var request = $.ajax({
+// 				  url: "/wareHouseCheckList",
+// 				  method: "POST",
+// 				  data: { WareHouseList : $('#WareHouseList').val() },
+// 				  dataType: "json"
+// 				});
+				 
+// 				request.done(function( data ) {
+					
+// 					html += '<option value=""> :: 창고목록  :: </option>';
+// 					for(var i=0; i<data.length; i++){
+// 						html += '<option value="'+data[i]+'">';
+// 						html += '</option>';
+// 					}
+									
+// 				});
+				 
+// 				request.fail(function( jqXHR, textStatus ) {
+// 				  alert( "Request failed: " + textStatus );
+// 				});
+			
+// 		});
+	
+
+
 		
 		
 		$('#barCode').click(function(){
