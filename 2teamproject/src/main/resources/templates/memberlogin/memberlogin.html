@@ -20,7 +20,7 @@ html,body {
 						<span>!준</span>
 	                    <h4>로그인</h4> <span>
 	                    	<input type="radio" name="Check" value="memberCheck" checked="checked"> 관리자
-	                    	<input type="radio" name="Check" value="shopCheck"> 거래처
+	                    	<input type="radio" name="Check" value="shopCheck" id="shopSelect"> 거래처
 	                    </span>
 	                        <div class="input-group flex-nowrap" style="padding:8px">
 	                            <div class="input-group-prepend">
@@ -83,6 +83,8 @@ $('#houseLogin').click(function(){
 });
 
 $('#shopLogin').click(function(){
+	
+	$('#shopSelect').prop('checked', true);
 	
 	var mId =  'sh001';
 	var mPw =  'pw001';
