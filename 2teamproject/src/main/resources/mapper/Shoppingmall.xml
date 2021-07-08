@@ -2,7 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cafe2team.dao.ShoppingmallMapper">
 	
-	<select id="ShoppingmallList" resultType="Shoppingmall">
+	<!-- 거래처 회원 조회 -->
+	<select id="shoppingmallList" resultType="Shoppingmall">
 		SELECT 
 			  shoppingmallUser.shoppingmall_user_id						AS shoppingmallId
 			, shoppingmallUser.shoppingmall_user_pw						AS shoppingmallPw
@@ -15,9 +16,11 @@
 			, shoppingmallUser.shoppingmall_user_phone					AS shoppingmallPhone
 			, shoppingmallUser.shoppingmall_user_iden_num				AS shoppingmallNumber
 			, shoppingmallUser.shoppingmall_user_reg_date				AS shoppingmallRegDay
-			, shoppingmallUser.shoppingmall_user_account_status			AS shoppingmallStatus
+			, shoppingmallUser.shoppingmall_user_status					AS shoppingmallStatus
 			, shoppingmallUser.shoppingmall_bank						AS shoppingmallBank
 			, shoppingmallUser.shoppingmall_bank_number					AS shoppingmallBankNum
+			, shoppingmallUser.shoppingmall_user_cause 					AS shoppingmallStatusCause
+			, shoppingmallUser.shoppingmall_user_update					AS shoppingmallUpdate
 		FROM 
 			tb_shoppingmall_user										AS shoppingmallUser 
 			INNER JOIN		
@@ -26,18 +29,86 @@
 			shoppingmallUser.shoppingmall_level_code = shoppingmallLevel.level_code;
 	</select>
 	
+	<!-- 거래처 회원 등록 -->
+	<insert id="" >
+<!-- 		INSERT INTO tb_shoppingmall_user
+			( shoppingmall_user_id
+			, shoppingmall_user_pw
+			, shoppingmall_user_name
+			, shoppingmall_name
+			, shoppingmall_level_code
+			, shoppingmall_user_address
+			, shoppingmall_user_email
+			, shoppingmall_user_phone
+			, shoppingmall_user_iden_num
+			, shoppingmall_bank
+			, shoppingmall_bank_number
+			, shoppingmall_user_status
+			, shoppingmall_user_update
+		)VALUES 
+			( #{shoppingmallId}
+			, #{shoppingmallPw}
+			, #{shoppingmallUserName}
+			, #{shoppingmallName}
+			, #{shoppingmallLevel}
+			, #{shoppingmallAddr}
+			, #{shoppingmallEmail}
+			, #{shoppingmallPhone}
+			, #{shoppingmallNumber}
+			, #{shoppingmallBank}
+			, #{shoppingmallBankNum}
+			, "승인요청"
+			, NOW() ) -->
+	</insert>
 	
-	<update id="shoppingmallAdd" parameterType="Shoppingmall">
+	
+	<update id="shoppingmallAdd" parameterType="String">
 		UPDATE 
 			tb_shoppingmall_user
 		SET
 			shoppingmall_name					=		#{shoppingmallName},
 			shoppingmall_user_iden_num			=		#{shoppingmallNumber},
 			shoppingmall_user_reg_date			=		NOW(),
-			shoppingmall_user_account_status	=		"승인요청",
+			shoppingmall_user_status			=		"승인요청",
 			shoppingmall_bank					=		#{shoppingmallBank},
 			shoppingmall_bank_number			=		#{shoppingmallBankNum}
 		WHERE 
 			shoppingmall_user_id				=		#{shoppingmallId}
 	</update>
+	
+	<!-- 쇼핑몰 사업자 권한 승인을 위한 조회 -->
+	<select id="shoppingmallInfo" resultType="Shoppingmall">
+		SELECT 
+			  shoppingmall_user_id				AS shoppingmallId
+			, shoppingmall_user_pw				AS shoppingmallPw
+			, shoppingmall_user_name			AS shoppingmallUserName
+			, shoppingmall_name					AS shoppingmallName
+			, shoppingmall_level_code			AS shoppingmallLevel
+			, shoppingmall_user_address			AS shoppingmallAddr
+			, shoppingmall_user_email			AS shoppingmallEmail
+			, shoppingmall_user_phone			AS shoppingmallPhone
+			, shoppingmall_user_iden_num		AS shoppingmallNumber
+			, shoppingmall_user_reg_date		AS shoppingmallRegDay
+			, shoppingmall_bank					AS shoppingmallBank
+			, shoppingmall_bank_number			AS shoppingmallBankNum
+			, shoppingmall_user_status			AS shoppingmallStatus
+			, shoppingmall_user_cause  			AS shoppingmallStatusCause
+			, shoppingmall_user_update			AS shoppingmallUpdate
+		FROM 
+			tb_shoppingmall_user
+		WHERE
+			shoppingmall_user_id = #{shoppingmallId};
+	</select>
+	
+	<update id="shoppingmallApproval" parameterType="Shoppingmall">
+		
+	</update>
+	
+	
+	
+	
+	
+	
+	
+	
 </mapper>

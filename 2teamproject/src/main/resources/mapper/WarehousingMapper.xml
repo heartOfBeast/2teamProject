@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cafe2team.dao.WarehousingMapper">
+
+	<resultMap type="Warehousing" id="WarehousingOrderResultMap">
+		<result property="warehousingOrderCode" column="warehousing_order_code"/>
+		<result property="warehousingRequestCode" column="warehousing_request_code"/>
+		<result property="productCode" column="product_code"/>
+		<result property="productName" column="product_name"/>
+		<result property="warehouseCode" column="warehouse_code"/>
+		<result property="sectorColumnFinalCode" column="sector_column_final_code"/>
+		<result property="warehousingOrderRequestAmount" column="warehousing_order_request_amount"/>
+		<result property="shoppingmallUserId" column="shoppingmall_user_id"/>
+		<result property="shoppingmallName" column="shoppingmall_name"/>
+		<result property="warehousingLotNumber" column="warehousing_lot_number"/>
+		<result property="warehousingBarcode" column="warehousing_barcode"/>
+		<result property="warehousingProductManufactureDate" column="warehousing_product_manufacture_date"/>
+		<result property="warehousingProductExpirationDate" column="warehousing_product_expiration_date"/>
+		<result property="warehousingOrderDueDate" column="warehousing_order_due_date"/>
+		<result property="wareAdminId" column="ware_admin_id"/>
+	</resultMap>
+	
+	<resultMap type="Product" id="productResultMap">
+		<result property="productCode" 						column="product_code"/>
+		<result property="productFreezeCoolCondition" 		column="product_freeze_cool_condition"/>
+		<result property="productAddCategory" 				column="product_add_category"/>
+		<result property="productName" 						column="product_name"/>
+		<result property="productWeight" 					column="product_weight"/>
+		<result property="productWeightUnit"				column="product_weight_unit"/>
+		<result property="productDateOfManufacture"			column="product_date_of_manufacture"/>
+		<result property="productExpirationDate"			column="product_expiration_date"/>
+		<result property="shoppingmallUserId"				column="shoppingmall_user_id"/>
+		<result property="productRegDate"					column="product_reg_date"/>
+		<result property="productDetail"					column="product_detail"/>
+		
+		<association property="item" javaType="Item">
+			<id property="itemCode"					column="item_code"/>
+			<result property="itemBigCategory" 		column="item_big_category"/>
+			<result property="itemMiddleCategory"	column="item_middle_category"/>
+			<result property="itemSmallCategory" 	column="item_small_category"/>
+		</association>
+		
+	</resultMap>
+	
+	<select id="getProductCode" resultMap="productResultMap">
+
+		SELECT
+			DISTINCT p.product_code
+		FROM
+			tb_product AS p
+		WHERE
+			p.product_name = #{productName};
+		
+	</select>		
+
+
+</mapper>

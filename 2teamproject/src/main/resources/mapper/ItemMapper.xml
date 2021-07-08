@@ -15,6 +15,11 @@
 
   </resultMap>
   
+  	<!--상품등록시 품목선택  -->
+  	<select id="getAddItemList">
+  		
+  	</select>
+  
   	<!--품목리스트 조회 -->
   	<select id="getItemList" resultType="Item"  fetchSize="1000">
   	SELECT 

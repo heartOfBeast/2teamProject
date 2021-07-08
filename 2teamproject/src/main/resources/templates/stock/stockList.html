@@ -29,148 +29,184 @@
 </th:block>
 	
 <th:block layout:fragment="container">
+<style>
+	.hidden-col {display: none;}
+</style>
 <div class="main-container">
 	<div class="row gutters">
 		<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-6">
 			<div class="table-container">
 				<div class="t-header">재고조회</div>
-				<select id="spm" name="spm">
-					<option class="spm" th:each="stockList : ${stockList}" th:value="${stockList.shoppingmallName}" th:text="${stockList.shoppingmallName}"></option>
-				</select>
-				<select id="ware" name="ware">
-					<option class="ware" th:each="stockList : ${stockList}" th:value="${stockList.warehouseName}" th:text="${stockList.warehouseName}"></option>
-				</select>
 				<div class="table-responsive">
-					<table id="copy-print-csv" class="table custom-table">
+					<table id="copy-print-csv-KO" class="table custom-table">
 						<thead>
 							<tr >
-							  <th>상품명</th>
-							  <th>거래처명</th>
-							  <th>창고명</th>
-							  <th>보관위치</th>
-							  <th>단위</th>
-							  <th>최근입고수량</th>
-							  <th>최근출고수량</th>
-							  <th>전체수량</th>
-							  <th>등록담당자</th>
-							  <th>담당자연락처</th>
-							  <th>등록일</th>
+							<th>대분류</th>
+							<th>중분류</th>
+							<th>소분류</th>
+							<th>상품명</th>
+							<th>창고명</th>
+							<th>보관위치</th>
+							<th>거래처명</th>
+							<th>재고수량</th>
+							<th class="hidden-col">입고요청수량</th>
+							<th class="hidden-col">입고예정수량</th>
+							<th class="hidden-col">입고예정일시</th>
+<!--						<th class="hidden-col">상품코드</th>
+							<th class="hidden-col">입고코드</th> -->
+							<th>최근입고수량</th>
+							<th>최근입고일시</th>
+							<th id="detail">상세</th>
 							</tr>
 						</thead>
-						<tbody id="stockData">
-							<tr th:each="L : ${stockList}">
-								<td th:text="${L.productName}"></td>
-								<td th:text="${L.shoppingmallName}"></td>
-								<td th:text="${L.warehouseName}"></td>
-								<td th:text="${L.finalSector}"></td>
-								<td th:text="${L.stockUnit}"></td>
-								<td th:text="${L.recentWarehousingAmount}"></td>
-								<td th:text="${L.recentReleaseAmount}"></td>
-								<td th:text="${L.totalAmount}"></td>
-								<td th:text="${L.wareAdminId}"></td>
-								<td th:text="${L.wareAdminPhone}"></td>
-								<td th:text="${L.stockRegDate}"></td>
+						<tbody>
+							<tr th:each="stock : ${stockList}">
+								<td th:text="${stock.bigCategory}" id="dataBigCategory"></td>
+								<td th:text="${stock.middleCategory}" id="dataMiddleCategory"></td>
+								<td th:text="${stock.smallCategory}" id="dataSmallCategory"></td>
+								<td th:text="${stock.productName}" id="dataProductName"></td>
+								<td th:text="${stock.warehouseName}" id="dataWarehouseName"></td>
+								<td th:text="${stock.finalSector}" id="dataFinalSector"></td>
+								<td th:text="${stock.spmName}" id="dataSpmName"></td>
+								<td th:text="${stock.total}" id="dataTotal"></td>
+								<td class="hidden-col" th:text="${stock.wRequestAmount}" id="dataWRequestAmount"></td>
+								<td class="hidden-col" th:text="${stock.wOrderAmount}" id="dataWOrderAmount"></td>
+								<td class="hidden-col" th:text="${stock.wOrderDate}" id="dataWOrderDate"></td>
+<!--							<td class="hidden-col" th:text="${stock.productCode}" id="dataProductCode"></td>
+								<td class="hidden-col" th:text="${stock.receivingCode}" id="dataReceivingCode"></td> -->
+								<td th:text="${stock.wRealAmount}" id="dataWRealAmount"></td>
+								<td th:text="${stock.wRealDate}" id="dataWRealDate"></td>
+								<td>
+								<button class="btn btn-outline-info detailModalBtn" data-toggle="modal" data-target=".bd-example-modal-lg">상세</button>
+								</td>
 							</tr>
 						</tbody>
-		    		</table>
+	    			</table>
 				</div>
 			</div>
-		
 		</div>
 	</div>
 </div>
-
+	<div class="modal fade bd-example-modal-lg" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" style="display: none;" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="myLargeModalLabel">상세페이지</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">X</span>
+					</button>
+				</div>
+					<div class="modal-body">				
+						<div class="table-container">
+							<div class="table-responsive">
+								<table class="table custom-table m-0">
+									<tbody>
+										<tr>
+											<th style="width: 150px;">상품명</th>
+											<td id="modalProductName"></td>
+										</tr>
+										<tr>
+											<th>창고명</th>
+											<td id="modalWarehouseName"></td>
+										</tr>
+										<tr>
+											<th>보관위치</th>
+											<td id="modalFinalSector"></td>
+										</tr>
+										<tr>
+											<th>거래처명</th>
+											<td id="modalSpmName"></td>
+										</tr>
+										<tr>
+											<th>재고수량</th>
+											<td id="modalTotal"></td>
+										</tr>
+										<tr>
+											<th>입고요청수량</th>
+											<td id="modalWRequestAmount"></td>
+										</tr>
+										<tr>
+											<th>입고예정수량</th>
+											<td id="modalWOrderAmount"></td>
+										</tr>
+										<tr>
+											<th>입고예정일시</th>
+											<td id="modalWOrderDate"></td>
+										</tr>
+										<tr>
+											<th>최근입고수량</th>
+											<td id="modalWRealAmount"></td>
+										</tr>
+										<tr>
+											<th>최근입고일시</th>
+											<td id="modalWRealDate"></td>
+										</tr>
+									</tbody>
+								</table>					
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button class="btn btn-secondary" data-dismiss="modal" >닫기</button>
+					</div>
+			</div>
+		</div>
+	</div>
 
 </th:block>
 <th:block layout:fragment="customJs">
-	<script th:inline="javascript">
 
-	
-/********************************************* select 제이쿼리 이용 중복 제거 *********************************************/
- 	var test = [[${stockList}]];
- 	var shoppingmallName = [];
-	var warehouseName = [];
-	
-	for(var i = 0; i < test.length; i++){
-		shoppingmallName.push(test[i].shoppingmallName);
-	}
-	var spmUniqie = [...new Set(shoppingmallName)];
-	
-	for(var i = 0; i < test.length; i++){
-		warehouseName.push(test[i].warehouseName);
-	}
-	var warehouseUnique = [...new Set(warehouseName)];
+	<script type="text/javascript" th:inline="javascript">
+	$(document).ready(function(){
+		$('#detail').removeClass('sorting')});
 	
 	
-	var htmlSpm = "";
-	var htmlWare = "";
+ 	var currentPage = [[${#httpServletRequest.requestURI}]];
+//	console.log(currentPage)	
+	var aObj = $('.sidebar-menu a');
+//	console.log(aObj);
+	$.each(aObj, function(){
+		let parentObj = $(this).parents('.sidebar-dropdown');
+		let ahref = $(this).attr('href');
+//		console.log(ahref)
+		if(currentPage == ahref){
+			$(parentObj).addClass('active');
+			$(this).addClass('current-page');
+			return false;
+		}
+	});	
 	
-		htmlSpm += '<option disabled="disabled" selected="selected">:: 거래처명 선택 ::</option>';
-		htmlWare += '<option disabled="disabled" selected="selected">:: 창고명 선택 ::</option>';
-	
-	for(var i = 0; i < spmUniqie.length; i++){
-		htmlSpm += '<option>';
-		htmlSpm += spmUniqie[i];
-		htmlSpm += '</option>';
-	}
-	
-	for(var i = 0; i < warehouseUnique.length; i++){
-		htmlWare += '<option>';
-		htmlWare += warehouseUnique[i];
-		htmlWare += '</option>';
-	}
-	
-	$('#spm').html(htmlSpm); 
-	$('#ware').html(htmlWare); 
-	
-	
-	/*********************************************  *********************************************/	
-	var selectSpmValue = "";
-	var selectWareValue = "";
-	
-	$('#spm').change(function(){
-		selectSpmValue = $('#spm option:selected').val();
-		getData();
-	});
-	
-	$('#ware').change(function(){
-		selectWareValue = $('#ware option:selected').val();
-		getData();
-	}); 
-	function getData(){  	
-		$.ajax({
-	   		url : "/StockListDetail", 
-			data : { shoppingmall_name : selectSpmValue, warehouse_name : selectWareValue },
-			success : function(res){
-			$('#stockData').children().remove();
+	$('.detailModalBtn').each(function(){
+		$(this).click(function(){	
+			
+		var dataBigCategory = $(this).parents('tr').children('#dataBigCategory').text();
+		var dataMiddleCategory = $(this).parents('tr').children('#dataMiddleCategory').text();
+		var dataSmallCategory = $(this).parents('tr').children('#dataSmallCategory').text();
+		var dataProductName = $(this).parents('tr').children('#dataProductName').text();
+		var dataWarehouseName = $(this).parents('tr').children('#dataWarehouseName').text();
+		var dataFinalSector = $(this).parents('tr').children('#dataFinalSector').text();
+		var dataSpmName = $(this).parents('tr').children('#dataSpmName').text();
+		var dataTotal = $(this).parents('tr').children('#dataTotal').text();
+		var dataWRequestAmount = $(this).parents('tr').children('#dataWRequestAmount').text();
+		var dataWOrderAmount = $(this).parents('tr').children('#dataWOrderAmount').text();
+		var dataWOrderDate = $(this).parents('tr').children('#dataWOrderDate').text();
+		var dataWRealAmount = $(this).parents('tr').children('#dataWRealAmount').text();
+		var dataWRealDate = $(this).parents('tr').children('#dataWRealDate').text();
 		
-		var innerHtml = '';
-		$.each(res, function( index, value){
-			innerHtml += '<tr>'	
-            	innerHtml += '<td>'+value.productName+'</td>'
-        		innerHtml += '<td>'+value.shoppingmallName+'</td>'
-       			innerHtml += '<td>'+value.warehouseName+'</td>'
-   				innerHtml += '<td>'+value.finalSector+'</td>'
-				innerHtml += '<td>'+value.stockUnit+'</td>'
-	            innerHtml += '<td>'+value.recentWarehousingAmount+'</td>'
-	            innerHtml += '<td>'+value.recentReleaseAmount+'</td>'
-				innerHtml += '<td>'+value.totalAmount+'</td>'
-				innerHtml += '<td>'+value.wareAdminId+'</td>'
-				innerHtml += '<td>'+value.wareAdminPhone+'</td>'
-				innerHtml += '<td>'+value.stockRegDate+'</td>'
-				innerHtml += '</tr>'
-				
-		});
-		$('#stockData').append(innerHtml);
-		
-			}
+		$('#modalProductName').html(dataProductName);
+		$('#modalWarehouseName').html(dataWarehouseName);
+		$('#modalFinalSector').html(dataFinalSector);
+		$('#modalSpmName').html(dataSpmName);
+		$('#modalTotal').html(dataTotal);
+		$('#modalWRequestAmount').html(dataWRequestAmount);
+		$('#modalWOrderAmount').html(dataWOrderAmount);
+		$('#modalWOrderDate').html(dataWOrderDate);
+		$('#modalWRealAmount').html(dataWRealAmount);
+		$('#modalWRealDate').html(dataWRealDate);
 		})
-	}
+	})
+				
 	
-	
-	
-	
-
 	</script>
 </th:block>
 		

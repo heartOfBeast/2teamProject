@@ -30,70 +30,216 @@
 
 <th:block layout:fragment="container">
 	<!-- Main container start -->
-<div class="main-container">
-			<div class="row gutters">
-				<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-					<div class="table-container">
-						<div class="t-header">상품목록</div>
-						<div class="table-responsive">
-							<table id="copy-print-csv" class="table custom-table">
-								<thead>
-									<tr>
-								      <th>
-									  		<input type="checkbox" id="checkAll" style="position: relative; top: 1.5px;">
-									  </th>
-									  <th>상품코드</th>
-									  <th>상품명</th>
-									  <th>보관유형</th>
-									  <th>대분류</th>
-									  <th>중분류</th>
-									  <th>소분류</th>
-									  <th>추가분류</th>
-									  <th>상품무게</th>
-									  <th>제조일자</th>
-									  <th>유통기한</th>
-									  <th>등록자</th>
-									  <th>수정</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr th:each="l : ${productList}">
-									  <td>
-								  	  	<input type="checkbox" class="checkOne" style="position: relative; top: 1.5px;" th:value="${l.productCode}">
-									  </td>
-									  <td th:text="${l.productCode}"></td>
-									  <td th:text="${l.productName}"></td>
-									  <td th:text="${l.productFreezeCoolCondition}"></td>
-									  <td th:text="${l.item.itemBigCategory}"></td>
-									  <td th:text="${l.item.itemMiddleCategory}"></td>
-									  <td th:text="${l.item.itemSmallCategory}"></td>
-									  <td th:text="${l.productAddCategory}"></td>
-									  <td th:text="${l.productWeight}"></td>
-									  <td th:text="${l.productDateOfManufacture}"></td>
-									  <td th:text="${l.productExpirationDate}"></td>
-									  <td th:text="${l.shoppingmallUserId}"></td>
-									  <td>
-									  	<a th:href="@{modifyProduct(productCode=${l.productCode})}">수정</a>
-								  	  </td>
-									</tr>
-									<tr th:unless="${#lists.size(productList)>0}" style="text-align: center;">
-										<td th:text="${검색 결과가 없습니다.}" colspan="11"></td>
-									</tr>
-								</tbody>
-				    	</table>
-							<button type="button" class="btn btn-primary float-right" onclick="deleteDate();">삭제</button>
+	<div class="main-container">
+		<div class="row gutters">
+			<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+				<div class="table-container">
+					<div class="t-header">상품목록</div>
+					<div class="table-responsive">
+						<table id="copy-print-csv" class="table custom-table">
+							<thead>
+								<tr>
+									<th>
+										<input type="checkbox" id="checkAll" style="position: relative; top: 1.5px;">
+									</th>
+									<!-- <th>상품코드</th> -->
+									<th>상품명</th>
+									<th>대분류</th>
+									<th>중분류</th>
+									<th>소분류</th>
+									<th>추가분류</th>
+									<th>보관유형</th>
+									<th>상품무게</th>
+									<th>무게단위</th>
+									<!-- <th>제조일자</th> -->
+									<!-- <th>유통기한</th> -->
+									<th>상세설명</th>
+									
+									<th>수정</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:if="${#lists.size(productList)>0}" th:each="l : ${productList}">
+								  <td>
+							  	  	<input type="checkbox" class="checkOne" style="position: relative; top: 1.5px;" th:value="${l.productCode}">
+								  </td>
+								  <td style="display: none;" th:text="${l.productCode}" id="productCodeData"></td>
+								  <td th:text="${l.productName}" id="productNameData"></td>
+								  <td th:text="${l.item.itemBigCategory}" id="itemBigCategoryData"></td>
+								  <td th:text="${l.item.itemMiddleCategory}" id="itemMiddleCategoryData"></td>
+								  <td th:text="${l.item.itemSmallCategory}" id="itemSmallCategoryData"></td>
+								  <td style="display: none;" th:text="${l.productCategory}" id="productCategoryData"></td>
+								  <td th:text="${l.productAddCategory}" id="productAddCategoryData"></td>
+								  <td th:text="${l.productFreezeCoolCondition}" id="productFreezeCoolConditionData"></td>
+								  <td th:text="${l.productWeight}" id="productWeightData"></td>
+								  <td th:text="${l.productWeightUnit}" id="productWeightUnitData"></td>
+								  <td style="display: none;" th:text="${l.productDateOfManufacture}" id="productDateOfManufactureData"></td>
+								  <td style="display: none;" th:text="${l.productExpirationDate}" id="productExpirationDateData"></td>
+								  <!-- <td th:text="${l.shoppingmallUserId}"></td> -->
+								  <td th:text="${l.productDetail}" id="productDetailData"></td>
+	
+								  <td>
+								  	<!-- <a th:href="@{modifyProduct(productCode=${l.productCode})}">수정</a> -->
+								  	<a type="button" class="btn btn-primary modifyBtn" data-toggle="modal" data-target=".bd-example-modal-lg" id="viewModal" style="color: white;">수정</a>
+							  	  </td>
+								</tr>
+								<tr th:unless="${#lists.size(productList)>0}" style="text-align: center;">
+									<td th:text="${검색 결과가 없습니다.}" colspan="11"></td>
+								</tr>
+							</tbody>
+						</table>
+						<button type="button" class="btn btn-primary float-right" onclick="deleteData();">삭제</button>
+					</div>
+				</div>
+			
+			</div>
+		</div>
+	</div>
+
+	<!-- Main container end -->
+	<!-- 수정 모달 -->
+	<form th:action="@{/modifyProduct}" method="post">
+		<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" style="display: none;" aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="myLargeModalLabel">수정하기</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">×</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<input type="text" class="form-control" name="productCode" id="productCode">
+						<label for="productNameModal">상품명</label>	
+							<input type="text" class="form-control" id="productNameModal" name="productName" >
+						<div class="form-group">
+							<label for="itemBigCategoryModal">대분류 선택</label>	
+							<select class="form-control" id="itemBigCategoryModal" name="itemBigCategory">
+								<option value="">대분류를 선택해주세요</option>
+							    <option th:each="b : ${BigCategory}" th:value="${b.itemBigCategory}" th:text="${b.itemBigCategory}" ></option>
+							</select>
+						</div>	
+						<div class="form-group">
+							<label for="itemMiddleCategoryModal">중분류 선택</label>	
+							<select class="form-control" id="itemMiddleCategoryModal" name="itemMiddleCategory">
+								<option value="">중분류를 선택해주세요</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label for="productCategoryModal">소분류</label>	
+							<select class="form-control" id="productCategoryModal" name="productCategory">
+								<option value="">소분류를 선택해주세요</option>
+							</select>
+						</div>
+						<label for="productAddCategoryModal">추가분류</label>	
+						<input type="text" class="form-control" id="productAddCategoryModal" name="productAddCategory" >
+						<div class="form-group">
+							<label for="productFreezeCoolConditionModal">보관유형</label>	
+							<select class="form-control" id="productFreezeCoolConditionModal" name="productFreezeCoolCondition">
+								<option value="">보관유형을 선택해주세요</option>
+								<option value="상온" >상온</option>
+								<option value="냉장" >냉장</option>
+								<option value="냉동" >냉동</option>
+							</select>
+						</div>
+						<label for="productWeightModal">상품무게</label>	
+							<input type="text" class="form-control" id="productWeightModal" name="productName" >
+						<div class="form-group">
+							<label for="productWeightUnitModal">무게단위</label>	
+							<select class="form-control" id="productWeightUnitModal" name="productWeightUnit">
+								<option value="">보관유형을 선택해주세요</option>
+								<option value="ton" >ton</option>
+								<option value="kg" >kg</option>
+								<option value="g" >g</option>
+							</select>
+						</div>
+						<div class="custom-date-input">
+							<label for="productDateOfManufactureModal">제조일자</label>	
+							<input type="text" class="form-control datepicker-dropdowns" id="productDateOfManufactureModal" name="productDateOfManufacture" >
+						</div>
+						<div class="custom-date-input">
+							<label for="productExpirationDateModal">유통기한</label>	
+							<input type="text" class="form-control datepicker-dropdowns" id="productExpirationDateModal" name="productExpirationDate" >
+						</div>
+						
+						<div class="form-group">
+							<label for="productDetailModal">상세설명</label>
+							<textarea class="form-control" id="productDetailModal" maxlength="140" rows="4" name="productDetail" ></textarea>
 						</div>
 					</div>
-				
+					<div class="modal-footer">
+						<button class="btn btn-secondary" data-dismiss="modal">취소</button>
+						<button type="submit" name="submit"  class="btn btn-primary">수정</button>
+					</div>
 				</div>
 			</div>
 		</div>
-
-	<!-- Main container end -->
-
+	</form>			
 </th:block>
 <th:block layout:fragment="customJs">
-	<script>
+	<script type="text/javascript">		
+		//중분류 가져오기
+		var itemMiddleCategoryModal = $('#itemMiddleCategoryModal');
+		$('#itemBigCategoryModal').change(function(){
+			var request = $.ajax({
+				url: "/getMiddleCateModal",
+				method: "POST", 
+				data: { itemBigCategoryModal : $('#itemBigCategoryModal').val()}, 
+				dataType: "json" 
+			}); 
+
+			request.done(function( data ) {
+				console.log(data);
+				var html = '';
+				if(data != undefined && data != '' && data.length > 0){
+					html += '<option value=""> :: 중분류 선택 :: </option>';
+					for(var i=0; i < data.length; i++){
+						html += '<option value="'+data[i].itemMiddleCategory+'">';
+						html += data[i].itemMiddleCategory;
+						html += '</option>';
+					}
+				}else{
+					html = '<option value=""> :: 이건 뭐지? :: </option>';
+				}
+				itemMiddleCategoryModal.html(html);
+			}); 
+			request.fail(function( jqXHR, textStatus ) {
+				alert( "Request failed: " + textStatus );
+			});			
+		});
+
+		//소분류 가져오기
+		var itemSmallCategoryModal = $('#productCategoryModal');
+		$('#itemMiddleCategoryModal').change(function(){
+			var request = $.ajax({
+				url: "/getSmallCateModal",
+				method: "POST", 
+				data: { itemMiddleCategoryModal : $('#itemMiddleCategoryModal').val()	}, 
+				dataType: "json" 
+			}); 
+
+			request.done(function( data ) {
+				console.log(data);
+				var html = '';
+				if(data != undefined && data != '' && data.length > 0){
+					
+					html += '<option value=""> :: 소분류 선택 :: </option>';
+					for(var i=0; i < data.length; i++){
+						html += '<option value="'+data[i].itemSmallCategory+'">';
+						html += data[i].itemSmallCategory
+						html += '</option>';
+					}
+				}else{
+					html = '<option value=""> :: 이건 뭐지? :: </option>';
+				}
+				itemSmallCategoryModal.html(html);
+			}); 
+			request.fail(function( jqXHR, textStatus ) {
+				alert( "Request failed: " + textStatus );
+			});			
+		});
+
+		//항목체크
 			$(function(){
 				$('#checkAll').click(function(){
 					if($('#checkAll').prop('checked')){
@@ -103,7 +249,8 @@
 					}
 				})
 			})
-			function deleteDate(){
+		//삭제
+			function deleteData(){
 				var dataArr = new Array();
 				var list = $('.checkOne');
 				for(var i=0; i<list.length; i++){
@@ -118,7 +265,7 @@
 					var chk = confirm('정말 삭제하시겠습니까?');
 					if(chk){
 						$.ajax({
-							url : "/deleteSafetyCheck",
+							url : "/deleteProduct",
 							method : 'post',
 							async : true,
 							dataType : "json",
@@ -139,6 +286,42 @@
 					
 				}
 			}
+		//수정
+			$('.modifyBtn').each(function(){
+				$(this).click(function(){
+					
+					var productCodeData = $(this).parents('tr').children('#productCodeData').text();
+					var itemBigCategoryData = $(this).parents('tr').children('#itemBigCategoryData').text();
+					var productNameData = $(this).parents('tr').children('#productNameData').text();
+					var productFreezeCoolConditionData = $(this).parents('tr').children('#productFreezeCoolConditionData').text();
+					var productWeightData = $(this).parents('tr').children('#productWeightData').text();
+					var productWeightUnitData = $(this).parents('tr').children('#productWeightUnitData').text();
+					var productDateOfManufactureData = $(this).parents('tr').children('#productDateOfManufactureData').text();
+					var productExpirationDateData = $(this).parents('tr').children('#productExpirationDateData').text();
+					var productDetailData = $(this).parents('tr').children('#productDetailData').text();
+					var productAddCategoryData = $(this).parents('tr').children('#productAddCategoryData').text();
+					
+					//select
+					var bigCategorySelected = $('#itemBigCategoryModal option:contains(' + itemBigCategoryData + ')').val();
+					var middleCategorySelected = $('#itemMiddleCategoryModal option:contains(' + itemMiddleCategoryData + ')').val();
+					var smallCategorySelected = $('#itemMiddleCategoryModal option:contains(' + itemSmallCategoryData + ')').val();
+					var productFreezeCoolConditionSelected = $('#productFreezeCoolConditionModal option:contains(' + productFreezeCoolConditionData + ')').val();
+					var productWeightUnitSelected = $('#productWeightUnitModal option:contains(' + productWeightUnitData + ')').val();
+					
+					$('#productCode').val(productCodeData);
+					$('#itemBigCategoryModal').val(bigCategorySelected);
+					$('#itemMiddleCategoryModal').val(middleCategorySelected);
+					$('#itemSmallCategoryModal').val(smallCategorySelected);
+					$('#productNameModal').val(productNameData);
+					$('#productFreezeCoolConditionModal').val(productFreezeCoolConditionSelected);
+					$('#productWeightModal').val(productWeightData);
+					$('#productWeightUnitModal').val(productWeightUnitSelected);
+					$('#productDateOfManufactureModal').val(productDateOfManufactureData);
+					$('#productExpirationDateModal').val(productExpirationDateData);
+					$('#productDetailModal').val(productDetailData);
+					$('#productAddCategoryModal').val(productAddCategoryData);
+				})
+			})
 			
 	</script>
 </th:block>		

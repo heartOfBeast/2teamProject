@@ -13,4 +13,6 @@ public interface StockCheckMapper {
 	
 	public List<StockCheck> getStockCheckListDetail(String warehouse_code, String sector_stock_status_code);
 
+	public int stockCheckUpdate(StockCheck stockCheck);
+
 }

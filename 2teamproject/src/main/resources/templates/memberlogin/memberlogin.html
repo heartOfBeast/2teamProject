@@ -20,23 +20,28 @@ html,body {
 						<span>!준</span>
 	                    <h4>로그인</h4> <span>
 	                    	<input type="radio" name="Check" value="memberCheck" checked="checked"> 관리자
-	                    	<input type="radio" name="Check" value="shopCheck"> 거래처
+	                    	<input type="radio" name="Check" value="shopCheck" id="shopSelect"> 거래처
 	                    </span>
 	                        <div class="input-group flex-nowrap" style="padding:8px">
 	                            <div class="input-group-prepend">
 	                                <span class="input-group-text" id="addon-wrapping">아이디</span>
 	                            </div>
-	                            <input type="text" name="memberId" id="user_name" class="form-control" value="id001">
+	                            <input type="text" name="memberId" id="userId" class="form-control">
 	                        </div>
 	                        <div class="input-group flex-nowrap" style="padding:8px">
 	                            <div class="input-group-prepend">
 	                                <span class="input-group-text"id="addon-wrapping">비밀번호</span>
 	                            </div>
-	                            <input type="password" name="memberPw" id="user_Pw" class="form-control" style="color: #292A2D" value="pw001">
+	                            <input type="password" name="memberPw" id="userPw" class="form-control" style="color: #292A2D">
 	                        </div>
-	                        <button type="submit" style="margin:8px" class="btn btn-outline-info">로그인</button>
+	                        <button type="submit" style="margin:8px" class="btn btn-outline-info" id="login">로그인</button>
 	                        <a th:href="@{/adminsignup}" type="submit" style="margin:8px" class="btn btn-outline-info" >아이디찾기</a>
 	                        <br/>
+	                        <div>
+		                        <button style="margin:8px" class="btn btn-outline-info" id="manageLogin">총관리자</button>
+		                        <button style="margin:8px" class="btn btn-outline-info" id="houseLogin">창고관리자</button>
+		                        <button style="margin:8px" class="btn btn-outline-info" id="shopLogin">일반사업자</button>
+	                        </div>
 	                        <span>관리자 아이디가 존재한다면? <a th:href="@{/adminsignup}" class='text-info' style="text-decoration:underline">회원가입 페이지</a></span>
 	                        <br/>
 	                        <span>거래처 아이디가 존재한다면? <a th:href="@{/accountsignup}" class='text-info' style="text-decoration:underline">회원가입 페이지</a></span>
@@ -51,9 +56,45 @@ html,body {
 <th:block layout:fragment="customJs">
 <script src="js/jquery.min.js"></script>
 <script>
-document.getElementsByName('Check')[1].addEventListener('click',function(){
-    document.getElementById('user_name').value = 'sh001';
-})
+// document.getElementsByName('Check')[1].addEventListener('click',function(){
+//     document.getElementById('user_name').value = 'sh001';
+// })
+
+$('#manageLogin').click(function(){
+	
+	var mId =  'id001';
+	var mPw =  'pw001';
+	
+	$('#userId').val(mId);
+	$('#userPw').val(mPw);
+	$('#login').click()
+	
+});
+
+$('#houseLogin').click(function(){
+	
+	var mId =  'id002';
+	var mPw =  'pw002';
+	
+	$('#userId').val(mId);
+	$('#userPw').val(mPw);
+	$('#login').click()
+	
+});
+
+$('#shopLogin').click(function(){
+	
+	$('#shopSelect').prop('checked', true);
+	
+	var mId =  'sh001';
+	var mPw =  'pw001';
+	
+	$('#userId').val(mId);
+	$('#userPw').val(mPw);
+	$('#login').click()
+});
+
+
 </script>
 
 </th:block>

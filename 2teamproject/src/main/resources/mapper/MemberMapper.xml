@@ -24,7 +24,27 @@
 			<result property="levelUseState" 			column="level_use_status"/>
 			<result property="memberId" 				column="member_id"/>
 	</association>
+	</resultMap>
 	
+	<resultMap type="AdminApproval" id="adminApprovalResultMap">
+		<result property="adminApprovalId"	 				column="adminApproval_id"/>
+		<result property="adminApprovalPw"	 				column="adminApproval_pw"/>
+		<result property="adminApprovalName"	 			column="adminApproval_name"/>
+		<result property="adminApprovalLevel"				column="level_code"/>
+		<result property="adminApprovalAddress"	 			column="adminApproval_address"/>
+		<result property="adminApprovalEmail"	 			column="adminApproval_email"/>
+		<result property="adminApprovalPhone"	 			column="adminApproval_phone"/>
+		<result property="adminApprovalRegDate"	 			column="adminApproval_reg_date"/>
+		<result property="adminApprovalAccountState"		column="adminApproval_account_status"/>
+		<result property="adminApprovalIncentive"	 		column="adminApproval_incentive"/>
+	
+		<association property="memberLevel" javaType="MemberLevel">
+			<result property="levelCode" 				column="level_code"/>
+			<result property="levelName" 				column="level_name"/>
+			<result property="levelRegDate" 			column="level_reg_date"/>
+			<result property="levelUseState" 			column="level_use_status"/>
+			<result property="memberId" 				column="member_id"/>
+		</association>
 	</resultMap>
 		
 	<!-- 회원 전체 조회 -->	
@@ -65,6 +85,26 @@
 	WHERE 
 		member_id=#{memberId};
 	 </select>
+	 
+	 <!-- 관리대기 승인 아이디 불러오기 / 중복체크 -->
+	 <select id="getApprovalById" parameterType="String" resultMap="adminApprovalResultMap">
+	 	SELECT 
+	 	adminApproval_id
+	 	, adminApproval_pw
+	 	, adminApproval_name
+	 	, level_code
+	 	, adminApproval_address
+	 	, adminApproval_email
+	 	, adminApproval_phone
+	 	, adminApproval_reg_date
+	 	, adminApproval_account_status
+	 	, adminApproval_incentive
+	FROM
+		 tb_adminApproval
+	WHERE
+		adminApproval_id = #{adminApprovalId};
+	 
+	 </select>
 
 	<select id="getShopById" parameterType="String" resultType="Shoppingmall">
 		SELECT 
@@ -78,7 +118,7 @@
 		, shoppingmall_user_phone AS shoppingmallPhone
 		, shoppingmall_user_iden_num AS shoppingmallNumber
 		, shoppingmall_user_reg_date AS shoppingmallRegDay
-		, shoppingmall_user_account_status AS shoppingmallStatus
+		, shoppingmall_user_status AS shoppingmallStatus
 		, shoppingmall_bank AS shoppingmallBank
 		, shoppingmall_bank_number AS shoppingmallBankNum
 		FROM 
@@ -117,6 +157,8 @@
 		 	member_id=#{memberId};
 		 </trim>
 </update>
+
+
 
 <delete id="deleteMember" parameterType="String">
 	DELETE 
@@ -167,29 +209,77 @@
 			w.level_code = l.level_code;
 	</select>
 	
+	<insert id="adminIntotbMember" parameterType="String">
+	INSERT INTO tb_member(		SELECT 
+								*
+								FROM
+									tb_adminApproval
+								WHERE
+								 	adminApproval_Id = #{adminApprovalId});
+	</insert>
 	
-	<!-- 관리자 등록 insert -->
-	<insert id="adminSignUp" parameterType="WareAdmin">
-			INSERT INTO tb_ware_admin
-		( ware_admin_id
-		, ware_admin_pw
-		, ware_admin_name
+	<insert id="adminIntotbAdminWare" parameterType="String">
+	INSERT INTO tb_ware_admin(	SELECT 
+								*
+								FROM
+									tb_adminApproval
+								WHERE
+								 	adminApproval_Id = #{adminApprovalId});
+	</insert>
+	
+	<delete id="deleteWareAdmin" parameterType="String">
+		DELETE
+		FROM
+		 tb_adminApproval
+		WHERE adminApproval_Id=#{adminApprovalId};
+	
+	</delete>	
+	
+	<!-- 관리자 회원가입 insert -->
+	<insert id="adminSignUp" parameterType="AdminApproval">
+			INSERT INTO tb_adminApproval
+		( 
+		  adminApproval_id
+		, adminApproval_pw
+		, adminApproval_name
 		, level_code
-		, ware_admin_address
-		, ware_admin_email
-		, ware_admin_phone
-		, ware_admin_reg_date
+		, adminApproval_address
+		, adminApproval_email
+		, adminApproval_phone
+		, adminApproval_reg_date
 		) VALUES (
-			#{wareAdminId}
-		, 	#{wareAdminPw}
-		, 	#{wareAdminName}
-		, 	#{wareAdminLevel}
-		, 	#{wareAdminAddress}
-		, 	#{wareAdminEmail}
-		, 	#{wareAdminPhone}
+			#{adminApprovalId}
+		, 	#{adminApprovalPw}
+		, 	#{adminApprovalName}
+		, 	#{adminApprovalLevel}
+		, 	#{adminApprovalAddress}
+		, 	#{adminApprovalEmail}
+		, 	#{adminApprovalPhone}
 		, 	CURDATE());
 		
 	</insert>
+	
+	<!-- 관리 대기 승인 어드민 조회 -->
+	<select id="getApprovalList" resultType="AdminApproval">
+	SELECT
+		a.adminApproval_id 				AS adminApprovalId
+		,a.adminApproval_pw 			AS adminApprovalPw
+		,l.level_name 					AS adminApprovalLevelName
+		,a.adminApproval_name 			AS adminApprovalName
+		,a.adminApproval_address 		AS adminApprovalAddress
+		,a.adminApproval_email 			AS adminApprovalEmail
+		,a.adminApproval_phone 			AS adminApprovalPhone
+		,a.adminApproval_reg_date 		AS adminApprovalRegDate
+		,a.adminApproval_account_status AS adminApprovalAccountState
+		,a.adminApproval_incentive 		AS adminApprovalIncentive
+	FROM
+		tb_adminApproval AS a
+		INNER join
+		tb_member_level AS l
+		ON
+		a.level_code = l.level_code;
+	
+	</select>
 
 	<!-- 거래처 등록 insert -->
 	<insert id="memberShopInsert" parameterType="Shoppingmall">
@@ -217,19 +307,19 @@
 	 <!-- 쇼핑몰 회원 조회 -->
 	<select id="getShoppingmallList" resultType="Shoppingmall">
 	SELECT 
-		  shU.shoppingmall_user_id						AS shId
-		, shU.shoppingmall_user_pw						AS shPw
-		, shU.shoppingmall_user_name					AS shUserName
-		, shU.shoppingmall_name							AS shName
-		, shL.level_name  							    AS shLLevelName
-		, shU.shoppingmall_user_address					AS shAddr
-		, shU.shoppingmall_user_email					AS shEmail
-		, shU.shoppingmall_user_phone					AS shPhone
-		, shU.shoppingmall_user_iden_num				AS shNum
-		, shU.shoppingmall_user_reg_date				AS shReg
-		, shU.shoppingmall_user_account_status			AS shStatus
-		, shU.shoppingmall_bank							AS shBank
-		, shU.shoppingmall_bank_number					AS shBankNum
+		  shU.shoppingmall_user_id						AS shoppingmallId
+		, shU.shoppingmall_user_pw						AS shoppingmallPw
+		, shU.shoppingmall_user_name					AS shoppingmallUserName
+		, shU.shoppingmall_name							AS shoppingmallName
+		, shL.level_name  							    AS shoppingmallLevelName
+		, shU.shoppingmall_user_address					AS shoppingmallAddr
+		, shU.shoppingmall_user_email					AS shoppingmallEmail
+		, shU.shoppingmall_user_phone					AS shoppingmallPhone
+		, shU.shoppingmall_user_iden_num				AS shoppingmallNumber
+		, shU.shoppingmall_user_reg_date				AS shoppingmallRegDay
+		, shU.shoppingmall_user_status					AS shoppingmallStatus
+		, shU.shoppingmall_bank							AS shoppingmallBank
+		, shU.shoppingmall_bank_number					AS shoppingmallBankNum
 	FROM 
 		tb_shoppingmall_user AS shU
 		JOIN

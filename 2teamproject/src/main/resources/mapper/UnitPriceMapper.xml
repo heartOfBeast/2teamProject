@@ -68,30 +68,30 @@
 			, NOW());		
 	</insert>
 	
-	<!-- 요금안내 수정을 위한 조회  -->
+	<!-- 계약 등록을 위한 조회  -->
 	<select id="priceInfo" resultType="Price" fetchSize="1000">
-	
+		
 		SELECT 
-			  Price.unit_price_code					AS priceCode
-			, Price.unit_price_name					as priceName
-			, Price.unit_price_warehouse_type		AS wareHouseType
-			, Price.unit_price_contract_type		AS contractType
-			, Price.unit_price_contract_weight		AS priceWeight
-			, Price.unit_price_contract_number		AS priceNumber
-			, Price.unit_price_contract_zone		AS priceZone
-			, Price.unit_price_contract_day			AS priceDay
-			, Price.unit_Price_Contract_Price		AS pricePrice
-			, Member.member_id						AS unitPriceId
-			, Price.unit_price_reg_date				AS unitPriceRegDate			
-			, Price.unit_price_update				AS unitPriceUpdate		
+			  p.unit_price_code					AS priceCode
+			, unit_price_name					AS priceName
+			, p.unit_price_warehouse_type		AS wareHouseType
+			, p.unit_price_contract_type		AS contractType
+			, p.unit_price_contract_weight		AS priceWeight
+			, p.unit_price_contract_number		AS priceNumber
+			, p.unit_price_contract_zone		AS priceZone
+			, p.unit_price_contract_day			AS priceDay
+			, p.unit_Price_Contract_Price		AS pricePrice
+			, m.member_id						AS unitPriceId
+			, p.unit_price_reg_date				AS unitPriceRegDate			
+			, p.unit_price_update				AS unitPriceUpdate		
 		FROM 
-			tb_contract_unit_price					AS Price
+			tb_contract_unit_price			AS p
 		INNER JOIN 
-			tb_member 								AS Member
+			tb_member 						AS m
 		ON 
-			Price.member_id = Member.member_id
+			p.member_id = m.member_id
 		WHERE
-			unit_price_code = #{priceCode};	
+			unit_price_code = #{unit_price_code};
 	</select>
 	
 	<!-- 요금안내 수정 -->
@@ -100,7 +100,8 @@
 		UPDATE 
 			tb_contract_unit_price
 		SET
-			 unit_price_name			=  #{priceName}
+			 unit_price_code			=  #{priceCode}
+			,unit_price_name			=  #{priceName}
 			,unit_price_warehouse_type	=  #{wareHouseType}
 			,unit_price_contract_type	=  #{contractType}
 			,unit_price_contract_weight	=  #{priceWeight}

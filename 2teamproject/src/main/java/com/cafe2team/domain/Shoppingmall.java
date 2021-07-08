@@ -12,10 +12,12 @@ public class Shoppingmall {
 	private String shoppingmallPhone;
 	private String shoppingmallNumber;
 	private String shoppingmallRegDay;
-	private String shoppingmallStatus;
 	private String shoppingmallBank;
 	private String shoppingmallBankNum;
-	
+	private String shoppingmallStatus;
+	private String shoppingmallStatusCause;
+	private String shoppingmallUpdate;
+	private String SID;
 	public String getShoppingmallId() {
 		return shoppingmallId;
 	}
@@ -82,12 +84,6 @@ public class Shoppingmall {
 	public void setShoppingmallRegDay(String shoppingmallRegDay) {
 		this.shoppingmallRegDay = shoppingmallRegDay;
 	}
-	public String getShoppingmallStatus() {
-		return shoppingmallStatus;
-	}
-	public void setShoppingmallStatus(String shoppingmallStatus) {
-		this.shoppingmallStatus = shoppingmallStatus;
-	}
 	public String getShoppingmallBank() {
 		return shoppingmallBank;
 	}
@@ -100,6 +96,30 @@ public class Shoppingmall {
 	public void setShoppingmallBankNum(String shoppingmallBankNum) {
 		this.shoppingmallBankNum = shoppingmallBankNum;
 	}
+	public String getShoppingmallStatus() {
+		return shoppingmallStatus;
+	}
+	public void setShoppingmallStatus(String shoppingmallStatus) {
+		this.shoppingmallStatus = shoppingmallStatus;
+	}
+	public String getShoppingmallStatusCause() {
+		return shoppingmallStatusCause;
+	}
+	public void setShoppingmallStatusCause(String shoppingmallStatusCause) {
+		this.shoppingmallStatusCause = shoppingmallStatusCause;
+	}
+	public String getShoppingmallUpdate() {
+		return shoppingmallUpdate;
+	}
+	public void setShoppingmallUpdate(String shoppingmallUpdate) {
+		this.shoppingmallUpdate = shoppingmallUpdate;
+	}
+	public String getSID() {
+		return SID;
+	}
+	public void setSID(String sID) {
+		SID = sID;
+	}
 	@Override
 	public String toString() {
 		return "Shoppingmall [shoppingmallId=" + shoppingmallId + ", shoppingmallPw=" + shoppingmallPw
@@ -107,9 +127,15 @@ public class Shoppingmall {
 				+ ", shoppingmallLevel=" + shoppingmallLevel + ", shoppingmallLevelName=" + shoppingmallLevelName
 				+ ", shoppingmallAddr=" + shoppingmallAddr + ", shoppingmallEmail=" + shoppingmallEmail
 				+ ", shoppingmallPhone=" + shoppingmallPhone + ", shoppingmallNumber=" + shoppingmallNumber
-				+ ", shoppingmallRegDay=" + shoppingmallRegDay + ", shoppingmallStatus=" + shoppingmallStatus
-				+ ", shoppingmallBank=" + shoppingmallBank + ", shoppingmallBankNum=" + shoppingmallBankNum + "]";
+				+ ", shoppingmallRegDay=" + shoppingmallRegDay + ", shoppingmallBank=" + shoppingmallBank
+				+ ", shoppingmallBankNum=" + shoppingmallBankNum + ", shoppingmallStatus=" + shoppingmallStatus
+				+ ", shoppingmallStatusCause=" + shoppingmallStatusCause + ", shoppingmallUpdate=" + shoppingmallUpdate
+				+ ", SID=" + SID + "]";
 	}
+	
+	
+	
+	
 	
 	
 	

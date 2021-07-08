@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cafe2team.dao.MemberMapper;
+import com.cafe2team.domain.AdminApproval;
 import com.cafe2team.domain.Member;
 import com.cafe2team.domain.Shoppingmall;
 import com.cafe2team.domain.WareAdmin;
@@ -37,6 +38,22 @@ public class MemberService {
 		
 	}
 	
+	//관리자 승인 아이디 대기 조회
+	public List<AdminApproval> getApprovalList(){
+		
+		List<AdminApproval> AdminApprovalList = memberMapper.getApprovalList();
+		
+		return AdminApprovalList;
+	}
+	
+	public AdminApproval getApprovalById(String approvalmemberId) {
+		
+		AdminApproval adminApproval = memberMapper.getApprovalById(approvalmemberId);
+		
+		return adminApproval;
+		
+	}
+	
 	public List<Member> getShoppingmallList(){
 		
 		
@@ -52,9 +69,9 @@ public class MemberService {
 	
 	}
 	
-	public Shoppingmall getsShopById(String shId) {
+	public Shoppingmall getsShopById(String shoppingmallId) {
 		
-		Shoppingmall shop = memberMapper.getShopById(shId);
+		Shoppingmall shop = memberMapper.getShopById(shoppingmallId);
 		
 		return shop;
 	}
@@ -67,6 +84,26 @@ public class MemberService {
 		return memberUpdate;
 	}
 	
+	//승인대기테이블에서 tbMember 으로 이동
+	public int adminIntotbMember(String approvalAdminId) {
+		
+		return memberMapper.adminIntotbMember(approvalAdminId);
+	}
+	
+	//승인대기테이블에서 tbWareAdmin 으로 이동
+	public int adminIntotbAdminWare(String approvalAdminId) {
+		
+		
+		return memberMapper.adminIntotbAdminWare(approvalAdminId);
+	}
+	
+	//승인대기테이블에서 tbMeber 로 이동시 삭제처리
+	public int deleteWareAdmin(String wareAdminId) {
+		
+			
+		return memberMapper.deleteWareAdmin(wareAdminId);
+	}
+	
 	
 	public List<WareAdmin> getAdminList(){
 		log.info("=========getAdminList service 실행======");
@@ -76,9 +113,9 @@ public class MemberService {
 	}
 	
 	
-	public int adminSignUp(WareAdmin wareAdmin) {
+	public int adminSignUp(AdminApproval adminApproval) {
 		
-		int result = memberMapper.adminSignUp(wareAdmin);
+		int result = memberMapper.adminSignUp(adminApproval);
 		
 		return result;
 	}

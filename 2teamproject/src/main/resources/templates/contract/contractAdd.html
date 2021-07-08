@@ -28,59 +28,108 @@
 </th:block>
 
 <th:block layout:fragment="container">
-	
 	<div class="main-container">
-	
+
 		<!-- Row start -->
-		<div class="row gutters justify-content-center">
-			<div class="col-xl-7 col-lg-7 col-md-7 col-sm-6 col-12">
-				<form>
+		<div class="row justify-content-center gutters">
+			<div class="col-xl-7 col-lg-7 col-md-9 col-sm-10">
+				<form id="contractAddFrom" th:action="@{/contractAdd}" method="Post">
 					<div class="card m-0">
 						<div class="card-header">
-							<div class="card-title"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">계약신청</font></font></div>
-							<div class="card-sub-title"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">어떻게 도와 드릴까요?</font></font></div>
+							<div class="card-title">계약신청</div>
+							<div class="card-sub-title">계약서를 작성후 신청버튼을 눌러주세요.</div>
 						</div>
 						<div class="card-body">
-							<div class="form-group">
-								<input type="text" class="form-control" id="name" name="name" placeholder="최종계약코드" required="required">
-							</div>
-							<div class="form-group">
-								<input type="email" class="form-control" id="email" name="email" placeholder="단가표코드" required="required">
-							</div>
-							<div class="form-group">
-								<input type="text" class="form-control" id="mobile" name="mobile" placeholder="계약시작일" required="required">
-							</div>
-							<div class="form-group">
-								<input type="text" class="form-control" id="subject" name="subject" placeholder="계약종료일" required="required">
-							</div>
-							<div class="form-group">
-								<input type="text" class="form-control" id="subject" name="subject" placeholder="계약수량" required="required">
-							</div>
-							<div class="form-group">
-								<input type="text" class="form-control" id="subject" name="subject" placeholder="계약금액" required="required">
-							</div>
-							<div class="form-group">
-								<input type="text" class="form-control" id="subject" name="subject" placeholder="쇼핑몰사업자아이디" required="required">
-							</div>
-							<div class="form-group">
-								<input type="text" class="form-control" id="subject" name="subject" placeholder="등록일자" required="required">
-							</div>
-							<div class="form-group">
-								<textarea class="form-control" id="message" placeholder="메모" maxlength="140" rows="4"></textarea>
-								<div class="form-text text-muted">
-									<p id="characterLeft" class="help-block"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">140 자 남음</font></font></p>
+							<input type="hidden" class="form-control" id="contractFinalCode" name="contractFinalCode" readonly="readonly" >
+							<input type="hidden" class="form-control" id="priceCode" name="priceCode" th:value="${price.priceCode}">
+							<div class="form-group row gutters">
+								<label for="inputName" class="col-sm-3 col-form-label text-right">선택한 요금명</label>
+								<div class="col-sm-7">
+									<input type="text" class="form-control" id="priceName" name="priceName" th:value="${price.priceName}" required="required" readonly="readonly">
 								</div>
 							</div>
-								<button type="button" id="submit" name="submit" class="btn btn-primary float-right"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">양식 제출</font></font></button>
+							
+							<div class="form-group row gutters">
+								<label for="inputMobNumber" class="col-sm-3 col-form-label text-right">계약 시작일자</label>
+								<div class="col-sm-7">
+									<input type="date" class="form-control" id="contractFinalStart" name="contractFinalStart"  required="required">
+								</div>
 							</div>
+							
+							<div class="form-group row gutters">
+								<label for="inputEmail" class="col-sm-3 col-form-label text-right">계약 종료일자</label>
+								<div class="col-sm-7">
+									<input type="date" class="form-control" id="contractFinalEnd" name="contractFinalEnd" placeholder="계약종료일" required="required">
+								</div>
+							</div>
+							
+							<div class="form-group row gutters">
+								<label for="inputSubject" class="col-sm-3 col-form-label text-right">계약창고종류</label>
+								<div class="col-sm-7">
+									<input type="text" class="form-control" id="wareHouseType" name="wareHouseType" th:value="${price.wareHouseType}" readonly="readonly">
+								</div>
+							</div>
+							
+							<div class="form-group row gutters">
+								<label for="inputSubject" class="col-sm-3 col-form-label text-right">계약창고 구역수</label>
+								<div class="col-sm-7">
+									<input type="text" class="form-control" id="priceZone" name="priceZone" th:value="${price.priceZone}" readonly="readonly">
+								</div>
+							</div>
+							
+							<div class="form-group row gutters">
+								<label for="inputSubject" class="col-sm-3 col-form-label text-right">계약상품 종류</label>
+								<div class="col-sm-7">
+									<input type="text" class="form-control" id="contractFinalProductName" name="contractFinalProductName" placeholder="계약상품입력해주세요." required="required">
+								</div>
+							</div>
+							
+							<div class="form-group row gutters">
+								<label for="inputSubject" class="col-sm-3 col-form-label text-right">계약상품 수량</label>
+								<div class="col-sm-7">
+									<input type="text" class="form-control" id="contractFinalQuantity" name="contractFinalQuantity" placeholder="계약수량을 입력해주세요.." required="required">
+								</div>
+							</div>
+							
+							<div class="form-group row gutters">
+								<label for="inputSubject" class="col-sm-3 col-form-label text-right">계약금액</label>
+								<div class="col-sm-7">
+									<input type="text" class="form-control" id="pricePrice" name="pricePrice" th:value="${price.pricePrice}" readonly="readonly">
+								</div>
+							</div>
+							
+							<div class="form-group row gutters">
+								<label for="inputSubject" class="col-sm-3 col-form-label text-right">계약자</label>
+								<div class="col-sm-7">
+									<input type="text" class="form-control" id="contractFinalUser" name="contractFinalUser" placeholder="계약자ID 세션으로 받을 예정 sh001" required="required">
+								</div>
+							</div>
+							
+							<div class="form-group row gutters">
+								<label for="inputSubject" class="col-sm-3 col-form-label text-right">계약자</label>
+								<div class="col-sm-7">
+									<input type="text" class="form-control" id="contractFinalMember" name="contractFinalMember" placeholder="등록자 아이디 일단 입력해!!!!!!!!!!!!! id001" required="required">
+								</div>
+							</div>
+							
+							<div class="form-group row gutters">
+								<label for="inputMessage" class="col-sm-3 col-form-label text-right">메모사항</label>
+								<div class="col-sm-7">
+									<textarea class="form-control" id="message" placeholder="Message" maxlength="140" rows="4"></textarea>
+										<div class="form-text text-muted"><p id="characterLeft" class="help-block ">140 characters left</p></div>
+								</div>
+							</div>
+							
+							<button type="submit" id="submit" name="submit" class="btn btn-primary float-right">계약 신청 요청</button>
+	
 						</div>
+					</div>
 				</form>
 			</div>
 		</div>
 		<!-- Row end -->
 	
 	</div>
-	
 </th:block>
 		
 </html>

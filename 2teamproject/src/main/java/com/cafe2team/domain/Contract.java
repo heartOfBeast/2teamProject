@@ -1,91 +1,171 @@
 package com.cafe2team.domain;
 
 public class Contract {
-	private String contract_Code;
-	private String contract_Price;
-	private String contract_Start;
-	private String contract_End;
-	private String contract_Quantity;
-	private String contract_Pay;
-	private String shoppingmall_Id;
-	private String contract_reg;
-	private String member_Id;
-	private String contract_Memo;
-	private String contract_Product;
-	public String getContract_Code() {
-		return contract_Code;
+	private String contractFinalCode;
+	private String contractFinalPriceCode;
+	private String contractFinalPriceName;
+	private String contractFinalStart;
+	private String contractFinalEnd;
+	private String contractFinalWarehouseType;
+	private String contractFinalZone;
+	private String contractFinalPosition;
+	private String contractFinalProduct;
+	private String contractFinalProductName;
+	private String contractFinalQuantity;
+	private String contractFinalPay;
+	private String contractFinalUser;
+	private String contractFinalRegDay;
+	private String contractFinalMember;
+	private String contractFinalMemo;
+	private String priceCode;
+	private String priceName;
+	private String wareHouseType;
+	private String priceZone;
+	private String pricePrice;
+	
+	public String getContractFinalCode() {
+		return contractFinalCode;
 	}
-	public void setContract_Code(String contract_Code) {
-		this.contract_Code = contract_Code;
+	public void setContractFinalCode(String contractFinalCode) {
+		this.contractFinalCode = contractFinalCode;
 	}
-	public String getContract_Price() {
-		return contract_Price;
+	public String getContractFinalPriceCode() {
+		return contractFinalPriceCode;
 	}
-	public void setContract_Price(String contract_Price) {
-		this.contract_Price = contract_Price;
+	public void setContractFinalPriceCode(String contractFinalPriceCode) {
+		this.contractFinalPriceCode = contractFinalPriceCode;
 	}
-	public String getContract_Start() {
-		return contract_Start;
+	public String getContractFinalPriceName() {
+		return contractFinalPriceName;
 	}
-	public void setContract_Start(String contract_Start) {
-		this.contract_Start = contract_Start;
+	public void setContractFinalPriceName(String contractFinalPriceName) {
+		this.contractFinalPriceName = contractFinalPriceName;
 	}
-	public String getContract_End() {
-		return contract_End;
+	public String getContractFinalStart() {
+		return contractFinalStart;
 	}
-	public void setContract_End(String contract_End) {
-		this.contract_End = contract_End;
+	public void setContractFinalStart(String contractFinalStart) {
+		this.contractFinalStart = contractFinalStart;
 	}
-	public String getContract_Quantity() {
-		return contract_Quantity;
+	public String getContractFinalEnd() {
+		return contractFinalEnd;
 	}
-	public void setContract_Quantity(String contract_Quantity) {
-		this.contract_Quantity = contract_Quantity;
+	public void setContractFinalEnd(String contractFinalEnd) {
+		this.contractFinalEnd = contractFinalEnd;
 	}
-	public String getContract_Pay() {
-		return contract_Pay;
+	public String getContractFinalWarehouseType() {
+		return contractFinalWarehouseType;
 	}
-	public void setContract_Pay(String contract_Pay) {
-		this.contract_Pay = contract_Pay;
+	public void setContractFinalWarehouseType(String contractFinalWarehouseType) {
+		this.contractFinalWarehouseType = contractFinalWarehouseType;
 	}
-	public String getShoppingmall_Id() {
-		return shoppingmall_Id;
+	public String getContractFinalZone() {
+		return contractFinalZone;
 	}
-	public void setShoppingmall_Id(String shoppingmall_Id) {
-		this.shoppingmall_Id = shoppingmall_Id;
+	public void setContractFinalZone(String contractFinalZone) {
+		this.contractFinalZone = contractFinalZone;
 	}
-	public String getContract_reg() {
-		return contract_reg;
+	public String getContractFinalPosition() {
+		return contractFinalPosition;
 	}
-	public void setContract_reg(String contract_reg) {
-		this.contract_reg = contract_reg;
+	public void setContractFinalPosition(String contractFinalPosition) {
+		this.contractFinalPosition = contractFinalPosition;
 	}
-	public String getMember_Id() {
-		return member_Id;
+	public String getContractFinalProduct() {
+		return contractFinalProduct;
 	}
-	public void setMember_Id(String member_Id) {
-		this.member_Id = member_Id;
+	public void setContractFinalProduct(String contractFinalProduct) {
+		this.contractFinalProduct = contractFinalProduct;
 	}
-	public String getContract_Memo() {
-		return contract_Memo;
+	public String getContractFinalProductName() {
+		return contractFinalProductName;
 	}
-	public void setContract_Memo(String contract_Memo) {
-		this.contract_Memo = contract_Memo;
+	public void setContractFinalProductName(String contractFinalProductName) {
+		this.contractFinalProductName = contractFinalProductName;
 	}
-	public String getContract_Product() {
-		return contract_Product;
+	public String getContractFinalQuantity() {
+		return contractFinalQuantity;
 	}
-	public void setContract_Product(String contract_Product) {
-		this.contract_Product = contract_Product;
+	public void setContractFinalQuantity(String contractFinalQuantity) {
+		this.contractFinalQuantity = contractFinalQuantity;
+	}
+	public String getContractFinalPay() {
+		return contractFinalPay;
+	}
+	public void setContractFinalPay(String contractFinalPay) {
+		this.contractFinalPay = contractFinalPay;
+	}
+	public String getContractFinalUser() {
+		return contractFinalUser;
+	}
+	public void setContractFinalUser(String contractFinalUser) {
+		this.contractFinalUser = contractFinalUser;
+	}
+	public String getContractFinalRegDay() {
+		return contractFinalRegDay;
+	}
+	public void setContractFinalRegDay(String contractFinalRegDay) {
+		this.contractFinalRegDay = contractFinalRegDay;
+	}
+	public String getContractFinalMember() {
+		return contractFinalMember;
+	}
+	public void setContractFinalMember(String contractFinalMember) {
+		this.contractFinalMember = contractFinalMember;
+	}
+	public String getContractFinalMemo() {
+		return contractFinalMemo;
+	}
+	public void setContractFinalMemo(String contractFinalMemo) {
+		this.contractFinalMemo = contractFinalMemo;
+	}
+	public String getPriceCode() {
+		return priceCode;
+	}
+	public void setPriceCode(String priceCode) {
+		this.priceCode = priceCode;
+	}
+	public String getPriceName() {
+		return priceName;
+	}
+	public void setPriceName(String priceName) {
+		this.priceName = priceName;
+	}
+	public String getWareHouseType() {
+		return wareHouseType;
+	}
+	public void setWareHouseType(String wareHouseType) {
+		this.wareHouseType = wareHouseType;
+	}
+	public String getPriceZone() {
+		return priceZone;
+	}
+	public void setPriceZone(String priceZone) {
+		this.priceZone = priceZone;
+	}
+	public String getPricePrice() {
+		return pricePrice;
+	}
+	public void setPricePrice(String pricePrice) {
+		this.pricePrice = pricePrice;
 	}
 	@Override
 	public String toString() {
-		return "ShoppingmallContract [contract_Code=" + contract_Code + ", contract_Price=" + contract_Price
-				+ ", contract_Start=" + contract_Start + ", contract_End=" + contract_End + ", contract_Quantity="
-				+ contract_Quantity + ", contract_Pay=" + contract_Pay + ", shoppingmall_Id=" + shoppingmall_Id
-				+ ", contract_reg=" + contract_reg + ", member_Id=" + member_Id + ", contract_Memo=" + contract_Memo
-				+ ", contract_Product=" + contract_Product + "]";
+		return "Contract [contractFinalCode=" + contractFinalCode + ", contractFinalPriceCode=" + contractFinalPriceCode
+				+ ", contractFinalPriceName=" + contractFinalPriceName + ", contractFinalStart=" + contractFinalStart
+				+ ", contractFinalEnd=" + contractFinalEnd + ", contractFinalWarehouseType="
+				+ contractFinalWarehouseType + ", contractFinalZone=" + contractFinalZone + ", contractFinalPosition="
+				+ contractFinalPosition + ", contractFinalProduct=" + contractFinalProduct
+				+ ", contractFinalProductName=" + contractFinalProductName + ", contractFinalQuantity="
+				+ contractFinalQuantity + ", contractFinalPay=" + contractFinalPay + ", contractFinalUser="
+				+ contractFinalUser + ", contractFinalRegDay=" + contractFinalRegDay + ", contractFinalMember="
+				+ contractFinalMember + ", contractFinalMemo=" + contractFinalMemo + ", priceCode=" + priceCode
+				+ ", priceName=" + priceName + ", wareHouseType=" + wareHouseType + ", priceZone=" + priceZone
+				+ ", pricePrice=" + pricePrice + "]";
 	}
+	
+	
+	
 	
 	
 }

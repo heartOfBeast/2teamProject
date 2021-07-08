@@ -30,7 +30,7 @@
 		<div class="main-container">
 			<div class="row gutters justify-content-center">
 				<div class="col-xl-5 col-lg-5 col-md-6 col-sm-6 col-12">
-					<form th:action="@{/safetyCheckAdd}" method="post">
+					<form th:action="@{/safetyCheckAdd}" method="post" id="addSafetyCheck">
 						<div class="card m-0">
 							<div class="card-header">
 								<div class="card-title">안전점검 등록</div>
@@ -95,5 +95,11 @@
 		<!-- Main container end -->
 	
 	</th:block>
-	
+	<th:block layout:fragment="customJs">
+	<script>
+		$('#addSafetyCheck').submit(function(){
+			alert('안전점검내역이 등록되었습니다.')
+		})
+	</script>
+	</th:block>
 </html>

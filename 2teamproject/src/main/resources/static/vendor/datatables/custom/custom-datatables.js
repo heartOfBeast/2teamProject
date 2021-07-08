@@ -25,7 +25,22 @@ $(function(){
 		'iDisplayLength': 15,
 	});
 });
-
+// dataTable 수정 - 병윤
+$(function(){
+	$('#copy-print-csv-KO').DataTable( {
+		dom: 'Bfrtip',
+		buttons: [
+			'copyHtml5',
+			'excelHtml5',
+			'csvHtml5',
+			'pdfHtml5',
+			'print'
+		],
+		"scrollCollapse": true,
+		"paging": false,
+		"bInfo" : false,
+	});
+});
 
 // Fixed Header
 $(document).ready(function(){

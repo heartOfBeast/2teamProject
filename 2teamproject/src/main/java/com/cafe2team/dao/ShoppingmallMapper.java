@@ -13,10 +13,14 @@ public interface ShoppingmallMapper {
 	
 	
 	// 쇼핑몰 회원조회
-	public List<Shoppingmall> ShoppingmallList();
-	
+	public List<Shoppingmall> shoppingmallList();
 	
 	// 쇼핑몰 사업자 등록
 	public int shoppingmallAdd(Shoppingmall shoppingmall);
+	
+	
+	// 쇼핑몰 사업자 권한 승인을 위한 조회 
+	public Shoppingmall shoppingmallInfo(String shoppingmallId);
+	 
 	
 }

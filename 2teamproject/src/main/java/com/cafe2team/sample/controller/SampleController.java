@@ -1,5 +1,6 @@
 package com.cafe2team.sample.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -35,6 +36,16 @@ public class SampleController {
 	return "sample/sample";
 	
 	}
+	
+	// 출고 요청 배열받기
+	@PostMapping(value = "/samplePull", produces = "text/plain")
+	@ResponseBody
+	public String samplePush(@RequestParam(value = "pushDataArray[]") List<String> pushDataArray) {
+		System.out.println("들어옴");
+		System.out.println(pushDataArray);			
+		return sampleService.samplePush(pushDataArray)+"";
+	}
+	
 	
 	@GetMapping("/releasePush")
 	public String release() {

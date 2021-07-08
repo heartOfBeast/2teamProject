@@ -29,16 +29,19 @@
 </th:block>
 	
 <th:block layout:fragment="container">
+<style>
+	.hidden-col {display: none;}
+</style>
 <div class="main-container">
 	<div class="row gutters">
 		<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 			<div class="table-container">
 				<div class="t-header"> 창고조회 </div>
-				<select id="name" name="name">
-					<option class="wareName" th:each="w : ${warehouseList}" th:value="${w.warehouseName}" th:text="${w.warehouseName}"></option>
-				</select>
 				<select id="addr" name="addr">
 					<option class="wareAddr" th:each="w : ${warehouseList}" th:value="${w.warehouseAddr}" th:text="${w.warehouseAddr}"></option>
+				</select>
+				<select id="name" name="name">
+					<option class="wareName" th:each="w : ${warehouseList}" th:value="${w.warehouseName}" th:text="${w.warehouseName}"></option>
 				</select>
 				<select id="cate" name="cate">
 					<option class="wareCate" th:each="w : ${warehouseList}" th:value="${w.warehouseCate}" th:text="${w.warehouseCate}"></option>
@@ -46,38 +49,38 @@
 				<div class="table-responsive">
 					<div id="basicExample_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
 					
-					<table id="copy-print-csv" class="table custom-table">
+					<table id="copy-print-csv-KO" class="table custom-table">
 						<thead>
 						<tr>
-							<th>창고코드</th>
+							<th class="hidden-col">창고코드</th>
 							<th>창고명</th>
 							<th>소재지</th>
 							<th>종류</th>
 							<th>면적</th>
 							<th>연락처</th>
 							<th>사업자 등록번호</th>
-							<th>상세설명</th>
+							<th class="hidden-col">상세설명</th>
 							<th>등록일</th>
 							<th>등록자</th>
-							<th>수정</th>
+							<th style="width: 60px;" id="notSorting">수정</th>
 							<!-- <th>삭제</th> -->
 						</tr>
 						</thead>
 						<tbody id="warehouseData">
 						<tr th:if="${#lists.size(warehouseList) > 0}" th:each="L : ${warehouseList}">
-							<td th:text="${L.warehouseCode}" id="dataCode"></td>
+							<td class="hidden-col" th:text="${L.warehouseCode}" id="dataCode"></td>
 							<td th:text="${L.warehouseName}" id="dataName"></td>
 							<td th:text="${L.warehouseAddr}" id="dataAddr"></td>
 							<td th:text="${L.warehouseCate}" id="dataCate"></td>
 							<td th:text="${L.warehouseArea}" id="dataArea"></td>
 							<td th:text="${L.warehousePhone}" id="dataPhone"></td>
 							<td th:text="${L.warehouseRegNumber}" id="dataRegNum"></td>
-							<td th:text="${L.warehouseDetail}" id="dataDetail"></td>
-							<td th:text="${L.warehouseRegDate}"></td>
-							<td th:text="${L.wareAdminId}"></td>
+							<td class="hidden-col" th:text="${L.warehouseDetail}" id="dataDetail"></td>
+							<td th:text="${L.warehouseRegDate}" id="dataRegDate"></td>
+							<td th:text="${L.wareAdminId}" id="dataAdminId"></td>
 							<td>
 								<!-- <a th:href="@{warehouseUpdate(warehouseCode=${L.warehouseCode})}">수정</a> -->
-								<a style="color: white;" type="button" class="btn btn-primary modifyBtn" data-toggle="modal" data-target=".bd-example-modal-lg" id="viewModal">수정</a>
+								<a type="button" class="btn btn-outline-info modifyBtn" data-toggle="modal" data-target=".bd-example-modal-lg" id="viewModal">수정</a>
 							</td>
  							<!-- <td>
 								<a th:href="@{#}">삭제</a>
@@ -94,7 +97,7 @@
 	</div>
 </div>
 
-<form th:action="@{warehouseUpdateModal}" method="POST">
+<form id="modalForm" th:action="@{warehouseUpdateModal}" method="POST">
 	<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" style="display: none;" aria-hidden="true">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
@@ -147,7 +150,7 @@
 					</div>
 					<div class="modal-footer">
 						<button class="btn btn-secondary" data-dismiss="modal">닫기</button>
-						<button type="button" name="submitDone"  class="btn btn-primary">수정완료</button>
+						<button type="button" name="submitDone" id="submitDone" class="btn btn-primary">수정완료</button>
 					</div>
 			</div>
 		</div>
@@ -157,6 +160,8 @@
 
 <th:block layout:fragment="customJs">
 <script type="text/javascript" th:inline="javascript">
+	$(document).ready(function(){
+		$('#notSorting').removeClass('sorting')});
 	$('.modifyBtn').each(function(){
 		$(this).click(function(){
 			var dataCode 			= $(this).parents('tr').children('#dataCode').text();
@@ -167,6 +172,8 @@
 			var dataPhone			= $(this).parents('tr').children('#dataPhone').text();
 			var dataRegNum 			= $(this).parents('tr').children('#dataRegNum').text();
 			var dataDetail			= $(this).parents('tr').children('#dataDetail').text();		
+			var dataRegDate			= $(this).parents('tr').children('#dataRegDate').text();		
+			var dataAdminId			= $(this).parents('tr').children('#dataAdminId').text();		
 			
 			var dataCate = $('#wareCategory option:contains(' + dataCate + ')').val();
 			
@@ -180,7 +187,7 @@
 			$('#wareDetail').val(dataDetail);
 		})
 	})
-	
+/********************************************* select 제이쿼리 이용 중복 제거 *********************************************/
 	//<![CDATA[
 	var test = [[${warehouseList}]];
 	//]]>
@@ -230,26 +237,20 @@ var htmlCate = "";
 	$('#name').html(htmlName); 
 	$('#addr').html(htmlAddr); 
 	$('#cate').html(htmlCate); 
+/********************************************* ajax 필터 *********************************************/	
 
 	var selectNameValue = "";
 	var selectAddrValue = "";
 	var selectCateValue = "";
 	
-	$('#name').change(function(){
-		selectNameValue = $('#name option:selected').val();
+	$('#name, #addr, #cate').change(function(){
+		selectNameValue = $('#name').val();
+		selectAddrValue = $('#addr').val();
+		selectCateValue = $('#cate').val();
 		getData();
 	});
 	
-	$('#addr').change(function(){
-		selectAddrValue = $('#addr option:selected').val();
-		getData();
-	}); 
-	
-	$('#cate').change(function(){
-		selectCateValue = $('#cate option:selected').val();
-		getData();
-	}); 
-	
+		 
 	function getData(){
 		$.ajax({
 			url : "/warehouseListDetail",
@@ -261,24 +262,137 @@ var htmlCate = "";
 				var innerHtml = '';
 				$.each(res, function(index, value){
 						innerHtml += '<tr>'	
-		            	innerHtml += '<td>'+value.warehouseCode+'</td>'
-		        		innerHtml += '<td>'+value.warehouseName+'</td>'
-		       			innerHtml += '<td>'+value.warehouseAddr+'</td>'
-		   				innerHtml += '<td>'+value.warehouseCate+'</td>'
-						innerHtml += '<td>'+value.warehouseArea+'</td>'
-			            innerHtml += '<td>'+value.warehousePhone+'</td>'
-			            innerHtml += '<td>'+value.warehouseRegNumber+'</td>'
-						innerHtml += '<td>'+value.warehouseDetail+'</td>'
-						innerHtml += '<td>'+value.warehouseRegDate+'</td>'
-						innerHtml += '<td>'+value.wareAdminId+'</td>'
+		            	innerHtml += '<td id="dataCode"  class="hidden-col">'+value.warehouseCode+'</td>'
+		        		innerHtml += '<td id="dataName">'+value.warehouseName+'</td>'
+		       			innerHtml += '<td id="dataAddr">'+value.warehouseAddr+'</td>'
+		   				innerHtml += '<td id="dataCate">'+value.warehouseCate+'</td>'
+			            innerHtml += '<td id="dataPhone">'+value.warehousePhone+'</td>'
+						innerHtml += '<td id="dataArea">'+value.warehouseArea+'</td>'
+			            innerHtml += '<td id="dataRegNum">'+value.warehouseRegNumber+'</td>'
+						innerHtml += '<td id="dataDetail"  class="hidden-col">'+value.warehouseDetail+'</td>'
+						innerHtml += '<td id="dataRegDate">'+value.warehouseRegDate+'</td>'
+						innerHtml += '<td id="dataAdminId">'+value.wareAdminId+'</td>'
 						innerHtml += '<td><a style="color: white;" type="button" class="btn btn-primary modifyBtn" data-toggle="modal" data-target=".bd-example-modal-lg" id="viewModal">수정</a></td>'
 						innerHtml += '</tr>'
 
 				});
 				$('#warehouseData').append(innerHtml);
+				$('.modifyBtn').each(function(){
+					$(this).click(function(){
+					var dataCode 			= $(this).parents('tr').children('#dataCode').text();
+					var dataAddr 			= $(this).parents('tr').children('#dataAddr').text();
+					var dataName 			= $(this).parents('tr').children('#dataName').text();
+					var dataCate 			= $(this).parents('tr').children('#dataCate').text();
+					var dataPhone			= $(this).parents('tr').children('#dataPhone').text();
+					var dataArea 			= $(this).parents('tr').children('#dataArea').text();
+					var dataRegNum 			= $(this).parents('tr').children('#dataRegNum').text();
+					var dataDetail			= $(this).parents('tr').children('#dataDetail').text();		
+					
+					var dataCate = $('#wareCategory option:contains(' + dataCate + ')').val();
+					
+					$('#wareCode').val(dataCode);
+					$('#wareName').val(dataName);
+					$('#wareAddr').val(dataAddr);
+					$('#wareCategory').val(dataCate);
+					$('#wareArea').val(dataArea);
+					$('#warePhone').val(dataPhone);
+					$('#wareRegNum').val(dataRegNum);
+					$('#wareDetail').val(dataDetail);
+					$('#wareDetail').val(dataDetail);
+					$('#wareDetail').val(dataDetail);
+				})
+	})
 			}
 		})
 	}
+		/************************************수정 모달창 유효성 검사 ************************************/
+	
+	$('#submitDone').click(function(){
+		var modalForm = $('#modalForm');
+		var submitFlag = true;
+		var wareName = $('#wareName').val();
+		var wareAddr = $('#wareAddr').val();
+		var wareCategory = $('#wareCategory').val();
+		var wareArea = $('#wareArea').val();
+		var warePhone = $('#warePhone').val();
+		var wareRegNum = $('#wareRegNum').val();
+		
+		var regPhone = /^[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}/.test(warePhone);
+		
+		/************************************창고명 입력여부 검사 ************************************/
+		if(wareName == null || wareName == '' || wareName == undefined){
+			alert('창고명을 다시 입력해주세요.');
+			$(this).focus();
+			submitFlag = false;
+			return submitFlag;
+			
+		/************************************창고 소재지 입력여부 검사 ************************************/
+		}else if(wareAddr == null || wareAddr == '' || wareAddr == undefined){
+					alert('창고 소재지를 다시 입력해주세요.');
+					$(this).focus();
+					submitFlag = false;
+					return submitFlag;
+
+		/************************************창고 종류 입력여부 검사 ************************************/					
+		}else if(wareCategory == null || wareCategory == '' || wareCategory == undefined){
+					alert('창고 종류를 다시 입력해주세요.');
+					$(this).focus();
+					submitFlag = false;
+					return submitFlag;
+		
+		/************************************창고 면적 입력여부 검사 ************************************/
+		}else if(wareArea == null || wareArea == '' || wareArea == undefined){
+			alert('창고 면적을 다시 입력해주세요.');
+			$(this).focus();
+			submitFlag = false;
+			return submitFlag;
+			
+		/************************************창고 연락처 입력여부 검사 ************************************/
+		}else if(warePhone == null || warePhone == '' || warePhone == undefined){
+			alert('창고 연락처를 다시 입력해주세요.');
+			$(this).focus();
+			submitFlag = false;
+			return submitFlag;
+			
+		/************************************창고 연락처 유효성 검사 ************************************/
+		}else if(!regPhone){
+			alert('연락처를  -  포함하여 다시 입력해주세요.');
+			$(this).focus();
+			submitFlag = false;
+			return submitFlag;
+			
+		/************************************사업자 등록번호 입력여부 검사 ************************************/
+		}else if(wareRegNum == null || wareRegNum == '' || wareRegNum == undefined){
+			alert('사업자 등록번호를 다시 입력해주세요.');
+			$(this).focus();
+			submitFlag = false;
+			return submitFlag;
+		}
+		
+		if(submitFlag) {
+			$('#wareArea').val($('#wareArea').val() + ' ㎡');
+			modalForm.submit();
+		}
+	});
+	/************************************텍스트 박스 글자 수 카운트************************************/
+	$(function() {
+		$('#characterLeftaddWare').text('50 characters left');
+		$('#detail').keydown(function () {
+			var max = 50;
+			var len = $(this).val().length;
+			if (len >= max) {
+				$('#characterLeftaddWare').text('You have reached the limit');
+				$('#characterLeftaddWare').addClass('red');
+				$('#btnSubmit').addClass('disabled');            
+			} 
+			else {
+				var ch = max - len;
+				$('#characterLeftaddWare').text(ch + ' characters left');
+				$('#btnSubmit').removeClass('disabled');
+				$('#characterLeftaddWare').removeClass('red');            
+			}
+		});
+	});
 	
 	</script>
 </th:block>

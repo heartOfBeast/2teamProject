@@ -30,363 +30,148 @@
 
 <th:block layout:fragment="container">
 	<!-- Main container start -->
-				<div class="main-container">
-				
-					<!-- Row start -->
-					<!-- 매출현황 그래프 시작-->
-					<div class="row gutters">
-						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-							<div class="card">
-								<div class="card-header">
-									<div class="card-title">#월간 매출 현황</div>
-								</div>
-								<div class="card-body">
-									<div id="basic-column-graph-monthlySales" class="primary-graph"></div>
-								</div>
-							</div>
+	<div class="main-container">
+		<!-- Row start -->
+		<!-- 매출현황 그래프 시작-->
+		<div class="row gutters">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<div class="card">
+					<div class="card-header">
+						<div class="card-title">#월간 매출 현황</div>
+					</div>
+					<div class="card-body">
+						<div id="basic-column-graph-monthlySales" class="primary-graph"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 매출현황 그래프 끝 -->
+		<!-- Row end -->
+			
+		<!-- 매출현황 리스트 시작 -->
+		<div class="table-container">
+			<div class="t-header">매출 현황 리스트</div>
+			<div class="table-responsive">
+				<table id="copy-print-csv" class="table custom-table">
+					<thead>
+						<tr>
+							<th>
+								<input type="checkbox" id="checkAll" style="position: relative; top: 1.5px;">
+							</th>
+							<th>매출코드</th>
+							<th>계약코드</th>
+							<th>사업자명</th>
+							<th>계약금액</th>
+							<th>계약납부상태</th>
+							<th>매출메모</th>
+							<th>입금일</th>
+							<th>작성일</th>
+							<th>작성자</th>
+							<th>수정</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:if="${#lists.size(salesList)>0}" th:each="l : ${salesList}">
+							<td>
+								<input type="checkbox" class="checkOne" style="position: relative; top: 1.5px;" th:value="${l.calculateCode}">
+							</td>
+							<td th:text="${l.calculateCode}"></td>
+							<td th:text="${l.contractFinalCode}"></td>
+							<td th:text="${l.shoppingmallUserId}"></td>
+							<td th:text="${l.calculatePayment}"></td>
+							<td th:text="${l.calculateType}"></td>
+							<td th:text="${l.calculateMemo}"></td>
+							<td th:text="${l.calculateDate}"></td>
+							<td th:text="${l.calculateRegDate}"></td>
+							<td th:text="${l.wareAdminId}"></td>
+							<td>
+								<a type="button" class="btn btn-primary modifyBtn" data-toggle="modal" data-target=".bd-example-modal-lg" id="viewModal" style="color: white;">수정</a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<!-- 매출현황 리스트 끝 -->
+	<!-- Main container end -->
+	<form th:action="@{/modifyProduct}" method="post">
+		<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" style="display: none;" aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="myLargeModalLabel">수정하기</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">×</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<input type="text" class="form-control" name="productCode" id="productCode">
+						<label for="productNameModal">상품명</label>	
+							<input type="text" class="form-control" id="productNameModal" name="productName" >
+						<div class="form-group">
+							<label for="itemBigCategoryModal">대분류 선택</label>	
+							<select class="form-control" id="itemBigCategoryModal" name="itemBigCategory">
+								<option value="">대분류를 선택해주세요</option>
+							    <option th:each="b : ${BigCategory}" th:value="${b.itemBigCategory}" th:text="${b.itemBigCategory}" ></option>
+							</select>
+						</div>	
+						<div class="form-group">
+							<label for="itemMiddleCategoryModal">중분류 선택</label>	
+							<select class="form-control" id="itemMiddleCategoryModal" name="itemMiddleCategory">
+								<option value="">중분류를 선택해주세요</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label for="productCategoryModal">소분류</label>	
+							<select class="form-control" id="productCategoryModal" name="productCategory">
+								<option value="">소분류를 선택해주세요</option>
+							</select>
+						</div>
+						<label for="productAddCategoryModal">추가분류</label>	
+						<input type="text" class="form-control" id="productAddCategoryModal" name="productAddCategory" >
+						<div class="form-group">
+							<label for="productFreezeCoolConditionModal">보관유형</label>	
+							<select class="form-control" id="productFreezeCoolConditionModal" name="productFreezeCoolCondition">
+								<option value="">보관유형을 선택해주세요</option>
+								<option value="상온" >상온</option>
+								<option value="냉장" >냉장</option>
+								<option value="냉동" >냉동</option>
+							</select>
+						</div>
+						<label for="productWeightModal">상품무게</label>	
+							<input type="text" class="form-control" id="productWeightModal" name="productName" >
+						<div class="form-group">
+							<label for="productWeightUnitModal">무게단위</label>	
+							<select class="form-control" id="productWeightUnitModal" name="productWeightUnit">
+								<option value="">보관유형을 선택해주세요</option>
+								<option value="ton" >ton</option>
+								<option value="kg" >kg</option>
+								<option value="g" >g</option>
+							</select>
+						</div>
+						<div class="custom-date-input">
+							<label for="productDateOfManufactureModal">제조일자</label>	
+							<input type="text" class="form-control datepicker-dropdowns" id="productDateOfManufactureModal" name="productDateOfManufacture" >
+						</div>
+						<div class="custom-date-input">
+							<label for="productExpirationDateModal">유통기한</label>	
+							<input type="text" class="form-control datepicker-dropdowns" id="productExpirationDateModal" name="productExpirationDate" >
+						</div>
+						
+						<div class="form-group">
+							<label for="productDetailModal">상세설명</label>
+							<textarea class="form-control" id="productDetailModal" maxlength="140" rows="4" name="productDetail" ></textarea>
 						</div>
 					</div>
-					<!-- 매출현황 그래프 끝 -->
-					<!-- Row end -->
-					
-					<!-- 매출현황 리스트 시작 -->
-							<div class="table-container">
-								<div class="t-header">매출 현황 리스트</div>
-								<div class="table-responsive">
-									<table id="copy-print-csv" class="table custom-table">
-										<thead>
-											<tr>
-											  <th>계약코드</th>
-											  <th>쇼핑몰사업자</th>
-											  <th>계약단가</th>
-											  <th>계약 시작일</th>
-											  <th>계약종료일</th>
-											  <th>계약금액</th>
-											  <th>납부여부</th>
-											  <th>내용 수정</th>
-											  <th>내용 삭제</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr>
-											  <td>contract_final_code001</td>
-											  <td>삼성전자</td>
-											  <td>contract_code01</td>
-											  <td>2021-05-18</td>
-											  <td>2021-06-18</td>
-											  <td>30000</td>
-											  <td>납부 완료</td>
-											  <td><a th:href="@{modifySales}">내용 수정</a></td>
-											  <td>내용 삭제</td>
-											  
-											</tr>
-											<tr>
-											  <td>contract_final_code002</td>
-											  <td>LG화학</td>
-											  <td>contract_code02</td>
-											  <td>2021-05-18</td>
-											  <td>2021-06-18</td>
-											  <td>300000</td>
-											  <td>납부완료</td>
-											  <td><a th:href="@{modifySales}">내용 수정</a></td>
-											  <td>내용 삭제</td>
-											</tr>
-											<tr>
-											  <td>contract_final_code003</td>
-											  <td>삼성전자</td>
-											  <td>contract_code01</td>
-											  <td>2021-05-18</td>
-											  <td>2021-06-18</td>
-											  <td>30000</td>
-											  <td>납부 완료</td>
-											  <td><a th:href="@{modifySales}">내용 수정</a></td>
-											  <td>내용 삭제</td>
-											</tr>
-											<tr>
-											  <td>contract_final_code004</td>
-											  <td>LG화학</td>
-											  <td>contract_code02</td>
-											  <td>2021-05-18</td>
-											  <td>2021-06-18</td>
-											  <td>300000</td>
-											  <td>납부완료</td>
-											  <td><a th:href="@{modifySales}">내용 수정</a></td>
-											  <td>내용 삭제</td>
-											</tr>
-											<tr>
-											  <td>contract_final_code005</td>
-											  <td>삼성전자</td>
-											  <td>contract_code01</td>
-											  <td>2021-05-18</td>
-											  <td>2021-06-18</td>
-											  <td>30000</td>
-											  <td>납부 완료</td>
-											  <td><a th:href="@{modifySales}">내용 수정</a></td>
-											  <td>내용 삭제</td>
-											</tr>
-											<tr>
-											  <td>contract_final_code006</td>
-											  <td>LG화학</td>
-											  <td>contract_code02</td>
-											  <td>2021-05-18</td>
-											  <td>2021-06-18</td>
-											  <td>300000</td>
-											  <td>납부완료</td>
-											  <td><a th:href="@{modifySales}">내용 수정</a></td>
-											  <td>내용 삭제</td>
-											</tr>
-											<tr>
-											  <td>contract_final_code007</td>
-											  <td>삼성전자</td>
-											  <td>contract_code01</td>
-											  <td>2021-05-18</td>
-											  <td>2021-06-18</td>
-											  <td>30000</td>
-											  <td>납부 완료</td>
-											  <td><a th:href="@{modifySales}">내용 수정</a></td>
-											  <td>내용 삭제</td>
-											</tr>
-											<tr>
-											  <td>contract_final_code008</td>
-											  <td>LG화학</td>
-											  <td>contract_code02</td>
-											  <td>2021-05-18</td>
-											  <td>2021-06-18</td>
-											  <td>303456120</td>
-											  <td>납부완료</td>
-											  <td><a th:href="@{modifySales}">내용 수정</a></td>
-											  <td>내용 삭제</td>
-											</tr>
-											<tr>
-											  <td>contract_final_code009</td>
-											  <td>삼성전자</td>
-											  <td>contract_code01</td>
-											  <td>2021-05-18</td>
-											  <td>2021-06-18</td>
-											  <td>30323100</td>
-											  <td>납부 완료</td>
-											  <td><a th:href="@{modifySales}">내용 수정</a></td>
-											  <td>내용 삭제</td>
-											</tr>
-											<tr>
-											  <td>contract_final_code010</td>
-											  <td>LG화학</td>
-											  <td>contract_code02</td>
-											  <td>2021-05-18</td>
-											  <td>2021-06-18</td>
-											  <td>302342300</td>
-											  <td>납부완료</td>
-											  <td><a th:href="@{modifySales}">내용 수정</a></td>
-											  <td>내용 삭제</td>
-											</tr>
-											<tr>
-											  <td>contract_final_code011</td>
-											  <td>삼성전자</td>
-											  <td>contract_code01</td>
-											  <td>2021-05-18</td>
-											  <td>2021-06-18</td>
-											  <td>312312</td>
-											  <td>납부 완료</td>
-											  <td><a th:href="@{modifySales}">내용 수정</a></td>
-											  <td>내용 삭제</td>
-											</tr>
-											<tr>
-											  <td>contract_final_code012</td>
-											  <td>LG화학</td>
-											  <td>contract_code02</td>
-											  <td>2021-05-18</td>
-											  <td>2021-06-18</td>
-											  <td>300000</td>
-											  <td>납부완료</td>
-											  <td><a th:href="@{modifySales}">내용 수정</a></td>
-											  <td>내용 삭제</td>
-											</tr>
-											<tr>
-											  <td>contract_final_code013</td>
-											  <td>삼성전자</td>
-											  <td>contract_code01</td>
-											  <td>2021-05-18</td>
-											  <td>2021-06-18</td>
-											  <td>30000</td>
-											  <td>납부 완료</td>
-											  <td><a th:href="@{modifySales}">내용 수정</a></td>
-											  <td>내용 삭제</td>
-											</tr>
-											<tr>
-											  <td>contract_final_code014</td>
-											  <td>LG화학</td>
-											  <td>contract_code02</td>
-											  <td>2021-05-18</td>
-											  <td>2021-06-18</td>
-											  <td>1</td>
-											  <td>납부완료</td>
-											  <td><a th:href="@{modifySales}">내용 수정</a></td>
-											  <td>내용 삭제</td>
-											</tr>
-											<tr>
-											  <td>contract_final_code015</td>
-											  <td>삼성전자</td>
-											  <td>contract_code01</td>
-											  <td>2021-05-18</td>
-											  <td>2021-06-18</td>
-											  <td>30002220</td>
-											  <td>납부 완료</td>
-											  <td><a th:href="@{modifySales}">내용 수정</a></td>
-											  <td>내용 삭제</td>
-											</tr>
-											<tr>
-											  <td>contract_final_code016</td>
-											  <td>LG화학</td>
-											  <td>contract_code02</td>
-											  <td>2021-05-18</td>
-											  <td>2021-06-18</td>
-											  <td>300000</td>
-											  <td>납부완료</td>
-											  <td><a th:href="@{modifySales}">내용 수정</a></td>
-											  <td>내용 삭제</td>
-											</tr>
-											<tr>
-											  <td>contract_final_code017</td>
-											  <td>삼성전자</td>
-											  <th>contract_code01</th>
-											  <td>2021-05-18</td>
-											  <td>2021-06-18</td>
-											  <td>30000</td>
-											  <td>납부 완료</td>
-											  <td><a th:href="@{modifySales}">내용 수정</a></td>
-											  <td>내용 삭제</td>
-											</tr>
-											<tr>
-											  <td>contract_final_code018</td>
-											  <td>LG화학</td>
-											  <td>contract_code02</td>
-											  <td>2021-05-18</td>
-											  <td>2021-06-18</td>
-											  <td>300000</td>
-											  <td>납부완료</td>
-											  <td><a th:href="@{modifySales}">내용 수정</a></td>
-											  <td>내용 삭제</td>
-											</tr>
-											<tr>
-											  <td>contract_final_code019</td>
-											  <td>삼성전자</td>
-											  <td>contract_code01</td>
-											  <td>2021-05-18</td>
-											  <td>2021-06-18</td>
-											  <td>30000</td>
-											  <td>납부 완료</td>
-											  <td><a th:href="@{modifySales}">내용 수정</a></td>
-											  <td>내용 삭제</td>
-											</tr>
-											<tr>
-											  <td>contract_final_code020</td>
-											  <td>LG화학</td>
-											  <td>contract_code02</td>
-											  <td>2021-05-18</td>
-											  <td>2021-06-18</td>
-											  <td>300000</td>
-											  <td>납부완료</td>
-											  <td><a th:href="@{modifySales}">내용 수정</a></td>
-											  <td>내용 삭제</td>
-											</tr>
-											<tr>
-											  <td>contract_final_code021</td>
-											  <td>삼성전자</td>
-											  <td>contract_code01</td>
-											  <td>2021-05-18</td>
-											  <td>2021-06-18</td>
-											  <td>30000</td>
-											  <td>납부 완료</td>
-											  <td><a th:href="@{modifySales}">내용 수정</a></td>
-											  <td>내용 삭제</td>
-											</tr>
-											<tr>
-											  <td>contract_final_code022</td>
-											  <td>LG화학</td>
-											  <td>contract_code02</td>
-											  <td>2021-05-18</td>
-											  <td>2021-06-18</td>
-											  <td>300000</td>
-											  <td>납부완료</td>
-											  <td><a th:href="@{modifySales}">내용 수정</a></td>
-											  <td>내용 삭제</td>
-											</tr>
-											<tr>
-											  <td>contract_final_code023</td>
-											  <td>삼성전자</td>
-											  <td>contract_code01</td>
-											  <td>2021-05-18</td>
-											  <td>2021-06-18</td>
-											  <td>30000</td>
-											  <td>납부 완료</td>
-											  <td><a th:href="@{modifySales}">내용 수정</a></td>
-											  <td>내용 삭제</td>
-											</tr>
-											<tr>
-											  <td>contract_final_code024</td>
-											  <td>LG화학</td>
-											  <td>contract_code02</td>
-											  <td>2021-05-18</td>
-											  <td>2021-06-18</td>
-											  <td>300000</td>
-											  <td>납부완료</td>
-											  <td><a th:href="@{modifySales}">내용 수정</a></td>
-											  <td>내용 삭제</td>
-											</tr>
-											<tr>
-											  <td>contract_final_code025</td>
-											  <td>삼성전자</td>
-											  <td>contract_code01</td>
-											  <td>2021-05-18</td>
-											  <td>2021-06-18</td>
-											  <td>30000</td>
-											  <td>납부 완료</td>
-											  <td><a th:href="@{modifySales}">내용 수정</a></td>
-											  <td>내용 삭제</td>
-											</tr>
-											<tr>
-											  <td>contract_final_code026</td>
-											  <td>LG화학</td>
-											  <td>contract_code02</td>
-											  <td>2021-05-18</td>
-											  <td>2021-06-18</td>
-											  <td>300000</td>
-											  <td>납부완료</td>
-											  <td><a th:href="@{modifySales}">내용 수정</a></td>
-											  <td>내용 삭제</td>
-											</tr>
-											<tr>
-											  <td>contract_final_code027</td>
-											  <td>삼성전자</td>
-											  <td>contract_code01</td>
-											  <td>2021-05-18</td>
-											  <td>2021-06-18</td>
-											  <td>30000</td>
-											  <td>납부 완료</td>
-											  <td><a th:href="@{modifySales}">내용 수정</a></td>
-											  <td>내용 삭제</td>
-											</tr>
-											<tr>
-											  <td>contract_final_code028</td>
-											  <td>LG화학</td>
-											  <td>contract_code02</td>
-											  <td>2021-05-18</td>
-											  <td>2021-06-18</td>
-											  <td>300000</td>
-											  <td>납부완료</td>
-											  <td><a th:href="@{modifySales}">내용 수정</a></td>
-											  <td>내용 삭제</td>
-											</tr>
-
-										</tbody>
-						    	</table>
-								</div>
-							</div>
-							<!-- 매출현황 리스트 끝 -->
-
+					<div class="modal-footer">
+						<button class="btn btn-secondary" data-dismiss="modal">취소</button>
+						<button type="submit" name="submit"  class="btn btn-primary">수정</button>
+					</div>
 				</div>
-	<!-- Main container end -->
-
+			</div>
+		</div>
+	</form>			
 </th:block>
 		
 </html>

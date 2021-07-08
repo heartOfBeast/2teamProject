@@ -33,7 +33,15 @@
 					
 							<div class="card">
 								<div class="card-header">
-									<div class="card-title">21년 지출현황(그래프)</div>
+									<div class="card-title">
+									<select>
+										<option>2018년</option>
+										<option>2019년</option>
+										<option>2020년</option>
+										<option>2021년</option>
+										<option>2022년</option>
+									</select>
+									 지출현황(그래프)</div>
 								</div>
 								<div class="card-body">
 									<div id="basic-column-stack-graph-fullheight2" class="primary-graph"></div>
@@ -80,8 +88,8 @@
 												<td th:text ="${L.expenseCashCard}"></td>
 												<td th:text ="${L.expenseCardInfo}"></td>
 												<td th:text ="${L.expenseStore}"></td>
-												<td id="cate" th:text ="${L.expenseCate}"></td>
-												<td id="pay" th:text ="${L.expensePayment}"></td>
+												<td th:text ="${L.expenseCate}"></td>
+												<td th:text ="${L.expensePayment}"></td>
 												<td th:text ="${L.wareadminId}"></td>
 												<td th:text ="${L.expensRegDate}"></td>
 												<td></td>
@@ -100,11 +108,11 @@
 
 <th:block layout:fragment="customJs">
 	<script th:inline="javascript">
-	
+	var options = null;
 			/*******************************그래프양식(?)******************************************/
 	window.onload = function(){
 		
-	var options = {
+	options = {
 		  chart:	 	{
 		    				height: 350,
 		    				type: 'bar',
@@ -136,19 +144,16 @@
 		    				enabled: true
 		  				},
 		  
-		series: 		[{
-		    				name: '식료품',
-		    				data: [foodPercent]
-		  				},{
-		    				name: '비품',
-		    				data: [equipPercent]
-		  				},{
-						    name: '임금',
-						    data: [wagePercent]
-					    },{
-						    name: '생필품',
-						    data: [necessityPercent]
-					 	}],	
+		series: 		[
+// 							{
+// 								NAME : '',
+// 								DATA : []
+// 							},
+// 							{
+// 								NAME : '',
+// 								DATA : []
+// 							}
+						],
 		  xaxis: 		{
 						    type: 'datetime',
 						    categories: ['01/01/2021 GMT', '02/01/2021 GMT', '03/01/2021 GMT', '04/01/2021 GMT', '05/01/2021 GMT', '06/01/2021 GMT'
@@ -161,9 +166,12 @@
 		  fill: 		{
 						    opacity: 1
 						},
-		  colors: 		['#FE2E2E', '#2EFE64', '#DA81F5', '#81F7F3'],
-						}
+		  colors: 		['#FE2E2E', '#2EFE64', '#DA81F5', '#81F7F3','#6E6E6E','#0B4C5F','#886A08','#3B0B0B',
+			  			'#240B3B', '#240B3B', '#FFFFFF', '#FAAC58'],
+				}
 	
+	
+	options.series = SeriesData;
 		var chart2 = new ApexCharts(
 		  document.querySelector("#basic-column-stack-graph-fullheight2"),
 		  options
@@ -172,83 +180,69 @@
 		}
 	/********************************위에꺼 계산식***************************************/
 		
-	/*<![CDATA[*/
+
+		
+		/*<![CDATA[*/
 		var result =/*[[${expenditureList}]]*/;
-	/*]]>*/
-		var SumPrice =0;
-		var Percent = 0;
-		var food = '식료품';
-		var equip = '비품';
-		var wage = '임금';
-		var necessity = '생필품';
-		var foodSumPrice = 0;
-		var equipSumPrice = 0;
-		var wageSumPrice = 0;
-		var necessitySumPrice = 0;
-		var foodPercent = 0;
-		var equipPercent = 0;
-		var wagePercent = 0;
-		var necessityPercent = 0;
-		var totalPrice = 0;
-		var FinalTotalPrice = 0;
+		/*]]>*/
+ 	
+		var resultExpenCate =[];
+		var dupleExpenCate =[];
+			for(var i=0; i<result.length; i++){
+				resultExpenCate[i] = result[i].expenseCate;
+				if (dupleExpenCate.indexOf(resultExpenCate[i]) === -1) dupleExpenCate.push(resultExpenCate[i]);
+				
+			}
+			
+		var SeriesData= [];
 		
-	for(i=0; i<result.length; i++){
-		var exCate = result[i].expenseCate
-		var exDate = result[i].expenseDate
-		totalPrice += parseInt(result[i].expensePayment);
+		// data가 12달의 금액이 들어가는 배열이기때문에 배열의 길이를 12개로 초기화시킴
+		for(var i=0; i<dupleExpenCate.length; i++){
+			SeriesData[i] = {name : dupleExpenCate[i], data:[] };
+			SeriesData[i].data = new Array(12);
+		}
 		
-		if(exDate.substring(0,7) ==  '2021-01' && exCate == food){
-			foodSumPrice += parseInt(result[i].expensePayment);
-			
-		}else if (exDate.substring(0,7) == '2021-01' && exCate == equip){
-			equipSumPrice += parseInt(result[i].expensePayment);
-	
-		}else if (exDate.substring(0,7) == '2021-01' && exCate == wage){
-			wageSumPrice += parseInt(result[i].expensePayment);
-			
-		}else if (exDate.substring(0,7) == '2021-01' && exCate == necessity){
-			necessitySumPrice += parseInt(result[i].expensePayment);
-			
-		} 
-	}
-	
-			foodPercent = Math.floor((foodSumPrice/totalPrice) * 100);
-			equipPercent = Math.floor((equipSumPrice/totalPrice) * 100);
-			wagePercent = Math.floor((wageSumPrice/totalPrice) * 100);
-			necessityPercent = 100 - foodPercent - equipPercent - wagePercent ;  
-// 			necessityPercent = (necessitySumPrice/totalPrice) * 100
+		
+		for(var i=0; i<result.length; i++){
+			for(var j=0; j<SeriesData.length; j++){
+					
+				var resultCateName = result[i].expenseCate;
+				var seriesCateName = SeriesData[j].name;
+				if(resultCateName == seriesCateName){
+					 var date = new Date(result[i].expenseDate);
+					 var m = date.getMonth();
+
+					 if(SeriesData[j].data[m] === undefined){
+						 SeriesData[j].data[m] = 0;
+					 }
+					 SeriesData[j].data[m] += parseInt(result[i].expensePayment);
+				}
+			}
+		}
+		
+		for(var i = 0; i < SeriesData.length; i++){
+			for(var j = 0; j < SeriesData[i].data.length; j++){
+				if(SeriesData[i].data[j] === undefined){
+					SeriesData[i].data[j] = 0;
+				}
+			}
+		}
+
+		
+		
 
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	/**********************************************************************************/
-			$(function(){
+			(event) => {
 				$('#expenseCheckAll').click(function(){
 					if($('#expenseCheckAll').prop('checked')){
 						$('.expenseCheckOne').prop('checked', true);
 					}else{
 						$('.expenseCheckOne').prop('checked', false);
 					}
-				})
-			})
+				}
+			)};
+			
 			function deleteDate(){
 				var dataArr = new Array();
 				var list = $('.expenseCheckOne');
@@ -281,12 +275,10 @@
 					}else{
 						return false;
 					}
-						
-					
 				}
 			}
 			
 	</script>
 
-		
+</th:block>
 </html>

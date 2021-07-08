@@ -30,7 +30,7 @@
 
 <th:block layout:fragment="container">
 	<!-- Main container start -->
-		<div class="main-container">
+	<div class="main-container">
 
 		<!-- Row start -->
 		<div class="row gutters justify-content-center">
@@ -45,10 +45,10 @@
 						</div>
 						<div class="card-body">
 							<div class="form-group">
-								<input type="text" class="form-control" id="subject" name="subject" placeholder="Subject" readonly="readonly" required="">
+								<input type="text" th:value="${inquiryList.boardQnaCode}" class="form-control" id="subject" name="subject" required="">
 							</div>
 							<div class="form-group">
-							 	<textarea class="form-control" id="message" placeholder="contents" maxlength="500" rows="20" readonly="readonly"></textarea>
+							 	<textarea class="form-control" th:value="${inquiryList.boardQnaContent}" id="message" placeholder="contents" maxlength="500" rows="20" ></textarea>
 
 							</div>
 							
@@ -57,38 +57,13 @@
 				</form>
 
 
-					<div class="media comments">
-						
-						<div class="media-body">
-							<h5 class="mt-0 media-heading">Jake Barford <span class="date">3 months ago</span></h5>
-							<p>The grid right now is being handled by the Bootstrap grid system. You can get as many rows as you want, but as far as columns you are limited to what Bootstrap's framework can offer. 12 columns would make the images a bit too small I think, but you could easily do 6 columns by using col-md-2 instead of col-md-3!</p>
-
-							<div class="media mt-3">
-								
-								<div class="media-body">
-									<h5 class="mt-0 media-heading">Carlos Slim Helu <span class="date">2 months ago</span></h5>
-									<p>I completely forgot about that.. Noob question, thank you I appreciate the response, very neat.</p>
-
-									<div class="clearfix comments-form">
-										<div class="form-group">
-											<label class="control-label"><b>Write comment</b></label>
-											<textarea class="form-control textarea" rows="3" placeholder="Write A Comment"></textarea>
-										</div>
-										<div class="form-group clearfix">
-											<button class="btn btn-primary float-right">Post Comment</button>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-
+				
 	
-				</div>
 			</div>
-			<!-- Row end -->
-
 		</div>
+		<!-- Row end -->
+
+	</div>
 	<!-- Main container end -->
 
 </th:block>

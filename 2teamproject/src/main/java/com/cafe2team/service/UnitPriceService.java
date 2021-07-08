@@ -40,9 +40,10 @@ public class UnitPriceService {
 	}
 	
 	// 요금안내 수정을 위한 조회
-	public Price priceInfo(String price_Code) {
+	public Price priceInfo(String priceCode) {
 		
-		Price result = unitPriceMapper.priceInfo(price_Code);
+		Price result = unitPriceMapper.priceInfo(priceCode);
+		
 		
 		return result;
 	}

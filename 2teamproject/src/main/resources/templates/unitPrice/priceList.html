@@ -32,13 +32,13 @@
 		<div class="table-responsive">
 			<button type="button" class="btn btn-primary float-right" onclick="deleteDate();">삭제</button>
 			<button type="button" class="btn btn-primary float-right" onclick="location.href='priceAdd'">등록</button>
-			<button type="button" class="btn btn-primary float-right" onclick="location.href='contractAdd'">계약신청</button>
 			<table class="table custom-table m-0">
 				<thead>
 					<tr>
 						<th>
 					  		<input type="checkbox" id="priceCheck" style="position: relative; top: 1.5px;">
 					    </th>
+						<!-- <th>계약 코드</th> -->
 						<th>계약 이름</th>
 						<th>창고 종류</th>
 						<th>계약 종류</th>
@@ -47,32 +47,40 @@
 						<th>구역 개수</th>
 						<th>계약 기간</th>
 						<th>사용 요금</th>
+						<!-- <th>등록 날짜</th> -->
 						<th>수정</th>
+						<th>계약신청</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr th:each="l: ${priceList}">
 						<td>
-				  	  		<input type="checkbox" class="checkOne" style="position: relative; top: 1.5px;" th:value="${l.priceCode}">
+				  	  		<input type="checkbox" class="checkOne" style="position: relative; top: 1.5px;" th:value="${l.priceCode}" >
 					    </td>
-						<td th:text="${l.priceName}" 		id="priceName"></td>
-						<td th:text="${l.wareHouseType}" 	id="WareHoseType"></td>
-						<td th:text="${l.contractType}"		id="contractType"></td>
-						<td th:text="${l.priceWeight}" 		id="priceWeight"></td>
-						<td th:text="${l.priceNumber}"		id="priceNumber" ></td>
-						<td th:text="${l.priceZone}"		id="priceZone"></td>
-						<td th:text="${l.priceDay}" 		id="priceDay"></td>
-						<td th:text="${l.pricePrice}"		id="price"></td>
+						<td th:text="${l.priceCode}" 		id="priceCodeData" 		style="display: none;"></td>
+						<td th:text="${l.priceName}" 		id="priceNameData"></td>
+						<td th:text="${l.wareHouseType}" 	id="wareHoseTypeData"></td>
+						<td th:text="${l.contractType}"		id="contractTypeData"></td>
+						<td th:text="${l.priceWeight}" 		id="priceWeightData"></td>
+						<td th:text="${l.priceNumber}"		id="priceNumberData" ></td>
+						<td th:text="${l.priceZone}"		id="priceZoneData"></td>
+						<td th:text="${l.priceDay}" 		id="priceDayData"></td>
+						<td th:text="${l.pricePrice}"		id="priceData"></td>
+						<td th:text="${l.unitPriceUpdate}"	id="unitPriceUpdateData" style="display: none;"></td>
 						<td>
-							<!-- <a th:href="@{/priceUpdate(price_Code=${l.price_Code})}" >수정</a> -->
-							<a type="button" class="btn btn-primary priceBtn" data-toggle="modal" data-target=".bd-example-modal-lg" id="viewModel" style="color: white;">수정</a>
+							<a type="button" class="btn btn-primary updateBtn" data-toggle="modal" data-target=".bd-example-modal-lg" id="updateModal" style="color: white;">수정</a>
+						</td>
+						<td>
+							<a class="btn btn-primary float-right" th:href="@{/contractAdd(priceCode=${l.priceCode})}" >계약신청</a>
 						</td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
 	</div>
-<form th:action="@{/priceList}" method="post">
+	
+<!-- 요금안내 수정 Modal폼 시작 -->
+<form th:action="@{/priceUpdate}" method="post">
 	<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" style="display: none;" aria-hidden="true">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
@@ -84,38 +92,64 @@
 				</div>
 				<div class="modal-body">
 					<div class="form-group">
-						<label for="wareHouseCodeModal">계약이름</label>	
-						<textarea class="form-control" id="priceNameModel" placeholder="이상여부를 작성해주세요." maxlength="140" rows="4" name="priceName" ></textarea>
+						<label for="priceCodeModal">계약코드</label>
+						<input class="form-control" id="priceCodeModal" name="priceCode" readonly="readonly"/>	
 					</div>	
-					
 					<div class="form-group">
-						<label for="fireInspection">창고종류</label>	
-						<textarea class="form-control" id="WareHoseTypeModel" placeholder="이상여부를 작성해주세요." maxlength="140" rows="4" name="WareHoseType" ></textarea>
+						<label for="priceNameModal">계약이름</label>	
+						<input class="form-control" id="priceNameModal" name="priceName" />
+					</div>	
+					<div class="form-group">
+						<label for="wareHoseTypeModal">창고종류</label>	
+						<select class="form-control" id="wareHoseTypeModal" name="wareHouseType">
+							<option value="일반창고">일반창고</option>
+							<option value="냉장/냉동창고">냉장/냉동창고</option>
+						</select>
 					</div>
 					<div class="form-group">
-						<label for="logisticsInspection">계약 종류</label>	
-						<textarea class="form-control" id="contractTypeModel" placeholder="이상여부를 작성해주세요." maxlength="140" rows="4" name="contractType" ></textarea>
+						<label for="contractTypeModal">계약 종류</label>	
+						<input class="form-control" id="contractTypeModal" name="contractType" />
 					</div>
 					<div class="form-group">
-						<label for="equipmentInspection">물품 개당 무게</label>	
-						<textarea class="form-control" id="priceWeightModel" placeholder="이상여부를 작성해주세요." maxlength="140" rows="4" name="priceWeight" ></textarea>
+						<label for="priceWeightModal">물품 개당 무게</label>	
+						<input class="form-control" id="priceWeightModal" name="priceWeight" />
 					</div>
 					<div class="form-group">
-						<label for="facilityCheckModal">제한 수량</label>
-						<textarea class="form-control" id="priceNumberModel" placeholder="이상여부를 작성해주세요." maxlength="140" rows="4" name="priceNumber" ></textarea>
+						<label for="priceNumberModal">제한 수량</label>
+						<select class="form-control" id="priceNumberModal" name="priceNumber">
+							<option value="100">100</option>
+							<option value="200">200</option>
+							<option value="300">300</option>
+							<option value="400">400</option>
+							<option value="500">500</option>
+							<option value="600">600</option>
+						</select>
 					</div>
 					<div class="form-group">
-						<label for="facilityCheckModal">구역 개수</label>
-						<textarea class="form-control" id="priceZoneModel" placeholder="이상여부를 작성해주세요." maxlength="140" rows="4" name="priceZone" ></textarea>
+						<label for="priceZoneModal">구역 개수</label>
+						<select class="form-control" id="priceZoneModal" name="priceZone">
+							<option value="섹터없음 없음">섹터선택 없음</option>
+							<option value="섹터 1개">섹터 1개</option>
+							<option value="섹터 2개">섹터 2개</option>
+							<option value="섹터 3개">섹터 3개</option>
+							<option value="섹터 4개">섹터 4개</option>
+							<option value="섹터 5개">섹터 5개</option>
+							<option value="섹터 6개">섹터 6개</option>
+						</select>
 					</div>
 					<div class="form-group">
-						<label for="facilityCheckModal">계약 기간</label>
-						<textarea class="form-control" id="priceDayModel" placeholder="이상여부를 작성해주세요." maxlength="140" rows="4" name="priceDay" ></textarea>
+						<label for="priceDayModal">계약 기간</label>
+						<select class="form-control" id="priceDayModal" name="priceDay">
+							<option value="30일">30일</option>
+							<option value="180일">180일</option>
+							<option value="365일">365일</option>
+						</select>
 					</div>
 					<div class="form-group">
-						<label for="facilityCheckModal">사용 요금</label>
-						<textarea class="form-control" id="price" placeholder="이상여부를 작성해주세요." maxlength="140" rows="4" name="pricePrice" ></textarea>
+						<label for="priceModal">사용 요금</label>
+						<input class="form-control" id="priceModal" name="pricePrice" />
 					</div>
+					<input type="hidden" class="form-control" id="unitPriceUpdateModal" name="unitPriceUpdate" />
 				</div>
 				<div class="modal-footer">
 					<button class="btn btn-secondary" data-dismiss="modal">취소</button>
@@ -124,77 +158,93 @@
 			</div>
 		</div>
 	</div>
-</form>		
+</form>
+<!-- 요금안내 수정 Modal폼 끝 -->
+
 
 </th:block>
 <th:block layout:fragment="customJs">
 	<script>
-			$(function(){
-				$('#priceCheck').click(function(){
-					if($('#priceCheck').prop('checked')){
-						$('.checkOne').prop('checked', true);
-					}else{
-						$('.checkOne').prop('checked', false);
-					}
-				})
+		/* 삭제(개별 / 전체)  */
+		$(function(){		
+			$('#priceCheck').click(function(){
+				if($('#priceCheck').prop('checked')){
+					$('.checkOne').prop('checked', true);
+				}else{
+					$('.checkOne').prop('checked', false);
+				}
 			})
-			function deleteDate(){
-				var dataArr = new Array();
-				var list = $('.checkOne');
-				for(var i=0; i<list.length; i++){
-					if(list[i].checked){
-						dataArr.push(list[i].value);
-					}
-				}
-				if(dataArr.length == 0){
-					alert('삭제할 항목을 선택해주세요.');
-				}
-				else{
-					var chk = confirm('정말 삭제하시겠습니까?');
-					if(chk){
-						$.ajax({
-							url : "/priceRemove",
-							method : 'post',
-							async : true,
-							dataType : "json",
-							data : {'dataArr':dataArr},
-							success: function(jdata){
-								if(jdata != 1){
-									alert('오류 : 삭제 실패');
-								}else{
-									alert('삭제 되었습니다.');
-									location.replace("priceList");
-								}
-							}
-				    	});
-					}else{
-						return false;
-					}
-						
-					
+		});
+		function deleteDate(){
+			var deletArr = new Array();
+			var list = $('.checkOne');
+			for(var i=0; i<list.length; i++){
+				if(list[i].checked){
+					deletArr.push(list[i].value);
 				}
 			}
-			$('.priceBtn').each(function(){
-				$(this).click(function(){
-					var WareHoseTypeData = $(this).parents('tr').children('#WareHoseType').text();
-					var contractTypeData = $(this).parents('tr').children('#contractType').text();
-					var priceWeightData = $(this).parents('tr').children('#priceWeight').text();
-					var priceNumberData = $(this).parents('tr').children('#priceNumber').text();
-					var priceZoneData = $(this).parents('tr').children('#priceZone').text();
-					var priceDayData = $(this).parents('tr').children('#priceDay').text();
-					
-					var firesafetySelected = $('#fireInspection option:contains(' + facilityFiresafetyData + ')').val();
-					var logisticsDataSelected = $('#logisticsInspection option:contains(' + facilityLogisticsData + ')').val();
-					var equipemntDataSelected = $('#equipmentInspection option:contains(' + facilityMainEquipemntData + ')').val();
-					
-					$('#WareHoseType').val(WareHoseTypeData);
-					$('#contractType').val(contractTypeData);
-					$('#priceWeight').val(priceWeightData);
-					$('#priceNumber').val(priceNumberData);
-					$('#priceZone').val(priceZoneData);
-					$('#priceDay').val(priceDayData);
-				})
+			if(deletArr.length == 0){
+				alert('삭제할 항목을 선택해주세요.');
+			}
+			else{
+				var chk = confirm('정말 삭제하시겠습니까?');
+				if(chk){
+					$.ajax({
+						url : "/priceRemove",
+						method : 'post',
+						async : true,
+						dataType : "json",
+						data : {'deletArr':deletArr},
+						success: function(jdata){
+							if(jdata != 1){
+								alert('오류 : 삭제 실패');
+							}else{
+								alert('삭제 되었습니다.');
+								location.replace("priceList");
+							}
+						}
+			    	});
+				}else{
+					return false;
+				}
+				
+			}
+		}
+		
+		/* 수정 Modal */
+		$('.updateBtn').each(function(){
+			$(this).click(function(){
+				var priceCodeData 		= $(this).parents('tr').children('#priceCodeData').text();
+				var priceNameData 		= $(this).parents('tr').children('#priceNameData').text();
+				var wareHoseTypeData	= $(this).parents('tr').children('#wareHoseTypeData').text();
+				var contractTypeData 	= $(this).parents('tr').children('#contractTypeData').text();
+				var priceWeightData 	= $(this).parents('tr').children('#priceWeightData').text();
+				var priceNumberData 	= $(this).parents('tr').children('#priceNumberData').text();
+				var priceZoneData 		= $(this).parents('tr').children('#priceZoneData').text();
+				var priceDayData 		= $(this).parents('tr').children('#priceDayData').text();
+				var priceData 			= $(this).parents('tr').children('#priceData').text();
+				var unitPriceUpdateData = $(this).parents('tr').children('#unitPriceUpdateData').text();
+				
+				var wareHoseTypeSelect = $('#wareHoseTypeModal option:contains(' + wareHoseTypeData + ')').val();
+				var priceNumberSelected = $('#priceNumberModal option:contains(' + priceNumberData + ')').val();
+				var priceZoneSelected = $('#priceZoneModal option:contains(' + priceZoneData + ')').val();
+				var priceDaySelected = $('#priceDayModal option:contains(' + priceDayData + ')').val();
+				
+				$('#priceCodeModal').val(priceCodeData);
+				$('#priceNameModal').val(priceNameData);
+				$('#wareHoseTypeModal').val(wareHoseTypeSelect);
+				$('#contractTypeModal').val(contractTypeData);
+				$('#priceWeightModal').val(priceWeightData);
+				$('#priceNumberModal').val(priceNumberSelected);
+				$('#priceZoneModal').val(priceZoneSelected);
+				$('#priceDayModal').val(priceDaySelected);
+				$('#priceModal').val(priceData);
+				$('#unitPriceUpdateModal').val(unitPriceUpdateData);
 			})
+		});
+		
+		
+		
 	</script>
 </th:block>
 </html>
