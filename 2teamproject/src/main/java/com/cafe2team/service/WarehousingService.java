@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.cafe2team.dao.WarehousingMapper;
 import com.cafe2team.domain.Product;
+import com.cafe2team.domain.Request;
 
 @Service
 public class WarehousingService {
@@ -24,6 +25,11 @@ public class WarehousingService {
 		
 		return getProductCodeInfo;
 		
+	}
+	
+	public int addRequest(Request request) {
+		
+		return warehousingMapper.addRequest(request);
 	}
 	
 }

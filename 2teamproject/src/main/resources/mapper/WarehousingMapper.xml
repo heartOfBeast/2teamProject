@@ -51,7 +51,33 @@
 		WHERE
 			p.product_name = #{productName};
 		
-	</select>		
-
+	</select>
+	
+	<insert id="addRequest" parameterType="Request">
+	INSERT INTO tb_request
+		(warehousing_request_code
+		, product_code
+		, warehouse_code
+		, warehousing_request_amount
+		, product_Name
+		, shoppingmall_user_id
+		, barcode_file
+		, product_file
+		,warehousing_request_reg_date
+		,request_shopname)
+	VALUES (
+		'456456333'
+		,#{productCode}
+		,#{warehouseCode}
+		,#{warehouseRequestAmount}
+		,#{productName}
+		,#{shoppingUserId}
+		,#{barcodeImg}
+		,#{productFile}
+		,#{requestRegDate}
+		,#{shopName});
+		
+		
+	</insert>
 
 </mapper>

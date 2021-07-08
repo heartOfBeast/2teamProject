@@ -9,6 +9,7 @@ public class Request {
 	private String warehouseCode;
 	private int warehouseRequestAmount;
 	private String shoppingUserId;
+	private String shopName;
 	
 	private String wareHouseName;
 	private String productName;
@@ -84,13 +85,21 @@ public class Request {
 	public void setRequestRegDate(String requestRegDate) {
 		this.requestRegDate = requestRegDate;
 	}
+	public String getShopName() {
+		return shopName;
+	}
+	public void setShopName(String shopName) {
+		this.shopName = shopName;
+	}
 	@Override
 	public String toString() {
-		return "Requset [requsetCode=" + requsetCode + ", productCode=" + productCode + ", warehouseCode="
+		return "Request [requsetCode=" + requsetCode + ", productCode=" + productCode + ", warehouseCode="
 				+ warehouseCode + ", warehouseRequestAmount=" + warehouseRequestAmount + ", shoppingUserId="
-				+ shoppingUserId + ", wareHouseName=" + wareHouseName + ", productName=" + productName + ", barcodeImg="
-				+ Arrays.toString(barcodeImg) + ", productFile=" + Arrays.toString(productFile) + ", wareAdminId="
-				+ wareAdminId + ", requestRegDate=" + requestRegDate + "]";
+				+ shoppingUserId + ", shopName=" + shopName + ", wareHouseName=" + wareHouseName + ", productName="
+				+ productName + ", barcodeImg=" + Arrays.toString(barcodeImg) + ", productFile="
+				+ Arrays.toString(productFile) + ", wareAdminId=" + wareAdminId + ", requestRegDate=" + requestRegDate
+				+ "]";
 	}
+
 	
 }

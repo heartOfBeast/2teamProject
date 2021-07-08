@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.cafe2team.domain.Item;
 import com.cafe2team.domain.Member;
 import com.cafe2team.domain.Product;
+import com.cafe2team.domain.Request;
 import com.cafe2team.domain.Shoppingmall;
 import com.cafe2team.domain.Warehouse;
 import com.cafe2team.domain.WarehousingOrder;
@@ -94,10 +95,12 @@ public class WareHousingController {
 	}
 	
 	@PostMapping("/receivingRequest")
-	public String receivingRequest() {
-
+	public String receivingRequest(Request request) {
 		
-		return null;
+		warehousingService.addRequest(request);
+		
+		
+		return "redirect:/";
 	}
 	
 	//입고지시서 목록
