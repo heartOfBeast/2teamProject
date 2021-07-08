@@ -30,69 +30,54 @@
 
 <th:block layout:fragment="container">
 	<!-- Main container start -->
-				<div class="main-container">
-				<!-- Row start -->
-					<div class="row gutters">
-						<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-					<!-- 문의게시판 리스트 시작 -->
-							<div class="table-container">
-								<div class="t-header">문의게시판</div>
-								<div class="table-responsive">
-									<table id="basicExample" class="table custom-table m-0">
-										<thead>
-											<tr>
-											  <th class="inquiryNumber">번호</th>
-											  <th class="inquirySubject">제목</th>
-											  <th class="inquirywriter">작성자</th>
-											  <th class="inquiryViews">조회수</th>
-											  <th class="inquiryRegDate">등록일</th>
-											  
-											</tr>
-										</thead>
-										<tbody>
-											<tr>
-											  <td class="inquiryNumber">0004</td>
-											  <td class="inquirySubject">나</td>
-											  <td class="inquirywriter">작성자4</td>
-											  <td class="inquiryViews">2</td>
-											  <td class="inquiryRegDate">2021-06-18</td>
-											</tr>
-											<tr>
-											  <td class="inquiryNumber">0003</td>
-											  <td class="inquirySubject">너</td>
-											  <td class="inquirywriter">작성자3</td>
-											  <td class="inquiryViews">2</td>
-											  <td class="inquiryRegDate">2021-06-18</td>
-											</tr>
-											<tr>
-											  <td class="inquiryNumber">0002</td>
-											  <td class="inquirySubject">문의 제목2</td>
-											  <td class="inquirywriter">작성자2</td>
-											  <td class="inquiryViews">2</td>
-											  <td class="inquiryRegDate">2021-06-18</td>
-											</tr>
-											<tr>
-											  <td class="inquiryNumber">0001</td>
-											  <td class="inquirySubject">
-											  <a th:href="@{readInquiry}">문의 제목1</a>
-											  </td>
-											  <td class="inquirywriter">작성자1</td>
-											  <td class="inquiryViews">2</td>
-											  <td class="inquiryRegDate">2021-06-18</td>
-											</tr>
-										
-										</tbody>
-						    	</table>
-						    	<div class="writeInquireBtn custom-btn-group">
-									<button type="button" class="btn btn-primary" th:onclick="@{location.href='writeInquiry'}">글쓰기</button>
-						    	</div>
-								</div>
-							</div>
-							<!-- 문의게시판  리스트 끝 -->
-						</div>
+	<div class="main-container">
+		<!-- Row start -->
+		<div class="row gutters">
+			<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+		<!-- 문의게시판 리스트 시작 -->
+				<div class="table-container">
+					<div class="t-header">문의게시판</div>
+					<div class="table-responsive">
+						<table id="basicExample" class="table custom-table m-0">
+							<thead>
+								<tr>
+									<th>
+										<input type="checkbox" id="checkAll" style="position: relative; top: 1.5px;">
+									</th>
+									<th class="inquiryNumber">번호</th>
+									<th class="inquirySubject">제목</th>
+									<th class="inquirywriter">작성자</th>
+									<th class="inquiryViews">조회수</th>
+									<th class="inquiryRegDate">등록일</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:if="${#lists.size(inquiryList)>0}" th:each="l : ${inquiryList}" >
+									<td>
+										<input type="checkbox" class="checkOne" style="position: relative; top: 1.5px;" th:value="${l.boardQnaCode}">
+									</td>
+									<td>
+										<a th:href="@{/readInquiry}" th:text="${l.boardQnaCode}"></a>
+									</td>
+									<td>
+										<a th:href="@{/inquiry/readInquiry(boardQnaCode=${l.boardQnaCode})}" th:text="${l.boardQnaCode}"></a>
+									</td>
+									<td th:text="${l.boardQnaWriter}"></td>
+									<td th:text="${l.boardQnaViews}"></td>
+									<td th:text="${l.boardQnaRegDate}"></td>
+								</tr>
+							</tbody>
+			    	</table>
+			    	<div class="writeInquireBtn custom-btn-group">
+						<button type="button" class="btn btn-primary" th:onclick="@{location.href='writeInquiry'}">글쓰기</button>
+			    	</div>
 					</div>
 				</div>
-				<!-- Row start -->
+				<!-- 문의게시판  리스트 끝 -->
+			</div>
+		</div>
+		<!-- Row start -->
+	</div>
 	<!-- Main container end -->
 
 </th:block>

@@ -66,6 +66,9 @@ public class ProductService {
 		return getItemSmallCategoryInfo;
 	}
 	
-	
-
+	//쇼핑몰 사업자 창고별 재고조회
+	public List<Product> getProductAmountPerWarehouse(){
+		List<Product> getProductAmountPerWarehouse = productMapper.getProductAmountPerWarehouse();
+		return getProductAmountPerWarehouse;
+	}
 }
