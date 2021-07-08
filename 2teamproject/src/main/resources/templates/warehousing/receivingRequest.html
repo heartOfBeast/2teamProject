@@ -40,45 +40,45 @@
 									</div>
 									<div class="card-body">
 										<div class="form-group">
-											<input type="text" class="form-control" id="shoppingmallName" name="shoppingmallName" placeholder="사업장명" th:value="${shopmemberList.shoppingmallName}" readonly="readonly"/>
+											<input type="text" class="form-control" id="shoppingmallName" name="shopName" placeholder="사업장명" th:value="${shopmemberList.shoppingmallName}" readonly="readonly"/>
 										</div>
 										<div class="form-group">
-											<input type="text" class="form-control" id="shoppingmallId" name="shoppingmallId" placeholder="쇼핑몰 사업자 아이디" th:value="${shopmemberList.shoppingmallId}" readonly="readonly"/>
+											<input type="text" class="form-control" id="shoppingmallId" name="shoppingUserId" placeholder="쇼핑몰 사업자 아이디" th:value="${shopmemberList.shoppingmallId}" readonly="readonly"/>
 										</div>
 											<div class="input-group flex-nowrap" style="margin-bottom: 12px">
-						                         <select class="form-control form-control-lg" id="warehouseName" name="warehouseName">
+						                         <select class="form-control form-control-lg" id="warehouseName" name="warehouseCode">
 													<option>창고목록</option>
-													<option th:each="b:${warehouseList}" th:value="${b.warehouseName}" th:text="${b.warehouseName}"></option>
+													<option th:each="b:${warehouseList}" th:value="${b.warehouseCode}" th:text="${b.warehouseName}"></option>
 												</select>
 			                       			 </div>	
-											<div class="form-group" style="margin-bottom: 12px">
+											<div class="form-group" style="margin-bottom: 12px" >
 						                         <select class="form-control form-control-lg" id="productName" name="productName" required="required">
 													<option>등록 상품이름</option>
-													<option th:each="c:${productList}" th:value="${c.productName}" th:text="${c.productName}"></option>
+													<option th:each="c:${productList}" th:value="${c.productName}" th:text="${c.productName}"> </option>
 												</select>
 			                       			 </div>
 			                       			 	
 											<div class="form-group" style="margin-bottom: 12px" id="productCode">
-												<input type="text" class="form-control" placeholder="입고코드"/>
+												<input type="text" class="form-control" name="productCode" placeholder="상품코드"/>
 			                       			 </div>
 			                       			 	
 											<div class="form-group" style="margin-bottom: 12px">
-												<input type="text" class="form-control" id="productAmount" name="productAmount" placeholder="입고요청수량"/>
+												<input type="text" class="form-control" id="productAmount" name="warehouseRequestAmount" placeholder="입고요청수량"/>
 			                       			 </div>	
 										<div class="form-group">
 										<div class="image-container">
 										    <img style="width: 500px;" id="preview-image" src="https://dummyimage.com/500x500/ffffff/000000.png&text=preview+image">
-										    <input style="display: block;" type="file" id="input-image" name="pro">
+										    <input style="display: block;" type="file" id="input-image" name="barcodeImg">
 										</div>
 											<a type="button" class="btn btn-outline-info" id="barCode" style="margin-top: 10px;">QR코드생성</a>
 											<span style="font-size: 12px; font-weight: bold;">QR코드를 생성하면 제품에 맞는 바코드가 생성됩니다!(저장경로 C:/QR)</span>
 										</div>
 										<div class="form-group">
-											<input type="Date" class="form-control" id="recevingDate"name="subject" placeholder="입고 예정일">
+											<input type="Date" class="form-control" id="recevingDate" name="requestRegDate" placeholder="입고 예정일">
 										</div>
 										<div class="input-group">
 											<div class="custom-file">
-												<input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+												<input type="file" class="custom-file-input" id="inputGroupFile01"  name="productFile" aria-describedby="inputGroupFileAddon01">
 												<label class="custom-file-label" for="inputGroupFile01">일괄입고 Upload</label>
 											</div>
 										</div>
@@ -178,7 +178,7 @@
 					if(data != undefined){
 						
 						for(var i=0; i<data.length; i++){
-							html += '<input type="text" class="form-control" value="'+data[i].productCode+'"/>';
+							html += '<input type="text" class="form-control" name="productCode" value="'+data[i].productCode+'" readonly="readonly" />';
 						}
 						
 					}else{

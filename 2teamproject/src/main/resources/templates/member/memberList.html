@@ -32,6 +32,12 @@
 		<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 			<div class="table-container">
 				<div class="t-header">회원 조회</div>
+					<select id="authority" name="authority">
+						<option class="memberAuthority" th:each="l : ${memberList}" th:value="${l.memberLevel.levelName}" th:text="${l.memberLevel.levelName}"></option>
+					</select>
+<!-- 					<select id="cate" name="cate"> -->
+<!-- 						<option class="wareCate" th:each="w : ${warehouseList}" th:value="${w.warehouseCate}" th:text="${w.warehouseCate}"></option> -->
+<!-- 					</select> -->
 					<div class="table-responsive">
 						<table id="copy-print-csv" class="table custom-table">
 						<thead>
@@ -220,6 +226,35 @@
 				} 
 			}
 		}
+		
+		
+	/*********************************************권한별 조회하는 스크립트*****************************************************/
+	//<![CDATA[
+	var memberList = [[${memberList}]];
+	//]]>
+	
+	var levelList = 	[];
+	var addrList 	= 	[];
+	
+	for(levelList : memberList){
+		var memberLevelList = [...new Set(levelList)];
+	}
+	
+	for(addrList : memberList){
+		var memberAddList = [...new Set(addrList)];
+	}
+	
+	var htmlLevel = "";
+	
+	htmlLevel += '<option disabled="disabled" selected="selected">:: 권한 선택 ::</option>';
+	
+		
+	
+	
+	
+	
+	
+	
 	</script>
 </th:block>
 		
