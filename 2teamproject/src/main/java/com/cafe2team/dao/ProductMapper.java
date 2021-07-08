@@ -11,6 +11,8 @@ import com.cafe2team.domain.Product;
 @Mapper
 public interface ProductMapper {
 
+	//상품삭제
+	public int deleteProductByCode(String productCode);
 	
 	//쇼핑몰 사업자 창고별 재고보기
 	public List<Product> getProductAmountPerWarehouse();
