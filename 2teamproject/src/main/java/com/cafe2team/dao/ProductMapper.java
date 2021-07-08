@@ -12,7 +12,9 @@ import com.cafe2team.domain.Product;
 public interface ProductMapper {
 
 	
-
+	//쇼핑몰 사업자 창고별 재고보기
+	public List<Product> getProductAmountPerWarehouse();
+	
 	//상품수정
 	public int modifyProduct(Product product);
 	//상품정보 가져오기

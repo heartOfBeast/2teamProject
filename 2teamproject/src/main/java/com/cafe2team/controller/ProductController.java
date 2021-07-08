@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Required;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cafe2team.domain.Item;
 import com.cafe2team.domain.Product;
@@ -32,10 +36,24 @@ public class ProductController {
 
 	}
 
+
+	
 	// 창고별 물량
 	@GetMapping("warehouseProduct")
-	public String warehouseProduct(Model model) {
+	public String warehouseProduct(Model model,
+									Product product,
+									HttpSession session,
+									RedirectAttributes reAttr,
+									HttpServletResponse response) {
+		String shoppingmallId = (String) session.getAttribute("SID");
+		if(shoppingmallId !=null) {
+			product.setShoppingmallUserId(shoppingmallId);
+			reAttr.addAttribute("shoppingmallUserId", shoppingmallId);
+		}
+		List<Product> warehouseProductAmount = productService.getProductAmountPerWarehouse();
 		model.addAttribute("title", "창고별물량");
+		model.addAttribute("shoppingmallId", shoppingmallId);
+		model.addAttribute("warehouseProductAmount", warehouseProductAmount);
 
 		return "product/warehouseProduct";
 	}
@@ -89,13 +107,21 @@ public class ProductController {
 
 	@PostMapping("/addProduct")
 
-	public String addProduct(Product product) {
-
-		log.info("========================================");
-		log.info("화면에서 입력받은 값(회원가입) product: {}", product);
-		log.info("========================================");
-		productService.addProduct(product);
+	public String addProduct(Product product,
+								HttpSession session,
+								RedirectAttributes reAttr,
+								HttpServletResponse response) {
+		String shoppingmallId = (String) session.getAttribute("SID");
+		if(shoppingmallId !=null) {
+			product.setShoppingmallUserId(shoppingmallId);
+			log.info("========================================");
+			log.info("화면에서 입력받은 값(회원가입) product: {}", product);
+			log.info("========================================");
+			productService.addProduct(product);
+			reAttr.addAttribute("shoppingmallUserId", shoppingmallId);
+		}
 		return "redirect:/productList";
+
 	}
 	// 상품추가
 

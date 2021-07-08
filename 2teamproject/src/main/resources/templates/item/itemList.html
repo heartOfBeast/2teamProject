@@ -30,53 +30,56 @@
 
 <th:block layout:fragment="container">
 	<!-- Main container start -->
-<div class="main-container">
-			<div class="row gutters">
-				<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-					<div class="table-container">
-						<div class="t-header">상품목록</div>
-						<div class="table-responsive">
-							<table id="copy-print-csv" class="table custom-table">
-								<thead>
-									<tr>
-									  <th>품목코드</th>
-									  <th>대분류</th>
-									  <th>중분류</th>
-									  <th>소분류</th>
-									  <th>사용유무</th>
-									  <th>등록일</th>
-									  <th>등록자아이디</th>
-									  <th>수정</th>
-									  <th>삭제</th>
+	<div class="main-container">
+		<div class="row gutters">
+			<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+				<div class="table-container">
+					<div class="t-header">상품목록</div>
+					<div class="table-responsive">
+						<table id="copy-print-csv" class="table custom-table">
+							<thead>
+								<tr>
+									<th>
+									 	<input type="checkbox" id="checkAll" style="position: relative; top: 1.5px;">
+									</th>
+									<th>품목코드</th>
+									<th>대분류</th>
+									<th>중분류</th>
+									<th>소분류</th>
+									<th>사용유무</th>
+									<th>등록일</th>
+									<th>등록자아이디</th>
+									<th>수정</th>
 
-									</tr>
-								</thead>
-								<tbody>
-									<tr th:each="l : ${itemList}">
-									  <td th:text="${l.itemCode}"></td>
-									  <td th:text="${l.itemBigCategory}"></td>
-									  <td th:text="${l.itemMiddleCategory}"></td>
-									  <td th:text="${l.itemSmallCategory}"></td>
-									  <td th:text="${l.itemUsingCheck}"></td>
-									  <td th:text="${l.itemRegDate}"></td>
-									  <td th:text="${l.itemAdminId}"></td>
-									  <td>
-									  	<a href="#">수정</a>
-								  	  </td>
-									  <td>
-									  	<a href="#">삭제</a>
-								  	  </td>
-									</tr>
-								</tbody>
-				    	</table>
-
-						</div>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:if="${#lists.size(itemList)>0}" th:each="l : ${itemList}">
+									<td>
+										<input type="checkbox" class="checkOne" style="position: relative; top: 1.5px;" th:value="${l.productCode}">
+									</td>
+									<td th:text="${l.itemCode}"></td>
+									<td th:text="${l.itemBigCategory}"></td>
+									<td th:text="${l.itemMiddleCategory}"></td>
+									<td th:text="${l.itemSmallCategory}"></td>
+									<td th:text="${l.itemUsingCheck}"></td>
+									<td th:text="${l.itemRegDate}"></td>
+									<td th:text="${l.itemAdminId}"></td>
+									<td>
+							  			<a type="button" class="btn btn-primary modifyBtn" data-toggle="modal" data-target=".bd-example-modal-lg" id="viewModal" style="color: white;">수정</a>
+						  	  		</td>
+								</tr>
+								<tr th:unless="${#lists.size(productList)>0}" style="text-align: center;">
+									<td th:text="${검색 결과가 없습니다.}" colspan="8"></td>
+								</tr>
+							</tbody>
+			    		</table>
+						<button type="button" class="btn btn-primary float-right" onclick="deleteData();">삭제</button>
 					</div>
-				
 				</div>
 			</div>
 		</div>
-
+	</div>
 	<!-- Main container end -->
 
 </th:block>
