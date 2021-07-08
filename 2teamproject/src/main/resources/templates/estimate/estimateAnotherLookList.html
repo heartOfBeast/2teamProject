@@ -8,7 +8,7 @@
 <div class="page-header">
 	<ol class="breadcrumb">
 		<li class="breadcrumb-item">견적</li>
-		<li class="breadcrumb-item active">견적신청 검토</li>
+		<li class="breadcrumb-item active">견적신청 조회</li>
 	</ol>
 
 	<ul class="app-actions">
@@ -32,12 +32,7 @@
 <div class="main-container">
 	<div class="row gutters justify-content-center">
 		<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-		<div class="card">
-			<div class="card-header">
-			<div class="card-title"> 비회원 견적신청내역</div>
-			</div>
-			<div class="card-body">
-			<div class="table-container-ko">
+			<div class="table-container">
 				<div class="table-responsive">
 					<table class="table custom-table m-0">
 						<thead>
@@ -56,7 +51,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr th:each="L : ${estimateAnotherPermit}">
+							<tr th:each="L : ${estimate}">
 								<td th:text="${L.spmGuestName}"></td>
 								<td th:text="${L.spmGuestAdmin}"></td>
 								<td th:text="${L.spmGuestPhone}"></td>
@@ -73,46 +68,8 @@
 					</table>
 				</div>
 			</div>
-			</div>
 		</div>
-		<div class="card">
-			<div class="card-header">
-			<div class="card-title"> 기존회원 견적신청내역</div>
-			</div>
-			<div class="card-body">
-			<div class="table-container-ko">
-				<div class="table-responsive">
-					<table class="table custom-table m-0">
-						<thead>
-							<tr>
-								<th>담당자 아이디</th>
-								<th>쇼핑몰이름</th>
-								<th>담당자 연락처</th>
-								<th>담당자 이메일</th>
-								<th>직원수</th>
-								<th>업종</th>
-								<th>상담가능 시간</th>
-								<th>신청날짜</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr th:each="S : ${estimatePermit}">
-								<td th:text="${S.companyId}"></td>
-								<td th:text="${S.companyName}"></td>
-								<td th:text="${S.companyPhone}"></td>
-								<td th:text="${S.companyEmail}"></td>
-								<td th:text="${S.industries}"></td>
-								<td th:text="${S.sectors}"></td>
-								<td th:text="${S.counselTime}"></td>
-								<td th:text="${S.estimateRegDate}"></td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-			</div>
-		</div>
-		</div>
-	</div>
+	
 	</div>
 </div>
 				<!-- Main container end -->

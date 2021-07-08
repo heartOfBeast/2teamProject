@@ -37,32 +37,26 @@
 					<table class="table custom-table m-0">
 						<thead>
 							<tr>
-								<th>업체명</th>
-								<th>담당자명</th>
+								<th>담당자 아이디</th>
+								<th>쇼핑몰이름</th>
 								<th>담당자 연락처</th>
 								<th>담당자 이메일</th>
-								<th>업종</th>
-								<th>품목</th>
-								<th>일일 판매수량</th>
-								<th>상담가능 시간</th>
-								<th>주소</th>
 								<th>직원수</th>
+								<th>업종</th>
+								<th>상담가능 시간</th>
 								<th>신청날짜</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr th:each="L : ${estimate}">
-								<td th:text="${L.spmGuestName}"></td>
-								<td th:text="${L.spmGuestAdmin}"></td>
-								<td th:text="${L.spmGuestPhone}"></td>
-								<td th:text="${L.spmGuestEmail}"></td>
-								<td th:text="${L.spmGuestSectors}"></td>
-								<td th:text="${L.spmGuestProduct}"></td>
-								<td th:text="${L.spmGuestDailySales}"></td>
-								<td th:text="${L.spmGuestCounselTime}"></td>
-								<td th:text="${L.spmGuestAddress}"></td>
-								<td th:text="${L.spmGuestIndustries}"></td>
-								<td th:text="${L.spmGuestRegDate}"></td>
+							<tr th:each="S : ${estimate}">
+								<td th:text="${S.companyId}"></td>
+								<td th:text="${S.companyName}"></td>
+								<td th:text="${S.companyPhone}"></td>
+								<td th:text="${S.companyEmail}"></td>
+								<td th:text="${S.industries}"></td>
+								<td th:text="${S.sectors}"></td>
+								<td th:text="${S.counselTime}"></td>
+								<td th:text="${S.estimateRegDate}"></td>
 							</tr>
 						</tbody>
 					</table>
