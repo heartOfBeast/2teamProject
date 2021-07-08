@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.cafe2team.dao.ReleaseMapper;
 import com.cafe2team.domain.CarManagement;
 import com.cafe2team.domain.Delivery;
+import com.cafe2team.domain.Invoice;
 import com.cafe2team.domain.Release;
 
 @Service
@@ -47,4 +48,7 @@ public class ReleaseService {
 		return releaseMapper.modifyDriveManagement(carManagement);
 	}
 	
+	public int addInvoice(Invoice invoice) {
+		return releaseMapper.addInvoice(invoice);
+	}
 }

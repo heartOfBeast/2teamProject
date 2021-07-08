@@ -1,7 +1,7 @@
 package com.cafe2team.domain;
 
 public class CarManagement {
-	private String dirveManageCode;
+	private String driveManageCode;
 	private String releaseOrderCode;
 	private String deliveryMemberId;
 	private String releaseOrderCar;
@@ -10,11 +10,11 @@ public class CarManagement {
 	private String driveRegDate;
 	private String wareAdminId;
 	
-	public String getDirveManageCode() {
-		return dirveManageCode;
+	public String getDriveManageCode() {
+		return driveManageCode;
 	}
-	public void setDirveManageCode(String dirveManageCode) {
-		this.dirveManageCode = dirveManageCode;
+	public void setDriveManageCode(String driveManageCode) {
+		this.driveManageCode = driveManageCode;
 	}
 	public String getReleaseOrderCode() {
 		return releaseOrderCode;
@@ -61,7 +61,7 @@ public class CarManagement {
 	
 	@Override
 	public String toString() {
-		return "CarManagement [dirveManageCode=" + dirveManageCode + ", releaseOrderCode=" + releaseOrderCode
+		return "CarManagement [driveManageCode=" + driveManageCode + ", releaseOrderCode=" + releaseOrderCode
 				+ ", deliveryMemberId=" + deliveryMemberId + ", releaseOrderCar=" + releaseOrderCar
 				+ ", dispatchReason=" + dispatchReason + ", driveUsingDate=" + driveUsingDate + ", driveRegDate="
 				+ driveRegDate + ", wareAdminId=" + wareAdminId + "]";

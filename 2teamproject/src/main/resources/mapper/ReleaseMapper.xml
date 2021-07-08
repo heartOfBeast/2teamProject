@@ -20,8 +20,8 @@
 		</association>
 		<association property="carManagement" javaType="CarManagement">
 			<id property="releaseOrderCode" 		column="release_order_code"/>
-			<result property="dirveManageCode" 		column="drive_manage_code"/>
-			<result property="deliveryMemberId" 		column="delivery_member_id"/>
+			<result property="driveManageCode" 		column="drive_manage_code"/>
+			<result property="deliveryMemberId" 	column="delivery_member_id"/>
 			<result property="releaseOrderCar" 		column="release_order_car"/>
 			<result property="driveUsingDate" 		column="drive_using_date"/>
 		</association>
@@ -104,7 +104,7 @@
 			, drive_update_date=NOW()
 			, ware_admin_id= #{wareAdminId}
 		WHERE 
-			drive_manage_code = #{dirveManageCode};
+			drive_manage_code = #{driveManageCode};
 	</update>
 	
 	<!-- <select id="getDriveManagement" resultType="CarManagement" fetchSize="1000">
@@ -120,4 +120,29 @@
 		FROM 
 			tb_car_management;		
 	</select> -->
+	
+	<insert id="addInvoice" parameterType="Invoice">
+		INSERT INTO tb_invoice
+			(invoice_code
+			, release_order_code
+			, drive_manage_code
+			, release_recipient_name
+			, release_recipient_address
+			, release_recipient_phone
+			, ware_admin_id
+			, shoppingmall_user_id
+			, invoice_reg_date
+			, invoice_update_date
+		)VALUES (
+			sf_newInvoiceCode()
+			, #{releaseOrderCode}
+			, #{driveManageCode}
+			, #{recipientName}
+			, #{recipientAddress}
+			, #{recipientPhone}
+			, #{wareAdminId}
+			, #{shopUserId}
+			, NOW()
+			, NOW());
+	</insert>
 </mapper>
