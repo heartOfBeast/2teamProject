@@ -62,7 +62,7 @@
 							<th class="hidden-col">상세설명</th>
 							<th>등록일</th>
 							<th>등록자</th>
-							<th style="width: 50px;" id="notSorting">수정</th>
+							<th style="width: 60px;" id="notSorting">수정</th>
 							<!-- <th>삭제</th> -->
 						</tr>
 						</thead>
@@ -76,8 +76,8 @@
 							<td th:text="${L.warehousePhone}" id="dataPhone"></td>
 							<td th:text="${L.warehouseRegNumber}" id="dataRegNum"></td>
 							<td class="hidden-col" th:text="${L.warehouseDetail}" id="dataDetail"></td>
-							<td th:text="${L.warehouseRegDate}"></td>
-							<td th:text="${L.wareAdminId}"></td>
+							<td th:text="${L.warehouseRegDate}" id="dataRegDate"></td>
+							<td th:text="${L.wareAdminId}" id="dataAdminId"></td>
 							<td>
 								<!-- <a th:href="@{warehouseUpdate(warehouseCode=${L.warehouseCode})}">수정</a> -->
 								<a type="button" class="btn btn-outline-info modifyBtn" data-toggle="modal" data-target=".bd-example-modal-lg" id="viewModal">수정</a>
@@ -172,6 +172,8 @@
 			var dataPhone			= $(this).parents('tr').children('#dataPhone').text();
 			var dataRegNum 			= $(this).parents('tr').children('#dataRegNum').text();
 			var dataDetail			= $(this).parents('tr').children('#dataDetail').text();		
+			var dataRegDate			= $(this).parents('tr').children('#dataRegDate').text();		
+			var dataAdminId			= $(this).parents('tr').children('#dataAdminId').text();		
 			
 			var dataCate = $('#wareCategory option:contains(' + dataCate + ')').val();
 			
@@ -185,7 +187,7 @@
 			$('#wareDetail').val(dataDetail);
 		})
 	})
-	
+/********************************************* select 제이쿼리 이용 중복 제거 *********************************************/
 	//<![CDATA[
 	var test = [[${warehouseList}]];
 	//]]>
@@ -235,26 +237,20 @@ var htmlCate = "";
 	$('#name').html(htmlName); 
 	$('#addr').html(htmlAddr); 
 	$('#cate').html(htmlCate); 
+/********************************************* ajax 필터 *********************************************/	
 
 	var selectNameValue = "";
 	var selectAddrValue = "";
 	var selectCateValue = "";
 	
-	$('#name').change(function(){
-		selectNameValue = $('#name option:selected').val();
+	$('#name, #addr, #cate').change(function(){
+		selectNameValue = $('#name').val();
+		selectAddrValue = $('#addr').val();
+		selectCateValue = $('#cate').val();
 		getData();
 	});
 	
-	$('#addr').change(function(){
-		selectAddrValue = $('#addr option:selected').val();
-		getData();
-	}); 
-	
-	$('#cate').change(function(){
-		selectCateValue = $('#cate option:selected').val();
-		getData();
-	}); 
-	 
+		 
 	function getData(){
 		$.ajax({
 			url : "/warehouseListDetail",
@@ -273,9 +269,9 @@ var htmlCate = "";
 			            innerHtml += '<td id="dataPhone">'+value.warehousePhone+'</td>'
 						innerHtml += '<td id="dataArea">'+value.warehouseArea+'</td>'
 			            innerHtml += '<td id="dataRegNum">'+value.warehouseRegNumber+'</td>'
-						innerHtml += '<td id="dataDetail">'+value.warehouseDetail+'</td>'
-						innerHtml += '<td>'+value.warehouseRegDate+'</td>'
-						innerHtml += '<td>'+value.wareAdminId+'</td>'
+						innerHtml += '<td id="dataDetail"  class="hidden-col">'+value.warehouseDetail+'</td>'
+						innerHtml += '<td id="dataRegDate">'+value.warehouseRegDate+'</td>'
+						innerHtml += '<td id="dataAdminId">'+value.wareAdminId+'</td>'
 						innerHtml += '<td><a style="color: white;" type="button" class="btn btn-primary modifyBtn" data-toggle="modal" data-target=".bd-example-modal-lg" id="viewModal">수정</a></td>'
 						innerHtml += '</tr>'
 
@@ -301,6 +297,8 @@ var htmlCate = "";
 					$('#wareArea').val(dataArea);
 					$('#warePhone').val(dataPhone);
 					$('#wareRegNum').val(dataRegNum);
+					$('#wareDetail').val(dataDetail);
+					$('#wareDetail').val(dataDetail);
 					$('#wareDetail').val(dataDetail);
 				})
 	})

@@ -5,6 +5,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +20,8 @@ import com.cafe2team.service.StockService;
 
 @Controller
 public class StockController {
-
+	
+	private static final Logger log = LoggerFactory.getLogger(MemberController.class);
 	private final StockService stockService;
 
 	public StockController(StockService stockService) {
@@ -38,11 +41,15 @@ public class StockController {
 	 * 재고조회
 	 ************************************************************/
 	@GetMapping("/stockList")
-	public String stockList(Model model) {
+	public String stockList(@RequestParam Map<String, Object> param, Model model) {
 		
-		List<Stock> stockList = stockService.getStockList();
+		
+		String product_code = (String) param.get("product_code");
+		String receivinging_code = (String) param.get("receivinging_code");
+		List<Stock> stockList = stockService.getStockList(product_code, receivinging_code);
 		model.addAttribute("title", "재고목록조회");
 		model.addAttribute("stockList", stockList);
+		log.info("stockList", "stockList");
 
 		return "stock/stockList";
 	}
