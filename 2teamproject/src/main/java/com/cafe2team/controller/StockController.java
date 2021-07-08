@@ -69,49 +69,51 @@ public class StockController {
 	}
 	
 	/************************************************************
-	 * 재고실사
+	 * 재고실사 목록조회
 	 ************************************************************/
-	
 	@GetMapping("/stockCheckList")
 	public String getStockCheckList(Model model) {
 		List<StockCheck> stockCheckList = stockService.getStockCheckList();
-;
+
 		model.addAttribute("title", "재고실사조회");
 		model.addAttribute("stockCheckList", stockCheckList);
 		System.out.println(stockCheckList);
 		return "stock/stockCheckList";
 	}
 	
+	/************************************************************
+	 * 재고실사등록
+	 ************************************************************/
 	@GetMapping("/stockCheckInsert")
 	public String stockCheckInsert(Model model) {
 		model.addAttribute("title", "재고실사결과등록");
 		return "stock/stockCheckInsert";
 	}
 	
+	/************************************************************
+	 * 재고실사 필터 조회
+	 ************************************************************/
 	@GetMapping("/stockCheckListDetail")
 	@ResponseBody
 	public List<StockCheck> stockCheckListDetail(
-//										@RequestParam(value = "warehouse_code", required = false) String warehouse_code,
-//										@RequestParam(value = "sector_stock_status_code", required = false, defaultValue = "") String sector_stock_status_code,
 										@RequestParam Map<String, Object> param,
 										Model model) {
 		System.out.println();
 		System.out.println(param.toString());
 		System.out.println("1");
-		//warehouse_code=w002, sector_stock_status_code=s001
 		String warehouse_code = (String) param.get("warehouse_code");
 		String sector_stock_status_code = (String) param.get("sector_stock_status_code");
 		List<StockCheck> stockCheckList = stockService.getStockCheckListDetail(warehouse_code, sector_stock_status_code);
 		System.out.println(stockCheckList);
 		System.out.println("2");
-//		model.addAttribute("stockCheckList", stockCheckList);
 		
 		return stockCheckList;
 	}
+	
+	
 	/************************************************************
 	 * 재고실사수정
 	 ************************************************************/
-	
 	@PostMapping("/stockCheckModal")
 	public String stockCheckModal(StockCheck stockCheck, HttpSession session) {
 		String UpmemberId = (String) session.getAttribute("SID");
@@ -121,8 +123,5 @@ public class StockController {
 		}
 		return "redirect:/stockCheckList";
 	}
-	
-	
-	
 	
 }
