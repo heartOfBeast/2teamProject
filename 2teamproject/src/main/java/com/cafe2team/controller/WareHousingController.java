@@ -3,8 +3,11 @@ package com.cafe2team.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +26,7 @@ import com.cafe2team.domain.Warehouse;
 import com.cafe2team.service.MemberService;
 import com.cafe2team.service.ProductService;
 import com.cafe2team.service.WarehouseService;
+import com.cafe2team.service.WarehousingService;
 import com.google.zxing.BarcodeFormat; 
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.EncodeHintType;
@@ -37,14 +41,20 @@ import com.google.zxing.qrcode.encoder.ByteMatrix;
 @Controller
 public class WareHousingController {
 	
+	
+	private static final Logger log = LoggerFactory.getLogger(WareHousingController.class);
+
+	
 	private final ProductService productService;
 	private final MemberService memberService;
+	private final WarehousingService warehousingService;
 	private final WarehouseService warehouseService;
 	
 	@Autowired
-	public WareHousingController(ProductService productService, MemberService memberService, WarehouseService warehouseService) {
+	public WareHousingController(ProductService productService, MemberService memberService, WarehousingService warehousingService, WarehouseService warehouseService) {
 		this.productService = productService;
 		this.memberService = memberService;
+		this.warehousingService = warehousingService;
 		this.warehouseService = warehouseService;
 	}
 	
@@ -63,6 +73,20 @@ public class WareHousingController {
 		model.addAttribute("warehouseList", warehouseList);
 		
 		return "warehousing/receivingRequest";
+	}
+	
+	@PostMapping("/productCodeList")
+	@ResponseBody
+	public List<Product> productCodeList(@RequestParam Map<String,Object> param) {
+		
+		String getCodeList = (String) param.get("productName");
+		
+		List<Product> getCodeListInfo = warehousingService.getProductCode(getCodeList);
+		
+		log.info("================= getCodeList {} ", getCodeList);
+		log.info("=================getCodeListInfo {} ", getCodeListInfo);
+		
+		return getCodeListInfo;
 	}
 	
 	@PostMapping("/receivingRequest")

@@ -47,16 +47,21 @@
 										</div>
 											<div class="input-group flex-nowrap" style="margin-bottom: 12px">
 						                         <select class="form-control form-control-lg" id="warehouseName" name="warehouseName">
-													<option>:: 창고목록 ::</option>
+													<option>창고목록</option>
 													<option th:each="b:${warehouseList}" th:value="${b.warehouseName}" th:text="${b.warehouseName}"></option>
 												</select>
 			                       			 </div>	
 											<div class="form-group" style="margin-bottom: 12px">
 						                         <select class="form-control form-control-lg" id="productName" name="productName" required="required">
-													<option>:: 상품이름 ::</option>
+													<option>등록 상품이름</option>
 													<option th:each="c:${productList}" th:value="${c.productName}" th:text="${c.productName}"></option>
 												</select>
-			                       			 </div>	
+			                       			 </div>
+			                       			 	
+											<div class="form-group" style="margin-bottom: 12px" id="productCode">
+												<input type="text" class="form-control" placeholder="입고코드"/>
+			                       			 </div>
+			                       			 	
 											<div class="form-group" style="margin-bottom: 12px">
 												<input type="text" class="form-control" id="productAmount" name="productAmount" placeholder="입고요청수량"/>
 			                       			 </div>	
@@ -155,34 +160,43 @@
 // 		});
 
 		
-// 		var WareHouseList = $('#WareHouseList')
+		var productCode = $('#productCode');
 		
-// 		$('#WareHouseList').change(function(){
+		$('#productName').change(function(){
 			
-// 			var request = $.ajax({
-// 				  url: "/wareHouseCheckList",
-// 				  method: "POST",
-// 				  data: { WareHouseList : $('#WareHouseList').val() },
-// 				  dataType: "json"
-// 				});
-				 
-// 				request.done(function( data ) {
+			var request = $.ajax({
+				  url: "/productCodeList",
+				  method: "POST",
+				  data: { productName : $('#productName').val() },
+				  dataType: "json"
+				});
+			
+				request.done(function( data ) {
 					
-// 					html += '<option value=""> :: 창고목록  :: </option>';
-// 					for(var i=0; i<data.length; i++){
-// 						html += '<option value="'+data[i]+'">';
-// 						html += '</option>';
-// 					}
-									
-// 				});
+					var html = '';
+					
+					if(data != undefined){
+						
+						for(var i=0; i<data.length; i++){
+							html += '<input type="text" class="form-control" value="'+data[i].productCode+'"/>';
+						}
+						
+					}else{
+							console.log('실패');
+					}
+					
+					console.log(html);
+					
+					productCode.html(html);
+					
+				});
 				 
-// 				request.fail(function( jqXHR, textStatus ) {
-// 				  alert( "Request failed: " + textStatus );
-// 				});
+				request.fail(function( jqXHR, textStatus ) {
+				  alert( "Request failed: " + textStatus );
+				});
 			
-// 		});
+		});
 	
-
 
 		
 		
