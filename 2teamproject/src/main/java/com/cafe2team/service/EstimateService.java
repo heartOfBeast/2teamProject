@@ -20,12 +20,21 @@ private EstimateMapper estimateMapper;
 		List<Estimate> estimatePermit = estimateMapper.getEstimatePermit();
 		return estimatePermit;
 	}
+	
+	public List<Estimate> getEstimateAnotherPermit(){
+		List<Estimate> estimateAnotherPermit = estimateMapper.getEstimateAnotherPermit();
+		return estimateAnotherPermit;
+	}
 
 	//비회원 견적신청
 	public int addEstimateAnother(Estimate estimate) {
 		int result = estimateMapper.addEstimateAnother(estimate);
 		
 		return result;
+	}
+	
+	public Estimate getEstimateAnotherInfoCheck(String companyPhone, String companyEmail) {
+		return estimateMapper.getEstimateAnotherInfoCheck(companyPhone, companyEmail);
 	}
 	
 	public Estimate getEstimateInfoCheck(String companyPhone, String companyEmail) {
@@ -35,6 +44,11 @@ private EstimateMapper estimateMapper;
 	public List<Estimate> getEstimateLookList(){
 		List<Estimate> getEstimateLookList = estimateMapper.getEstimateLookList();
 		return getEstimateLookList;
+	}
+	
+	public List<Estimate> getEstimateAnotherLookList(){
+		List<Estimate> getEstimateAnotherLookList = estimateMapper.getEstimateAnotherLookList();
+		return getEstimateAnotherLookList;
 	}
 	//기존 쇼핑몰회원 견적신청
 	public int addEstimate(Estimate estimate) {

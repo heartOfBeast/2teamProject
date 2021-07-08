@@ -12,6 +12,9 @@ public interface EstimateMapper {
 	//견적신청 검토 - 견적신청 등록된 리스트 조회
 	public List<Estimate> getEstimatePermit();
 	
+	//견적신청 검토 - 견적신청 등록된 리스트 조회
+	public List<Estimate> getEstimateAnotherPermit();
+	
 	//비회원 견적신청
 	public int addEstimateAnother(Estimate estimate);
 	
@@ -19,6 +22,10 @@ public interface EstimateMapper {
 	public int addEstimate(Estimate estimate);
 	
 	public List<Estimate> getEstimateLookList();
+	
+	public List<Estimate> getEstimateAnotherLookList();
+	
+	public Estimate getEstimateAnotherInfoCheck(String companyPhone, String companyEmail);
 	
 	public Estimate getEstimateInfoCheck(String companyPhone, String companyEmail);
 }

@@ -18,10 +18,12 @@ public class Estimate {
 	private String companyId;
 	private String companyName;
 	private String companyPhone;
+	private String companyEmail;
 	private String industries;
 	private String sectors;
 	private String counselTime;
 	private String estimateRegDate;
+	
 	public String getSpmGuestCode() {
 		return spmGuestCode;
 	}
@@ -118,6 +120,12 @@ public class Estimate {
 	public void setCompanyPhone(String companyPhone) {
 		this.companyPhone = companyPhone;
 	}
+	public String getCompanyEmail() {
+		return companyEmail;
+	}
+	public void setCompanyEmail(String companyEmail) {
+		this.companyEmail = companyEmail;
+	}
 	public String getIndustries() {
 		return industries;
 	}
@@ -150,11 +158,11 @@ public class Estimate {
 				+ ", spmGuestDailySales=" + spmGuestDailySales + ", spmGuestCounselTime=" + spmGuestCounselTime
 				+ ", spmGuestAddress=" + spmGuestAddress + ", spmGuestIndustries=" + spmGuestIndustries
 				+ ", spmGuestRegDate=" + spmGuestRegDate + ", estimateCode=" + estimateCode + ", companyId=" + companyId
-				+ ", companyName=" + companyName + ", companyPhone=" + companyPhone + ", industries=" + industries
-				+ ", sectors=" + sectors + ", counselTime=" + counselTime + ", estimateRegDate=" + estimateRegDate
-				+ "]";
+				+ ", companyName=" + companyName + ", companyPhone=" + companyPhone + ", companyEmail=" + companyEmail
+				+ ", industries=" + industries + ", sectors=" + sectors + ", counselTime=" + counselTime
+				+ ", estimateRegDate=" + estimateRegDate + "]";
 	}
-	
 
+	
 	
 }
