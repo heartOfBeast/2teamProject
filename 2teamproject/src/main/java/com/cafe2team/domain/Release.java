@@ -120,5 +120,5 @@ public class Release {
 				+ recipientPhone + ", shoppingmallUserId=" + shoppingmallUserId + ", orderRegDate=" + orderRegDate
 				+ ", product=" + product + ", carManagement=" + carManagement + "]";
 	}
-
+	
 }

@@ -14,10 +14,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.cafe2team.domain.CarManagement;
 import com.cafe2team.domain.Delivery;
+import com.cafe2team.domain.Invoice;
 import com.cafe2team.domain.Release;
 import com.cafe2team.domain.Vehicle;
 import com.cafe2team.service.ReleaseService;
@@ -73,6 +75,18 @@ public class ReleaseController {
 			carManagement.setWareAdminId(addAdminID);
 			releaseService.modifyDriveManagement(carManagement);
 			log.info("carManagement : {}", carManagement);
+		}
+		return "redirect:/releaseOrder";
+	}
+	
+	//운송장등록
+	@PostMapping("/addInvoice")
+	public String addInvoice(Invoice invoice, HttpSession session) {
+		String addAdminID = (String) session.getAttribute("SID");
+		if(addAdminID != null) {
+			invoice.setWareAdminId(addAdminID);
+			releaseService.addInvoice(invoice);
+			log.info("invoice : {}", invoice);
 		}
 		return "redirect:/releaseOrder";
 	}

@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.cafe2team.domain.CarManagement;
 import com.cafe2team.domain.Delivery;
+import com.cafe2team.domain.Invoice;
 import com.cafe2team.domain.Release;
 
 @Mapper
@@ -25,4 +26,7 @@ public interface ReleaseMapper {
 	
 	//배차수정
 	public int modifyDriveManagement(CarManagement carManagement);
+	
+	//운송장등록
+	public int addInvoice(Invoice invoice);
 }
