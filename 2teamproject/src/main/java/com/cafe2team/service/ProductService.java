@@ -71,4 +71,10 @@ public class ProductService {
 		List<Product> getProductAmountPerWarehouse = productMapper.getProductAmountPerWarehouse();
 		return getProductAmountPerWarehouse;
 	}
+	
+	//상품삭제
+	public int deleteProduct(String productCode) {
+		System.out.println(productCode);
+		return productMapper.deleteProductByCode(productCode);
+	}
 }

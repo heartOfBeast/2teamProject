@@ -23,9 +23,11 @@ import com.cafe2team.domain.Member;
 import com.cafe2team.domain.Product;
 import com.cafe2team.domain.Shoppingmall;
 import com.cafe2team.domain.Warehouse;
+import com.cafe2team.domain.WarehousingOrder;
 import com.cafe2team.service.MemberService;
 import com.cafe2team.service.ProductService;
 import com.cafe2team.service.WarehouseService;
+import com.cafe2team.service.WarehousingOrderService;
 import com.cafe2team.service.WarehousingService;
 import com.google.zxing.BarcodeFormat; 
 import com.google.zxing.BinaryBitmap;
@@ -49,13 +51,15 @@ public class WareHousingController {
 	private final MemberService memberService;
 	private final WarehousingService warehousingService;
 	private final WarehouseService warehouseService;
+	private final WarehousingOrderService warehousingOrderService;
 	
 	@Autowired
-	public WareHousingController(ProductService productService, MemberService memberService, WarehousingService warehousingService, WarehouseService warehouseService) {
+	public WareHousingController(ProductService productService, MemberService memberService, WarehousingService warehousingService, WarehouseService warehouseService, WarehousingOrderService warehousingOrderService) {
 		this.productService = productService;
 		this.memberService = memberService;
 		this.warehousingService = warehousingService;
 		this.warehouseService = warehouseService;
+		this.warehousingOrderService = warehousingOrderService;
 	}
 	
 	@GetMapping("/receivingRequest")
@@ -91,7 +95,7 @@ public class WareHousingController {
 	
 	@PostMapping("/receivingRequest")
 	public String receivingRequest() {
-		
+
 		
 		return null;
 	}
@@ -99,7 +103,9 @@ public class WareHousingController {
 	//입고지시서 목록
 	@GetMapping("/receivingOrder")
 	public String receivingOrder(Model model) {
-		
+		List<WarehousingOrder> WarehousingOrderList = warehousingOrderService.getWarehousingOrderList();
+		model.addAttribute("title", "입고지시서 목록");
+		model.addAttribute("WarehousingOrderList", WarehousingOrderList);
 		return "warehousing/receivingOrder";
 	}
 	
