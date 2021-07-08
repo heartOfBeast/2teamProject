@@ -80,13 +80,13 @@
 												</div>
 												<div class="card-body">
 													<div class="form-group row gutters" >
-														<label for="memberId" class="col-sm-3 col-form-label text-right">
+														<label for="shoppingmallId" class="col-sm-3 col-form-label text-right">
 															<font style="vertical-align: inherit;">
 																<font style="vertical-align: inherit;">아이디</font>
 															</font>
 														</label>
 														<div class="col-sm-6">
-															<input type="text" class="form-control" id="memberId" name="shoppingmallId" th:value="${member.memberId}" readonly="readonly">
+															<input type="text" class="form-control" id="shoppingmallId"  name="shoppingmallId" th:value="${shoppingmall.shoppingmallId}" readonly="readonly">
 														</div>
 													</div>
 													
@@ -135,19 +135,20 @@
 														</div>
 													</div>
 													
-													<input type="hidden" class="form-control" id="memberPw" name="memberPw" th:value="${member.memberPw}">
-													<input type="hidden" class="form-control" id="memberAddr" name="memberAddr" th:value="${member.memberAddress}">
-													<input type="hidden" class="form-control" id="memberEmail" name="memberEmail" th:value="${member.memberEmail}">
-													<input type="hidden" class="form-control" id="memberPhon" name="memberPhon"  >
-													<input type="hidden" class="form-control" id="memberStatus" name="memberStatus" th:value="${member.memberAccountStatus}">
+													<input type="hidden" class="form-control" id="memberPw" name="shoppingmallPw" th:value="${shoppingmall.shoppingmallPw}">
+													<input type="hidden" class="form-control" id="memberPw" name="shoppingmallUserName" th:value="${shoppingmall.shoppingmallUserName}">
+													<input type="hidden" class="form-control" id="memberAddr" name="shoppingmallAddr" th:value="${shoppingmall.shoppingmallAddr}">
+													<input type="hidden" class="form-control" id="memberEmail" name="shoppingmallEmail" th:value="${shoppingmall.shoppingmallEmail}">
+													<input type="hidden" class="form-control" id="memberPhon" name="shoppingmallPhone"  th:value="${shoppingmall.shoppingmallPhone}">
+													<input type="hidden" class="form-control" id="memberStatus" name="shoppingmallStatus" th:value="${shoppingmall.shoppingmallStatus}">
 													
 													
-													<button th:if="${member.memberLevelcode == '4'}" type="submit" onclick="alert('쇼핑묠 회원가입 요청을 완료했습니다. \n요청 승인을 기다려주세요.')" id="shoppingmallAddBtn" name="submit" class="btn btn-primary float-right" >
+													<button th:if="${shoppingmall.shoppingmallLevel == '6'}" type="submit" onclick="alert('쇼핑묠 회원가입 요청을 완료했습니다. \n요청 승인을 기다려주세요.')" id="shoppingmallAddBtn" name="submit" class="btn btn-primary float-right" >
 														<font style="vertical-align: inherit;">
 															<font style="vertical-align: inherit;">거래처 등록 버튼</font>
 														</font>
 													</button>
-													<button th:if="${member.memberLevelcode != '4'}" type="button" onclick="alert('거래처 등록이 불가능 합니다. \n등록은 일반직원 권한만 가능합니다.');" id="shoppingmallNotAddBtn"  class="btn btn-primary float-right" >
+													<button th:if="${shoppingmall.shoppingmallLevel != '6'}" type="button" onclick="alert('거래처 등록이 불가능 합니다. \n등록은 일반직원 권한만 가능합니다.');" id="shoppingmallNotAddBtn"  class="btn btn-primary float-right" >
 														<font style="vertical-align: inherit;">
 															<font style="vertical-align: inherit;">거래처 등록 버튼</font>
 														</font>

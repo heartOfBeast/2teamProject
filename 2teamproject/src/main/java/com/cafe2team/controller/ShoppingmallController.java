@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.cafe2team.domain.Member;
 import com.cafe2team.domain.Shoppingmall;
 import com.cafe2team.service.MemberService;
 import com.cafe2team.service.ShoppingmallService;
@@ -34,24 +33,20 @@ public class ShoppingmallController {
 	
 	// 거래처 사업자 번호 확인
 	@GetMapping("/shoppingmallAdd")
-	public String shoppingmallAdd(@RequestParam(value = "memberId", required = false) String memberId
-  								  ,Model model
-  								  ,HttpSession session) {
+	public String shoppingmallAdd(@RequestParam(name = "shoppingmallId", required = false) String shoppingmallId
+								  ,HttpSession session
+								  ,Model model) {
 		
-		
-		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-		
-		Member member = memberService.getMemberInfoById(memberId);
-		
+		Shoppingmall shoppingmall = shoppingmallService.shoppingmallInfo(shoppingmallId);	
 		
 		String SID = (String)session.getAttribute("SID");
 		String SNAME = (String)session.getAttribute("SNAME");
 		String SLEVEL = (String)session.getAttribute("SLEVEL");
-		String SPW = (String)member.getMemberPw();
-		String SADDR = (String)member.getMemberAddress();
-		String SEMAILL = (String)member.getMemberEmail();
-		String SPHONE = (String)member.getMemberPhone();
-		String ACCOUNT = (String)member.getMemberAccountStatus();
+		String SPW = (String)shoppingmall.getShoppingmallPw();
+		String SADDR = (String)shoppingmall.getShoppingmallAddr();
+		String SEMAILL = (String)shoppingmall.getShoppingmallEmail();
+		String SPHONE = (String)shoppingmall.getShoppingmallPhone();
+		String ACCOUNT = (String)shoppingmall.getShoppingmallStatus();
 		
 		System.out.println(SID);
 		System.out.println(SNAME);
@@ -62,26 +57,27 @@ public class ShoppingmallController {
 		System.out.println(SPHONE);
 		System.out.println(ACCOUNT);
 		
-		model.addAttribute("title", "사업자 등록");
-		model.addAttribute("member", member);
 		
-		System.out.println(member+"###########################");
+		System.out.println(SID);
+		
+		model.addAttribute("title", "거래처등록");
+		model.addAttribute("shoppingmall", shoppingmall);
+		
+		
+		
+		System.out.println(shoppingmall+"@@");
 		
 		return "shoppingmall/shoppingmallAdd";
 	}
 	
 	// 쇼핑몰 사업자 등록
 	@PostMapping("/shoppingmallAdd")
-	public String shoppingmallAdd(Shoppingmall shoppingmall, HttpSession session) {
+	public String shoppingmallAdd(Shoppingmall shoppingmall) {
 		
-		String SDID = (String)session.getAttribute("SID");
-		String SLEVEL = (String)session.getAttribute("SLEVEL");
-		shoppingmall.setShoppingmallId(SDID);
-		shoppingmall.setShoppingmallId(SLEVEL);
-		
+	
 		shoppingmallService.shoppingmallAdd(shoppingmall);
 		
-		System.out.println(shoppingmallService.shoppingmallAdd(shoppingmall)+"@@@@@@@@@@@@@@@");
+		
 		
 		return "redirect:/shoppingmallApproval";
 	}

@@ -1,5 +1,6 @@
 package com.cafe2team.sample.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -25,21 +26,40 @@ public class SampleService {
 	return sampleList; 
 	 
 	}
-	 
-	// 샘플 출고 요청 내용 삭제 및 줄고 지시서 정보 등록
-	
-	public int releasesInsert(String release) {
+
+	// 출고 요청 배열받기
+	public int samplePush(List<String> pushArr) {
 		
 		
-		return sampleMapper.releasesInsert(release);
+		return sampleMapper.samplePush(pushArr);
 	}
+	 
 	
+	// 샘플 출고 요청 내용 삭제 및 줄고 지시서 정보 등록
 	/*
-	 * public int releasesRemove(String releaseD) {
+	 * public int releasesInsert(Sample sample) {
 	 * 
-	 * int releaseD = sampleMapper.releasesRemove(releaseD);
 	 * 
-	 * return releaseD; }
+	 * return sampleMapper.releasesInsert(sample); }
+	 */
+
+	/*
+	 * public boolean smaplePush(String releasesCode) {
+	 * 
+	 * boolean smapePush = false;
+	 * 
+	 * Sample sampleInfo = sampleMapper.releaseInfo(releasesCode);
+	 * 
+	 * System.out.println(sampleInfo);
+	 * 
+	 * if(sampleInfo != null) { if(sampleInfo.getReleasesStatus().equals("요청대기")) {
+	 * sampleMapper.releaseUpdate(sampleInfo.getReleasesCode()); }else
+	 * if(sampleInfo.getReleasesStatus().equals("요청")) {
+	 * sampleMapper.releasesInsert(sampleInfo.getReleasesCode()); }
+	 * 
+	 * smapePush = true; }
+	 * 
+	 * return smapePush; }
 	 */
 	
 	

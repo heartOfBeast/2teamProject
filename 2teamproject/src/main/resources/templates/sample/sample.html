@@ -55,7 +55,6 @@
 				<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 					<div class="table-container">
 						<div class="table-responsive">
-						<from th:action="@{/smaple}" >
 							<button type="button" class="btn btn-primary float-right" onclick="push();">출고요청 버튼</button>
 							<table id="copy-print-csv" class="table custom-table">
 								<thead>
@@ -97,7 +96,6 @@
 									 </tr>
 								</tbody>
 						    </table>
-						    </from>
 							</div>
 						</div>
 					</div>
@@ -118,35 +116,47 @@
 					}
 				})
 			})
+			
+			
+			
 			function push(){
-				var pushArr = new ArrayList();
+				var pushDataArray = new Array();
 				var list = $('.checkOne');
 				for(var i=0; i<list.length; i++){
 					if(list[i].checked){
-						pushArr.push(list[i].value);
+						pushDataArray.push(list[i].value);
 					}
 				}
-				if(pushArr.length == 0){
+				if(pushDataArray.length == 0){
 					alert('출고요청 신청 할 항목을 선택해주세요.');
 				}
 				else{
+					console.log(pushDataArray)
 					var chk = confirm('정말 출고요청 신청하시겠습니까?');
 					if(chk){
-						$.ajax({
-							url : "/sample",
-							method : 'post',
-							async : true,
-							dataType : "json",
-							data : {'pushArr':pushArr},
-							success: function(jdata){
-								if(jdata != 1){
-									alert('오류 : 출고요청 신청 실패');
-								}else{
-									alert('출고요청  신청이 되었습니다.');
-									location.replace("sample");
-								}
+						
+						var request = $.ajax({
+						  url: "/shop/samplePull",
+						  method: "POST",
+						  data: {'pushDataArray[]':pushDataArray},
+						  dataType: "text"
+						});
+						 
+						request.done(function( jdata ) {
+							if(Number(jdata) == 0){
+								alert('오류 : 출고요청 신청 실패');
+								console.log(jdata);
+							}else{
+								alert('출고요청  신청이 되었습니다.');
+								location.replace("sample");
 							}
-				    	});
+						});
+						 
+						request.fail(function( jqXHR, textStatus ) {
+						  alert( "Request failed: " + textStatus );
+						});
+							
+						
 					}else{
 						return false;
 					}
@@ -154,6 +164,10 @@
 					
 				}
 			}
+			
+			
+			
+			
 		</script>
   </body>
 </html>

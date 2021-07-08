@@ -17,7 +17,7 @@ public class Shoppingmall {
 	private String shoppingmallStatus;
 	private String shoppingmallStatusCause;
 	private String shoppingmallUpdate;
-	
+	private String SID;
 	public String getShoppingmallId() {
 		return shoppingmallId;
 	}
@@ -114,6 +114,12 @@ public class Shoppingmall {
 	public void setShoppingmallUpdate(String shoppingmallUpdate) {
 		this.shoppingmallUpdate = shoppingmallUpdate;
 	}
+	public String getSID() {
+		return SID;
+	}
+	public void setSID(String sID) {
+		SID = sID;
+	}
 	@Override
 	public String toString() {
 		return "Shoppingmall [shoppingmallId=" + shoppingmallId + ", shoppingmallPw=" + shoppingmallPw
@@ -124,8 +130,10 @@ public class Shoppingmall {
 				+ ", shoppingmallRegDay=" + shoppingmallRegDay + ", shoppingmallBank=" + shoppingmallBank
 				+ ", shoppingmallBankNum=" + shoppingmallBankNum + ", shoppingmallStatus=" + shoppingmallStatus
 				+ ", shoppingmallStatusCause=" + shoppingmallStatusCause + ", shoppingmallUpdate=" + shoppingmallUpdate
-				+ "]";
+				+ ", SID=" + SID + "]";
 	}
+	
+	
 	
 	
 	

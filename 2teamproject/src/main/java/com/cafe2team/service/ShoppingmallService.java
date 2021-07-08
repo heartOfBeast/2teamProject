@@ -40,13 +40,15 @@ public class ShoppingmallService {
 		return shoppingmallList;
 	}
 	
-	/*
-	 * public Shoppingmall shoppingmallInfo(String shoppingmallId) {
-	 * 
-	 * Shoppingmall result = shoppingmallMapper.shoppingmallInfo(shoppingmallId);
-	 * 
-	 * return result; }
-	 */
+	
+	public Shoppingmall shoppingmallInfo(String shoppingmallId) {
+	  
+	  Shoppingmall result = shoppingmallMapper.shoppingmallInfo(shoppingmallId);
+	  
+	  return result;
+	  
+	}
+	 
 	
 	
 	
