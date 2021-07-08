@@ -19,7 +19,7 @@
 			, shoppingmallUser.shoppingmall_user_status					AS shoppingmallStatus
 			, shoppingmallUser.shoppingmall_bank						AS shoppingmallBank
 			, shoppingmallUser.shoppingmall_bank_number					AS shoppingmallBankNum
-			, shoppingmallUser.shoppingmall_user_account_cause  		AS shoppingmallStatusCause
+			, shoppingmallUser.shoppingmall_user_cause 					AS shoppingmallStatusCause
 			, shoppingmallUser.shoppingmall_user_update					AS shoppingmallUpdate
 		FROM 
 			tb_shoppingmall_user										AS shoppingmallUser 
@@ -30,11 +30,42 @@
 	</select>
 	
 	<!-- 거래처 회원 등록 -->
+	<insert id="" >
+<!-- 		INSERT INTO tb_shoppingmall_user
+			( shoppingmall_user_id
+			, shoppingmall_user_pw
+			, shoppingmall_user_name
+			, shoppingmall_name
+			, shoppingmall_level_code
+			, shoppingmall_user_address
+			, shoppingmall_user_email
+			, shoppingmall_user_phone
+			, shoppingmall_user_iden_num
+			, shoppingmall_bank
+			, shoppingmall_bank_number
+			, shoppingmall_user_status
+			, shoppingmall_user_update
+		)VALUES 
+			( #{shoppingmallId}
+			, #{shoppingmallPw}
+			, #{shoppingmallUserName}
+			, #{shoppingmallName}
+			, #{shoppingmallLevel}
+			, #{shoppingmallAddr}
+			, #{shoppingmallEmail}
+			, #{shoppingmallPhone}
+			, #{shoppingmallNumber}
+			, #{shoppingmallBank}
+			, #{shoppingmallBankNum}
+			, "승인요청"
+			, NOW() ) -->
+	</insert>
+	
+	
 	<update id="shoppingmallAdd" parameterType="String">
 		UPDATE 
 			tb_shoppingmall_user
 		SET
-			shoppingmall_user_id				=		#{shoppingmallId},
 			shoppingmall_name					=		#{shoppingmallName},
 			shoppingmall_user_iden_num			=		#{shoppingmallNumber},
 			shoppingmall_user_reg_date			=		NOW(),
@@ -46,8 +77,8 @@
 	</update>
 	
 	<!-- 쇼핑몰 사업자 권한 승인을 위한 조회 -->
-	<select id="shoppingmallInfo" resultSets="Shoppingmall">
-		<!-- SELECT 
+	<select id="shoppingmallInfo" resultType="Shoppingmall">
+		SELECT 
 			  shoppingmall_user_id				AS shoppingmallId
 			, shoppingmall_user_pw				AS shoppingmallPw
 			, shoppingmall_user_name			AS shoppingmallUserName
@@ -61,12 +92,12 @@
 			, shoppingmall_bank					AS shoppingmallBank
 			, shoppingmall_bank_number			AS shoppingmallBankNum
 			, shoppingmall_user_status			AS shoppingmallStatus
-			, shoppingmall_user_account_cause  	AS shoppingmallStatusCause
+			, shoppingmall_user_cause  			AS shoppingmallStatusCause
 			, shoppingmall_user_update			AS shoppingmallUpdate
 		FROM 
 			tb_shoppingmall_user
 		WHERE
-			shoppingmall_user_id = #{shoppingmallId}; -->
+			shoppingmall_user_id = #{shoppingmallId};
 	</select>
 	
 	<update id="shoppingmallApproval" parameterType="Shoppingmall">
