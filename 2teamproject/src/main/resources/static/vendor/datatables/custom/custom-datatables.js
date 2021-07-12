@@ -112,6 +112,7 @@ $(function(){
 		"scrollCollapse": true,
 		"paging": false,
 		"bInfo" : false,
+//		"overflow-x" : hidden,
 	});
 });
 

@@ -1,51 +1,58 @@
 package com.cafe2team.domain;
 
 public class Stock {
-	private String total;
-	private String bigCategory;
-	private String middleCategory;
-	private String smallCategory;
+	private String pCondition;
+	private String bCate;
+	private String mCate;
+	private String sCate;
 	private String productName;
+	private String spmName;
 	private String warehouseName;
 	private String finalSector;
-	private String spmName;
-	private String wRequestAmount;
+	private String stockAmount;
 	private String wOrderAmount;
 	private String wOrderDate;
 	private String wRealAmount;
 	private String wRealDate;
-	private String productCode;
-	private String receivingCode;
+	private String rOrderAmount;
+	private String rRealAmount;
+	private String rRealDate;
 	
-	public String getTotal() {
-		return total;
+	public String getpCondition() {
+		return pCondition;
 	}
-	public void setTotal(String total) {
-		this.total = total;
+	public void setpCondition(String pCondition) {
+		this.pCondition = pCondition;
 	}
-	public String getBigCategory() {
-		return bigCategory;
+	public String getbCate() {
+		return bCate;
 	}
-	public void setBigCategory(String bigCategory) {
-		this.bigCategory = bigCategory;
+	public void setbCate(String bCate) {
+		this.bCate = bCate;
 	}
-	public String getMiddleCategory() {
-		return middleCategory;
+	public String getmCate() {
+		return mCate;
 	}
-	public void setMiddleCategory(String middleCategory) {
-		this.middleCategory = middleCategory;
+	public void setmCate(String mCate) {
+		this.mCate = mCate;
 	}
-	public String getSmallCategory() {
-		return smallCategory;
+	public String getsCate() {
+		return sCate;
 	}
-	public void setSmallCategory(String smallCategory) {
-		this.smallCategory = smallCategory;
+	public void setsCate(String sCate) {
+		this.sCate = sCate;
 	}
 	public String getProductName() {
 		return productName;
 	}
 	public void setProductName(String productName) {
 		this.productName = productName;
+	}
+	public String getSpmName() {
+		return spmName;
+	}
+	public void setSpmName(String spmName) {
+		this.spmName = spmName;
 	}
 	public String getWarehouseName() {
 		return warehouseName;
@@ -59,17 +66,11 @@ public class Stock {
 	public void setFinalSector(String finalSector) {
 		this.finalSector = finalSector;
 	}
-	public String getSpmName() {
-		return spmName;
+	public String getStockAmount() {
+		return stockAmount;
 	}
-	public void setSpmName(String spmName) {
-		this.spmName = spmName;
-	}
-	public String getwRequestAmount() {
-		return wRequestAmount;
-	}
-	public void setwRequestAmount(String wRequestAmount) {
-		this.wRequestAmount = wRequestAmount;
+	public void setStockAmount(String stockAmount) {
+		this.stockAmount = stockAmount;
 	}
 	public String getwOrderAmount() {
 		return wOrderAmount;
@@ -95,26 +96,31 @@ public class Stock {
 	public void setwRealDate(String wRealDate) {
 		this.wRealDate = wRealDate;
 	}
-	public String getProductCode() {
-		return productCode;
+	public String getrOrderAmount() {
+		return rOrderAmount;
 	}
-	public void setProductCode(String productCode) {
-		this.productCode = productCode;
+	public void setrOrderAmount(String rOrderAmount) {
+		this.rOrderAmount = rOrderAmount;
 	}
-	public String getReceivingCode() {
-		return receivingCode;
+	public String getrRealAmount() {
+		return rRealAmount;
 	}
-	public void setReceivingCode(String receivingCode) {
-		this.receivingCode = receivingCode;
+	public void setrRealAmount(String rRealAmount) {
+		this.rRealAmount = rRealAmount;
+	}
+	public String getrRealDate() {
+		return rRealDate;
+	}
+	public void setrRealDate(String rRealDate) {
+		this.rRealDate = rRealDate;
 	}
 	@Override
 	public String toString() {
-		return "Stock [total=" + total + ", bigCategory=" + bigCategory + ", middleCategory=" + middleCategory
-				+ ", smallCategory=" + smallCategory + ", productName=" + productName + ", warehouseName="
-				+ warehouseName + ", finalSector=" + finalSector + ", spmName=" + spmName + ", wRequestAmount="
-				+ wRequestAmount + ", wOrderAmount=" + wOrderAmount + ", wOrderDate=" + wOrderDate + ", wRealAmount="
-				+ wRealAmount + ", wRealDate=" + wRealDate + ", productCode=" + productCode + ", receivingCode="
-				+ receivingCode + "]";
+		return "Stock [pCondition=" + pCondition + ", bCate=" + bCate + ", mCate=" + mCate + ", sCate=" + sCate
+				+ ", productName=" + productName + ", spmName=" + spmName + ", warehouseName=" + warehouseName
+				+ ", finalSector=" + finalSector + ", stockAmount=" + stockAmount + ", wOrderAmount=" + wOrderAmount
+				+ ", wOrderDate=" + wOrderDate + ", wRealAmount=" + wRealAmount + ", wRealDate=" + wRealDate
+				+ ", rOrderAmount=" + rOrderAmount + ", rRealAmount=" + rRealAmount + ", rRealDate=" + rRealDate + "]";
 	}
 
 	

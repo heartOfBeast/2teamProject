@@ -31,7 +31,7 @@ public class StockController {
 	@GetMapping("/stockListDetailModal")
 	public List<Stock> stockListDetailModal(Model model){
 		
-		List<Stock> stockList = stockService.getStockListDetailModel();
+		List<Stock> stockList = stockService.getStockListDetailModal();
 		model.addAttribute("stockList", stockList);
 		
 		return stockList;
@@ -41,12 +41,10 @@ public class StockController {
 	 * 재고조회
 	 ************************************************************/
 	@GetMapping("/stockList")
-	public String stockList(@RequestParam Map<String, Object> param, Model model) {
+	public String stockList(Model model) {
 		
-		
-		String product_code = (String) param.get("product_code");
-		String receivinging_code = (String) param.get("receivinging_code");
-		List<Stock> stockList = stockService.getStockList(product_code, receivinging_code);
+		List<Stock> stockList = stockService.getStockList();
+
 		model.addAttribute("title", "재고목록조회");
 		model.addAttribute("stockList", stockList);
 		log.info("stockList", "stockList");
@@ -56,17 +54,53 @@ public class StockController {
 	/************************************************************
 	 * 재고조회 필터 
 	 ************************************************************/
-	@GetMapping("/StockListDetail")
-	@ResponseBody
-	public List<Stock> StockListDetail(@RequestParam Map<String, Object> param, Model model){
+	/*
+	 * @PostMapping("/StockListDetail")
+	 * 
+	 * @ResponseBody public List<Stock> StockListDetail(@RequestParam Map<String,
+	 * Object> param, Model model){
+	 * 
+	 * String shoppingmall_name = (String) param.get("shoppingmall_name"); String
+	 * warehouse_name = (String) param.get("warehouse_name"); List<Stock> stockList
+	 * = stockService.getStockListDetail(shoppingmall_name, warehouse_name);
+	 * System.out.println(stockList); return stockList;
+	 * 
+	 * }
+	 */
+	
+	
+	//재고 중분류
+	@PostMapping("/getStockMiddleCate")
+	@ResponseBody 
+	public List<Stock> getStockMiddleCate(Model model,
+									@RequestParam Map<String, Object> param
+									) {
+		String bCate = (String) param.get("bCate");
+		log.info("bCate", bCate);
+		List<Stock> getMiddleCategory = stockService.getStockMiddleCategoryInfo(bCate);
+		log.info("getMiddleCategory", getMiddleCategory);
 		
-		String shoppingmall_name = (String) param.get("shoppingmall_name");
-		String warehouse_name = (String) param.get("warehouse_name");
-		List<Stock> stockList = stockService.getStockListDetail(shoppingmall_name, warehouse_name);
-		System.out.println(stockList);
-		return stockList;
-		
+		return getMiddleCategory;
+  
 	}
+	
+	@PostMapping("getStockSmallCate")
+	@ResponseBody 
+	public List<Stock> getStockSmallCate(Model model,
+									@RequestParam Map<String, Object> param
+									) {
+		String mCate = (String) param.get("mCate");
+		log.info("mCate", mCate);
+		List<Stock> getSmallCategory = stockService.getStockSmallCategoryInfo(mCate);
+		System.out.println(getSmallCategory);
+		
+		return getSmallCategory;
+  
+	}	
+	
+	
+	
+	
 	
 	/************************************************************
 	 * 재고실사 목록조회

@@ -2,152 +2,122 @@
 <!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cafe2team.dao.StockMapper">
 
-<sql id="stockList">
-	SELECT
-		SUM(ri.warehousing_real_amount)				AS total,
-		i.item_big_category							AS bigCategory,
-		i.item_middle_category						AS middleCategory,
-		i.item_small_category						AS smallCategory,
-		p.product_name 								AS productName,
-		w.warehouse_name							AS warehouseName,
-		ro.sector_column_final_code					AS finalSector,
-		su.shoppingmall_name						AS spmName,
-		r.warehousing_request_amount				AS wRequestAmount,
-		ro.warehousing_order_amount					AS wOrderAmount,
-		ro.warehousing_order_due_date				AS wOrderDate,
-		ri.warehousing_real_amount 					AS wRealAmount,
-		ri.warehousing_real_date 					AS wRealDate,
-		p.product_code								AS productCode,
-		ri.receivinging_code 						AS receivingCode
-	FROM 
-		tb_stock_status AS ss
-	INNER JOIN
-		tb_receiving_info	AS ri
-	ON	
-		ss.product_code = ri.product_code
-	INNER JOIN
-		tb_request_order AS ro
-	ON
-		ro.warehousing_order_code = ri.warehousing_order_code
-	INNER JOIN
-		tb_product AS p
-	ON 
-		ss.product_code = p.product_code
-	INNER JOIN
-		tb_item AS i
-	ON
-		p.product_category = i.item_code
-	INNER JOIN
-	tb_request	AS r
-	ON
-		ro.warehousing_request_code = r.warehousing_request_code
-	INNER JOIN
-		tb_warehouse	AS w
-	ON
-		ro.warehouse_code = w.warehouse_code
-	INNER JOIN
-		tb_shoppingmall_user AS su 
-	ON
-		r.shoppingmall_user_id = su.shoppingmall_user_id 
-</sql>
-
 	<select id="getStockList" resultType="Stock">
 
-	<include refid="stockList" />
-	WHERE
-		p.product_code = 'p_c_0000000001' AND ri.receivinging_code = 'recev_000001';
-<!-- 	<if test="product_code !=null and product_code != '' ">
-		p.product_code = #{product_code}
-	</if>
-	<if test="(product_code !=null and product_code != '') and (receivinging_code !=null and receivinging_code != '' )">
-		AND
-	</if>
-	<if test="receivinging_code !=null and receivinging_code != '' ">
-		ri.receivinging_code = #{receivinging_code};
-	</if> -->
+	SELECT
+		p.product_freeze_cool_condition				AS pCondition,
+		i.item_big_category							AS	bCate,
+		i.item_middle_category						AS	mCate,
+		i.item_small_category						AS sCate,
+		p.product_name								AS	productName,
+		w.warehouse_name							AS warehouseName,
+		ss.sector_column_final_code					AS finalSector,
+		su.shoppingmall_name						AS spmName,
+		ss.stock_amount								AS stockAmount,
+		ss.warehousing_order_amount					AS	wOrderAmount,
+		ss.warehousing_order_due_date				AS	wOrderDate,
+		ss.warehousing_real_amount					AS	wRealAmount,
+		ss.warehousing_real_date					AS	wRealDate,
+		ss.release_order_quantity					AS	rOrderAmount,
+		ss.release_real_amount						AS	rRealAmount,
+		ss.release_real_date						AS	rRealDate
+	FROM
+		tb_stock_status_backup											AS ss
+	INNER JOIN
+		tb_shoppingmall_user											AS su
+	ON	
+		ss.shoppingmall_user_id = su.shoppingmall_user_id
+	INNER JOIN
+		tb_warehouse													AS w
+	ON
+		ss.warehouse_code = w.warehouse_code
+	INNER JOIN
+		tb_product														AS p
+	ON
+		ss.product_code = p.product_code
+	INNER JOIN
+		tb_warehouse_sector_column_final								AS wscf
+	ON
+		ss.sector_column_final_code = wscf.sector_column_final_code
+	INNER JOIN
+		tb_item												AS i
+	ON
+		p.product_category = i.item_code;
+
 	</select>
 
-<!-- 	<select id="getStockListDetail" parameterType="String" resultType="Stock">
-	SELECT 
-		p.product_name										AS productName,
-		spmu.shoppingmall_name								AS shoppingmallName,
-		w.warehouse_name									AS warehouseName,
-		wscf.sector_column_final_code						AS finalSector,
-		ss.stock_unit										AS stockUnit,
-		ss.stock_recent_warehousing_amonut					AS recentWarehousingAmount,
-		ss.stock_recent_release_amount						AS recentReleaseAmount,
-		ss.stock_total_amount								AS totalAmount,
-		wai.ware_admin_id									AS wareAdminId,
-		wai.ware_admin_phone								AS wareAdminPhone,
-		ss.stock_reg_date 									AS stockRegDate
-	FROM 
-		tb_stock_status as ss
-	inner join
-		tb_sector_stock_status as sss
+	<select id="getStockMiddleCategoryInfo" resultType="Stock">
+		SELECT
+		p.product_freeze_cool_condition				AS pCondition,
+		i.item_big_category							AS	bCate,
+		i.item_middle_category						AS	mCate,
+		i.item_small_category						AS sCate,
+		p.product_name								AS	productName,
+		w.warehouse_name							AS warehouseName,
+		ss.sector_column_final_code					AS finalSector,
+		su.shoppingmall_name						AS spmName,
+		ss.stock_amount								AS stockAmount,
+		ss.warehousing_order_amount					AS	wOrderAmount,
+		ss.warehousing_order_due_date				AS	wOrderDate,
+		ss.warehousing_real_amount					AS	wRealAmount,
+		ss.warehousing_real_date					AS	wRealDate,
+		ss.release_order_quantity					AS	rOrderAmount,
+		ss.release_real_amount						AS	rRealAmount,
+		ss.release_real_date						AS	rRealDate
+	FROM
+		tb_stock_status_backup											AS ss
+	INNER JOIN
+		tb_shoppingmall_user											AS su
+	ON	
+		ss.shoppingmall_user_id = su.shoppingmall_user_id
+	INNER JOIN
+		tb_warehouse													AS w
 	ON
-		ss.sector_stock_status_code = sss.sector_stock_status_code
-	inner join 
-		tb_product as p
+		ss.warehouse_code = w.warehouse_code
+	INNER JOIN
+		tb_product														AS p
 	ON
-		sss.product_code = p.product_code
-	inner join
-		tb_contract_final as cf
+		ss.product_code = p.product_code
+	INNER JOIN
+		tb_warehouse_sector_column_final								AS wscf
 	ON
-		p.product_code = cf.product_code
-	inner join 
-		tb_shoppingmall_user as spmu
+		ss.sector_column_final_code = wscf.sector_column_final_code
+	INNER JOIN
+		tb_item												AS i
 	ON
-		cf.shoppingmall_user_id = spmu.shoppingmall_user_id
-	inner join 
-		tb_warehouse_sector_column_final as wscf
-	ON
-		wscf.ware_admin_id = ss.ware_admin_id
-	inner join 
-		tb_warehouse as w
-	ON
-		ss.ware_admin_id = w.ware_admin_id
-	inner join 
-		tb_ware_admin as wai
-	ON
-		ss.ware_admin_id = wai.ware_admin_id
+		p.product_category = i.item_code
 	WHERE
-	<if test="shoppingmall_name !=null and shoppingmall_name != '' ">
-		spmu.shoppingmall_name = #{shoppingmall_name}
-	</if>
-	<if test="(shoppingmall_name !=null and shoppingmall_name != '') and (warehouse_name !=null and warehouse_name != '' )">
-	AND
-	</if>
-	<if test="warehouse_name !=null and warehouse_name != '' ">
-		w.warehouse_name = #{warehouse_name};
-	</if>
-		
+		i.item_big_category = #{bCate};
+	</select>	
+	
+	<select id="getStockSmallCategoryInfo" resultType="Stock">
+	SELECT DISTINCT
+		i.item_big_category												AS	bCate,
+		i.item_middle_category											AS	mCate,
+		i.item_small_category											AS sCate
+	FROM
+		tb_stock_status_backup											AS ss
+	INNER JOIN
+		tb_shoppingmall_user											AS su
+	ON	
+		ss.shoppingmall_user_id = su.shoppingmall_user_id
+	INNER JOIN
+		tb_warehouse													AS w
+	ON
+		ss.warehouse_code = w.warehouse_code
+	INNER JOIN
+		tb_product														AS p
+	ON
+		ss.product_code = p.product_code
+	INNER JOIN
+		tb_warehouse_sector_column_final								AS wscf
+	ON
+		ss.sector_column_final_code = wscf.sector_column_final_code
+	INNER JOIN
+		tb_item												AS i
+	ON
+		p.product_category = i.item_code
+	WHERE
+		i.item_middle_category = #{mCate};	
 	</select>
-	<select id="getStockListDetailModal" parameterType="String" resultType="Stock">
-	SELECT
-		ss.stock_code 								AS stock_code,
-		p.product_name								AS productName,
-		sss.sector_column_final_code				AS finalSector,
-		rec.warehousing_real_amount					AS warehousingRealAmount,
-		rec.warehousing_real_date					AS warehousingRealDate,
-		re.release_real_amount						AS releaseRealAmount,
-		re.release_real_date						AS releaseRealDate
-	FROM 
- 	  tb_stock_status AS ss
-	INNER JOIN
-  		tb_sector_stock_status AS sss
-	ON
-   		ss.sector_stock_status_code = sss.sector_stock_status_code
-	INNER JOIN
-  		tb_product AS p   
-	ON
-   		sss.product_code = p.product_code
-	INNER JOIN
-		tb_receiving_info AS rec
-	ON
-		p.product_code = rec.product_code
-	INNER JOIN
-		tb_release_info AS re
-	ON
-		rec.product_code = re.product_code;
-	</select> -->
 </mapper>
