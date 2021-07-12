@@ -15,6 +15,26 @@ public class Release {
 	private Product product;
 	
 	private CarManagement carManagement;
+	
+	private Invoice invoice;
+	
+	private ReleaseInfo releaseInfo;
+	
+	public ReleaseInfo getReleaseInfo() {
+		return releaseInfo;
+	}
+
+	public void setReleaseInfo(ReleaseInfo releaseInfo) {
+		this.releaseInfo = releaseInfo;
+	}
+
+	public Invoice getInvoice() {
+		return invoice;
+	}
+
+	public void setInvoice(Invoice invoice) {
+		this.invoice = invoice;
+	}
 
 	public String getReleaseOrderCode() {
 		return releaseOrderCode;
@@ -118,7 +138,8 @@ public class Release {
 				+ warehouseCode + ", productCode=" + productCode + ", releaseOrderQuantity=" + releaseOrderQuantity
 				+ ", recipientName=" + recipientName + ", recipientAddress=" + recipientAddress + ", recipientPhone="
 				+ recipientPhone + ", shoppingmallUserId=" + shoppingmallUserId + ", orderRegDate=" + orderRegDate
-				+ ", product=" + product + ", carManagement=" + carManagement + "]";
+				+ ", product=" + product + ", carManagement=" + carManagement + ", invoice=" + invoice
+				+ ", releaseInfo=" + releaseInfo + "]";
 	}
-	
+
 }

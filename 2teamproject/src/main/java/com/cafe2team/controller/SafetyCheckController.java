@@ -107,14 +107,9 @@ public class SafetyCheckController {
 	//삭제
 	@PostMapping("/deleteSafetyCheck")
 	@ResponseBody
-	public int deleteSafetyCheck(@RequestParam(value="dataArr[]") String[] paramList) {
-		int result = 1;
-		System.out.println(paramList);
-		int size = paramList.length;
-		for(int i=0; i<size; i++) {
-			log.info(paramList[i] + " <-삭제할 값");
-			safetyCheckService.deleteSafetyCheck(paramList[i]);
-		}
+	public int deleteSafetyCheck(@RequestParam(value="dataArr[]") List<String> paramList) {
+		int result = 0;
+		result = safetyCheckService.deleteSafetyCheck(paramList);
 		return result;
 	}
 }

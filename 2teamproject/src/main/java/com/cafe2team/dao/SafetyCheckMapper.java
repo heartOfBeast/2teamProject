@@ -19,11 +19,12 @@ public interface SafetyCheckMapper {
 	public int addSafetyCheck(SafetyCheck safetyCheck);
 	
 	//삭제
-	public int deleteSafetyCheckByCode(String paramList);
+	public int deleteSafetyCheckByCode(List<String> paramList);
 	
 	//등록화면 창고정보조회
 	public List<Warehouse> getWareHouseInfo();
 	
 	//수정 실행
 	public int modifySafeCheck(SafetyCheck safetyCheck);
+
 } 

@@ -28,7 +28,7 @@ public class VehicleService {
 		return vehicleMapper.modifyVehicle(vehicle);
 	}
 	
-	public int deleteVehicle(String paramList) {
+	public int deleteVehicle(List<String> paramList) {
 		return vehicleMapper.deleteVehicle(paramList);
 	}
 }
