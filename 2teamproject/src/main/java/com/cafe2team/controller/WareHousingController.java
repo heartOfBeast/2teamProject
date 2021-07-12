@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.cafe2team.domain.Item;
 import com.cafe2team.domain.Member;
 import com.cafe2team.domain.Product;
+import com.cafe2team.domain.Receiving;
 import com.cafe2team.domain.Request;
 import com.cafe2team.domain.Shoppingmall;
 import com.cafe2team.domain.Warehouse;
@@ -111,10 +112,12 @@ public class WareHousingController {
 		model.addAttribute("WarehousingOrderList", WarehousingOrderList);
 		return "warehousing/receivingOrder";
 	}
-	
+	//입고현황 - 관리자
 	@GetMapping("/receivingWarehouseStatus")
 	public String receivingWarehouseStatus(Model model) {
-		
+		List<Receiving> receivingStatusForWarehouse = warehousingOrderService.getReceivingListForWarehouse();
+		model.addAttribute("title", "입고현황-관리자전용");
+		model.addAttribute("receivingStatusListForWarehouse", receivingStatusForWarehouse);
 		return "warehousing/receivingWarehouseStatus";
 	}
 	@GetMapping("/receivingShopStatus")

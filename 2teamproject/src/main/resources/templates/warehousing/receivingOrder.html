@@ -3,7 +3,7 @@
 	xmlns:th="http://www.thymeleaf.org"
  	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="@{layout/default}">
-	
+
 <th:block layout:fragment="pageTitle">
 <div class="page-header">
 	<ol class="breadcrumb">
@@ -26,8 +26,10 @@
 	</ul>
 </div>
 </th:block>
-
 <th:block layout:fragment="container">
+<style>
+	.hidden-col{display: none;}
+</style>
 	<div class="main-container">
 		<div class="row gutters">
 			<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
@@ -40,6 +42,17 @@
 									<th>
 										<input type="checkbox" id="checkAll" style="position: relative; top: 1.5px;">
 									</th>
+									<th class="hidden-col">입고주문서코드</th>
+									<th class="hidden-col">입고요청코드</th>
+									<th class="hidden-col">상품코드</th>
+									<th class="hidden-col">창고코드</th>
+									<th class="hidden-col">쇼핑몰사업자아이디</th>
+									<th class="hidden-col">바코드</th>
+									<th class="hidden-col">담당자</th>
+									<th class="hidden-col">대분류</th>
+									<th class="hidden-col">중분류</th>
+									<th class="hidden-col">소분류</th>
+									<th class="hidden-col">입고현황</th>
 									<th>사업자명</th>
 									<th>입고 창고</th>
 									<th>보관 위치</th>
@@ -54,19 +67,19 @@
 							<tbody>
 								<tr th:if="${#lists.size(WarehousingOrderList)>0}" th:each="l : ${WarehousingOrderList}">
 									<td>
-										<input type="checkbox" class="checkOne" style="position: relative; top: 1.5px;" th:value="${l.warehousingOrderCode}">
+										<input type="checkbox" id="warehousingOrderCode" class="checkOne" style="position: relative; top: 1.5px;" th:value="${l.warehousingOrderCode}">
 									</td>
-									<td style="display: none;" th:text="${l.warehousingOrderCode}" id="warehousingOrderCodeData"></td>
-									<td style="display: none;" th:text="${l.warehousingRequestCode}" id="warehousingRequestCodeData"></td>
-									<td style="display: none;" th:text="${l.productCode}" id="productCodeData"></td>
-									<td style="display: none;" th:text="${l.warehouse.warehouseCode}" id="warehouseCodeData"></td>
-									<td style="display: none;" th:text="${l.shoppingmall.shoppingmallId}" id="shoppingmallIdData"></td>
-									<td style="display: none;" th:text="${l.warehousingBarcode}" id="warehousingBarcodeData"></td>
-									<td style="display: none;" th:text="${l.wareAdminId}" id="wareAdminIdData"></td>
-									<td style="display: none;" th:text="${l.item.itemBigCategory}" id="itemBigCategoryData"></td>
-									<td style="display: none;" th:text="${l.item.itemMiddleCategory}" id="itemMiddleCategoryData"></td>
-									<td style="display: none;" th:text="${l.item.itemSmallCategory}" id="itemSmallCategoryData"></td>
-									<td style="display: none;" th:text="${l.warehousingOrderStatus}" id="warehousingOrderStatusData"></td>
+									<td class="hidden-col" th:text="${l.warehousingOrderCode}" id="warehousingOrderCodeData"></td>
+									<td class="hidden-col" th:text="${l.warehousingRequestCode}" id="warehousingRequestCodeData"></td>
+									<td class="hidden-col" th:text="${l.productCode}" id="productCodeData"></td>
+									<td class="hidden-col" th:text="${l.warehouse.warehouseCode}" id="warehouseCodeData"></td>
+									<td class="hidden-col" th:text="${l.shoppingmall.shoppingmallId}" id="shoppingmallIdData"></td>
+									<td class="hidden-col" th:text="${l.warehousingBarcode}" id="warehousingBarcodeData"></td>
+									<td class="hidden-col" th:text="${l.wareAdminId}" id="wareAdminIdData"></td>
+									<td class="hidden-col" th:text="${l.item.itemBigCategory}" id="itemBigCategoryData"></td>
+									<td class="hidden-col" th:text="${l.item.itemMiddleCategory}" id="itemMiddleCategoryData"></td>
+									<td class="hidden-col" th:text="${l.item.itemSmallCategory}" id="itemSmallCategoryData"></td>
+									<td class="hidden-col" th:text="${l.warehousingOrderStatus}" id="warehousingOrderStatusData"></td>
 									<td th:text="${l.shoppingmall.shoppingmallName}" id="shoppingmallNameData"></td>
 									<td th:text="${l.warehouse.warehouseName}" id="warehouseNameData"></td>
 									<td th:text="${l.sectorColumnFinalCode}" id="sectorColumnFinalCodeData"></td>
@@ -83,7 +96,7 @@
 							</tbody>
 			    		</table>
 			    		<button type="button" id="cancleBtn" class="btn btn-primary float-right">입고취소</button>
-			    		<button type="button" id="enteringBtn" class="btn btn-primary float-right">입고</button>
+			    		<button type="button" id="receivingBtn" class="btn btn-primary float-right">입고</button>
 			    		
 					</div>
 				</div>
@@ -148,6 +161,9 @@
 					<div class="form-group">
 						<label for="shoppingmallNameModal">쇼핑몰명</label>
 						<input type="text" class="form-control" id="shoppingmallNameModal" name="shoppingmallName" readonly>
+					</div>
+					<div class="image-container">
+						<img style="width: 500px;" id="preview-imageModal" src="https://dummyimage.com/500x500/ffffff/000000.png&text=preview+image">
 					</div>
 					<div class="form-group">
 						<label for="warehousingBarcodeModal">바코드</label>
@@ -234,25 +250,26 @@
 		})
 		/* 입고취소 */
 		$('#cancleBtn').click(function(){
-			var dataArr = new Array();
+			var cancleDataArr = new Array();
 			var list = $('.checkOne');
-			var warehousingOrderCode = $('#warehousingOrderCodeData').val()
 			for(var i =0; i<list.length;i++){
 				if(list[i].checked){
-					dataArr.push(list[i].value);
+					cancleDataArr.push(list[i].value);
 				}
-			}if(dataArr.length==0){
+			}if(cancleDataArr.length==0){
 				alert('입고 취소할 항목을 선택해주세요');
 			}else{
+				var chk = confirm('정말 취소하시겠습니까?');
+				if(chk){
 				var request = $.ajax({
-					  url: "/cancleEntering",
+					  url: "/cancleWarehousing",
 					  method: "POST",
-					  data: { warehousingOrderCode : $('#warehousingOrderCodeData').val() },
+					  data: { 'cancleDataArr' : cancleDataArr },
 					  dataType: "json"
 					});
 					 
-					request.done(function( data ) {
-						if(data !=1){
+					request.done(function( cancleData ) {
+						if(cancleData !=1){
 							alert('오류:입고 취소 실패');
 						}else{
 							alert('입고취소되었습니다');
@@ -263,9 +280,48 @@
 					request.fail(function( jqXHR, textStatus ) {
 					  alert( "Request failed: " + textStatus );
 					});
+				}else{
+					return false;
+				}
+			}
+		});
+		/* 입고확정 */
+		$('#receivingBtn').click(function(){
+			var confirmWarehousingDataArr = new Array();
+			var list = $('.checkOne');
+			for(var i =0; i<list.length;i++){
+				if(list[i].checked){
+					confirmWarehousingDataArr.push(list[i].value);
+				}
+			}if(confirmWarehousingDataArr.length==0){
+				alert('입고할 항목을 선택해주세요');
+			}else{
+				var chk = confirm('정말 입고하시겠습니까?');
+				if(chk){
+					var request = $.ajax({
+						  url: "/confirmWarehousing",
+						  method: "POST",
+						  data: { 'confirmWarehousingDataArr[]' : confirmWarehousingDataArr },
+						  dataType: "json"
+						});
+						 
+						request.done(function( confirmData ) {
+							alert('입고되었습니다');
+							location.replace("receivingOrder");
+							
+						});
+						 
+						request.fail(function( jqXHR, textStatus ) {
+						  alert( "Request failed: " + textStatus );
+						});
+				}else{
+					return false;
+				}
 				
 			}
 		});
+		
+
 		
 	</script>
 </th:block>	
