@@ -90,4 +90,16 @@ public class ReleaseController {
 		}
 		return "redirect:/releaseOrder";
 	}
+	
+	//운송장수정
+	@PostMapping("/modifyInvoiceInfo")
+	public String modifyInvoiceInfo(Invoice invoice, HttpSession session) {
+		String addAdminID = (String) session.getAttribute("SID");
+		if(addAdminID != null) {
+			invoice.setWareAdminId(addAdminID);
+			releaseService.modifyInvoiceInfo(invoice);
+			log.info("invoice : {}", invoice);
+		}
+		return "redirect:/releaseOrder";
+	}
 }

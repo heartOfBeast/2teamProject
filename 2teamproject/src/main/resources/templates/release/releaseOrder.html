@@ -40,7 +40,7 @@
 									  <th style="display: none;">출고요청코드</th>
 									  <th style="display: none;">출고창고코드</th>
 									  <th style="display: none;">상품코드</th>
-									  <th>상품명</th>
+									  <th>상품명</th> 
 									  <th>수량</th>
 									  <th>수령인</th>
 									  <th>수령인 주소</th>
@@ -51,6 +51,11 @@
 									  <th style="display: none;">배송기사</th>
 									  <th style="display: none;">배송차량</th>
 									  <th style="display: none;">차량사용날짜</th>
+									  <th style="display: none;">운송장코드</th>
+									  <th style="display: none;">수령인(운송장)</th>
+									  <th style="display: none;">수령인 주소(운송장)</th>
+									  <th style="display: none;">수령인 연락처(운송장)</th>
+									  <th style="display: none;">출고코드</th>
 									  <th>배차등록</th>
 									  <th>운송장등록</th>
 									  <th>출고</th>
@@ -63,8 +68,8 @@
 									  <td th:text="${r.releaseCode}" style="display: none;" ></td>
 									  <td th:text="${r.warehouseCode}" style="display: none;" id="releaseWarehouseCodeData"></td>
 									  <td th:text="${r.productCode}" style="display: none;"></td>	
-									  <td th:text="${r.product.productName}"></td>
-									  <td th:text="${r.releaseOrderQuantity}"></td>
+									  <td th:text="${r.product.productName}" id="productNameData"></td>
+									  <td th:text="${r.releaseOrderQuantity}" id="OrderQuantityData"></td>
 									  <td th:text="${r.recipientName}" id="recipientNameData"></td>
 									  <td th:text="${r.recipientAddress}" id="recipientAddressData"></td>
 									  <td th:text="${r.recipientPhone}" id="recipientPhoneData"></td>
@@ -74,16 +79,23 @@
 									  <td style="display: none;" th:text="${r.carManagement.deliveryMemberId}" id="deliveryMemberIdData"></td>
 									  <td style="display: none;" th:text="${r.carManagement.releaseOrderCar}" id="releaseOrderCarData"></td>
 									  <td style="display: none;" th:text="${r.carManagement.driveUsingDate}" id="driveUsingDateData"></td>
+									  <td style="display: none;" th:text="${r.invoice.invoiceCode}" id="invoiceCodeData"></td>
+									  <td style="display: none;" th:text="${r.invoice.invoiceName}" id="invoiceNameData"></td>
+									  <td style="display: none;" th:text="${r.invoice.invoiceAddress}" id="invoiceAddressData"></td>
+									  <td style="display: none;" th:text="${r.invoice.invoicePhone}" id="invoicePhoneData"></td>
+									  <td style="display: none;" th:text="${r.releaseInfo.releaseCode}" id=""></td>
 									  <td>
 									  	<a th:if="${r.carManagement.driveManageCode == null}" type="button" class="btn btn-primary modifyBtn" data-toggle="modal" data-target=".bd-example-modal-lg" id="viewModal" style="color: white;">배차등록</a>
 									  	<a th:if="${r.carManagement.driveManageCode != null}" type="button" class="btn btn-primary modifyBtn" data-toggle="modal" data-target=".bd-example-modal-lg2" id="viewModal" style="color: yellow;">배차수정</a>
 								  	  </td>
 								  	  <td>
-								  	  	<a th:if="${r.carManagement.driveManageCode != null}" type="button" class="btn btn-primary modifyBtn" data-toggle="modal" data-target=".bd-example-modal-lg3" id="viewModal" style="color: white;">운송장등록</a>
-								  	  	<a th:if="${r.carManagement.driveManageCode == null}" type="button" class="btn btn-primary modifyBtn" style="color: white;" id="notInvoiceBtn">운송장등록</a>
+								  	  	<a th:if="${r.carManagement.driveManageCode != null && r.invoice.invoiceCode == null}" type="button" class="btn btn-primary modifyBtn" data-toggle="modal" data-target=".bd-example-modal-lg3" id="viewModal" style="color: white;">운송장등록</a>
+								  	  	<a th:if="${r.invoice.invoiceCode != null && r.carManagement.driveManageCode != null}" type="button" class="btn btn-primary modifyBtn" data-toggle="modal" data-target=".bd-example-modal-lg4" id="viewModal" style="color: yellow;">운송장수정</a>
+								  	  	<a th:if="${r.carManagement.driveManageCode == null && r.invoice.invoiceCode == null}" type="button" class="btn btn-primary modifyBtn1" style="color: white;" id="notInvoiceBtn">운송장등록</a>
 								  	  </td>
 									  <td>
-									  	<a href="#">출고</a>
+									  	<a th:if="${r.invoice.invoiceCode != null}" type="button" class="btn btn-primary modifyBtn" data-toggle="modal" data-target=".bd-example-modal-lg5" id="viewModal" style="color: white;">출고</a>
+									  	<a th:if="${r.invoice.invoiceCode == null}" type="button" class="btn btn-primary modifyBtn2" id="notReleaseBtn" style="color: white;">출고</a>
 								  	  </td>
 									</tr>
 								</tbody>
@@ -222,19 +234,23 @@
 							</div>
 							<label for="orderCodeModal">배송예정일</label>
 							<div class="form-group">
-								<input type="text" class="form-control" id="deliveryDateData" name="" readonly="readonly" style="background-color: white;">
+								<input type="date" class="form-control" id="deliveryDateData" name=""  style="background-color: white;" readonly="readonly">
 							</div>
-							<label for="orderCodeModal">수령인</label>
+							<label for="productNameModal">배송상품  및 수량</label>
 							<div class="form-group">
-								<input type="text" class="form-control" id="recipientNameModal" name="recipientName" >
+								<input type="text" class="form-control" id="productNameModal" name="" readonly="readonly" style="background-color: white;">
 							</div>
-							<label for="orderCodeModal">주소</label>
+							<label for="recipientNameModal">수령인</label>
 							<div class="form-group">
-								<input type="text" class="form-control" id="recipientAddressModal" name="recipientAddress" >
+								<input type="text" class="form-control" id="recipientNameModal" name="invoiceName" required="required">
 							</div>
-							<label for="orderCodeModal">연락처</label>
+							<label for="recipientAddressModal">주소</label>
 							<div class="form-group">
-								<input type="text" class="form-control" id="recipientPhoneModal" name="recipientPhone" >
+								<input type="text" class="form-control" id="recipientAddressModal" name="invoiceAddress" required="required">
+							</div>
+							<label for="recipientPhoneModal">연락처</label>
+							<div class="form-group">
+								<input type="text" class="form-control" id="recipientPhoneModal" name="invoicePhone" required="required">
 							</div>
 							<input type="text" id="shoppingmallUserIdModal" name="shopUserId" style="display: none;">
 						</div>
@@ -246,8 +262,70 @@
 				</div>
 			</div>
 		</form>	
-						
+				
+		<!-- 운송장수정 -->
+		<form th:action="@{/modifyInvoiceInfo}" method="post" id="modifyInvoiceForm">
+			<div class="modal fade bd-example-modal-lg4" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" style="display: none;" aria-hidden="true">
+				<div class="modal-dialog modal-lg">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="myLargeModalLabel">운송장 수정</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">×</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<label for="invoiceCodeModal">운송장코드</label>
+							<div class="form-group">
+								<input type="text" class="form-control" id="invoiceCodeModal" name="invoiceCode" readonly="readonly" style="background-color: white;" >
+							</div>	
+							<label for="recipientNameModal2">수령인</label>
+							<div class="form-group">
+								<input type="text" class="form-control" id="recipientNameModal2" name="invoiceName" required="required">
+							</div>
+							<label for="recipientAddressModal2">주소</label>
+							<div class="form-group">
+								<input type="text" class="form-control" id="recipientAddressModal2" name="invoiceAddress" required="required">
+							</div>
+							<label for="recipientPhoneModal2">연락처</label>
+							<div class="form-group">
+								<input type="text" class="form-control" id="recipientPhoneModal2" name="invoicePhone" required="required">
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button class="btn btn-secondary" data-dismiss="modal">취소</button>
+							<button type="submit" name="submit"  class="btn btn-primary" >수정</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>		
+		
+		<!-- 출고등록 -->
+		<form th:action="@{/modifyInvoiceInfo}" method="post" id="addReleaseForm">
+			<div class="modal fade bd-example-modal-lg5" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" style="display: none;" aria-hidden="true">
+				<div class="modal-dialog modal-lg">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="myLargeModalLabel">출고</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">×</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							
+						</div>
+						<div class="modal-footer">
+							<button class="btn btn-secondary" data-dismiss="modal">취소</button>
+							<button type="submit" name="submit"  class="btn btn-primary" >확인</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>				
+				
 	</th:block>
+	
 <th:block layout:fragment="customJs">
 	<script>
 		$('.modifyBtn').each(function(){
@@ -262,6 +340,12 @@
 				var recipientAddressData = $(this).parents('tr').children('#recipientAddressData').text();
 				var recipientPhoneData = $(this).parents('tr').children('#recipientPhoneData').text();
 				var shoppingmallUserIdData = $(this).parents('tr').children('#shoppingmallUserIdData').text();
+				var productNameData = $(this).parents('tr').children('#productNameData').text();
+				var OrderQuantityData = $(this).parents('tr').children('#OrderQuantityData').text();
+				var invoiceCodeData = $(this).parents('tr').children('#invoiceCodeData').text();
+				var invoiceNameData = $(this).parents('tr').children('#invoiceNameData').text();
+				var invoiceAddressData = $(this).parents('tr').children('#invoiceAddressData').text();
+				var invoicePhoneData = $(this).parents('tr').children('#invoicePhoneData').text();
 				
 				
 				$('#orderCodeModal').val(orderCodeData);
@@ -282,7 +366,12 @@
 				$('#shoppingmallUserIdModal').val(shoppingmallUserIdData);
 				$('#deliveryMemberIdModal2').val(deliveryMemberIdData);
 				$('#deliveryDateData').val(driveUsingDateData);
+				$('#productNameModal').val(productNameData + "(" + OrderQuantityData + ")");
 				
+				$('#invoiceCodeModal').val(invoiceCodeData);
+				$('#recipientNameModal2').val(invoiceNameData);
+				$('#recipientAddressModal2').val(invoiceAddressData);
+				$('#recipientPhoneModal2').val(invoicePhoneData);
 			})
 		})
 		$('#addDriveForm').submit(function(){
@@ -291,14 +380,25 @@
 		$('#modityDriveForm').submit(function(){
 			alert('수정이 완료되었습니다.')
 		})
-		
-		$('#notInvoiceBtn').click(function(){
-			alert('배차등록을 먼저 해주세요.')
-		})
-		
 		$('#addInvoiceForm').submit(function(){
 			alert('운송장이 등록되었습니다.')
 		});
+		$('#modifyInvoiceForm').submit(function(){
+			alert('수정이 완료되었습니다.')
+		});
+
+		$('.modifyBtn1').each(function(){
+			$(this).click(function(){
+				alert('배차 등록 후 운송장 등록이 가능합니다.')
+			})
+		});
+		
+		$('.modifyBtn2').each(function(){
+			$(this).click(function(){
+				alert('배차 및 운송장 등록 후 출고가 가능합니다.')
+			});
+		});
+		
 	</script>
 </th:block>
 </html>

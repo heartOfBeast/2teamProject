@@ -72,14 +72,9 @@ public class VehicleController {
 	//삭제
 	@PostMapping("deleteVehicle")
 	@ResponseBody
-	public int deleteVehicle(@RequestParam(value="dataArr[]") String[] paramList) {
-		int result = 1;
-		System.out.println(paramList);
-		int size = paramList.length;
-		for(int i=0; i<size; i++) {
-			log.info(paramList[i] + " <-삭제할 값");
-			vehicleService.deleteVehicle(paramList[i]);
-		}
+	public int deleteVehicle(@RequestParam(value="dataArr[]") List<String> paramList) {
+		int result = 0;
+		result = vehicleService.deleteVehicle(paramList);
 		return result;
 	}
 	

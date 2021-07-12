@@ -25,6 +25,17 @@
 			<result property="releaseOrderCar" 		column="release_order_car"/>
 			<result property="driveUsingDate" 		column="drive_using_date"/>
 		</association>
+		<association property="invoice" javaType="Invoice">
+			<id property="releaseOrderCode" 		column="release_order_code"/>
+			<result property="invoiceCode" 			column="invoice_code"/>
+			<result property="invoiceName" 		column="invoice_recipient_name"/>
+			<result property="invoiceAddress" 	column="invoice_recipient_address"/>
+			<result property="invoicePhone" 		column="invoice_recipient_phone"/>
+		</association>
+		<association property="releaseInfo" javaType="ReleaseInfo">
+			<id property="releaseOrderCode" column="release_order_code"/>
+			<result property="releaseCode" column="release_code"/>
+		</association>
 	</resultMap>
 
 
@@ -45,6 +56,11 @@
 			, c.delivery_member_id
 			, c.release_order_car
 			, c.drive_using_date
+			, i.invoice_code
+			, i.invoice_recipient_name
+			, i.invoice_recipient_address
+			, i.invoice_recipient_phone
+			, rr.release_code
 		FROM 
 			tb_release_order AS r
 			LEFT JOIN 
@@ -54,7 +70,15 @@
 			INNER JOIN
 			tb_product AS p
 			on
-			r.product_code = p.product_code;
+			r.product_code = p.product_code
+			left join
+			tb_invoice AS i
+			ON 
+			r.release_order_code = i.release_order_code
+			LEFT join
+			tb_release_info AS rr
+			on
+			r.release_order_code = rr.release_order_code;
 	</select>
 	
 	<select id="getDeliveryInfo" resultType="Delivery" fetchSize="1000">
@@ -126,9 +150,9 @@
 			(invoice_code
 			, release_order_code
 			, drive_manage_code
-			, release_recipient_name
-			, release_recipient_address
-			, release_recipient_phone
+			, invoice_recipient_name
+			, invoice_recipient_address
+			, invoice_recipient_phone
 			, ware_admin_id
 			, shoppingmall_user_id
 			, invoice_reg_date
@@ -137,12 +161,24 @@
 			sf_newInvoiceCode()
 			, #{releaseOrderCode}
 			, #{driveManageCode}
-			, #{recipientName}
-			, #{recipientAddress}
-			, #{recipientPhone}
+			, #{invoiceName}
+			, #{invoiceAddress}
+			, #{invoicePhone}
 			, #{wareAdminId}
 			, #{shopUserId}
 			, NOW()
 			, NOW());
 	</insert>
+	
+	<update id="modifyInvoiceInfo" parameterType="Invoice">
+		UPDATE tb_invoice
+		SET
+			invoice_recipient_name= #{invoiceName}
+			, invoice_recipient_address= #{invoiceAddress}
+			, invoice_recipient_phone= #{invoicePhone}
+			, ware_admin_id= #{wareAdminId}
+			, invoice_update_date=NOW()
+		WHERE 
+			invoice_code = #{invoiceCode};
+	</update>
 </mapper>
