@@ -1,138 +1,142 @@
 <!doctype html>
-<html
-	xmlns:th="http://www.thymeleaf.org"
- 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="@{layout/default}">
-	
+
 <th:block layout:fragment="pageTitle">
-<div class="page-header">
-	<ol class="breadcrumb">
-		<li class="breadcrumb-item">Member</li>
-		<li class="breadcrumb-item active">MemberList</li>
-	</ol>
+	<div class="page-header">
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item">Member</li>
+			<li class="breadcrumb-item active">MemberList</li>
+		</ol>
 
-	<ul class="app-actions">
-		<li>
-			<a href="#" id="reportrange">
-				<span class="range-text"></span>
-				<i class="icon-chevron-down"></i>	
-			</a>
-		</li>
-		<li>
-			<a href="#">
-				<i class="icon-export"></i>
-			</a>
-		</li>
-	</ul>
-</div>
+		<ul class="app-actions">
+			<li><a href="#" id="reportrange"> <span class="range-text"></span>
+					<i class="icon-chevron-down"></i>
+			</a></li>
+			<li><a href="#"> <i class="icon-export"></i>
+			</a></li>
+		</ul>
+	</div>
 
-<th:block layout:fragment="container">
-<div class="main-container">
-	<div class="row gutters">
-		<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-			<div class="table-container">
-				<div class="t-header">회원 조회</div>
-					<select id="authority" name="authority">
-						<option class="memberAuthority" th:each="l : ${memberList}" th:value="${l.memberLevel.levelName}" th:text="${l.memberLevel.levelName}"></option>
-					</select>
-<!-- 					<select id="cate" name="cate"> -->
-<!-- 						<option class="wareCate" th:each="w : ${warehouseList}" th:value="${w.warehouseCate}" th:text="${w.warehouseCate}"></option> -->
-<!-- 					</select> -->
-					<div class="table-responsive">
-						<table id="copy-print-csv" class="table custom-table">
-						<thead>
-							<tr>
-							  <th>
-							  	<input type="checkbox" id="checkAll" style="position: relative; top: 1.5px;">
-							  </th>
-							  <th>아이디</th>
-							  <th>이름</th>
-							  <th>권한</th>
-							  <th>주소</th>
-							  <th>이메일</th>
-							  <th>번호</th>
-							  <th>등록일</th>
-							  <th>활성화여부</th>
-							  <th>인센티브</th>
-							  <th>수정</th>
-							</tr>
-						</thead>
-						<tbody class="memberList" >
-							<tr th:if="${#lists.size(memberList) > 0}" th:each="l : ${memberList}">
-							<th:block>
-								<td>
-									<input type="checkbox" class="checkOne" style="position: relative; top: 1.5px;" th:value="${l.memberId}">
-								</td>
-								
-								<td th:text="${l.memberId}" class="dataId"></td>
-								<td th:text="${l.memberName}" class="dataName"></td>
-								<td th:text="${l.memberLevel.levelName}" class="dataLevel"></td>
-								<td th:text="${l.memberAddress}" class="dataAddress"></td>
-								<td th:text="${l.memberEmail}" class="dataEmail"></td>
-								<td th:text="${l.memberPhone}" class="dataPhone"></td>
-								<td th:text="${l.memberRegDate}" class="dataRegDate"></td>
-								<td th:text="${l.memberAccountStatus}" class="dataAccountStatus"></td>
-								<td th:text="${l.memberIncentive}" class="dataIncentive"></td>
-							<td>
-								<!-- <a th:href="@{/myPage(memberId=${l.memberId})}" >수정</a> -->
-								<a href="#mymodal" type="button" onclick="getModify();" class="btn btn-primary modifyBtn" 
-								data-toggle="modal" data-target=".bd-example-modal-lg" id = "viewModal">수정</a>
-							</td>
-							</tr>
-							
-						<tr th:unless="${#lists.size(memberList) > 0}" style="text-align: center;">
-							<td colspan="9" th:text="${'검색한 결과가 없습니다.'}">
-							</td>
-						</tr>
-						</tbody>
-		    	</table>
-							<button type="button" class="btn btn-primary float-right" onclick="deleteDate();">삭제</button>
-		    	
+	<th:block layout:fragment="container">
+		<div class="main-container">
+			<div class="row gutters">
+				<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+					<div class="table-container">
+						<div class="t-header">회원 조회</div>
+						<div class="t-header" id="Period">기간별 회원조회</div>
+						<select id="authority" name="levelName">
+							<option class="memberAuthority" th:each="l : ${memberList}"
+								th:value="${l.memberLevel.levelName}"></option>
+						</select>
+
+						<div class="table-responsive">
+							<table id="copy-print-csv" class="table custom-table">
+								<thead>
+									<tr>
+										<th><input type="checkbox" id="checkAll"
+											style="position: relative; top: 1.5px;"></th>
+										<th>아이디</th>
+										<th>이름</th>
+										<th>권한</th>
+										<th>주소</th>
+										<th>이메일</th>
+										<th>번호</th>
+										<th>등록일</th>
+										<th>활성화여부</th>
+										<th>인센티브</th>
+										<th>수정</th>
+									</tr>
+								</thead>
+								<tbody id="tableList">
+									<tr th:if="${#lists.size(memberList) > 0}"
+										th:each="l : ${memberList}">
+										<th:block>
+											<td><input type="checkbox" class="checkOne"
+												style="position: relative; top: 1.5px;"
+												th:value="${l.memberId}"></td>
+
+											<td th:text="${l.memberId}" class="dataId"></td>
+											<td th:text="${l.memberName}" class="dataName"></td>
+											<td th:text="${l.memberLevel.levelName}" class="dataLevel"></td>
+											<td th:text="${l.memberAddress}" class="dataAddress"></td>
+											<td th:text="${l.memberEmail}" class="dataEmail"></td>
+											<td th:text="${l.memberPhone}" class="dataPhone"></td>
+											<td th:text="${l.memberRegDate}" class="dataRegDate"></td>
+											<td th:text="${l.memberAccountStatus}"
+												class="dataAccountStatus"></td>
+											<td th:text="${l.memberIncentive}" class="dataIncentive"></td>
+											<td><a href="#mymodal" type="button"
+												onclick="getModify();" class="btn btn-primary modifyBtn"
+												data-toggle="modal" data-target=".bd-example-modal-lg"
+												id="viewModal">수정</a></td>
+									</tr>
+
+									<tr th:unless="${#lists.size(memberList) > 0}"
+										style="text-align: center;">
+										<td colspan="9" th:text="${'검색한 결과가 없습니다.'}"></td>
+									</tr>
+								</tbody>
+							</table>
+							<button type="button" class="btn btn-primary float-right"
+								onclick="deleteDate();">삭제</button>
+
+						</div>
+					</div>
+
 				</div>
 			</div>
-		
 		</div>
-	</div>
-</div>
-</th:block>
+	</th:block>
 
-<form th:action="@{/myPageModal}" method="post">
-	<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" style="display: none;" aria-hidden="true">
-		<div class="modal-dialog modal-lg">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="myLargeModalLabel">수정하기</h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">×</span>
-					</button>
-				</div>
+	<form th:action="@{/myPageModal}" method="post">
+		<div class="modal fade bd-example-modal-lg" tabindex="-1"
+			role="dialog" aria-labelledby="myLargeModalLabel"
+			style="display: none;" aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="myLargeModalLabel">수정하기</h5>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">×</span>
+						</button>
+					</div>
 					<div class="modal-body">
-					<input type="hidden" class="form-control" name="memberId" id="memberId">
-					<div class="form-group">
-						<label for="phone">핸드폰 번호</label>
-						<input type="text" class="form-control" name="memberPhone" id="memberPhone" placeholder="Enter PhoneNumber">
-					</div>
-					<div class="form-group">
-						<label for="email">이메일</label>
-						<input type="text" class="form-control" name="memberEmail" id="memberEmail" placeholder="Enter email">
-					</div>
-					<div class="form-group" th:if="${session.SLEVEL != null && session.SLEVEL=='총관리자'}">
-						<label for="authority">권한</label>
-						<select class="form-control" name="memberLevelcode" id="memberAuthority">
+						<input type="hidden" class="form-control" name="memberId"
+							id="memberId">
+						<div class="form-group">
+							<label for="phone">핸드폰 번호</label> <input type="text"
+								class="form-control" name="memberPhone" id="memberPhone"
+								placeholder="Enter PhoneNumber">
+						</div>
+						<div class="form-group">
+							<label for="email">이메일</label> <input type="text"
+								class="form-control" name="memberEmail" id="memberEmail"
+								placeholder="Enter email">
+						</div>
+						<div class="form-group"
+							th:if="${session.SLEVEL != null && session.SLEVEL=='총관리자'}">
+							<label for="authority">권한</label> <select class="form-control"
+								name="memberLevelcode" id="memberAuthority">
 								<option value="2">물류센터 창고관리자</option>
 								<option value="3">물류센터 창고 구역관리자</option>
 								<option value="4">물류센터 일반직원</option>
 								<option value="5">물류센터 배송기사</option>
 								<option value="6">쇼핑몰사업자</option>
 							</select>
-					</div>
-					<div class="form-group" th:if="${session.SLEVEL != null && session.SLEVEL=='총관리자'}">
-						<label for="activation">활성화 여부</label>
-						<input type="text" class="form-control" name="memberAccountStatus" id="memberActivation" placeholder="Enter activation">
-					</div>
-						<div class="form-group" th:if="${session.SLEVEL != null && session.SLEVEL=='총관리자'}">
-							<label for="incentive">인센티브</label>
-							<select class="form-control" name="memberIncentive" id="memberIncentive">
+						</div>
+						<div class="form-group"
+							th:if="${session.SLEVEL != null && session.SLEVEL=='총관리자'}">
+							<label for="activation">활성화 여부</label> <input type="text"
+								class="form-control" name="memberAccountStatus"
+								id="memberActivation" placeholder="Enter activation">
+						</div>
+						<div class="form-group"
+							th:if="${session.SLEVEL != null && session.SLEVEL=='총관리자'}">
+							<label for="incentive">인센티브</label> <select class="form-control"
+								name="memberIncentive" id="memberIncentive">
 								<option value="A">A</option>
 								<option value="B">B</option>
 								<option value="C">C</option>
@@ -142,19 +146,24 @@
 							</select>
 						</div>
 					</div>
-				<div class="modal-footer">
-					<button class="btn btn-secondary" data-dismiss="modal">Close</button>
-					<button type="submit" name="submit"  class="btn btn-primary">Save</button>
+					<div class="modal-footer">
+						<button class="btn btn-secondary" data-dismiss="modal">Close</button>
+						<button type="submit" name="submit" class="btn btn-primary">Save</button>
+					</div>
+				</div>
 			</div>
 		</div>
-	  </div>
-	</div>
-</form>
+	</form>
 
+
+	<th:block layout:fragment="customJs">
+		<!-- 	<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/responsive/2.2.3/css/dataTables.responsive.css"> -->
+		<!-- 	<script type="text/javascript" charset="utf8" src="//cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.js"></script> -->
+		<script src="js/jquery.min.js"></script>
+		<script type="text/javascript" th:inline="javascript">
 	
-<th:block layout:fragment="customJs">
-	<script src="js/jquery.min.js"></script>
-	<script type="text/javascript">
+	
+	
 		$('.modifyBtn').each(function(){
 			$(this).click(function(){
 				var dataId 				= $(this).parents('tr').children('.dataId').text();
@@ -192,63 +201,123 @@
 			})
 		})
 		
-		function deleteDate(){
-			var dataArr = new Array();
-			var list = $('.checkOne');
-			for(var i=0; i<list.length; i++){
-				if(list[i].checked){
-					dataArr.push(list[i].value);
+		$(function(){
+			function deleteDate(){
+				var dataArr = new Array();
+				var list = $('.checkOne');
+				for(var i=0; i<list.length; i++){
+					if(list[i].checked){
+						dataArr.push(list[i].value);
+					}
+				}
+				if(dataArr.length == 0){
+					alert('삭제할 항목을 선택해주세요.');
+				
+				}else{
+					var chk = confirm('정말 삭제하시겠습니까?');
+					 if(chk){
+						$.ajax({
+							url : "/memberDeleteCheck",
+							method : 'post',
+							async : true,
+							dataType : "json",
+							data : {'dataArr':dataArr},
+							success: function(jdata){
+								if(jdata != 1){
+									alert('오류 : 삭제 실패');
+								}else{
+									alert('삭제 되었습니다.');
+									location.replace("memberList");
+								}
+							}
+				    	});
+					}else{
+						return false;
+					} 
 				}
 			}
-			if(dataArr.length == 0){
-				alert('삭제할 항목을 선택해주세요.');
-			
-			}else{
-				var chk = confirm('정말 삭제하시겠습니까?');
-				 if(chk){
-					$.ajax({
-						url : "/memberDeleteCheck",
-						method : 'post',
-						async : true,
-						dataType : "json",
-						data : {'dataArr':dataArr},
-						success: function(jdata){
-							if(jdata != 1){
-								alert('오류 : 삭제 실패');
-							}else{
-								alert('삭제 되었습니다.');
-								location.replace("memberList");
-							}
-						}
-			    	});
-				}else{
-					return false;
-				} 
-			}
-		}
+		});
 		
 		
-	/*********************************************권한별 조회하는 스크립트*****************************************************/
+		
+	/*********************************************중복제거 스크립트*****************************************************/
 	//<![CDATA[
-	var memberList = [[${memberList}]];
+	var memberList 	= 	[[${memberList}]];
 	//]]>
 	
-	var levelList = 	[];
-	var addrList 	= 	[];
+	var levelList 	= 	[];
 	
-	for(levelList : memberList){
-		var memberLevelList = [...new Set(levelList)];
+	for(var i=0; i < memberList.length; i++){
+		levelList.push(memberList[i].memberLevel.levelName);
 	}
 	
-	for(addrList : memberList){
-		var memberAddList = [...new Set(addrList)];
-	}
+	var memberLevelList = [...new Set(levelList)];
+	
 	
 	var htmlLevel = "";
 	
-	htmlLevel += '<option disabled="disabled" selected="selected">:: 권한 선택 ::</option>';
 	
+	
+	htmlLevel += '<option disabled="disabled" selected="selected"> :: 권한 선택 :: </option>';
+	
+	for(var i = 0; i < memberLevelList.length; i++){
+		htmlLevel += '<option>';
+		htmlLevel += memberLevelList[i];
+		htmlLevel += '</option>';
+	}
+	
+	
+ 	$('#authority').html(htmlLevel);
+ 	
+	/*********************************************중복제거 스크립트*****************************************************/
+	
+	
+	var selectLevelValue = "";
+	
+	$('#authority').change(function(){
+		selectLevelValue = $('#authority').val();
+		getData();
 		
+	});
+	
+	
+	function getData(){
+		var request = $.ajax({
+			  url: "/memberListDetail",
+			  method: "POST",
+			  data: { selectLevelValue : selectLevelValue },
+			  dataType: "json",
+			});
+
+			request.done(function( data ) {
+				console.log(data);
+				
+				var html = '';
+				$.each(data, function(index, value){
+					html+= '<tr>';
+					html+= '<td><input type="checkbox" class="checkOne" style="position: relative; top: 1.5px;" value="'+ value.memberId +'"></td>';
+					html+= '<td class= "dataId">' + value.memberId + '</td>';
+					html+= '<td class= "dataName">' + value.memberName + '</td>';
+					html+= '<td class= "dataLevel">' + value.memberLevel.levelName + '</td>';
+					html+= '<td class= "dataAddress">' + value.memberAddress + '</td>';
+					html+= '<td class= "dataEmail">' + value.memberEmail + '</td>';
+					html+= '<td class= "dataPhone">' + value.memberPhone + '</td>';
+					html+= '<td class= "dataRegDate">' + value.memberRegDate + '</td>';
+					html+= '<td class= "dataAccountStatus">' + value.memberAccountStatus + '</td>';
+					html+= '<td class= "dataIncentive">' + value.memberIncentive + '</td>';
+					html+= '<td><a style="color: white;" type="button" class="btn btn-primary modifyBtn" data-toggle="modal" data-target=".bd-example-modal-lg" id="viewModal">수정</a></td>'
+					html+= '</tr>';
+				});
+				
+				$('#tableList').html(html);
+					
+				
+			});
+				
+			request.fail(function( jqXHR, textStatus ) {
+				alert(textStatus);
+			});
+		}
 	
 	
 	
@@ -256,6 +325,5 @@
 	
 	
 	</script>
-</th:block>
-		
+	</th:block>
 </html>

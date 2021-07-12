@@ -327,5 +327,30 @@
 		ON
 		shU.shoppingmall_level_code = shL.level_code;
 	</select>
+		
+	<select id="getMemberListDetail" resultMap="memberResultMap" parameterType="String">
+	SELECT 
+		m.member_id
+		, m.member_pw
+		, m.member_name
+		, l.level_name
+		, m.member_address
+		, m.member_email
+		, m.member_phone
+		, m.member_reg_date
+		, m.member_account_status
+		, m.member_incentive
+	FROM 
+		tb_member AS m
+		INNER join
+		tb_member_level AS l
+		on
+		m.level_code = l.level_code
+	WHERE
+		<if	test="level_name !=null and level_name != ''" >
+			l.level_name =	#{levelName};
+		</if>
+		
+	</select>
 
 </mapper>
