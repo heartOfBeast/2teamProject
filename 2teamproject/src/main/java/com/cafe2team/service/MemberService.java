@@ -133,6 +133,11 @@ public class MemberService {
 		
 	}
 	
+	public List<Member> getMemberListDetail(String getMemberLevel){
+		
+		return memberMapper.getMemberListDetail(getMemberLevel);
+	}
+	
 	
 	
 

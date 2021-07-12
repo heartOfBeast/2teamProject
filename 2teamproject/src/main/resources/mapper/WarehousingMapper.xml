@@ -76,8 +76,7 @@
 		,#{productFile}
 		,#{requestRegDate}
 		,#{shopName});
-		
-		
 	</insert>
+
 
 </mapper>
