@@ -17,8 +17,8 @@ public class Sample {
 	  private String releasesStatus; 
 	  private String releasesAdmin; 
 	  private String releasesReg;
-	
-	  public String getReleasesCode() {
+	  private String releasesOrder;
+	public String getReleasesCode() {
 		return releasesCode;
 	}
 	public void setReleasesCode(String releasesCode) {
@@ -108,6 +108,12 @@ public class Sample {
 	public void setReleasesReg(String releasesReg) {
 		this.releasesReg = releasesReg;
 	}
+	public String getReleasesOrder() {
+		return releasesOrder;
+	}
+	public void setReleasesOrder(String releasesOrder) {
+		this.releasesOrder = releasesOrder;
+	}
 	@Override
 	public String toString() {
 		return "Sample [releasesCode=" + releasesCode + ", productCode=" + productCode + ", productName=" + productName
@@ -115,12 +121,12 @@ public class Sample {
 				+ releasesFinal + ", releasesAmount=" + releasesAmount + ", releasesName=" + releasesName
 				+ ", releasesAddr=" + releasesAddr + ", releasesPhone=" + releasesPhone + ", shoppingmallUserserId="
 				+ shoppingmallUserserId + ", shoppingmallUserName=" + shoppingmallUserName + ", releasesStatus="
-				+ releasesStatus + ", releasesAdmin=" + releasesAdmin + ", releasesReg=" + releasesReg + "]";
+				+ releasesStatus + ", releasesAdmin=" + releasesAdmin + ", releasesReg=" + releasesReg
+				+ ", releasesOrder=" + releasesOrder + "]";
 	}
 	
 	
 	
-	 
 	
 	 
 	
