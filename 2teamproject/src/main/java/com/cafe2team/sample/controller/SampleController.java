@@ -1,7 +1,8 @@
 package com.cafe2team.sample.controller;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,13 +39,28 @@ public class SampleController {
 	}
 	
 	// 출고 요청 배열받기
-	@PostMapping(value = "/samplePull", produces = "text/plain")
+	@PostMapping(value = "/samplePull")
 	@ResponseBody
-	public String samplePush(@RequestParam(value = "pushDataArray[]") List<String> pushDataArray) {
+	public Map<String,Object> samplePush(@RequestParam(value = "pushDataArray[]") List<String> pushDataArray) {
 		System.out.println("들어옴");
-		System.out.println(pushDataArray);			
-		return sampleService.samplePush(pushDataArray)+"";
+		System.out.println(pushDataArray);
+		
+		//01 update 
+		//02 select 후 insert subquery 실행
+		Map<String,Object> map = new HashMap<String,Object>();
+		
+		String sampleUpdate = sampleService.sampleUpdate(pushDataArray)+"";
+		int sampleInsert = sampleService.sampleInsert(pushDataArray);
+		
+		map.put("sampleUpdate", sampleUpdate);
+		map.put("sampleInsert", sampleInsert);
+		System.out.println(map);
+		
+		
+		return map;
 	}
+	
+	
 	
 	
 	@GetMapping("/releasePush")
