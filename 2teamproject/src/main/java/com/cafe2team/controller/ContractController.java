@@ -1,7 +1,9 @@
 package com.cafe2team.controller;
 
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.cafe2team.domain.Calendar;
 import com.cafe2team.domain.Contract;
 import com.cafe2team.domain.Price;
 import com.cafe2team.service.ContractService;
@@ -113,7 +116,7 @@ public class ContractController {
 		
 		contractService.contractAdd(contract);
 		
-		return "redirect:/contractApproval";
+		return "redirect:/priceList";
 		
 	}
 	
@@ -130,11 +133,25 @@ public class ContractController {
 	
 	
 	// 스케줄 관리 페이지
-	@GetMapping("/schedule")
-	public String Schedule() {
+	@GetMapping("/calendar") 
+	public String Calendar(Model model) {
 		
-		return "contract/schedule";
+		 model.addAttribute("title", "최종계약 캘린더");
+		 
+		return "contract/calendar";
 	}
+	 
+	// 스케줄 관리 페이지
+	 @PostMapping("/calendar")
+	 @ResponseBody
+	 public Map<String, Object> contractCalendar() {
+		 
+		Map<String,Object> map = new HashMap<String,Object>(); 
+		List<Calendar> clendar = contractService.ConreactCalendar();
+		map.put("clendar", clendar);
+		
+		 return map;
+	 }
 		
 		
 		

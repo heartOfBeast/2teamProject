@@ -14,6 +14,7 @@ public class Contract {
 	private String contractFinalQuantity;
 	private String contractFinalPay;
 	private String contractFinalUser;
+	private String contractFinalUserName;
 	private String contractFinalRegDay;
 	private String contractFinalMember;
 	private String contractFinalMemo;
@@ -22,7 +23,6 @@ public class Contract {
 	private String wareHouseType;
 	private String priceZone;
 	private String pricePrice;
-	
 	public String getContractFinalCode() {
 		return contractFinalCode;
 	}
@@ -101,6 +101,12 @@ public class Contract {
 	public void setContractFinalUser(String contractFinalUser) {
 		this.contractFinalUser = contractFinalUser;
 	}
+	public String getContractFinalUserName() {
+		return contractFinalUserName;
+	}
+	public void setContractFinalUserName(String contractFinalUserName) {
+		this.contractFinalUserName = contractFinalUserName;
+	}
 	public String getContractFinalRegDay() {
 		return contractFinalRegDay;
 	}
@@ -158,11 +164,12 @@ public class Contract {
 				+ contractFinalPosition + ", contractFinalProduct=" + contractFinalProduct
 				+ ", contractFinalProductName=" + contractFinalProductName + ", contractFinalQuantity="
 				+ contractFinalQuantity + ", contractFinalPay=" + contractFinalPay + ", contractFinalUser="
-				+ contractFinalUser + ", contractFinalRegDay=" + contractFinalRegDay + ", contractFinalMember="
-				+ contractFinalMember + ", contractFinalMemo=" + contractFinalMemo + ", priceCode=" + priceCode
-				+ ", priceName=" + priceName + ", wareHouseType=" + wareHouseType + ", priceZone=" + priceZone
-				+ ", pricePrice=" + pricePrice + "]";
+				+ contractFinalUser + ", contractFinalUserName=" + contractFinalUserName + ", contractFinalRegDay="
+				+ contractFinalRegDay + ", contractFinalMember=" + contractFinalMember + ", contractFinalMemo="
+				+ contractFinalMemo + ", priceCode=" + priceCode + ", priceName=" + priceName + ", wareHouseType="
+				+ wareHouseType + ", priceZone=" + priceZone + ", pricePrice=" + pricePrice + "]";
 	}
+	
 	
 	
 	

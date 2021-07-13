@@ -70,6 +70,22 @@
 			, #{contractFinalMemo} )
 	</insert>
 	
+	<!-- 최종계약 일정  -->
+	<select id="ConreactCalendar" resultType="Calendar">
+		SELECT
+			 shoppingmall.shoppingmall_user_name	AS contractFinalUserName
+			,contractFinal.unit_price_final_name	AS contractFinalPriceName
+			,contractFinal.contract_final_start		AS contractFinalStart
+			,contractFinal.contract_final_end		AS contractFinalEnd
+		FROM
+			tb_contract_final 						AS contractFinal
+		INNER JOIN 
+			tb_shoppingmall_user 					AS shoppingmall
+		ON
+			contractFinal.shoppingmall_user_id = shoppingmall.shoppingmall_user_id;
+	
+	</select>
+	
 	
 	
 </mapper>

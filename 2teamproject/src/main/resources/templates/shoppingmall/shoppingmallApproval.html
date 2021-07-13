@@ -28,51 +28,240 @@
 </th:block>
 
 <th:block layout:fragment="container">
-	<div class="main-container">
-		<div class="row gutters">
-			<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-				<div class="table-container">
-					<div class="t-header">계약 및 	권한 승인 페이지</div>
-						<div class="table-responsive">
-							<table id="copy-print-csv" class="table custom-table">
-							<thead>
-								<tr>
-								  <th>아이디</th>
-								  <th>거래처명</th>
-								  <th>담당자명</th>
-								  <th>사업자번호</th>
-								  <th>거래처이메일</th>
-								  <th>거래처주소</th>
-								  <th>거래처전화번호</th>
-								  <th>거래처가입일</th>
-								  <th>주거래은행</th>
-								  <th>계좌번호</th>
-								  <th>계정상태</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr th:each="l: ${shoppingmallList}">
-									<td th:text="${l.shoppingmallId}"></td>
-									<td th:text="${l.shoppingmallName}"></td>
-									<td th:text="${l.shoppingmallUserName}"></td>
-									<td th:text="${l.shoppingmallNumber}"></td>
-									<td th:text="${l.shoppingmallEmail}"></td>
-									<td th:text="${l.shoppingmallAddr}"></td>
-									<td th:text="${l.shoppingmallPhone}"></td>
-									<td th:text="${l.shoppingmallRegDay}"></td>
-									<td th:text="${l.shoppingmallBank}"></td>
-									<td th:text="${l.shoppingmallBankNum}"></td>
-									<td th:text="${l.shoppingmallStatus}"></td>
-								</tr>									
-							</tbody>
-			    		</table>
-					</div>
+<div class="main-container">
+	<div class="row gutters">
+		<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+			<div class="table-container">
+				<div class="t-header">거래처 권한 승인</div>
+					<div class="table-responsive">
+						<table id="copy-print-csv" class="table custom-table">
+						<thead>
+						<tr>
+							<th>아이디</th>
+							<th>거래처명</th>
+							<th>담당자명</th>
+							<th>사업자번호</th>
+							<!-- <th>거래처이메일</th>
+							<th>거래처주소</th>
+							<th>거래처전화번호</th>
+							<th>거래처가입일</th>
+							<th>주거래은행</th>
+							<th>계좌번호</th> -->
+							<th>계정상태</th>
+							<th>추소사유</th>
+							<th>승인신청/처리일</th>
+							<th>상세정보/승인</th>
+							<th>취소</th>
+						</tr>
+						</thead>
+						<tbody>
+							<tr th:each="l: ${shoppingmallList}">
+								<td th:text="${l.shoppingmallId}" 		id="shoppingmallIdData"	></td>
+								<td th:text="${l.shoppingmallName}"		id="shoppingmallNameData"></td>
+								<td th:text="${l.shoppingmallUserName}"	id="shoppingmallUserNameData"></td>
+								<td th:text="${l.shoppingmallNumber}"	id="shoppingmallNumberData"></td>
+								<td th:text="${l.shoppingmallEmail}"	id="shoppingmallEmailData"				style="display: none;"></td>
+								<td th:text="${l.shoppingmallAddr}"		id="shoppingmallAddrData"				style="display: none;"></td>
+								<td th:text="${l.shoppingmallPhone}"	id="shoppingmallPhoneData"				style="display: none;"></td>
+								<td th:text="${l.shoppingmallRegDay}"	id="shoppingmallRegDayData"				style="display: none;"></td>
+								<td th:text="${l.shoppingmallBank}"		id="shoppingmallBankData"				style="display: none;"></td>
+								<td th:text="${l.shoppingmallBankNum}"	id="shoppingmallBankNumData"			style="display: none;"></td>
+								<td th:text="${l.shoppingmallStatus}"	id="shoppingmallStatusData"></td>
+								<td th:text="${l.shoppingmallStatusCause}"	id="shoppingmallStatusCauseData"></td>
+								<td th:text="${l.shoppingmallUpdate}"	id="shoppingmallUpdateData"></td>
+								<td>
+									<a type="button" class="btn btn-primary Btn" data-toggle="modal" data-target=".bd-example-modal-lg1" id="updateModal" style="color: white;">정보/승인</a>
+								</td>
+								<td>
+									<a type="button" class="btn btn-primary Btn" data-toggle="modal" data-target=".bd-example-modal-lg2" id="cancelModal" style="color: white;">취소/보류</a>
+								</td>
+							</tr>									
+						</tbody>
+			   		</table>
 				</div>
-			
 			</div>
 		</div>
 	</div>
+</div>
+
+<!-- 상세정보 및 승인 Modal 폼 시작 -->
+<form th:action="@{/shoppingmallApproval}" method="post">
+	<div class="modal fade bd-example-modal-lg1" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" style="display: none;" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="myLargeModalLabel">권한승인</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<label for="shoppingmallIdModal">거래처아이디</label>
+						<input class="form-control" id="shoppingmallIdModal" name="shoppingmallId" readonly="readonly"/>	
+					</div>	
+					<div class="form-group">
+						<label for="shoppingmallNameModal">거래처명</label>	
+						<input class="form-control" id="shoppingmallNameModal" name="shoppingmallName" readonly="readonly"/>
+					</div>	
+					<div class="form-group">
+						<label for="shoppingmallUserNameModal">거래처담당자명</label>	
+						<input class="form-control" id="shoppingmallUserNameModal" name="shoppingmallUserName" readonly="readonly"/>
+					</div>
+					<div class="form-group">
+						<label for="shoppingmallNumberModal">사업자번호</label>	
+						<input class="form-control" id="shoppingmallNumberModal" name="shoppingmallNumber" readonly="readonly"/>
+					</div>
+					<div class="form-group">
+						<label for="shoppingmallEmailModal">거래처이메일</label>	
+						<input class="form-control" id="shoppingmallEmailModal" name="shoppingmallEmail" readonly="readonly"/>
+					</div>
+					<div class="form-group">
+						<label for="shoppingmallAddrModal">거래처주소</label>	
+						<input class="form-control" id="shoppingmallAddrModal" name="shoppingmallAddr" readonly="readonly"/>
+					</div>
+					<div class="form-group">
+						<label for="shoppingmallPhoneModal">거래처전화번호</label>
+						<input class="form-control" id="shoppingmallPhoneModal" name="shoppingmallPhone" readonly="readonly"/>
+					</div>
+					<div class="form-group">
+						<label for="shoppingmallBankModal">주거래은행</label>
+						<input class="form-control" id="shoppingmallBankModal" name="shoppingmallBank" readonly="readonly"/>
+					</div>
+					<div class="form-group">
+						<label for="shoppingmallBankNumModal">계좌번호</label>
+						<input class="form-control" id="shoppingmallBankNumModal" name="shoppingmallBankNum" readonly="readonly"/>
+					</div>
+					<div class="form-group">
+						<label for="shoppingmallStatusCauseDataModal">메모</label>
+						<input class="form-control" id="shoppingmallStatusCauseDataModal" name="shoppingmallStatusCause" placeholder="해당사항없음" readonly="readonly"/>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-secondary" data-dismiss="modal">돌아가기</button>
+					<button type="submit" name="submit"  class="btn btn-primary">승인</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+<!-- 상세정보 및 승인 Modal 폼 종료 -->
+
+<!-- 보류 및 취소 Modal 폼 시작 -->
+<form th:action="@{/shoppingmallCancel}" method="post">
+	<div class="modal fade bd-example-modal-lg2" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" style="display: none;" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="myLargeModalLabel">권한취소</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<label for="shoppingmallIdModal2">거래처아이디</label>
+						<input class="form-control" id="shoppingmallIdModal2" name="shoppingmallId" readonly="readonly"/>	
+					</div>	
+					<div class="form-group">
+						<label for="shoppingmallNameModal2">거래처명</label>	
+						<input class="form-control" id="shoppingmallNameModal2" name="shoppingmallName" readonly="readonly"/>
+					</div>	
+					<div class="form-group">
+						<label for="shoppingmallUserNameModal2">거래처담당자명</label>	
+						<input class="form-control" id="shoppingmallUserNameModal2" name="shoppingmallUserName" readonly="readonly"/>
+					</div>
+					<div class="form-group">
+						<label for="shoppingmallNumberModal2">사업자번호</label>	
+						<input class="form-control" id="shoppingmallNumberModal2" name="shoppingmallNumber" readonly="readonly"/>
+					</div>
+					<div class="form-group">
+						<label for="shoppingmallEmailModal2">거래처이메일</label>	
+						<input class="form-control" id="shoppingmallEmailModal2" name="shoppingmallEmail" readonly="readonly"/>
+					</div>
+					<div class="form-group">
+						<label for="shoppingmallAddrModal2">거래처주소</label>	
+						<input class="form-control" id="shoppingmallAddrModal2" name="shoppingmallAddr" readonly="readonly"/>
+					</div>
+					<div class="form-group">
+						<label for="shoppingmallPhoneModal2">거래처전화번호</label>
+						<input class="form-control" id="shoppingmallPhoneModal2" name="shoppingmallPhone" readonly="readonly"/>
+					</div>
+					<div class="form-group">
+						<label for="shoppingmallBankModal2">주거래은행</label>
+						<input class="form-control" id="shoppingmallBankModal2" name="shoppingmallBank" readonly="readonly"/>
+					</div>
+					<div class="form-group">
+						<label for="shoppingmallBankNumModal2">계좌번호</label>
+						<input class="form-control" id="shoppingmallBankNumModal2" name="shoppingmallBankNum" readonly="readonly"/>
+					</div>
+					<div class="form-group">
+						<label for="shoppingmallStatusCauseDataModal2">취소사유</label>
+						<input class="form-control" id="shoppingmallStatusCauseDataModal2" name="shoppingmallStatusCause"  required="required"/>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-secondary" data-dismiss="modal">돌아가기</button>
+					<button type="submit" name="submit"  class="btn btn-primary">권한취소</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+<!-- 보류 및 취소 Modal 폼 종료 -->
 
 </th:block>
+
+<th:block layout:fragment="customJs">
+	<script>
 		
+		<!-- 상세정보 및 승인 Modal 시작 -->
+		$('.Btn').each(function(){
+			$(this).click(function(){
+				var shoppingmallIdData 			= $(this).parents('tr').children('#shoppingmallIdData').text();
+				var shoppingmallNameData 		= $(this).parents('tr').children('#shoppingmallNameData').text();
+				var shoppingmallUserNameData	= $(this).parents('tr').children('#shoppingmallUserNameData').text();
+				var shoppingmallNumberData 		= $(this).parents('tr').children('#shoppingmallNumberData').text();
+				var shoppingmallEmailData 		= $(this).parents('tr').children('#shoppingmallEmailData').text();
+				var shoppingmallAddrData 		= $(this).parents('tr').children('#shoppingmallAddrData').text();
+				var shoppingmallPhoneData 		= $(this).parents('tr').children('#shoppingmallPhoneData').text();
+				var shoppingmallRegDayData 		= $(this).parents('tr').children('#shoppingmallRegDayData').text();
+				var shoppingmallBankData 		= $(this).parents('tr').children('#shoppingmallBankData').text();
+				var shoppingmallBankNumData 	= $(this).parents('tr').children('#shoppingmallBankNumData').text();
+				var shoppingmallStatusCauseData 	= $(this).parents('tr').children('#shoppingmallStatusCauseData').text();
+				
+				
+				$('#shoppingmallIdModal').val(shoppingmallIdData);
+				$('#shoppingmallNameModal').val(shoppingmallNameData);
+				$('#shoppingmallUserNameModal').val(shoppingmallUserNameData);
+				$('#shoppingmallNumberModal').val(shoppingmallNumberData);
+				$('#shoppingmallEmailModal').val(shoppingmallEmailData);
+				$('#shoppingmallAddrModal').val(shoppingmallAddrData);
+				$('#shoppingmallPhoneModal').val(shoppingmallPhoneData);
+				$('#shoppingmallRegDayModal').val(shoppingmallRegDayData);
+				$('#shoppingmallBankModal').val(shoppingmallBankData);
+				$('#shoppingmallBankNumModal').val(shoppingmallBankNumData);
+				$('#shoppingmallStatusCauseDataModal').val(shoppingmallStatusCauseData);
+				
+				$('#shoppingmallIdModal2').val(shoppingmallIdData);
+				$('#shoppingmallNameModal2').val(shoppingmallNameData);
+				$('#shoppingmallUserNameModal2').val(shoppingmallUserNameData);
+				$('#shoppingmallNumberModal2').val(shoppingmallNumberData);
+				$('#shoppingmallEmailModal2').val(shoppingmallEmailData);
+				$('#shoppingmallAddrModal2').val(shoppingmallAddrData);
+				$('#shoppingmallPhoneModal2').val(shoppingmallPhoneData);
+				$('#shoppingmallRegDayModal2').val(shoppingmallRegDayData);
+				$('#shoppingmallBankModal2').val(shoppingmallBankData);
+				$('#shoppingmallBankNumModal2').val(shoppingmallBankNumData);
+				$('#shoppingmallStatusCauseDataModal2').val(shoppingmallStatusCauseData);
+			})
+		});
+		<!-- 상세정보 및 승인 Modal 종료 -->
+		
+		
+		
+		
+		
+	</script>
+</th:block>	
 </html>

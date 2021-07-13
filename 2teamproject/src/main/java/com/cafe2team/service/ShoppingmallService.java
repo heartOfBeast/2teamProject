@@ -31,8 +31,7 @@ public class ShoppingmallService {
 	}
 	
 	
-/******************************** 계약 시작 ********************************/
-	// 계약 리스트 조회
+	// 쇼핑몰 회원조회
 	public List<Shoppingmall> shoppingmallList(){
 		
 		List<Shoppingmall> shoppingmallList = shoppingmallMapper.shoppingmallList();
@@ -40,7 +39,7 @@ public class ShoppingmallService {
 		return shoppingmallList;
 	}
 	
-	
+	// 쇼핑몰 사업자 권한 승인을 위한 조회 
 	public Shoppingmall shoppingmallInfo(String shoppingmallId) {
 	  
 	  Shoppingmall result = shoppingmallMapper.shoppingmallInfo(shoppingmallId);
@@ -50,13 +49,23 @@ public class ShoppingmallService {
 	}
 	 
 	
+	// 쇼핑몰 사업자 권한 승인
+	public int shoppingmallApproval(Shoppingmall shoppingmall) {
+		
+		int result = shoppingmallMapper.shoppingmallApproval(shoppingmall);
+		
+		return result;
+	}
+	
+	public int shoppingmallCancel(Shoppingmall shoppingmall) {
+		
+		int result = shoppingmallMapper.shoppingmallCancel(shoppingmall);
+		
+		return result;
+				
+	}
 	
 	
 	
 	
-	
-	
-	
-	
-/******************************** 계약 종료 ********************************/
 }
