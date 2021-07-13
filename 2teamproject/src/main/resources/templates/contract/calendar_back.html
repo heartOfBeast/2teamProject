@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="@{layout/default}">
+
+	
+<th:block layout:fragment="pageTitle">
+	
+	<div class="page-header">
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item">contract</li>
+			<li class="breadcrumb-item active">schedule</li>
+		</ol>
+
+		<ul class="app-actions">
+			<li><a href="#" id="reportrange"> <span class="range-text"></span>
+					<i class="icon-chevron-down"></i>
+			</a></li>
+			<li><a href="#"> <i class="icon-export"></i>
+			</a></li>
+		</ul>
+	</div>
+	
+</th:block>
+
+<th:block layout:fragment="container">
+	
+	<div id='external-events' style="float: left; width: 15%; padding-right: 30px; padding-left: 20px; margin-top: 100px;" >
+    <p>
+      <strong>계약 일정을 배정하세요</strong>
+    </p>
+
+    <div class='fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event'>
+      <div class='fc-event-main'>My Event 1</div>
+    </div>
+    <div class='fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event'>
+      <div class='fc-event-main'>My Event 2</div>
+    </div>
+    <div class='fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event'>
+      <div class='fc-event-main'>My Event 3</div>
+    </div>
+    <div class='fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event'>
+      <div class='fc-event-main'>My Event 4</div>
+    </div>
+    <div class='fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event'>
+      <div class='fc-event-main'>My Event 5</div>
+    </div>
+
+    <p>
+      <input type='checkbox' id='drop-remove' />
+      <label for='drop-remove'>드래그앤드롭후 제거</label>
+    </p>
+  </div>
+
+	<!-- 캘린더창 -->
+	<div style="float: left; width: 80%">
+		<div style="height: 30px; text-align: center; font-size: 35px; color: black; margin-bottom: 30px; font-weight: bold;">
+			<div style="width: 60%; float: left; text-align: right;">최종계약 현황</div>
+			<div style="width: 40%; float: left; text-align: right;">
+				<button style="width: 120px; height: 40px; background-color: blue; color: white; vertical-align: middle;
+				font-size: 17px; cursor: pointer;" onclick="javascript:allSave();">전체 저장</button>
+			</div>
+		</div>
+		<div id='calendar'></div>
+	</div>
+	
+
+</th:block>
+
+<th:block layout:fragment="customJs">
+	<link href='fullcalendar/lib/main.css' rel='stylesheet' />
+	<style>
+		.fc-event{
+			margin-top: 5px;
+			cursor: move
+		}
+	</style>
+	<script src='fullcalendar/lib/main.js'></script>
+	<script src="js/jquery.min.js"></script>
+	<script src="fullcalendar/lib/locales/ko.js"></script>
+	<script type="text/javascript">
+		var calendar = null;
+		$(function(){
+		    var Calendar = FullCalendar.Calendar;
+		    var Draggable = FullCalendar.Draggable;
+	
+		    var containerEl = document.getElementById('external-events');
+		    var calendarEl = document.getElementById('calendar');
+		    var checkbox = document.getElementById('drop-remove');
+	
+		    // initialize the external events
+		    // -----------------------------------------------------------------
+			var all_events = null; 
+	
+		    new Draggable(containerEl, {
+		      itemSelector: '.fc-event',
+		      eventData: function(eventEl) {
+		        return {
+		          title: eventEl.innerText
+		        };
+		      }
+		    });
+
+	    // initialize the calendar
+	    // -----------------------------------------------------------------
+	    
+	    
+	    calendar = new Calendar(calendarEl, {
+	      headerToolbar: {
+	        left: 'prev,next today',
+	        center: 'title',
+	        right: 'dayGridMonth,timeGridWeek,timeGridDay'
+	      },
+	      editable: true,  						// 수정가능여부 false일시 한번 넣으면 변경 못함
+	      droppable: true, 						// this allows things to be dropped onto the calendar
+	      events: all_events,
+	      drop: function(info) {
+	        // is the "remove after drop" checkbox checked?
+	        if (checkbox.checked) {
+	          // if so, remove the element from the "Draggable Events" list
+	          info.draggedEl.parentNode.removeChild(info.draggedEl);
+	        }
+	      }, locale : 'ko'
+	    });
+
+	    calendar.render();
+	  });
+		
+		// 1. 저체 이벤트 데이터를 추출 해야한다. 2.ajax로 서버에 전송하려 DB에 저장을 할 수있어야된다.
+		function allSave(){
+			
+			var allEvent = calendar.getEvents();
+			
+			var events = new Array();
+			for(var i=0; i < allEvent.length; i++){
+				
+				var obj = new Object();
+				
+				obj.title = allEvent[i]._def.title; 			// 이벤트 명칭
+				obj.allday = allEvent[i]._def.allDay; 			// 하루 종일의 이벤트인지 알려주는 boolean(ture/false)
+				obj.start = allEvent[i]._instance.range.start 	// 시작 날짜 및 시간
+				obj.end = allEvent[i]._instance.range.end 		// 마친 날짜 및 시간
+				
+				events.push(obj);
+			}
+			var jsondata = JSON.stringify(events);
+			console.log(jsondata);
+			
+			function savedate(jsondata){
+				
+				$.ajax({
+					type : 'POST',
+					url : "/calendar",
+					data : {"alldata" : result},
+					dataType : "json",
+					async : false
+				})
+				.done(function(result){ 	//성공
+					alert(result);
+				}) 
+				.fail(function(request, status, error){		//실패
+					alert("에러 발생 : "+ error);
+				}) 
+				
+			}
+			
+		}
+	
+	
+	/* 	$(function(){
+		    var calendarEl = document.getElementById('calendar');
+		    var calendar = new FullCalendar.Calendar(calendarEl, {
+		    		initialView: 'dayGridMonth',
+		    		locale : 'ko'
+		    	});
+		    	calendar.render();
+	  		}); */
+		
+		
+		
+	</script>
+</th:block>
+</html>
