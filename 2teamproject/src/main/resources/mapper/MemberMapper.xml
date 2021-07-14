@@ -287,6 +287,7 @@
 			( 
 			  shoppingmall_user_id
 			, shoppingmall_user_pw
+			, shoppingmall_name
 			, shoppingmall_user_name
 			, shoppingmall_level_code
 			, shoppingmall_user_address
@@ -294,13 +295,14 @@
 			, shoppingmall_user_phone
 			, shoppingmall_user_reg_date
 		)VALUES(
-			  #{shId}
-			, #{shPw}
-			, #{shUserName}
+			  #{shoppingmallId}
+			, #{shoppingmallPw}
+			, #{shoppingmallName}
+			, #{shoppingmallUserName}
 			, '6'
-			, #{shAddr}
-			, #{shEmail}
-			, #{shPhone}
+			, #{shoppingmallAddr}
+			, #{shoppingmallEmail}
+			, #{shoppingmallPhone}
 			, CURDATE());
 	</insert>
 	 

@@ -1,10 +1,11 @@
 package com.cafe2team.controller;
 
-import java.io.File;
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
+
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,14 +13,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.cafe2team.domain.Item;
-import com.cafe2team.domain.Member;
+import com.cafe2team.dao.WarehousingMapper;
 import com.cafe2team.domain.Product;
 import com.cafe2team.domain.Receiving;
 import com.cafe2team.domain.Request;
@@ -31,15 +31,6 @@ import com.cafe2team.service.ProductService;
 import com.cafe2team.service.WarehouseService;
 import com.cafe2team.service.WarehousingOrderService;
 import com.cafe2team.service.WarehousingService;
-import com.google.zxing.BarcodeFormat; 
-import com.google.zxing.BinaryBitmap;
-import com.google.zxing.EncodeHintType;
-import com.google.zxing.MultiFormatWriter;
-import com.google.zxing.WriterException;
-import com.google.zxing.client.j2se.MatrixToImageWriter; 
-import com.google.zxing.common.BitMatrix; 
-import com.google.zxing.qrcode.QRCodeWriter;
-import com.google.zxing.qrcode.encoder.ByteMatrix;
 
 
 @Controller
@@ -54,16 +45,23 @@ public class WareHousingController {
 	private final WarehousingService warehousingService;
 	private final WarehouseService warehouseService;
 	private final WarehousingOrderService warehousingOrderService;
+	private final WarehousingMapper warehosingMapper;
 	
 	@Autowired
-	public WareHousingController(ProductService productService, MemberService memberService, WarehousingService warehousingService, WarehouseService warehouseService, WarehousingOrderService warehousingOrderService) {
+	public WareHousingController(ProductService productService, MemberService memberService,
+			WarehousingService warehousingService, WarehouseService warehouseService, 
+			WarehousingOrderService warehousingOrderService,
+			WarehousingMapper warehosingMapper) {
+		
 		this.productService = productService;
 		this.memberService = memberService;
 		this.warehousingService = warehousingService;
 		this.warehouseService = warehouseService;
 		this.warehousingOrderService = warehousingOrderService;
+		this.warehosingMapper = warehosingMapper;
 	}
 	
+	//입고요청시 뿌려주는 리스트
 	@GetMapping("/receivingRequest")
 	public String receivingRequest(@RequestParam(value = "memberId", required = false) String memberId
 									,Model model) {
@@ -81,6 +79,7 @@ public class WareHousingController {
 		return "warehousing/receivingRequest";
 	}
 	
+	//상품코드구하는 AJAX 처리
 	@PostMapping("/productCodeList")
 	@ResponseBody
 	public List<Product> productCodeList(@RequestParam Map<String,Object> param) {
@@ -93,15 +92,6 @@ public class WareHousingController {
 		log.info("=================getCodeListInfo {} ", getCodeListInfo);
 		
 		return getCodeListInfo;
-	}
-	
-	@PostMapping("/receivingRequest")
-	public String receivingRequest(Request request) {
-		
-		warehousingService.addRequest(request);
-		
-		
-		return "redirect:/";
 	}
 	
 	//입고지시서 목록
@@ -127,27 +117,67 @@ public class WareHousingController {
 	}
 	
 	
-	@RequestMapping(value="/barCodeCreate", method = {RequestMethod.POST})
+	//바코드 자동생성
+	@GetMapping("/barCodeCreateInfo")
 	@ResponseBody
-	public int makeqr() throws WriterException, IOException {
+	public String barCodeCreateInfo() {
+		String maxGoodsCode = warehosingMapper.maxGoodsCode();
+		System.out.println(maxGoodsCode);
 		
-		Random random = new Random();
-		
-		int randomBarcode = random.nextInt();
-		String randomBarcodeUnsign = Integer.toUnsignedString(randomBarcode);
-	
-		
-		String url = randomBarcodeUnsign;
-		System.out.println(url);
-		int width = 250;
-		int height = 250;
-		
-		String file_path = "C:"+File.separator+"QR"+File.separator;
-		String file_name = "QR.png";
-		QRUtil.makeQR(url, width, height, file_path, file_name);
-		
-		return 1;
+		return maxGoodsCode;
 	}
+	
+	//입고
+	@PostMapping("/receivingRequest")
+	public String receivingRequest(Request request, HttpSession session, RedirectAttributes reAtrr) {
+		
+			String requestId = (String) session.getAttribute("SID");
+		
+			if(requestId != null) {
+				String maxRequestCode = warehosingMapper.maxGoodsCode();
+				
+				request.setRequsetCode(maxRequestCode);
+				request.setShoppingUserId(requestId);
+				
+				warehosingMapper.addRequest(request);
+				reAtrr.addAttribute("memberId", requestId);
+			}
+		
+		return "redirect:/receivingRequestWaiting";
+	}
+	
+	//입고리스트
+	@GetMapping("/receivingRequestWaiting")
+	public String receivingRequestWaiting(Model model) {
+		model.addAttribute("title", "입고리스트");
+		
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		
+		List<Request> requestList = warehosingMapper.getRequestList(paramMap);
+		
+		model.addAttribute("requestList", requestList);
+		
+		return "warehousing/receivingRequestWaiting";
+	}
+	
+	//큐알찍기 확인
+	@GetMapping("/qrGoods/{requestCode}")
+	public List<Request> requsetCode(Model model
+							,@PathVariable(value = "requestCode", required = false) String requestCode) {
+		
+		Request request = warehosingMapper.getRequestCode(requestCode);
+		
+		List<Request> requestInfo = new ArrayList<>();
+		
+		requestInfo.add(request);
+		
+		model.addAttribute("requestCode", requestCode);
+		
+		
+		return requestInfo;
+		
+	}
+
 	
 }
 
