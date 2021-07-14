@@ -26,9 +26,17 @@ public class WarehouseService {
 		}
 		
 		//
-		public List<Warehouse> getWarehouseListDetail(String warehouse_name, String warehouse_addr, String warehouse_cate){
-			List<Warehouse> warehouseListDetail = warehouseMapper.getWarehouseListDetail(warehouse_name, warehouse_addr, warehouse_cate);
-			return warehouseListDetail;
+		public List<Warehouse> getWarehouseListDetailAddr(String warehouse_addr){
+			List<Warehouse> warehouseListDetailAddr = warehouseMapper.getWarehouseListDetailAddr(warehouse_addr);
+			return warehouseListDetailAddr;
+		}
+		public List<Warehouse> getWarehouseListDetailName(String warehouse_addr, String warehouse_name){
+			List<Warehouse> warehouseListDetailName = warehouseMapper.getWarehouseListDetailName(warehouse_addr, warehouse_name);
+			return warehouseListDetailName;
+		}
+		public List<Warehouse> getWarehouseListDetailCate(String warehouse_name, String warehouse_addr, String warehouse_cate){
+			List<Warehouse> warehouseListDetailCate = warehouseMapper.getWarehouseListDetailCate(warehouse_name, warehouse_addr, warehouse_cate);
+			return warehouseListDetailCate;
 		}
 		
 		//창고조회
