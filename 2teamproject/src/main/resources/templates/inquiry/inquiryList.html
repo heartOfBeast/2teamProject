@@ -60,7 +60,7 @@
 										<a th:href="@{/readInquiry}" th:text="${l.boardQnaCode}"></a>
 									</td>
 									<td>
-										<a th:href="@{/inquiry/readInquiry(boardQnaCode=${l.boardQnaCode})}" th:text="${l.boardQnaCode}"></a>
+										<a th:href="@{/readInquiry(boardQnaCode=${l.boardQnaCode})}" th:value="${l.boardQnaCode}" th:text="${l.boardQnaSubject}"></a>
 									</td>
 									<td th:text="${l.boardQnaWriter}"></td>
 									<td th:text="${l.boardQnaViews}"></td>

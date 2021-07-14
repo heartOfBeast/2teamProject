@@ -181,8 +181,9 @@
 				var productForm = $('#addProductForm');
  				var submitFlag = true;
  				var itemBigCategory = $('#itemBigCategory').val()
- 				var itemMiddleCategory = $('#itemBigCategory').val()
- 				var itemSmallCategory = $('#itemBigCategory').val()
+ 				var itemMiddleCategory = $('#itemMiddleCategory').val()
+ 				var itemSmallCategory = $('#itemSmallCategory').val()
+ 				var productCategory = $('#productCategory').val()
 				var productFreezeCoolCondition = $('#productFreezeCoolCondition').val();
 				var productName = $('#productName').val();
 				var productWeight = $('#productWeight').val();
@@ -201,7 +202,7 @@
 					submitFlag = false;
 					$(this).focus();
 					return submitFlag;
-				}else if(itemSmallCategory ==null||itemSmallCategory==undefined||itemSmallCategory==''.toString()){
+				}else if(productCategory ==null||productCategory==undefined||productCategory==''.toString()){
 					alert('소분류를 선택해주세요');
 					submitFlag = false;
 					$(this).focus();

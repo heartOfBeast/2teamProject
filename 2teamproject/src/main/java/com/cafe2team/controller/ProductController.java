@@ -157,7 +157,7 @@ public class ProductController {
 		return "product/addProduct";
 	}
 
-	//상품추가 대분류
+	//상품추가 중분류
 	@PostMapping("getMiddleCate")
 	@ResponseBody 
 	public List<Item> getmiddlecate(Model model,
