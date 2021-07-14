@@ -161,20 +161,20 @@ public class WareHousingController {
 	}
 	
 	//큐알찍기 확인
-	@GetMapping("/qrGoods/{requestCode}")
-	public List<Request> requsetCode(Model model
+	@GetMapping("/receivingRequest/{requestCode}")
+	public String requsetCode(Model model
 							,@PathVariable(value = "requestCode", required = false) String requestCode) {
 		
 		Request request = warehosingMapper.getRequestCode(requestCode);
 		
-		List<Request> requestInfo = new ArrayList<>();
+		List<Request> requestInfo = new ArrayList<Request>();
 		
 		requestInfo.add(request);
 		
-		model.addAttribute("requestCode", requestCode);
+		model.addAttribute("requestCode", request);
 		
 		
-		return requestInfo;
+		return "warehousing/requestInfo";
 		
 	}
 

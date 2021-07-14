@@ -75,8 +75,8 @@
 									<td class="hidden-col" th:text="${l.productCode}">상품코드</td>
 									<td class="hidden-col" th:text="${l.warehouseCode}">창고코드</td>
 									<td class="hidden-col" th:text="${l.shoppingUserId}">쇼핑몰 사업자 아이디</td>
-									<td class="hidden-col" id="barcodeImg">
-										<label th:if="${l.barcodeImg == null}" th:text="${QR코드가 없습니다}"></label>
+									<td  class="hidden-col" id="barcodeImg">
+										<label th:if="${l.barcodeImg == null}" th:text="${'QR코드가 없습니다'}"></label>
 										<img th:unless="${l.barcodeImg == null}" th:src="${l.barcodeImg}" style="display: block;">	
 									</td>
 									<td>
@@ -157,7 +157,7 @@
 						<input type="text" class="form-control" id="shoppingmallNameModal" name="shoppingmallName" readonly>
 					</div>
 					<div class="image-container">
-					    <img style="width: 500px; height: 500px;" id="preview-image">
+					    <img style="width: 500px; height: 500px;" id="barcodeImageModal">
 					</div>
 					<div class="form-group">
 						<label for="warehousingBarcodeModal">바코드</label>
@@ -201,7 +201,7 @@
 				var warehouseCodeData = $(this).parents('tr').children('#warehouseCodeData').text();
 				var shoppingmallIdData = $(this).parents('tr').children('#shoppingmallIdData').text();
 				
-				var warehousingBarcodeData = $('#barcodeImg').find('img').attr('src');
+				var warehousingBarcodeData = $(this).parents('tr').find('img').attr('src');
 				
 				var wareAdminIdData = $(this).parents('tr').children('#wareAdminIdData').text();
 				var itemBigCategoryData = $(this).parents('tr').children('#itemBigCategoryData').text();
@@ -221,7 +221,7 @@
 				$('#warehouseCodeModal').val(warehouseCodeData);
 				$('#shoppingmallIdModal').val(shoppingmallIdData);
 				
-				$('#preview-image').attr("src", warehousingBarcodeData);
+				$('#barcodeImageModal').attr("src", warehousingBarcodeData);
 				
 				$('#wareAdminIdModal').val(wareAdminIdData);
 				$('#itemBigCategoryModal').val(itemBigCategoryData);

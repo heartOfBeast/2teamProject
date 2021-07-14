@@ -13,7 +13,7 @@
 		<result property="wareAdminId" 									column="ware_admin_id"/>
 		<result property="requestRegDate" 								column="warehousing_request_reg_date"/>
 		<result property="shopName" 									column="request_shopname"/>
-		<result property="requestRegDate" 								column="request_status"/>
+		<result property="requestStatus" 								column="request_status"/>
 	
 		<association property="wareHouse" javaType="Warehouse">
 			<result property="warehouseName" 							column="warehouse_name"/>
@@ -91,6 +91,7 @@
 		SELECT
 			r.warehousing_request_code
 			,r.product_code
+			,r.product_name
 			,w.warehouse_name
 			,r.warehouse_code
 			,r.request_shopname
