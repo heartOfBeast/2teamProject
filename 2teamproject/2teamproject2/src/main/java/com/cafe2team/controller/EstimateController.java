@@ -55,7 +55,7 @@ public class EstimateController {
 		/************************************************************
 		 * 비회원 견적신청
 		 ************************************************************/			
-		@PostMapping("/addEstimateAnother")
+		@PostMapping("/estimateAnother")
 		public String addEstimateAnother(Estimate estimate) {
 			
 			estimateservice.addEstimateAnother(estimate);
@@ -172,35 +172,21 @@ public class EstimateController {
 		
 		/************************************************************
 		 * 기존 쇼핑몰회원 새 견적신청
-		 * @throws IOException 
 		 ************************************************************/	
 		@GetMapping("/estimate")
 		public String estimate(Model model
 								,HttpSession session
-								,HttpServletResponse response
-								,@RequestParam(name = "shoppingmallId", required = false) String shoppingmallId) throws IOException {
+								,@RequestParam(name = "shoppingmallId", required = false) String shoppingmallId) {
 			
 			Shoppingmall shoppingmall = shoppingmallService.shoppingmallInfo(shoppingmallId);	
 			String SID = (String)session.getAttribute("SID");
-			String SLEVEL = (String)session.getAttribute("SLEVEL");
 			model.addAttribute("shoppingmallId", shoppingmall);
 			
-			if(SID == null || !SLEVEL.equals("사업자")){
-				response.setContentType("text/html; charset=UTF-8");
-				PrintWriter out = response.getWriter();
-				model.addAttribute("title", "견적신청");
-				out.println("<script>alert('기존 쇼핑몰 사업자 회원만 등록이 가능합니다. \\n  \"비회원 견적신청\" 페이지로 전환됩니다.');</script>");
-				out.flush();
-				return "main/main";
-				//redirect가 왜 안되는지 생각해보자
-				
-			}else {
-				System.out.println(shoppingmall);
-				model.addAttribute("title", "견적신청");
-				
-				return "estimate/estimate";
-			}
 			
+			System.out.println(shoppingmall);
+
+			model.addAttribute("title", "견적신청");
+			return "estimate/estimate";
 		}
 		
 		@PostMapping("/addEstimate")

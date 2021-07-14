@@ -1,0 +1,72 @@
+<!doctype html>
+<html
+	xmlns:th="http://www.thymeleaf.org"
+ 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="@{layout/default}">
+	
+<th:block layout:fragment="pageTitle">
+<div class="page-header">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item">견적</li>
+		<li class="breadcrumb-item active">견적신청 조회</li>
+	</ol>
+
+	<ul class="app-actions">
+		<li>
+			<a href="#" id="reportrange">
+				<span class="range-text"></span>
+				<i class="icon-chevron-down"></i>	
+			</a>
+		</li>
+		<li>
+			<a href="#">
+				<i class="icon-export"></i>
+			</a>
+		</li>
+	</ul>
+</div>
+</th:block>
+
+<th:block layout:fragment="container">
+	<!-- Main container start -->
+<div class="main-container">
+	<div class="row gutters justify-content-center">
+		<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+			<div class="table-container">
+				<div class="table-responsive">
+					<table class="table custom-table m-0">
+						<thead>
+							<tr>
+								<th>담당자 아이디</th>
+								<th>쇼핑몰이름</th>
+								<th>담당자 연락처</th>
+								<th>담당자 이메일</th>
+								<th>직원수</th>
+								<th>업종</th>
+								<th>상담가능 시간</th>
+								<th>신청날짜</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="S : ${estimate}">
+								<td th:text="${S.companyId}"></td>
+								<td th:text="${S.companyName}"></td>
+								<td th:text="${S.companyPhone}"></td>
+								<td th:text="${S.companyEmail}"></td>
+								<td th:text="${S.industries}"></td>
+								<td th:text="${S.sectors}"></td>
+								<td th:text="${S.counselTime}"></td>
+								<td th:text="${S.estimateRegDate}"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	
+	</div>
+</div>
+				<!-- Main container end -->
+</th:block>
+		
+</html>

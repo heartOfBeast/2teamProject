@@ -1,0 +1,184 @@
+<!doctype html>
+<html
+	xmlns:th="http://www.thymeleaf.org"
+ 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="@{layout/default}">
+	
+<th:block layout:fragment="pageTitle">
+<div class="page-header">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item">견적</li>
+		<li class="breadcrumb-item active">견적신청(shId)</li>
+	</ol>
+
+	<ul class="app-actions">
+		<li>
+			<a href="#" id="reportrange">
+				<span class="range-text"></span>
+				<i class="icon-chevron-down"></i>	
+			</a>
+		</li>
+		<li>
+			<a href="#">
+				<i class="icon-export"></i>
+			</a>
+		</li>
+	</ul>
+</div>
+</th:block>
+
+	<!-- Main container start -->
+<th:block layout:fragment="container">
+<style>
+	.hidden-col {display: none;}
+</style>
+<div class="main-container">
+	<div class="justify-content-center">
+		<form id="addEstimateForm" th:action="@{/addEstimate}" method="POST">
+			<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+				
+				<div class="card h-100" >
+					<div class="card-header">
+						<div class="card-title"> 견적신청 </div>
+					</div>
+				
+					<div class="card-body">
+						<div class="row gutters">
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+							
+								<div class="form-group">
+									<label for="companyId">아이디</label>
+									<input type="text" class="form-control" id="companyId" name="companyId" th:value="${session.SID}" readonly/>
+								</div>
+								<!-- <div class="form-group">
+									<label for="companyEmail">이메일</label> -->
+									<input type="hidden" class="form-control" id="companyEmail" name="companyEmail" th:value="${shoppingmallId.shoppingmallEmail}" readonly/>
+								<!-- </div> -->
+								<div class="form-group">
+									<label for="companyName">업체명</label>
+									<input type="text" class="form-control" id="companyName" name="companyName" placeholder="견적신청 할 업체명을 입력해주세요."/>
+								</div>
+												
+								<div class="form-group">
+									<label for="counselTime">상담가능 시간</label>
+									<select class="custom-select" id="counselTime" name="counselTime" required/>
+										<option value="">상담가능 시간을 선택해주세요.</option>
+										<option value="0900시 ~ 1000시">0900시 ~ 1000시</option>
+										<option value="1000시 ~ 1100시">1000시 ~ 1100시</option>
+										<option value="1100시 ~ 1200시">1100시 ~ 1200시</option>
+										<option value="1400시 ~ 1500시">1400시 ~ 1500시</option>
+										<option value="1500시 ~ 1600시">1500시 ~ 1600시</option>
+										<option value="1600시 ~ 1700시">1600시 ~ 1700시</option>
+									</select>
+								</div>
+							</div>
+							
+							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+								<div class="form-group">
+									<label for="companyPhone">담당자 연락처</label>
+									<input type="text" class="form-control" id="companyPhone" name="companyPhone" placeholder="연락가능한 연락처를 '-' 포함하여 입력해주세요." />
+								</div>
+								<div class="form-group">
+									<label for="sectors">업종</label>
+									<select class="custom-select" id="sectors" name="sectors">
+										<option value="">미선택</option>
+										<option value="식/음료">식/음료</option>
+										<option value="수리/인테리어">수리/인테리어</option>
+										<option value="스포츠 용품">스포츠 용품</option>
+										<option value="유아용품">유아용품</option>
+										<option value="전자제품">전자제품</option>
+										<option value="건강/뷰티">건강/뷰티</option>
+										<option value="의류 및 악세서리">의류 및 악세서리</option>
+									</select>
+								</div>
+								<div class="form-group">
+									<label for="industries">직원 수</label>
+									<select class="custom-select" id="industries" name="industries">
+										<option value="">미선택</option>
+										<option value="0 ~ 20명">0 ~ 20명</option>
+										<option value="21 ~ 50명">21 ~ 50명</option>
+										<option value="51 ~ 80명">51 ~ 80명</option>
+										<option value="81 ~ 100명">81 ~ 100명</option>
+										<option value="100명 이상">100명 이상</option>
+									</select>
+								</div>
+							</div>	
+							<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+								<div class="text-right">
+									<button type="button" id="submitDone" class="btn btn-primary">신청완료</button>
+								</div>
+							</div>
+						</div>
+						<div class="form-text text-muted">
+							<div type="button" class="btn btn-outline-primary" th:onclick="@{location.href='priceList'}">단가표 확인</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+</th:block>
+				<!-- Main container end -->
+<th:block layout:fragment="customJs">
+	<script>
+		$('#submitDone').click(function(){
+			var  addEstimateForm = $('#addEstimateForm');
+			var submitFlag = true;
+			var companyName = $('#companyName').val();
+			var companyPhone = $('#companyPhone').val();
+			var counselTime = $('#counselTime').val();
+			var sectors = $('#sectors').val();
+			var industries = $('#industries').val();
+			var regPhone = /^[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}/.test(companyPhone);
+			
+			/************************************업체명 입력여부 검사 ************************************/
+			if(companyName == null || companyName == '' || companyName == undefined){
+					alert('업체명을 다시 입력해주세요.');
+					$(this).focus();
+					submitFlag = false;
+					return submitFlag;
+					
+			/************************************상담가능시간 선택여부 검사 ************************************/
+			}else if(counselTime == null || counselTime == '' || counselTime == undefined){
+				alert('상담가능시간을 다시 선택해주세요.');
+				$(this).focus();
+				submitFlag = false;
+				return submitFlag;
+				
+			/************************************연락처 입력여부 검사 ************************************/
+			}else if(companyPhone == null || companyPhone == '' || companyPhone == undefined){
+					alert('연락처를 다시 입력해주세요.');
+					$(this).focus();
+					submitFlag = false;
+					return submitFlag;
+						
+			/************************************연락처 유효성 검사 ************************************/
+			}else if(!regPhone){
+					alert('연락처를  -  포함하여 다시 입력해주세요.');
+					$(this).focus();
+					submitFlag = false;
+					return submitFlag;
+					
+			/***********************************업종 선택여부 검사 ************************************/
+			}else if(sectors == null || sectors == '' || sectors == undefined){
+				alert('업종을 다시 선택해주세요.');
+				$(this).focus();
+				submitFlag = false;
+				return submitFlag;
+			/************************************직원수 선택여부 검사 ************************************/
+			}else if(industries == null || industries == '' || industries == undefined){
+				alert('직원수를 다시 선택해주세요.');
+				$(this).focus();
+				submitFlag = false;
+				return submitFlag;
+			}
+			if(submitFlag){
+				alert('신청이 완료되었습니다. 확인 후 연락드리겠습니다.')
+				addEstimateForm.submit();
+			}
+		});
+	</script>
+</th:block>
+		
+</html>
