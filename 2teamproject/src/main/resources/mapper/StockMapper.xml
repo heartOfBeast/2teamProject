@@ -91,10 +91,23 @@
 	</select>	
 	
 	<select id="getStockSmallCategoryInfo" resultType="Stock">
-	SELECT DISTINCT
-		i.item_big_category												AS	bCate,
-		i.item_middle_category											AS	mCate,
-		i.item_small_category											AS sCate
+		SELECT
+		p.product_freeze_cool_condition				AS pCondition,
+		i.item_big_category							AS bCate,
+		i.item_middle_category						AS mCate,
+		i.item_small_category						AS sCate,
+		p.product_name								AS productName,
+		w.warehouse_name							AS warehouseName,
+		ss.sector_column_final_code					AS finalSector,
+		su.shoppingmall_name						AS spmName,
+		ss.stock_amount								AS stockAmount,
+		ss.warehousing_order_amount					AS wOrderAmount,
+		ss.warehousing_order_due_date				AS wOrderDate,
+		ss.warehousing_real_amount					AS wRealAmount,
+		ss.warehousing_real_date					AS wRealDate,
+		ss.release_order_quantity					AS rOrderAmount,
+		ss.release_real_amount						AS rRealAmount,
+		ss.release_real_date						AS rRealDate
 	FROM
 		tb_stock_status_backup											AS ss
 	INNER JOIN
@@ -114,10 +127,76 @@
 	ON
 		ss.sector_column_final_code = wscf.sector_column_final_code
 	INNER JOIN
-		tb_item												AS i
+		tb_item															AS i
 	ON
 		p.product_category = i.item_code
 	WHERE
-		i.item_middle_category = #{mCate};	
+	<if test="bCate !=null and bCate != '' ">
+		i.item_big_category = #{bCate}
+	</if>
+	<if test="(bCate !=null and bCate != '') and (mCate !=null and mCate != '' )">
+ 	AND
+	</if>
+	<if test="mCate !=null and mCate != '' ">
+		i.item_middle_category = #{mCate};
+	</if>
+	</select>
+	
+	<select id="getStockCategoryInfo" resultType="Stock">
+		SELECT
+		p.product_freeze_cool_condition				AS pCondition,
+		i.item_big_category							AS bCate,
+		i.item_middle_category						AS mCate,
+		i.item_small_category						AS sCate,
+		p.product_name								AS productName,
+		w.warehouse_name							AS warehouseName,
+		ss.sector_column_final_code					AS finalSector,
+		su.shoppingmall_name						AS spmName,
+		ss.stock_amount								AS stockAmount,
+		ss.warehousing_order_amount					AS wOrderAmount,
+		ss.warehousing_order_due_date				AS wOrderDate,
+		ss.warehousing_real_amount					AS wRealAmount,
+		ss.warehousing_real_date					AS wRealDate,
+		ss.release_order_quantity					AS rOrderAmount,
+		ss.release_real_amount						AS rRealAmount,
+		ss.release_real_date						AS rRealDate
+	FROM
+		tb_stock_status_backup											AS ss
+	INNER JOIN
+		tb_shoppingmall_user											AS su
+	ON	
+		ss.shoppingmall_user_id = su.shoppingmall_user_id
+	INNER JOIN
+		tb_warehouse													AS w
+	ON
+		ss.warehouse_code = w.warehouse_code
+	INNER JOIN
+		tb_product														AS p
+	ON
+		ss.product_code = p.product_code
+	INNER JOIN
+		tb_warehouse_sector_column_final								AS wscf
+	ON
+		ss.sector_column_final_code = wscf.sector_column_final_code
+	INNER JOIN
+		tb_item															AS i
+	ON
+		p.product_category = i.item_code
+	WHERE
+	<if test="bCate !=null and bCate != '' ">
+		i.item_big_category = #{bCate}
+	</if>
+	<if test="(bCate !=null and bCate != '') and (mCate !=null and mCate != '' )">
+ 	AND
+	</if>
+	<if test="mCate !=null and mCate != '' ">
+		i.item_middle_category = #{mCate}
+	</if>
+	<if test="(mCate !=null and mCate != '') and (sCate !=null and sCate != '')">
+	AND
+	</if>
+	<if test="sCate !=null and sCate !='' ">
+		i.item_small_category = #{sCate};
+	</if>
 	</select>
 </mapper>

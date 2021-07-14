@@ -1,7 +1,6 @@
 package com.cafe2team.controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 import java.util.Map;
 
@@ -56,9 +55,35 @@ public class WarehouseController {
 		return "redirect:/warehouseList";
 	}
 
-	@GetMapping("/warehouseListDetail")
+	@PostMapping("/warehouseListDetailAddr")
 	@ResponseBody
-	public List<Warehouse> warehouseListDetail(@RequestParam Map<String, Object> param, Model model){
+	public List<Warehouse> warehouseListDetailAddr(@RequestParam Map<String, Object> param, Model model){
+		String warehouse_addr = (String) param.get("warehouse_addr");
+
+		log.info("addr", warehouse_addr);
+		
+		List<Warehouse> warehouseList = warehouseservice.getWarehouseListDetailAddr(warehouse_addr);
+		log.info("warehouseList", warehouseList);
+		return warehouseList;
+	}
+	
+	@PostMapping("/warehouseListDetailName")
+	@ResponseBody
+	public List<Warehouse> warehouseListDetailName(@RequestParam Map<String, Object> param, Model model){
+		String warehouse_addr = (String) param.get("warehouse_addr");
+		String warehouse_name = (String) param.get("warehouse_name");
+		
+		log.info("addr", warehouse_addr);
+		log.info("name", warehouse_name);
+		
+		List<Warehouse> warehouseList = warehouseservice.getWarehouseListDetailName(warehouse_addr, warehouse_name);
+		log.info("warehouseList", warehouseList);
+		return warehouseList;
+	}
+	
+	@PostMapping("/warehouseListDetailCate")
+	@ResponseBody
+	public List<Warehouse> warehouseListDetailCate(@RequestParam Map<String, Object> param, Model model){
 		String warehouse_name = (String) param.get("warehouse_name");
 		String warehouse_addr = (String) param.get("warehouse_addr");
 		String warehouse_cate = (String) param.get("warehouse_cate");
@@ -67,7 +92,7 @@ public class WarehouseController {
 		log.info("addr", warehouse_addr);
 		log.info("cate", warehouse_cate);
 		
-		List<Warehouse> warehouseList = warehouseservice.getWarehouseListDetail(warehouse_name, warehouse_addr, warehouse_cate);
+		List<Warehouse> warehouseList = warehouseservice.getWarehouseListDetailCate(warehouse_name, warehouse_addr, warehouse_cate);
 		log.info("warehouseList", warehouseList);
 		return warehouseList;
 	}

@@ -47,9 +47,15 @@ public class StockService {
 	}
 	
 	//소분류 가져요기
-	public List<Stock> getStockSmallCategoryInfo(String mCate) {
-		List<Stock> getStockSmallCategoryInfo = stockMapper.getStockSmallCategoryInfo(mCate);
+	public List<Stock> getStockSmallCategoryInfo(String bCate, String mCate) {
+		List<Stock> getStockSmallCategoryInfo = stockMapper.getStockSmallCategoryInfo(bCate, mCate);
 		return getStockSmallCategoryInfo;
+	}
+	
+	//모든분류 가져요기
+	public List<Stock> getStockCategoryInfo(String bCate, String mCate, String sCate) {
+		List<Stock> getStockCategoryInfo = stockMapper.getStockCategoryInfo(bCate, mCate, sCate);
+		return getStockCategoryInfo;
 	}
 	
 

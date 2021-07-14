@@ -72,9 +72,7 @@ public class StockController {
 	//재고 중분류
 	@PostMapping("/getStockMiddleCate")
 	@ResponseBody 
-	public List<Stock> getStockMiddleCate(Model model,
-									@RequestParam Map<String, Object> param
-									) {
+	public List<Stock> getStockMiddleCate(Model model,@RequestParam Map<String, Object> param) {
 		String bCate = (String) param.get("bCate");
 		log.info("bCate", bCate);
 		List<Stock> getMiddleCategory = stockService.getStockMiddleCategoryInfo(bCate);
@@ -84,18 +82,31 @@ public class StockController {
   
 	}
 	
-	@PostMapping("getStockSmallCate")
+	@PostMapping("/getStockSmallCate")
 	@ResponseBody 
-	public List<Stock> getStockSmallCate(Model model,
-									@RequestParam Map<String, Object> param
-									) {
+	public List<Stock> getStockSmallCate(Model model,@RequestParam Map<String, Object> param) {
+		String bCate = (String) param.get("bCate");
 		String mCate = (String) param.get("mCate");
 		log.info("mCate", mCate);
-		List<Stock> getSmallCategory = stockService.getStockSmallCategoryInfo(mCate);
+		List<Stock> getSmallCategory = stockService.getStockSmallCategoryInfo(bCate, mCate);
 		System.out.println(getSmallCategory);
 		
 		return getSmallCategory;
   
+	}	
+	
+	@PostMapping("/getStockCate")
+	@ResponseBody 
+	public List<Stock> getStockCate(Model model,@RequestParam Map<String, Object> param) {
+		String bCate = (String) param.get("bCate");
+		String mCate = (String) param.get("mCate");
+		String sCate = (String) param.get("sCate");
+		log.info("sCate", sCate);
+		List<Stock> getStockCategory = stockService.getStockCategoryInfo(bCate, mCate, sCate);
+		System.out.println(getStockCategory);
+		
+		return getStockCategory;
+		
 	}	
 	
 	

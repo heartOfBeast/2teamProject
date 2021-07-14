@@ -9,13 +9,13 @@ public class Stock {
 	private String spmName;
 	private String warehouseName;
 	private String finalSector;
-	private String stockAmount;
-	private String wOrderAmount;
+	private int stockAmount;
+	private int wOrderAmount;
 	private String wOrderDate;
-	private String wRealAmount;
+	private int wRealAmount;
 	private String wRealDate;
-	private String rOrderAmount;
-	private String rRealAmount;
+	private int rOrderAmount;
+	private int rRealAmount;
 	private String rRealDate;
 	
 	public String getpCondition() {
@@ -66,16 +66,16 @@ public class Stock {
 	public void setFinalSector(String finalSector) {
 		this.finalSector = finalSector;
 	}
-	public String getStockAmount() {
+	public int getStockAmount() {
 		return stockAmount;
 	}
-	public void setStockAmount(String stockAmount) {
+	public void setStockAmount(int stockAmount) {
 		this.stockAmount = stockAmount;
 	}
-	public String getwOrderAmount() {
+	public int getwOrderAmount() {
 		return wOrderAmount;
 	}
-	public void setwOrderAmount(String wOrderAmount) {
+	public void setwOrderAmount(int wOrderAmount) {
 		this.wOrderAmount = wOrderAmount;
 	}
 	public String getwOrderDate() {
@@ -84,10 +84,10 @@ public class Stock {
 	public void setwOrderDate(String wOrderDate) {
 		this.wOrderDate = wOrderDate;
 	}
-	public String getwRealAmount() {
+	public int getwRealAmount() {
 		return wRealAmount;
 	}
-	public void setwRealAmount(String wRealAmount) {
+	public void setwRealAmount(int wRealAmount) {
 		this.wRealAmount = wRealAmount;
 	}
 	public String getwRealDate() {
@@ -96,16 +96,16 @@ public class Stock {
 	public void setwRealDate(String wRealDate) {
 		this.wRealDate = wRealDate;
 	}
-	public String getrOrderAmount() {
+	public int getrOrderAmount() {
 		return rOrderAmount;
 	}
-	public void setrOrderAmount(String rOrderAmount) {
+	public void setrOrderAmount(int rOrderAmount) {
 		this.rOrderAmount = rOrderAmount;
 	}
-	public String getrRealAmount() {
+	public int getrRealAmount() {
 		return rRealAmount;
 	}
-	public void setrRealAmount(String rRealAmount) {
+	public void setrRealAmount(int rRealAmount) {
 		this.rRealAmount = rRealAmount;
 	}
 	public String getrRealDate() {
@@ -123,5 +123,6 @@ public class Stock {
 				+ ", rOrderAmount=" + rOrderAmount + ", rRealAmount=" + rRealAmount + ", rRealDate=" + rRealDate + "]";
 	}
 
+	
 	
 }

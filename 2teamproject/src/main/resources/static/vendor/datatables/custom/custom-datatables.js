@@ -109,6 +109,7 @@ $(function(){
 			'pdfHtml5',
 			'print'
 		],
+		"scrollY": 10000,
 		"scrollCollapse": true,
 		"paging": false,
 		"bInfo" : false,

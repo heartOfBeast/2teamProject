@@ -16,5 +16,6 @@ public interface StockMapper {
 	//재고조회 ajax	
 	public List<Stock> getStockBigCategoryInfo();
 	public List<Stock> getStockMiddleCategoryInfo(String bCate);
-	public List<Stock> getStockSmallCategoryInfo(String mCate);
+	public List<Stock> getStockSmallCategoryInfo(String bCate, String mCate);
+	public List<Stock> getStockCategoryInfo(String bCate, String mCate, String sCate);
 }

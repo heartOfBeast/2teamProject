@@ -40,7 +40,7 @@
 				<select id="bigCategory" name="bigCategory">
 					<option th:each="stock : ${stockList}" th:value="${stock.bCate}" th:text="${stock.bCate}"></option>
 				</select>
-				<select id="middelCategory" name="middelCategory">
+				<select id="middleCategory" name="middleCategory">
 				</select>
 				<select id="smallCategory" name="smallCategory">
  				</select>
@@ -152,11 +152,11 @@
 										</tr>
 										<tr>
 											<th>최근출고수량</th>
-											<td id="modalWRealAmount"></td>
+											<td id="modalRRealAmount"></td>
 										</tr>
 										<tr>
-											<th>최근입고일시</th>
-											<td id="modalWRealDate"></td>
+											<th>최근출고일시</th>
+											<td id="modalRRealDate"></td>
 										</tr>
 									</tbody>
 								</table>					
@@ -171,12 +171,47 @@
 	</div>
 
 </th:block>
+
 <th:block layout:fragment="customJs">
 
 	<script type="text/javascript" th:inline="javascript">
-/***************************************** 상세 버튼 **************************************************************/
+/***************************************** 상세 버튼 / search **************************************************************/
 	$(document).ready(function(){
-		$('#detail').removeClass('sorting')});
+		$('#detail').removeClass('sorting');
+		$('.selectpicker').prop('placeholder','검색할 키워드를 입력하세요.');
+		});
+		
+	/***************************************** modal *********************************************************/	
+	$('.detailModalBtn').each(function(){
+		$(this).click(function(){	
+			
+		var dataProductName = $(this).parents('tr').children('#dataProductName').text();
+		var dataWarehouseName = $(this).parents('tr').children('#dataWarehouseName').text();
+		var dataFinalSector = $(this).parents('tr').children('#dataFinalSector').text();
+		var dataSpmName = $(this).parents('tr').children('#dataSpmName').text();
+		var dataStockAmount = $(this).parents('tr').children('#dataStockAmount').text();
+		var dataWOrderAmount = $(this).parents('tr').children('#dataWOrderAmount').text();
+		var dataWOrderDate =  $(this).parents('tr').children('#dataWOrderDate').text();
+		var dataWRealAmount = $(this).parents('tr').children('#dataWRealAmount').text();
+		var dataWRealDate = $(this).parents('tr').children('#dataWRealDate').text();
+		var dataROrderAmount = $(this).parents('tr').children('#dataROrderAmount').text();
+		var dataRRealAmount = $(this).parents('tr').children('#dataRRealAmount').text();
+		var dataRRealDate = $(this).parents('tr').children('#dataRRealDate').text();
+		
+		$('#modalProductName').html(dataProductName);
+		$('#modalWarehouseName').html(dataWarehouseName);
+		$('#modalFinalSector').html(dataFinalSector);
+		$('#modalSpmName').html(dataSpmName);
+		$('#modalStockAmount').html(dataStockAmount);
+		$('#modalWOrderAmount').html(dataWOrderAmount);
+		$('#modalWOrderDate').html(dataWOrderDate);
+		$('#modalWRealAmount').html(dataWRealAmount);
+		$('#modalWRealDate').html(dataWRealDate);
+		$('#modalROrderAmount').html(dataROrderAmount);
+		$('#modalRRealAmount').html(dataRRealAmount);
+		$('#modalRRealDate').html(dataRRealDate);
+		})
+	})
 	
 /***************************************** left active *********************************************************/
  	var currentPage = [[${#httpServletRequest.requestURI}]];
@@ -193,8 +228,8 @@
 			return false;
 		}
 	});	
-	
-	/***************************************** ajax *********************************************************/	
+
+	/***************************************** 중복제거 *********************************************************/	
 	
 	//<![CDATA[
 	var test = [[${stockList}]];
@@ -222,8 +257,8 @@
 	var htmlsCate = "";
 	
 	htmlbCate += '<option disabled="disabled" selected="selected">:: 대분류 ::</option>';
-	htmlmCate += '<option disabled="disabled" selected="selected">:: 중분류 ::</option>';
-	htmlsCate += '<option disabled="disabled" selected="selected">:: 소분류 ::</option>';
+	htmlmCate += '<option id="middleCategory" disabled="disabled" selected="selected">:: 중분류 ::</option>';
+	htmlsCate += '<option id="smallCategory" disabled="disabled" selected="selected">:: 소분류 ::</option>';
 	
 	for(var i = 0; i < bCateUnique.length; i++){
 		htmlbCate += '<option>';
@@ -244,13 +279,11 @@
 	}
 	
 	$('#bigCategory').html(htmlbCate); 
-	$('#middelCategory').html(htmlmCate); 
+	$('#middleCategory').html(htmlmCate); 
 	$('#smallCategory').html(htmlsCate); 
 	
-	var smallCategory = $('#smallCategory');
-	var middleCategory = $('#middelCategory');
-	
-	
+	/********************************************* ajax 대분류 필터 *********************************************/		
+	var middleCategory = $('#middleCategory');
 	
 	$('#bigCategory').change(function(){
 //		alert('test');
@@ -264,13 +297,22 @@
 		request.done(function( data ) {
 			console.log(data);
 			var html = '';
+			/************중복제거 시작 ***************/		
+			var dataMCate = []
+			data.forEach(function(e){
+				dataMCate.push(e.mCate);
+			});
+			dataMCate = [...new Set(dataMCate)];
+			/************중복제거 끝 ***************/			
+			console.log(dataMCate);
 			if(data != undefined && data != '' && data.length > 0){
-				html += '<option value=""> :: 중분류 :: </option>';
-				for(var i=0; i < data.length; i++){
-					html += '<option value="'+data[i].mCate+'">';
-					html += data[i].mCate;
+				html += '<option value=""> :: 중분류 선택 :: </option>';
+				for(var i=0; i < dataMCate.length; i++){
+					html += '<option value="'+dataMCate[i]+'">';
+					html += dataMCate[i];
 					html += '</option>';
 					}
+
 				}else{
 					html = '<option value=""> :: 재 선 택 :: </option>';
 				}
@@ -285,8 +327,8 @@
 	            	innerHtml += '<td id="dataMiddleCategory">'+value.mCate+'</td>'
 	            	innerHtml += '<td id="dataSmallCategory">'+value.sCate+'</td>'
 	            	innerHtml += '<td id="dataProductName">'+value.productName+'</td>'
-	            	innerHtml += '<td id="dataWarehouseName">'+value.warehouseName+'</td>'
 	            	innerHtml += '<td id="dataProductCondition">'+value.pCondition+'</td>'
+	            	innerHtml += '<td id="dataWarehouseName">'+value.warehouseName+'</td>'
 	            	innerHtml += '<td id="dataFinalSector">'+value.finalSector+'</td>'
 	            	innerHtml += '<td id="dataSpmName">'+value.spmName+'</td>'
 	            	innerHtml += '<td id="dataStockAmount">'+value.stockAmount+'</td>'
@@ -297,49 +339,192 @@
 	            	innerHtml += '<td class="hidden-col" id="dataROrderAmount">'+value.rOrderAmount+'</td>'
 	            	innerHtml += '<td class="hidden-col" id="dataRRealAmount">'+value.rRealAmount+'</td>'
 	            	innerHtml += '<td class="hidden-col" id="dataRRealDate">'+value.rRealDate+'</td>'
+	            	innerHtml += '<td><button class="btn btn-outline-info detailModalBtn" data-toggle="modal" data-target=".bd-example-modal-lg">상세</button></td>'
 					innerHtml += '</tr>'
+					
+				});
+				$('#stockData').append(innerHtml);
+				
+			$('.detailModalBtn').each(function(){
+				$(this).click(function(){	
+					
+				var dataProductName = $(this).parents('tr').children('#dataProductName').text();
+				var dataWarehouseName = $(this).parents('tr').children('#dataWarehouseName').text();
+				var dataFinalSector = $(this).parents('tr').children('#dataFinalSector').text();
+				var dataSpmName = $(this).parents('tr').children('#dataSpmName').text();
+				var dataStockAmount = $(this).parents('tr').children('#dataStockAmount').text();
+				var dataWOrderAmount = $(this).parents('tr').children('#dataWOrderAmount').text();
+				var dataWOrderDate = $(this).parents('tr').children('#dataWOrderDate').text();
+				var dataWRealAmount = $(this).parents('tr').children('#dataWRealAmount').text();
+				var dataWRealDate = $(this).parents('tr').children('#dataWRealDate').text();
+				var dataROrderAmount = $(this).parents('tr').children('#dataROrderAmount').text();
+				var dataRRealAmount = $(this).parents('tr').children('#dataRRealAmount').text();
+				var dataRRealDate = $(this).parents('tr').children('#dataRRealDate').text();
+				
+				$('#modalProductName').html(dataProductName);
+				$('#modalWarehouseName').html(dataWarehouseName);
+				$('#modalFinalSector').html(dataFinalSector);
+				$('#modalSpmName').html(dataSpmName);
+				$('#modalStockAmount').html(dataStockAmount);
+				$('#modalWOrderAmount').html(dataWOrderAmount);
+				$('#modalWOrderDate').html(dataWOrderDate);
+				$('#modalWRealAmount').html(dataWRealAmount);
+				$('#modalWRealDate').html(dataWRealDate);
+				$('#modalROrderAmount').html(dataROrderAmount);
+				$('#modalRRealAmount').html(dataRRealAmount);
+				$('#modalRRealDate').html(dataRRealDate);
+			
+				});
 			});
-			$('#stockData').append(innerHtml);
-			});
-		
+			
 			request.fail(function( jqXHR, textStatus ) {
 			alert( "Request failed: " + textStatus );
+			});
 		});
 	});
+	
+		/********************************************* ajax 중분류 필터 *********************************************/	
 var smallCategory = $('#smallCategory');
 
-	$('#middelCategory').change(function(){
+	$('#middleCategory').change(function(){
 //		alert('test');
 		var request = $.ajax({
 				url: "/getStockSmallCate",
 				method: "POST", 
-				data: { mCate : $('#middelCategory').val()	}, 
+				data: { bCate : $('#bigCategory').val(), mCate : $('#middleCategory').val()	}, 
 				dataType: "json" 
 			}); 
 		
 		request.done(function( data ) {
 			console.log(data);
+//			alert('test');
 			var html = '';
+			/************중복제거 시작 ***************/			
+			var dataSCate = []
+			data.forEach(function(e){
+				dataSCate.push(e.sCate);
+			});
+			dataSCate = [...new Set(dataSCate)];
+			/************중복제거 끝 ***************/				
 			if(data != undefined && data != '' && data.length > 0){
-				
 				html += '<option value=""> :: 소분류 :: </option>';
-				for(var i=0; i < data.length; i++){
-					html += '<option value="'+data[i].sCate+'">';
-					html += data[i].sCate
+				for(var i=0; i < dataSCate.length; i++){
+					html += '<option value="'+dataSCate[i]+'">';
+					html += dataSCate[i];
 					html += '</option>';
 					}
-				}console.log(html);
+				
+				}else{
+					html = '<option value=""> :: 이건 재선택 :: </option>';
+				}
+				console.log(html);
 				smallCategory.html(html);
+			
+				$('#stockData').children().remove();
+				
+				var innerHtml = "";
+				$.each(data, function(index, value){
+					innerHtml += '<tr>'	
+	            	innerHtml += '<td id="dataBigCategory">'+value.bCate+'</td>'
+	            	innerHtml += '<td id="dataMiddleCategory">'+value.mCate+'</td>'
+	            	innerHtml += '<td id="dataSmallCategory">'+value.sCate+'</td>'
+	            	innerHtml += '<td id="dataProductName">'+value.productName+'</td>'
+	            	innerHtml += '<td id="dataProductCondition">'+value.pCondition+'</td>'
+	            	innerHtml += '<td id="dataWarehouseName">'+value.warehouseName+'</td>'
+	            	innerHtml += '<td id="dataFinalSector">'+value.finalSector+'</td>'
+	            	innerHtml += '<td id="dataSpmName">'+value.spmName+'</td>'
+	            	innerHtml += '<td id="dataStockAmount">'+value.stockAmount+'</td>'
+	            	innerHtml += '<td td class="hidden-col" id="dataWOrderAmount">'+value.wOrderAmount+'</td>'
+	            	innerHtml += '<td class="hidden-col" id="dataWOrderDate">'+value.wOrderDate+'</td>'
+	            	innerHtml += '<td class="hidden-col" id="dataWRealAmount">'+value.wRealAmount+'</td>'
+	            	innerHtml += '<td class="hidden-col" id="dataWRealDate">'+value.wRealDate+'</td>'
+	            	innerHtml += '<td class="hidden-col" id="dataROrderAmount">'+value.rOrderAmount+'</td>'
+	            	innerHtml += '<td class="hidden-col" id="dataRRealAmount">'+value.rRealAmount+'</td>'
+	            	innerHtml += '<td class="hidden-col" id="dataRRealDate">'+value.rRealDate+'</td>'
+	            	innerHtml += '<td><button class="btn btn-outline-info detailModalBtn" data-toggle="modal" data-target=".bd-example-modal-lg">상세</button></td>'
+					innerHtml += '</tr>'
+					
+				});
+			$('#stockData').append(innerHtml);
+			
+		$('.detailModalBtn').each(function(){
+			$(this).click(function(){	
+				
+			var dataProductName = $(this).parents('tr').children('#dataProductName').text();
+			var dataWarehouseName = $(this).parents('tr').children('#dataWarehouseName').text();
+			var dataFinalSector = $(this).parents('tr').children('#dataFinalSector').text();
+			var dataSpmName = $(this).parents('tr').children('#dataSpmName').text();
+			var dataStockAmount = $(this).parents('tr').children('#dataStockAmount').text();
+			var dataWOrderAmount = $(this).parents('tr').children('#dataWOrderAmount').text();
+			var dataWOrderDate = $(this).parents('tr').children('#dataWOrderDate').text();
+			var dataWRealAmount = $(this).parents('tr').children('#dataWRealAmount').text();
+			var dataWRealDate = $(this).parents('tr').children('#dataWRealDate').text();
+			var dataROrderAmount = $(this).parents('tr').children('#dataROrderAmount').text();
+			var dataRRealAmount = $(this).parents('tr').children('#dataRRealAmount').text();
+			var dataRRealDate = $(this).parents('tr').children('#dataRRealDate').text();
+			
+			$('#modalProductName').html(dataProductName);
+			$('#modalWarehouseName').html(dataWarehouseName);
+			$('#modalFinalSector').html(dataFinalSector);
+			$('#modalSpmName').html(dataSpmName);
+			$('#modalStockAmount').html(dataStockAmount);
+			$('#modalWOrderAmount').html(dataWOrderAmount);
+			$('#modalWOrderDate').html(dataWOrderDate);
+			$('#modalWRealAmount').html(dataWRealAmount);
+			$('#modalWRealDate').html(dataWRealDate);
+			$('#modalROrderAmount').html(dataROrderAmount);
+			$('#modalRRealAmount').html(dataRRealAmount);
+			$('#modalRRealDate').html(dataRRealDate);
+			});
 		});
 		request.fail(function( jqXHR, textStatus ) {
-			alert( "Request failed: " + textStatus );
+		alert( "Request failed: " + textStatus );
 		});
-	})
-	
-	
-	
-	/***************************************** modal *********************************************************/	
-	$('.detailModalBtn').each(function(){
+		});
+	});
+		
+		/********************************************* ajax 소분류 필터 *********************************************/		
+	$('#smallCategory').change(function(){
+//		alert('test');
+		var request = $.ajax({
+				url: "/getStockCate",
+				method: "POST", 
+				data: { bCate : $('#bigCategory').val(), mCate : $('#middleCategory').val(), sCate : $('#smallCategory').val()	}, 
+				dataType: "json" 
+			}); 
+		
+		request.done(function( data ) {
+//			alert('test');
+			console.log(data);
+			
+				$('#stockData').children().remove();
+				
+				var innerHtml = "";
+				$.each(data, function(index, value){
+					innerHtml += '<tr>'	
+	            	innerHtml += '<td id="dataBigCategory">'+value.bCate+'</td>'
+	            	innerHtml += '<td id="dataMiddleCategory">'+value.mCate+'</td>'
+	            	innerHtml += '<td id="dataSmallCategory">'+value.sCate+'</td>'
+	            	innerHtml += '<td id="dataProductName">'+value.productName+'</td>'
+	            	innerHtml += '<td id="dataProductCondition">'+value.pCondition+'</td>'
+	            	innerHtml += '<td id="dataWarehouseName">'+value.warehouseName+'</td>'
+	            	innerHtml += '<td id="dataFinalSector">'+value.finalSector+'</td>'
+	            	innerHtml += '<td id="dataSpmName">'+value.spmName+'</td>'
+	            	innerHtml += '<td id="dataStockAmount">'+value.stockAmount+'</td>'
+	            	innerHtml += '<td td class="hidden-col" id="dataWOrderAmount">'+value.wOrderAmount+'</td>'
+	            	innerHtml += '<td class="hidden-col" id="dataWOrderDate">'+value.wOrderDate+'</td>'
+	            	innerHtml += '<td class="hidden-col" id="dataWRealAmount">'+value.wRealAmount+'</td>'
+	            	innerHtml += '<td class="hidden-col" id="dataWRealDate">'+value.wRealDate+'</td>'
+	            	innerHtml += '<td class="hidden-col" id="dataROrderAmount">'+value.rOrderAmount+'</td>'
+	            	innerHtml += '<td class="hidden-col" id="dataRRealAmount">'+value.rRealAmount+'</td>'
+	            	innerHtml += '<td class="hidden-col" id="dataRRealDate">'+value.rRealDate+'</td>'
+	            	innerHtml += '<td><button class="btn btn-outline-info detailModalBtn" data-toggle="modal" data-target=".bd-example-modal-lg">상세</button></td>'
+					innerHtml += '</tr>'
+					
+			});
+			$('#stockData').append(innerHtml);
+			
+		$('.detailModalBtn').each(function(){
 		$(this).click(function(){	
 			
 		var dataProductName = $(this).parents('tr').children('#dataProductName').text();
@@ -367,11 +552,15 @@ var smallCategory = $('#smallCategory');
 		$('#modalROrderAmount').html(dataROrderAmount);
 		$('#modalRRealAmount').html(dataRRealAmount);
 		$('#modalRRealDate').html(dataRRealDate);
-		})
-	})
+		});
+			});
+		request.fail(function( jqXHR, textStatus ) {
+			alert( "Request failed: " + textStatus );
+		});
+		});
+	});
 				
-	
-	</script>
+</script>
+
 </th:block>
-		
 </html>

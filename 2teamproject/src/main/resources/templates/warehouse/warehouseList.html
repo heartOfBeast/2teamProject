@@ -41,10 +41,8 @@
 					<option class="wareAddr" th:each="w : ${warehouseList}" th:value="${w.warehouseAddr}" th:text="${w.warehouseAddr}"></option>
 				</select>
 				<select id="name" name="name">
-					<option class="wareName" th:each="w : ${warehouseList}" th:value="${w.warehouseName}" th:text="${w.warehouseName}"></option>
 				</select>
 				<select id="cate" name="cate">
-					<option class="wareCate" th:each="w : ${warehouseList}" th:value="${w.warehouseCate}" th:text="${w.warehouseCate}"></option>
 				</select>
 				<div class="table-responsive">
 					<div id="basicExample_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
@@ -160,8 +158,13 @@
 
 <th:block layout:fragment="customJs">
 <script type="text/javascript" th:inline="javascript">
+
+
 	$(document).ready(function(){
-		$('#notSorting').removeClass('sorting')});
+		$('#notSorting').removeClass('sorting');
+		$('.selectpicker').prop('placeholder','검색할 키워드를 입력하세요.');
+	});
+	/********************************************* 수정 모달 창 *********************************************/	
 	$('.modifyBtn').each(function(){
 		$(this).click(function(){
 			var dataCode 			= $(this).parents('tr').children('#dataCode').text();
@@ -191,28 +194,27 @@
 	//<![CDATA[
 	var test = [[${warehouseList}]];
 	//]]>
-var warehouseName = [];
-var warehouseAddr = [];
-var warehouseCate = [];
-
-for(var i = 0; i < test.length; i++){
-	warehouseName.push(test[i].warehouseName);
-}
-var nameUnique = [...new Set(warehouseName)];
-
-for(var i = 0; i < test.length; i++){
-	warehouseAddr.push(test[i].warehouseAddr);
-}
-var addrUnique = [...new Set(warehouseAddr)];
-
-for(var i = 0; i < test.length; i++){
-	warehouseCate.push(test[i].warehouseCate);
-}
-var cateUnique = [...new Set(warehouseCate)];
-
-var htmlName = "";
-var htmlAddr = "";
-var htmlCate = "";
+	var warehouseName = [];
+	var warehouseAddr = [];
+	var warehouseCate = [];
+	
+	for(var i = 0; i < test.length; i++){
+		warehouseName.push(test[i].warehouseName);
+	}
+	for(var i = 0; i < test.length; i++){
+		warehouseAddr.push(test[i].warehouseAddr);
+	}
+	for(var i = 0; i < test.length; i++){
+		warehouseCate.push(test[i].warehouseCate);
+	}
+	
+	var nameUnique = [...new Set(warehouseName)];
+	var addrUnique = [...new Set(warehouseAddr)];
+	var cateUnique = [...new Set(warehouseCate)];
+	
+	var htmlName = "";
+	var htmlAddr = "";
+	var htmlCate = "";
 
 	htmlName += '<option disabled="disabled" selected="selected">:: 창고명 선택 ::</option>';
 	htmlAddr += '<option disabled="disabled" selected="selected">:: 소재지 선택 ::</option>';
@@ -237,30 +239,49 @@ var htmlCate = "";
 	$('#name').html(htmlName); 
 	$('#addr').html(htmlAddr); 
 	$('#cate').html(htmlCate); 
-/********************************************* ajax 필터 *********************************************/	
-
-	var selectNameValue = "";
+/********************************************* ajax Address 필터 *********************************************/	
+	
+/* 	var selectNameValue = "";
 	var selectAddrValue = "";
-	var selectCateValue = "";
+	var selectCateValue = ""; */
 	
-	$('#name, #addr, #cate').change(function(){
-		selectNameValue = $('#name').val();
-		selectAddrValue = $('#addr').val();
-		selectCateValue = $('#cate').val();
-		getData();
+	$('#addr').change(function(){
+		var request = $.ajax({
+			url: "/warehouseListDetailAddr",
+			method: "POST",
+			data: { warehouse_addr : $('#addr').val()},
+			dataType: "json" 
 	});
-	
-		 
-	function getData(){
-		$.ajax({
-			url : "/warehouseListDetail",
-			data : { warehouse_name : selectNameValue, warehouse_addr : selectAddrValue, warehouse_cate : selectCateValue },
-			success : function(res){
-				console.log(res);
+		
+		request.done(function( data ) {
+//			alert('test');
+			console.log(data);
+			var html = '';
+			/************중복제거 시작 ***************/				
+			var dataName = []
+			data.forEach(function(e){
+				dataName.push(e.warehouseName);
+			});
+			dataName = [...new Set(dataName)];
+			/************중복제거 끝 ***************/		
+			
+			if(data != undefined && data != '' && data.length > 0){
+				html += '<option class="name" value=""> :: 창고명  :: </option>';
+				for(var i=0; i < dataName.length; i++){
+					html += '<option value="'+dataName[i]+'">';
+					html += dataName[i];
+					html += '</option>';
+					}
+				}else{
+					html = '<option value=""> :: 재 선 택 :: </option>';
+				}
+				console.log(html);
+				$('#name').html(html);
+				
 				$('#warehouseData').children().remove();
 				
 				var innerHtml = '';
-				$.each(res, function(index, value){
+				$.each(data, function(index, value){
 						innerHtml += '<tr>'	
 		            	innerHtml += '<td id="dataCode"  class="hidden-col">'+value.warehouseCode+'</td>'
 		        		innerHtml += '<td id="dataName">'+value.warehouseName+'</td>'
@@ -277,6 +298,8 @@ var htmlCate = "";
 
 				});
 				$('#warehouseData').append(innerHtml);
+				
+				
 				$('.modifyBtn').each(function(){
 					$(this).click(function(){
 					var dataCode 			= $(this).parents('tr').children('#dataCode').text();
@@ -301,10 +324,168 @@ var htmlCate = "";
 					$('#wareDetail').val(dataDetail);
 					$('#wareDetail').val(dataDetail);
 				})
-	})
-			}
-		})
-	}
+				});
+	
+				request.fail(function( jqXHR, textStatus ) {
+					alert( "Request failed: " + textStatus );
+				});
+		});
+	});
+	
+/********************************************* ajax Name 필터 *********************************************/		
+	$('#name').change(function(){
+		var request = $.ajax({
+			url: "/warehouseListDetailName",
+			method: "POST",
+			data: { warehouse_addr : $('#addr').val(), warehouse_name : $('#name').val()},
+			dataType: "json" 
+	});	
+		
+		request.done(function( data ) {
+			console.log(data);
+			var html = '';
+			/************중복제거 시작 ***************/				
+			var dataCate = []
+			data.forEach(function(e){
+				dataCate.push(e.warehouseCate);
+			});
+			dataCate = [...new Set(dataCate)];
+			/************중복제거 끝 ***************/			
+			if(data != undefined && data != '' && data.length > 0){
+				
+				html += '<option value=""> :: 종류 :: </option>';
+				for(var i=0; i < dataCate.length; i++){
+					html += '<option value="'+dataCate[i]+'">';
+					html += dataCate[i]
+					html += '</option>';
+					}
+				}else{
+					html = '<option value=""> :: 이건 재선택 :: </option>';
+				}
+				console.log(html);
+				$('#cate').html(html);
+			
+				$('#warehouseData').children().remove();
+	
+				var innerHtml = '';
+				$.each(data, function(index, value){
+						innerHtml += '<tr>'	
+		            	innerHtml += '<td id="dataCode"  class="hidden-col">'+value.warehouseCode+'</td>'
+		        		innerHtml += '<td id="dataName">'+value.warehouseName+'</td>'
+		       			innerHtml += '<td id="dataAddr">'+value.warehouseAddr+'</td>'
+		   				innerHtml += '<td id="dataCate">'+value.warehouseCate+'</td>'
+			            innerHtml += '<td id="dataPhone">'+value.warehousePhone+'</td>'
+						innerHtml += '<td id="dataArea">'+value.warehouseArea+'</td>'
+			            innerHtml += '<td id="dataRegNum">'+value.warehouseRegNumber+'</td>'
+						innerHtml += '<td id="dataDetail"  class="hidden-col">'+value.warehouseDetail+'</td>'
+						innerHtml += '<td id="dataRegDate">'+value.warehouseRegDate+'</td>'
+						innerHtml += '<td id="dataAdminId">'+value.wareAdminId+'</td>'
+						innerHtml += '<td><a style="color: white;" type="button" class="btn btn-primary modifyBtn" data-toggle="modal" data-target=".bd-example-modal-lg" id="viewModal">수정</a></td>'
+						innerHtml += '</tr>'
+
+				});
+				$('#warehouseData').append(innerHtml);
+				
+				$('.modifyBtn').each(function(){
+					$(this).click(function(){
+					var dataCode 			= $(this).parents('tr').children('#dataCode').text();
+					var dataAddr 			= $(this).parents('tr').children('#dataAddr').text();
+					var dataName 			= $(this).parents('tr').children('#dataName').text();
+					var dataCate 			= $(this).parents('tr').children('#dataCate').text();
+					var dataPhone			= $(this).parents('tr').children('#dataPhone').text();
+					var dataArea 			= $(this).parents('tr').children('#dataArea').text();
+					var dataRegNum 			= $(this).parents('tr').children('#dataRegNum').text();
+					var dataDetail			= $(this).parents('tr').children('#dataDetail').text();		
+					
+					var dataCate = $('#wareCategory option:contains(' + dataCate + ')').val();
+					
+					$('#wareCode').val(dataCode);
+					$('#wareName').val(dataName);
+					$('#wareAddr').val(dataAddr);
+					$('#wareCategory').val(dataCate);
+					$('#wareArea').val(dataArea);
+					$('#warePhone').val(dataPhone);
+					$('#wareRegNum').val(dataRegNum);
+					$('#wareDetail').val(dataDetail);
+					$('#wareDetail').val(dataDetail);
+					$('#wareDetail').val(dataDetail);
+				})
+				});
+	
+				request.fail(function( jqXHR, textStatus ) {
+					alert( "Request failed: " + textStatus );
+				});
+		});
+	});
+	
+	/********************************************* ajax Category 필터 *********************************************/	
+	$('#cate').change(function(){
+		var request = $.ajax({
+			url: "/warehouseListDetailCate",
+			method: "POST",
+			data: { warehouse_addr : $('#addr').val(), warehouse_name : $('#name').val(), warehouse_cate : $('#cate').val()},
+			dataType: "json" 
+	});	
+		
+		request.done(function( data ) {
+//			alert('test');
+			console.log(data);
+			var html = '';
+			
+				$('#warehouseData').children().remove();
+	
+				var innerHtml = '';
+				$.each(data, function(index, value){
+						innerHtml += '<tr>'	
+		            	innerHtml += '<td id="dataCode"  class="hidden-col">'+value.warehouseCode+'</td>'
+		        		innerHtml += '<td id="dataName">'+value.warehouseName+'</td>'
+		       			innerHtml += '<td id="dataAddr">'+value.warehouseAddr+'</td>'
+		   				innerHtml += '<td id="dataCate">'+value.warehouseCate+'</td>'
+			            innerHtml += '<td id="dataPhone">'+value.warehousePhone+'</td>'
+						innerHtml += '<td id="dataArea">'+value.warehouseArea+'</td>'
+			            innerHtml += '<td id="dataRegNum">'+value.warehouseRegNumber+'</td>'
+						innerHtml += '<td id="dataDetail"  class="hidden-col">'+value.warehouseDetail+'</td>'
+						innerHtml += '<td id="dataRegDate">'+value.warehouseRegDate+'</td>'
+						innerHtml += '<td id="dataAdminId">'+value.wareAdminId+'</td>'
+						innerHtml += '<td><a style="color: white;" type="button" class="btn btn-primary modifyBtn" data-toggle="modal" data-target=".bd-example-modal-lg" id="viewModal">수정</a></td>'
+						innerHtml += '</tr>'
+
+				});
+				$('#warehouseData').append(innerHtml);
+				
+				$('.modifyBtn').each(function(){
+					$(this).click(function(){
+					var dataCode 			= $(this).parents('tr').children('#dataCode').text();
+					var dataAddr 			= $(this).parents('tr').children('#dataAddr').text();
+					var dataName 			= $(this).parents('tr').children('#dataName').text();
+					var dataCate 			= $(this).parents('tr').children('#dataCate').text();
+					var dataPhone			= $(this).parents('tr').children('#dataPhone').text();
+					var dataArea 			= $(this).parents('tr').children('#dataArea').text();
+					var dataRegNum 			= $(this).parents('tr').children('#dataRegNum').text();
+					var dataDetail			= $(this).parents('tr').children('#dataDetail').text();		
+					
+					var dataCate = $('#wareCategory option:contains(' + dataCate + ')').val();
+					
+					$('#wareCode').val(dataCode);
+					$('#wareName').val(dataName);
+					$('#wareAddr').val(dataAddr);
+					$('#wareCategory').val(dataCate);
+					$('#wareArea').val(dataArea);
+					$('#warePhone').val(dataPhone);
+					$('#wareRegNum').val(dataRegNum);
+					$('#wareDetail').val(dataDetail);
+					$('#wareDetail').val(dataDetail);
+					$('#wareDetail').val(dataDetail);
+				})
+				});
+	
+				request.fail(function( jqXHR, textStatus ) {
+					alert( "Request failed: " + textStatus );
+				});
+		});
+	});
+		/********************************************* ajax 필터 끝 *********************************************/		
+
 		/************************************수정 모달창 유효성 검사 ************************************/
 	
 	$('#submitDone').click(function(){

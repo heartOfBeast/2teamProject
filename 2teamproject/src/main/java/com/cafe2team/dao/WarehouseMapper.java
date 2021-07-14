@@ -14,7 +14,11 @@ public interface WarehouseMapper {
 	//창고정보조회
 	public Warehouse getWarehouseInfoByCode(String warehouseCode);
 	//
-	public List<Warehouse> getWarehouseListDetail(String warehouse_name, String warehouse_addr, String warehouse_cate);
+	public List<Warehouse> getWarehouseListDetailAddr(String warehouse_addr);
+	
+	public List<Warehouse> getWarehouseListDetailName(String warehouse_addr, String warehouse_name);
+	
+	public List<Warehouse> getWarehouseListDetailCate(String warehouse_name, String warehouse_addr, String warehouse_cate);
 	//창고조회
 	public List<Warehouse> getWarehouseList();
 	//창고등록
