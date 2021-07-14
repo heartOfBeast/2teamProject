@@ -33,7 +33,7 @@
 	.hidden-col {display: none;}
 </style>
 <div class="main-container">
-	<div class="row gutters ">
+	<div class="row gutters">
 		<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-6">
 			<div class="table-container">
 				<div class="t-header">재고조회</div>
@@ -44,7 +44,7 @@
 				</select>
 				<select id="smallCategory" name="smallCategory">
  				</select>
-				<div class="table-responsive" >
+				<div class="table-responsive">
 					<table id="copy-print-csv-KO" class="table custom-table">
 						<thead>
 							<tr>
@@ -94,26 +94,6 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
-			<div class="card">
-				<div class="card-header">
-					<div class="card-title">품목현황</div>
-				</div>
-				<div class="card-body">
-					<div id="stockGraph"></div>	
-				</div>
-			</div>
-		</div>
- 		<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
- 			<div class="card">
- 				<div class="card-header">
- 					<div class="card-title">창고현황</div> 
- 				</div>
- 				<div class="card-body">
- 					<div id="warehouseGraph"></div>					 
- 				</div>
- 			</div>
- 		</div>
 	</div>
 </div>
 	<div class="modal fade bd-example-modal-lg" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" style="display: none;" aria-hidden="true">
@@ -579,122 +559,7 @@ var smallCategory = $('#smallCategory');
 		});
 		});
 	});
-	/********************************************* 품목 차트 *********************************************/	
-	var stockOptions = null
-	
-		stockOptions = {
-		chart: {
-			width: 300,
-			type: 'pie',
-		},
-		labels: [],
-		series: [],
-		responsive: [{
-			breakpoint: 480,
-			options: {
-				chart: {
-					width: 200
-				},
-				legend: {
-					position: 'bottom'
-				}
-			}
-		}],
-		stroke: {
-			width: 0,
-		},
-		fill: {
-			type: 'none',
-		},
-		colors: ['#81BEF7', '#045FB4', '#088FB4', '#099FB4', '#012F44', '#077FB4', '#011F84', '#023FB4'],
-	}
-	
-	var stockChart = new ApexCharts(
-		document.querySelector("#stockGraph"),
-		stockOptions
-	);
-
-	/********************************************* 품목 차트 DATA *********************************************/	
-	var dataBCate = [];
-	var BCateSet = null;
-	var dataCount = {};
-	
-		for(i = 0; i < test.length; i++){
-			dataBCate.push(test[i].bCate);
-			
-			if(dataCount[test[i].bCate] == undefined){
-				dataCount[test[i].bCate] = 1;
-			}else{
-				dataCount[test[i].bCate] += 1;				
-			}
-		}
-			BCateSet = [...new Set(dataBCate)];
-
-		BCateSet.forEach(function(e){
-			stockOptions.labels.push(e);
-			stockOptions.series.push(dataCount[e]);
-		})
-		
-		
-	stockChart.render();
-		/********************************************* 창고 차트 *********************************************/
-	var warehouseOptions = null;
-		warehouseOptions = {
-			chart: {
-				width: 300,
-				type: 'pie',
-			},
-			labels: [],
-			series: [],
-			responsive: [{
-				breakpoint: 480,
-				options: {
-					chart: {
-						width: 200
-					},
-					legend: {
-						position: 'bottom'
-					}
-				}
-			}],
-			stroke: {
-				width: 0,
-			},
-			fill: {
-				type: 'none',
-			},
-			colors: ['#81BEF7', '#045FB4', '#088FB4', '#099FB4', '#012F44', '#077FB4', '#011F84', '#023FB4'],
-		}
-	var warehouseChart = new ApexCharts(
-		document.querySelector("#warehouseGraph"),
-		warehouseOptions
-	);
-		
-	/********************************************* 창고 차트 DATA *********************************************/		
-	var dataWareName = [];
-	var wareNameSet = null;
-	var wareCount = {};
-	
-// 		test.forEach(function(e){
-// 			dataWareName.push(e.warehouseName);
-// 		})
-		for(i = 0; i < test.length; i++){
-			dataWareName.push(test[i].warehouseName);
-			
-			if(wareCount[test[i].warehouseName] == undefined){
-				wareCount[test[i].warehouseName] = 1;
-			}else{
-				wareCount[test[i].warehouseName] += 1;
-			}
-		}
-		wareNameSet = [...new Set(dataWareName)];
-		
-		wareNameSet.forEach(function(e){
-			warehouseOptions.labels.push(e);
-			warehouseOptions.series.push(wareCount[e]);
-		})
-			
-	warehouseChart.render();	
+				
 </script>
 
 </th:block>

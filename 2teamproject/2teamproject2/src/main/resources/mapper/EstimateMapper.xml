@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cafe2team.dao.EstimateMapper">
+
+	<resultMap type="Estimate" id="estimateResultMap">
+		<result property="spmGuestCode" column="estimate_guest_code"/>
+		<result property="spmGuestName" column="shoppingmall_guest_name"/>
+		<result property="spmGuestAdmin" column="shoppingmall_guest_admin"/>
+		<result property="spmGuestPhone" column="shoppingmall_guest_phone"/>
+		<result property="spmGuestEmail" column="shoppingmall_guest_email"/>
+		<result property="spmGuestSectors" column="shoppingmall_guest_sectors"/>
+		<result property="spmGuestProduct" column="shoppingmall_guest_product"/>
+		<result property="spmGuestDailySales" column="shoppingmall_guest_daily_sales"/>
+		<result property="spmGuestCounselTime" column="shoppingmall_guest_counsel_time"/>
+		<result property="spmGuestAddress" column="shoppingmall_guest_address"/>
+		<result property="spmGuestIndustries" column="shoppingmall_guest_industries"/>
+		<result property="spmGuestRegDate" column="estimate_guest_reg_date"/>
+		
+		<result property="estimateCode" column="estimate_code"/>
+		<result property="companyId" column="shoppingmall_user_id"/>
+		<result property="companyName" column="shoppingmall_name"/>
+		<result property="companyPhone" column="shoppingmall_user_phone"/>
+		<result property="companyEmail" column="shoppingmall_user_email"/>
+		<result property="industries" column="estimate_industries"/>
+		<result property="sectors" column="estimate_sectors"/>
+		<result property="counselTime" column="estimate_counsel_time"/>
+		<result property="estimateRegDate" column="estimate_reg_date"/>
+
+	</resultMap>
+	
+	<select id="getEstimateAnotherPermit" resultType="Estimate" fetchSize="1000" resultMap="estimateResultMap">
+		SELECT
+			*
+		FROM
+			tb_estimate_guest;
+	</select>
+	
+	<select id="getEstimatePermit" resultType="Estimate" fetchSize="1000" resultMap="estimateResultMap">
+		SELECT
+			*
+		FROM
+			tb_estimate;
+	</select>
+	
+	
+	<insert id="addEstimateAnother" parameterType="Estimate">
+		<selectKey keyColumn="estimate_guest_code" keyProperty="spmGuestCode" resultType="String" order="BEFORE">
+	      SELECT CONCAT('estimate_guest_','',(SELECT LPAD(COUNT(*)+1,3,'0')FROM tb_estimate_guest));
+	     </selectKey>
+	     INSERT INTO
+	     tb_estimate_guest
+	     	(
+	     	estimate_guest_code,
+	     	shoppingmall_guest_name,
+	     	shoppingmall_guest_admin,
+	     	shoppingmall_guest_phone,
+	     	shoppingmall_guest_email,
+	     	shoppingmall_guest_sectors,
+	     	shoppingmall_guest_product,
+	     	shoppingmall_guest_daily_sales,
+	     	shoppingmall_guest_counsel_time,
+	     	shoppingmall_guest_address,
+	     	shoppingmall_guest_industries,
+	     	estimate_guest_reg_date
+	     	)
+	     VALUES
+	     	(
+	     	#{spmGuestCode},
+	     	#{spmGuestName},
+	     	#{spmGuestAdmin},
+	     	#{spmGuestPhone},
+	     	#{spmGuestEmail},
+	     	#{spmGuestSectors},
+	     	#{spmGuestProduct},
+	     	#{spmGuestDailySales},
+	     	#{spmGuestCounselTime},
+	     	#{spmGuestAddress},
+	     	#{spmGuestIndustries},
+	     	CURDATE()
+	     	);
+	</insert>
+	
+	<insert id="addEstimate" parameterType="Estimate">
+ 	<selectKey keyColumn="estimate_code" keyProperty="estimateCode" resultType="String" order="BEFORE">
+	      SELECT CONCAT('estimate_code_','',(SELECT LPAD(COUNT(*)+1,3,'0')FROM tb_estimate));
+	     </selectKey>
+		INSERT INTO tb_estimate
+			(
+			estimate_code,
+			shoppingmall_user_id,
+			shoppingmall_name,
+			shoppingmall_user_phone,
+			shoppingmall_user_email,
+			estimate_industries,	
+			estimate_sectors,
+			estimate_counsel_time,
+			estimate_reg_date
+			)
+		VALUES
+		(
+		#{estimateCode},
+		#{companyId},
+		#{companyName},
+		#{companyPhone},
+		#{companyEmail},
+		#{industries},
+		#{sectors},
+		#{counselTime},
+		CURDATE()
+		);
+	
+	</insert>
+	
+	<select id="getEstimateAnotherInfoCheck" parameterType="String" resultType="Estimate" fetchSize="1000" resultMap="estimateResultMap">
+		SELECT
+			*
+		FROM
+			tb_estimate_guest
+		WHERE
+			shoppingmall_guest_phone = #{companyPhone}
+		AND
+			shoppingmall_guest_email = #{companyEmail};
+	</select>
+	
+	<select id="getEstimateInfoCheck" parameterType="String" resultType="Estimate" fetchSize="1000" resultMap="estimateResultMap">
+		SELECT
+			*
+		FROM
+			tb_estimate
+		WHERE
+			shoppingmall_user_phone = #{companyPhone}
+		AND
+			shoppingmall_user_email = #{companyEmail};
+	</select>
+	
+	
+ 	<select id="getEstimateAnotherLookList" resultType="Estimate" fetchSize="1000" resultMap="estimateResultMap">
+		SELECT
+			*
+		FROM
+			tb_estimate_guest
+		WHERE
+	<if test="shoppingmall_guest_phone !=null and shoppingmall_guest_phone != '' ">
+			shoppingmall_guest_phone = #{companyPhone}
+	</if>
+	<if test="(shoppingmall_guest_phone !=null and shoppingmall_guest_phone != '') and (shoppingmall_guest_email !=null and shoppingmall_guest_email != '' )">
+		AND
+	</if>
+	<if test="shoppingmall_guest_email !=null and shoppingmall_guest_email != '' ">
+			shoppingmall_guest_email = #{companyEmail};
+	</if>
+	</select>
+	
+ 	<select id="getEstimateLookList" resultType="Estimate" fetchSize="1000" resultMap="estimateResultMap">
+		SELECT
+			*
+		FROM
+			tb_estimate
+		WHERE
+	<if test="shoppingmall_user_phone !=null and shoppingmall_user_phone != '' ">
+			shoppingmall_user_phone = #{companyPhone}
+	</if>
+	<if test="(shoppingmall_user_phone !=null and shoppingmall_user_phone != '') and (shoppingmall_user_email !=null and shoppingmall_user_email != '' )">
+		AND
+	</if>
+	<if test="shoppingmall_user_email !=null and shoppingmall_user_email != '' ">
+			shoppingmall_user_email = #{companyEmail};
+	</if>
+	</select>
+	
+</mapper>
+
+

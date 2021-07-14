@@ -1,0 +1,100 @@
+<!doctype html>
+<html
+	xmlns:th="http://www.thymeleaf.org"
+ 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="@{layout/default}">
+	
+<th:block layout:fragment="pageTitle">
+<div class="page-header">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item">견적</li>
+		<li class="breadcrumb-item active">견적신청 조회</li>
+	</ol>
+
+	<ul class="app-actions">
+		<li>
+			<a href="#" id="reportrange">
+				<span class="range-text"></span>
+				<i class="icon-chevron-down"></i>	
+			</a>
+		</li>
+		<li>
+			<a href="#">
+				<i class="icon-export"></i>
+			</a>
+		</li>
+	</ul>
+</div>
+</th:block>
+
+<th:block layout:fragment="container">
+	<!-- Main container start -->
+<div class="main-container">
+	<div class="row gutters justify-content-center">
+		<div class="col-xl-5 col-lg-5 col-md-6 col-sm-6 col-12">
+			<form id="estimateLookForm" th:action="@{/estimateCheck}" method="POST">
+				<div class="card m-0" >
+					<div class="card-header">
+						<div class="card-title"> 견적조회 </div>
+						<div class="card-sub-title">견적신청한 휴대폰 번호와 이메일 주소를 입력해주세요.</div>
+					</div>
+				
+					<div class="card-body">
+						<div class="form-group">
+								<label for="companyPhone">휴대폰 번호</label>
+								<input type="text" class="form-control" id="companyPhone" name="companyPhone" value="010-0000-0000" placeholder="번호를 ' - ' 없이 숫자만 입력해주세요."/>
+						</div>
+						<div class="form-group">
+								<label for="companyEmail">이메일 주소</label>
+								<input type="email" class="form-control" id="companyEmail" name="companyEmail" value="test@gmail.com" placeholder="이메일 주소를 입력해주세요."/>
+						</div>
+						<div class="text-center">
+							<button type="button" id="submitDone" class="btn btn-primary">조회하기</button>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	
+	</div>
+</div>
+</th:block>
+				<!-- Main container end -->
+<th:block layout:fragment="customJs">
+	<script>
+		$('#submitDone').click(function(){
+			var estimateLookForm = $('#estimateLookForm');
+			var submitFlag = true;
+			var companyPhone = $('#companyPhone').val();
+			var companyEmail = $('#companyEmail').val();
+			var regPhone = /^[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}/.test(companyPhone);
+			
+			/************************************연락처 입력여부 검사 ************************************/
+			if(companyPhone == null || companyPhone == '' || companyPhone == undefined){
+					alert('연락처를 다시 입력해주세요.');
+					$(this).focus();
+					submitFlag = false;
+					return submitFlag;
+						
+			/************************************연락처 유효성 검사 ************************************/
+			}else if(!regPhone){
+					alert('연락처를  -  포함하여 다시 입력해주세요.');
+					$(this).focus();
+					submitFlag = false;
+					return submitFlag;
+					
+			/************************************이메일 입력여부 검사 ************************************/
+			}else if(companyEmail == null || companyEmail == '' || companyEmail == undefined){
+				alert('이메일을 다시 입력해주세요.');
+				$(this).focus();
+				submitFlag = false;
+				return submitFlag;
+			}
+			if(submitFlag){
+				estimateLookForm.submit();
+			}
+		});
+	</script>
+</th:block>
+		
+</html>
