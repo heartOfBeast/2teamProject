@@ -1,0 +1,350 @@
+<!doctype html>
+<html
+	xmlns:th="http://www.thymeleaf.org"
+ 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="@{layout/default}">
+
+<th:block layout:fragment="pageTitle">
+<div class="page-header">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item">warehousing</li>
+		<li class="breadcrumb-item active">receivingOrder</li>
+	</ol>
+
+	<ul class="app-actions">
+		<li>
+			<a href="#" id="reportrange">
+				<span class="range-text"></span>
+				<i class="icon-chevron-down"></i>	
+			</a>
+		</li>
+		<li>
+			<a href="#">
+				<i class="icon-export"></i>
+			</a>
+		</li>
+	</ul>
+</div>
+</th:block>
+<th:block layout:fragment="container">
+<style>
+	.hidden-col{display: none;}
+</style>
+	<div class="main-container">
+		<div class="row gutters">
+			<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+				<div class="table-container">
+					<div class="t-header">관리자 목록 조회</div>
+					<div class="table-responsive">
+						<table id="copy-print-csv" class="table custom-table">
+							<thead>
+								<tr>
+									<th>
+										<input type="checkbox" id="checkAll" style="position: relative; top: 1.5px;">
+									</th>
+									<th>사업자명</th>
+									<th>입고 창고</th>
+									<th>보관 위치</th>
+									<th>입고 상품명</th>
+									<th>입고 수량</th>
+									<th>입고예정일</th>
+									<th>담당자</th>
+									<th class="hidden-col">입고요청코드</th>
+									<th class="hidden-col">상품코드</th>
+									<th class="hidden-col">창고코드</th>
+									<th class="hidden-col">쇼핑몰사업자아이디</th>
+									<th class="hidden-col">바코드</th>
+						 			<th>상세정보</th>
+									<th>수정</th>
+								</tr>
+								
+							</thead>
+							<tbody>
+								<tr th:if="${#lists.size(requestList)>0}" th:each="l : ${requestList}">
+									<td>
+										<input type="checkbox" id="requsetCode" class="checkOne" style="position: relative; top: 1.5px;" th:value="${l.requsetCode}">
+									</td>
+									<td th:text="${l.shopName}">사업자명</td>
+									<td th:text="${l.wareHouse.warehouseName}">입고 창고</td>
+									<td th:text="${l.shopName}">보관 위치</td>
+									<td th:text="${l.productName}">입고 상품명</td>
+									<td th:text="${l.warehouseRequestAmount}">입고 수량</td>
+									<td th:text="${l.requestRegDate}">입고 예정일</td>
+									<td th:text="${l.wareAdminId}">입고담당자</td>
+									<td class="hidden-col" th:text="${l.requsetCode}">입고요청코드</td>
+									<td class="hidden-col" th:text="${l.productCode}">상품코드</td>
+									<td class="hidden-col" th:text="${l.warehouseCode}">창고코드</td>
+									<td class="hidden-col" th:text="${l.shoppingUserId}">쇼핑몰 사업자 아이디</td>
+									<td class="hidden-col" id="barcodeImg">
+										<label th:if="${l.barcodeImg == null}" th:text="${QR코드가 없습니다}"></label>
+										<img th:unless="${l.barcodeImg == null}" th:src="${l.barcodeImg}" style="display: block;">	
+									</td>
+									<td>
+										<button class="btn btn-outline-info detailModalBtn" data-toggle="modal" data-target=".bd-example-modal-lg">상세정보</button>
+									</td>
+									<td>
+										<a type="button" class="btn btn-primary modifyBtn" data-toggle="modal" data-target=".bd-example-modal-lg" id="viewModal" style="color: white;">수정</a>
+									</td>
+								</tr>
+							</tbody>
+			    		</table>
+			    		<button type="button" id="cancleBtn" class="btn btn-primary float-right">입고취소</button>
+			    		<button type="button" id="receivingBtn" class="btn btn-primary float-right">입고</button>
+			    		
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!--상세정보 모달  -->
+	<div class="modal fade bd-example-modal-lg" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" style="display: none;" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="myLargeModalLabel">상세정보</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">X</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<label for="warehousingOrderCodeModal">입고지시코드</label>
+						<input type="text" class="form-control" id="warehousingOrderCodeModal" name="warehousingOrderCode" readonly>
+					</div>
+					<div class="form-group">
+						<label for="warehousingRequestCodeModal">입고요청코드</label>
+						<input type="text" class="form-control" id="warehousingRequestCodeModal" name="warehousingRequestCode" readonly>
+					</div>
+					<div class="form-group">
+						<label for="productCodeModal">상품코드</label>
+						<input type="text" class="form-control" id="productCodeModal" name="productCode" readonly>
+					</div>
+					<div class="form-group">
+						<label for="productNameModal">상품명</label>
+						<input type="text" class="form-control" id="productNameModal" name="productName" readonly>
+					</div>
+					<div class="form-group">
+						<label for="itemBigCategoryModal">대분류</label>
+						<input type="text" class="form-control" id="itemBigCategoryModal" name="itemBigCategory" readonly>
+					</div>
+					<div class="form-group">
+						<label for="itemMiddleCategoryModal">중분류</label>
+						<input type="text" class="form-control" id="itemMiddleCategoryModal" name="itemMiddleCategory" readonly>
+					</div>
+					<div class="form-group">
+						<label for="itemSmallCategoryModal">소분류</label>
+						<input type="text" class="form-control" id="itemSmallCategoryModal" name="itemSmallCategory" readonly>
+					</div>
+					<div class="form-group">
+						<label for="warehouseCodeModal">창고코드</label>
+						<input type="text" class="form-control" id="warehouseCodeModal" name="warehouseCode" readonly>
+					</div>
+					<div class="form-group">
+						<label for="warehouseNameModal">창고명</label>
+						<input type="text" class="form-control" id="warehouseNameModal" name="warehouseName" readonly>
+					</div>
+					<div class="form-group">
+						<label for="sectorColumnFinalCodeModal">보관위치</label>
+						<input type="text" class="form-control" id="sectorColumnFinalCodeModal" name="sectorColumnFinalCode" readonly>
+					</div>
+					<div class="form-group">
+						<label for="shoppingmallIdModal">쇼핑몰사업자아이디</label>
+						<input type="text" class="form-control" id="shoppingmallIdModal" name="shoppingmallId" readonly>
+					</div>
+					<div class="form-group">
+						<label for="shoppingmallNameModal">쇼핑몰명</label>
+						<input type="text" class="form-control" id="shoppingmallNameModal" name="shoppingmallName" readonly>
+					</div>
+					<div class="image-container">
+					    <img style="width: 500px; height: 500px;" id="preview-image">
+					</div>
+					<div class="form-group">
+						<label for="warehousingBarcodeModal">바코드</label>
+						<input type="text" class="form-control" id="warehousingBarcodeModal" name="warehousingBarcode" readonly>
+					</div>
+					<div class="form-group">
+						<label for="warehousingOrderDueDateModal">입고예정일</label>
+						<input type="text" class="form-control" id="warehousingOrderDueDateModal" name="warehousingOrderDueDate" readonly>
+					</div>
+					<div class="form-group">
+						<label for="warehousingOrderAmountModal">입고수량</label>
+						<input type="text" class="form-control" id="warehousingOrderAmountModal" name="warehousingOrderAmount" readonly>
+					</div>
+					<div class="form-group">
+						<label for="wareAdminIdModal">입고담당자</label>
+						<input type="text" class="form-control" id="wareAdminIdModal" name="wareAdminId" readonly>
+					</div>
+					<div class="form-group">
+						<label for="warehousingOrderStatusModal">입고상태</label>
+						<input type="text" class="form-control" id="warehousingOrderStatusModal" name="warehousingOrderStatus" readonly>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-secondary" data-dismiss="modal" >닫기</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	
+	
+</th:block>
+<th:block layout:fragment="customJs">
+	<script>
+		/*********** 입고지시서 상세정보 ***********/
+		$('.detailModalBtn').each(function(){
+			$(this).click(function(){
+				var warehousingOrderCodeData = $(this).parents('tr').children('#warehousingOrderCodeData').text();
+				var warehousingRequestCodeData = $(this).parents('tr').children('#warehousingRequestCodeData').text();
+				var productCodeData = $(this).parents('tr').children('#productCodeData').text();
+				var warehouseCodeData = $(this).parents('tr').children('#warehouseCodeData').text();
+				var shoppingmallIdData = $(this).parents('tr').children('#shoppingmallIdData').text();
+				
+				var warehousingBarcodeData = $('#barcodeImg').find('img').attr('src');
+				
+				var wareAdminIdData = $(this).parents('tr').children('#wareAdminIdData').text();
+				var itemBigCategoryData = $(this).parents('tr').children('#itemBigCategoryData').text();
+				var itemMiddleCategoryData = $(this).parents('tr').children('#itemMiddleCategoryData').text();
+				var itemSmallCategoryData = $(this).parents('tr').children('#itemSmallCategoryData').text();
+				var shoppingmallNameData = $(this).parents('tr').children('#shoppingmallNameData').text();
+				var warehouseNameData = $(this).parents('tr').children('#warehouseNameData').text();
+				var sectorColumnFinalCodeData = $(this).parents('tr').children('#sectorColumnFinalCodeData').text();
+				var productNameData = $(this).parents('tr').children('#productNameData').text();
+				var warehousingOrderAmountData = $(this).parents('tr').children('#warehousingOrderAmountData').text();
+				var warehousingOrderDueDateData = $(this).parents('tr').children('#warehousingOrderDueDateData').text();
+				var warehousingOrderStatusData = $(this).parents('tr').children('#warehousingOrderStatusData').text();
+				
+				
+				
+				$('#productCodeModal').val(productCodeData);
+				$('#warehouseCodeModal').val(warehouseCodeData);
+				$('#shoppingmallIdModal').val(shoppingmallIdData);
+				
+				$('#preview-image').attr("src", warehousingBarcodeData);
+				
+				$('#wareAdminIdModal').val(wareAdminIdData);
+				$('#itemBigCategoryModal').val(itemBigCategoryData);
+				$('#itemMiddleCategoryModal').val(itemMiddleCategoryData);
+				$('#itemSmallCategoryModal').val(itemSmallCategoryData);
+				$('#shoppingmallNameModal').val(shoppingmallNameData);
+				$('#warehouseNameModal').val(warehouseNameData);
+				$('#sectorColumnFinalCodeModal').val(sectorColumnFinalCodeData);
+				$('#productNameModal').val(productNameData);
+				$('#warehousingOrderAmountModal').val(warehousingOrderAmountData);
+				$('#warehousingOrderDueDateModal').val(warehousingOrderDueDateData);
+				$('#warehousingOrderStatusModal').val(warehousingOrderStatusData);
+			})
+		});
+		/* 항목체크 */
+		$(function(){
+			$('#checkAll').click(function(){
+				if($('#checkAll').prop('checked')){
+					$('.checkOne').prop('checked', true);
+				}else{
+					$('.checkOne').prop('checked', false);
+				}
+			})
+		})
+		/* 입고취소 */
+		$('#cancleBtn').click(function(){
+			var cancleDataArr = new Array();
+			var list = $('.checkOne');
+			for(var i =0; i<list.length;i++){
+				if(list[i].checked){
+					cancleDataArr.push(list[i].value);
+				}
+			}if(cancleDataArr.length==0){
+				alert('입고 취소할 항목을 선택해주세요');
+			}else{
+				var chk = confirm('정말 취소하시겠습니까?');
+				if(chk){
+				var request = $.ajax({
+					  url: "/cancleWarehousing",
+					  method: "POST",
+					  data: { 'cancleDataArr' : cancleDataArr },
+					  dataType: "json"
+					});
+					 
+					request.done(function( cancleData ) {
+						if(cancleData !=1){
+							alert('오류:입고 취소 실패');
+						}else{
+							alert('입고취소되었습니다');
+							location.replace("receivingOrder");
+						}
+					});
+					 
+					request.fail(function( jqXHR, textStatus ) {
+					  alert( "Request failed: " + textStatus );
+					});
+				}else{
+					return false;
+				}
+			}
+		});
+		/* 입고확정 */
+		$('#receivingBtn').click(function(){
+			var confirmWarehousingDataArr = new Array();
+			var list = $('.checkOne');
+			for(var i =0; i<list.length;i++){
+				if(list[i].checked){
+					confirmWarehousingDataArr.push(list[i].value);
+				}
+			}if(confirmWarehousingDataArr.length==0){
+				alert('입고할 항목을 선택해주세요');
+			}else{
+				var chk = confirm('정말 입고하시겠습니까?');
+				if(chk){
+					var request = $.ajax({
+						  url: "/confirmWarehousing",
+						  method: "POST",
+						  data: { 'confirmWarehousingDataArr[]' : confirmWarehousingDataArr },
+						  dataType: "json"
+						});
+						 
+						request.done(function( confirmData ) {
+							alert('입고되었습니다');
+							location.replace("receivingOrder");
+							
+						});
+						 
+						request.fail(function( jqXHR, textStatus ) {
+						  alert( "Request failed: " + textStatus );
+						});
+				}else{
+					return false;
+				}
+				
+			}
+		});
+		
+		
+// 		function readImage(input) {
+			
+// 		    // 인풋 태그에 파일이 있는 경우
+// 		    if(input.files && input.files[0]) {
+// 		        // 이미지 파일인지 검사 (생략)
+		        
+// 		        // FileReader 인스턴스 생성
+// 		        var reader = new FileReader()
+// 		        // 이미지가 로드가 된 경우
+// 		        reader.onload = e => {
+// 		            var previewImage = document.getElementById("preview-image")
+// 		            previewImage.src = e.target.result
+// 		        }
+// 		        // reader가 이미지 읽도록 하기
+// 		        reader.readAsDataURL(input.files[0])
+// 		    }
+// 		}
+// 		// input file에 change 이벤트 부여
+// 		var inputImage = document.getElementById("input-image")
+// 		inputImage.addEventListener("change", e => {
+// 		    readImage(e.target)
+// 		})
+		
+
+		
+	</script>
+</th:block>	
+</html>
