@@ -142,7 +142,7 @@
 					});
 					 
 					request.done(function(data) {
-						if(data = ""){
+						if(data == ""){
 							Swal.fire({
 								  title: 'QR코드 바코드',
 								  text: 'QR코드 생성 실패!',
@@ -150,7 +150,7 @@
 								});
 							
 						}else{
-							var qrlink = "http://119.206.83.228/receivingRequest/"+data;
+							var qrlink = "http://192.168.0.53/receivingRequest/"+ data;
 							console.log(qrlink);
 							var qrcode = new QRCode(document.getElementById("qrCode"),{
 								text : qrlink,
@@ -159,7 +159,10 @@
 								colorDark : "#000000",
 								colorLight : "#ffffff",
 								correctLevel : QRCode.CorrectLevel.H
+								
 							});
+							
+							console.log(qrcode);
 							
 							Swal.fire({
 								  title: 'QR코드 바코드',
@@ -177,7 +180,7 @@
 			});
 		});
 		
-		$('#preview-image').click(function(){
+		$('#submit').click(function(){
 			var grcodeBlob = $('#qrCode').find('img').attr('src');
 			console.log(grcodeBlob);
 			$('#grcodeBlob').val(grcodeBlob);
@@ -188,28 +191,28 @@
 		
 		
 		
-		function readImage(input) {
+// 		function readImage(input) {
 			
-		    // 인풋 태그에 파일이 있는 경우
-		    if(input.files && input.files[0]) {
-		        // 이미지 파일인지 검사 (생략)
+// 		    // 인풋 태그에 파일이 있는 경우
+// 		    if(input.files && input.files[0]) {
+// 		        // 이미지 파일인지 검사 (생략)
 		        
-		        // FileReader 인스턴스 생성
-		        var reader = new FileReader()
-		        // 이미지가 로드가 된 경우
-		        reader.onload = e => {
-		            var previewImage = document.getElementById("preview-image")
-		            previewImage.src = e.target.result
-		        }
-		        // reader가 이미지 읽도록 하기
-		        reader.readAsDataURL(input.files[0])
-		    }
-		}
-		// input file에 change 이벤트 부여
-		var inputImage = document.getElementById("input-image")
-		inputImage.addEventListener("change", e => {
-		    readImage(e.target)
-		})
+// 		        // FileReader 인스턴스 생성
+// 		        var reader = new FileReader()
+// 		        // 이미지가 로드가 된 경우
+// 		        reader.onload = e => {
+// 		            var previewImage = document.getElementById("preview-image")
+// 		            previewImage.src = e.target.result
+// 		        }
+// 		        // reader가 이미지 읽도록 하기
+// 		        reader.readAsDataURL(input.files[0])
+// 		    }
+// 		}
+// 		// input file에 change 이벤트 부여
+// 		var inputImage = document.getElementById("input-image")
+// 		inputImage.addEventListener("change", e => {
+// 		    readImage(e.target)
+// 		})
 			
 	</script>
 	
