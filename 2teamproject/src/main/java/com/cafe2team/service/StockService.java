@@ -75,6 +75,11 @@ public class StockService {
 		return stockCheckMapper.stockCheckUpdate(stockCheck);
 		
 	}
+	//재고 실사 등록
+	public List<StockCheck> getStockInfo() {
+		List<StockCheck> stock = stockCheckMapper.getStockInfo();
+		return stock;
+	}
 
 	
 }

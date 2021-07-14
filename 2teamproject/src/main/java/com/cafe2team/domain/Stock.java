@@ -1,6 +1,8 @@
 package com.cafe2team.domain;
 
 public class Stock {
+	
+	private String stockCode;
 	private String pCondition;
 	private String bCate;
 	private String mCate;
@@ -18,6 +20,13 @@ public class Stock {
 	private int rRealAmount;
 	private String rRealDate;
 	
+	
+	public String getStockCode() {
+		return stockCode;
+	}
+	public void setStockCode(String stockCode) {
+		this.stockCode = stockCode;
+	}
 	public String getpCondition() {
 		return pCondition;
 	}
@@ -116,13 +125,15 @@ public class Stock {
 	}
 	@Override
 	public String toString() {
-		return "Stock [pCondition=" + pCondition + ", bCate=" + bCate + ", mCate=" + mCate + ", sCate=" + sCate
-				+ ", productName=" + productName + ", spmName=" + spmName + ", warehouseName=" + warehouseName
-				+ ", finalSector=" + finalSector + ", stockAmount=" + stockAmount + ", wOrderAmount=" + wOrderAmount
-				+ ", wOrderDate=" + wOrderDate + ", wRealAmount=" + wRealAmount + ", wRealDate=" + wRealDate
-				+ ", rOrderAmount=" + rOrderAmount + ", rRealAmount=" + rRealAmount + ", rRealDate=" + rRealDate + "]";
+		return "Stock [stockCode=" + stockCode + ", pCondition=" + pCondition + ", bCate=" + bCate + ", mCate=" + mCate
+				+ ", sCate=" + sCate + ", productName=" + productName + ", spmName=" + spmName + ", warehouseName="
+				+ warehouseName + ", finalSector=" + finalSector + ", stockAmount=" + stockAmount + ", wOrderAmount="
+				+ wOrderAmount + ", wOrderDate=" + wOrderDate + ", wRealAmount=" + wRealAmount + ", wRealDate="
+				+ wRealDate + ", rOrderAmount=" + rOrderAmount + ", rRealAmount=" + rRealAmount + ", rRealDate="
+				+ rRealDate + "]";
 	}
 
+	
 	
 	
 }

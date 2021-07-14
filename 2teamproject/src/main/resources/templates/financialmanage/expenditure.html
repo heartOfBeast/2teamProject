@@ -28,9 +28,7 @@
 <th:block layout:fragment="container">
 <div class="main-container">
 	<div class="row gutters">
-							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-
-					
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">	
 							<div class="card">
 								<div class="card-header">
 									<div class="card-title">
@@ -47,13 +45,9 @@
 									<div id="basic-column-stack-graph-fullheight2" class="primary-graph"></div>
 								</div>
 							</div>
-
-					
-
 						</div>
 				
 					<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-							
 						<div class="table-container">
 							<div class="t-header">21년 지출현황(표)</div>
 								<div class="table-responsive">
@@ -61,7 +55,7 @@
 										<thead>
 											<tr>
 												<th>
-									  		<input type="checkbox" id="expenseCheckAll" style="position: relative; top: 1.5px;">
+									  			<input type="checkbox" id="expenseAll" style="position: relative; top: 1.5px;">
 									  			</th>
 												<th>지출코드</th>
 												<th>지출내역</th>
@@ -74,13 +68,12 @@
 												<th>등록자</th>
 												<th>등록일</th>
 												<th>수정</th>
-											
 											</tr>
 										</thead>
 										<tbody>
 											<tr th:each="L :${expenditureList}">
-												 <td>
-								  	  	<input type="checkbox" class="expenseCheckOne" style="position: relative; top: 1.5px;" th:value="${L.expenseCode}">
+											    <td>
+								  	  			<input type="checkbox" class="expenseOne" style="position: relative; top: 1.5px;" th:value="${L.expenseCode}">
 									  			</td>
 												<td th:text ="${L.expenseCode}"></td>
 												<td th:text ="${L.expenseInfo}"></td>
@@ -92,15 +85,15 @@
 												<td th:text ="${L.expensePayment}"></td>
 												<td th:text ="${L.wareadminId}"></td>
 												<td th:text ="${L.expensRegDate}"></td>
-												<td></td>
-											
+												<td>
+												<a type="button" class="btn btn-primary modifyBtn" data-toggle="modal" data-target=".bd-example-modal-lg" id="viewModal" style="color: white;">수정</a>
+												</td>
 											</tr>
 										</tbody>
 									</table>
 								<button type="button" class="btn btn-primary float-right" onclick="deleteDate();">삭제</button>
-									
 							</div>
-							</div>
+						</div>
 					</div>
 	</div>
 </div>
@@ -178,7 +171,7 @@
 		);
 		chart2.render();
 		}
-	/********************************위에꺼 계산식***************************************/
+	/****************************************************************************************************/
 		
 
 		
@@ -228,57 +221,50 @@
 			}
 		}
 
-		
-		
-
-
-	/**********************************************************************************/
-			(event) => {
-				$('#expenseCheckAll').click(function(){
-					if($('#expenseCheckAll').prop('checked')){
-						$('.expenseCheckOne').prop('checked', true);
-					}else{
-						$('.expenseCheckOne').prop('checked', false);
-					}
+		$(function(){
+			$('#expenseAll').click(function(){
+				if($('#expenseAll').prop('checked')){
+					$('.expenseOne').prop('checked', true);
+				}else{
+					$('.expenseOne').prop('checked', false);
 				}
-			)};
-			
-			function deleteDate(){
-				var dataArr = new Array();
-				var list = $('.expenseCheckOne');
-				for(var i=0; i<list.length; i++){
-					if(list[i].checked){
-						dataArr.push(list[i].value);
-					}
-				}
-				if(dataArr.length == 0){
-					alert('삭제할 항목을 선택해주세요.');
-				}
-				else{
-					var chk = confirm('정말 삭제하시겠습니까?');
-					if(chk){
-						$.ajax({
-							url : "/expenditureDelete",
-							method : 'post',
-							async : true,
-							dataType : "json",
-							data : {'dataArr':dataArr},
-							success: function(jdata){
-								if(jdata != 1){
-									alert('오류 : 삭제 실패');
-								}else{
-									alert('삭제 되었습니다.');
-									location.replace("expenditure");
-								}
-							}
-				    	});
-					}else{
-						return false;
-					}
+			})
+		});
+		function deleteDate(){
+			var dataArr = new Array();
+			var list = $('.expenseOne');
+			for(var i=0; i<list.length; i++){
+				if(list[i].checked){
+					dataArr.push(list[i].value);
 				}
 			}
-			
+			if(dataArr.length == 0){
+				alert('삭제할 항목을 선택해주세요.');
+			}
+			else{
+				var chk = confirm('정말 삭제하시겠습니까?');
+				if(chk){
+					$.ajax({
+						url : "/deleteExpenditure",
+						method : 'post',
+						async : true,
+						dataType : "json",
+						data : {'dataArr':dataArr},
+						success: function(jdata){
+							if(jdata > 0){
+								alert('삭제 되었습니다.');
+								location.replace("expenditure");
+							}else{
+								alert('오류 : 삭제 실패');
+							}
+						}
+			    	});
+				}else{
+					return false;
+				}
+			}
+		}
+		
 	</script>
-
 </th:block>
 </html>

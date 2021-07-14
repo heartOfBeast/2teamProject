@@ -45,6 +45,7 @@ public class FinancialManageController {
 		return "financialmanage/calculate";
 	}
 	
+	//지출목록 조회
 	@GetMapping("/expenditure")
 	public String expenditure(Model model) {
 		List<Expenditure> expenditureList = expenditureSerivce.getExpenditureList();
@@ -54,6 +55,7 @@ public class FinancialManageController {
 	}	
 	
 	
+	//지출등록
 	@GetMapping("/expenditureinsert")
 	public String expenditureinsert(Model model) {
 		model.addAttribute("title", "지출내역등록");

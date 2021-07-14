@@ -131,7 +131,9 @@ public class StockController {
 	 ************************************************************/
 	@GetMapping("/stockCheckInsert")
 	public String stockCheckInsert(Model model) {
+		List<StockCheck> stock = stockService.getStockInfo();
 		model.addAttribute("title", "재고실사결과등록");
+		model.addAttribute("stock", stock);
 		return "stock/stockCheckInsert";
 	}
 	
@@ -143,14 +145,11 @@ public class StockController {
 	public List<StockCheck> stockCheckListDetail(
 										@RequestParam Map<String, Object> param,
 										Model model) {
-		System.out.println();
-		System.out.println(param.toString());
-		System.out.println("1");
+
 		String warehouse_code = (String) param.get("warehouse_code");
-		String sector_stock_status_code = (String) param.get("sector_stock_status_code");
-		List<StockCheck> stockCheckList = stockService.getStockCheckListDetail(warehouse_code, sector_stock_status_code);
-		System.out.println(stockCheckList);
-		System.out.println("2");
+		String sector_code = (String) param.get("sector_code");
+		List<StockCheck> stockCheckList = stockService.getStockCheckListDetail(warehouse_code, sector_code);
+		
 		
 		return stockCheckList;
 	}
