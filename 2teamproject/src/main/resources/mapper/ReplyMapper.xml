@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cafe2team.dao.ReplyMapper">
+	<resultMap type="Reply" id="replyResultMap">
+		<result property="replyCommentCode"				column="reply_comment_code"/>
+		<result property="noticeCode"					column="notice_code"/>
+		<result property="boardQnaCode"					column="board_qna_code"/>
+		<result property="onebyoneBoardCode"			column="onebyone_board_code"/>
+		<result property="memberId"						column="member_id"/>
+		<result property="replyCommentContent"			column="reply_comment_content"/>
+		<result property="replyCommentRegDate"			column="reply_comment_reg_date"/>
+		<result property="replyCommentUpdateDate"		column="reply_comment_update_date"/>
+		<result property="replyCommentDeleteYesno"		column="reply_comment_delete_yesno"/>
+		<result property="replyOmmentSequence"			column="reply_omment_sequence"/>	
+	</resultMap>
+	
+	<!--문의게시판 댓글 달기  -->
+	<insert id="addReply" parameterType="Reply">
+		<selectKey keyProperty="replyCommentCode" keyColumn="reply_comment_code" resultType="String" order="BEFORE">
+			SELECT CONCAT('reply_comment',LPAD(CAST(SUBSTRING(MAX(tb_reply_comments.reply_comment_code),14,5) AS DECIMAL) +1, 5, 0)) FROM tb_reply_comments	
+		</selectKey>
+		
+		INSERT INTO tb_reply_comments
+			(reply_comment_code
+			,board_qna_code
+			,member_id
+			,reply_comment_content
+			,reply_comment_reg_date
+			)
+		VALUES
+			( #{replyCommentCode}
+			, #{boardQnaCode}
+			, #{memberId}
+			, #{replyCommentContent}
+			, CURDATE()
+			)
+	</insert>
+	<!--문의게시판 댓글 달기  -->
+	
+	<!--문의게시판 댓글 조회  -->
+	<select id="readInquiryReply" resultMap="replyResultMap">
+		SELECT 
+			reply_comment_code, 
+			notice_code, 
+			board_qna_code, 
+			onebyone_board_code, 
+			member_id, 
+			reply_comment_content, 
+			reply_comment_reg_date, 
+			reply_comment_update_date, 
+			reply_comment_delete_yesno, 
+			reply_omment_sequence
+		FROM 
+			tb_reply_comments
+		WHERE
+			board_qna_code=#{boardQnaCode}
+	
+	</select>
+
+</mapper>

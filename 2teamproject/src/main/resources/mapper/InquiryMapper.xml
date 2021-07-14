@@ -18,7 +18,7 @@
   	</resultMap>
   	
   	<!--게시글 조회  -->
-  	<select id="readInquiry" parameterType="String" resultType="Inquiry">
+  	<select id="readInquiry" parameterType="String" resultMap="inquiryResultMap">
 	  	SELECT
 			b.board_qna_code,
 			b.board_qna_subject,

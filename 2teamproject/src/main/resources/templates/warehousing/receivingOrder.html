@@ -262,7 +262,7 @@
 				var chk = confirm('정말 취소하시겠습니까?');
 				if(chk){
 				var request = $.ajax({
-					  url: "/cancleWarehousing",
+					  url: "/warehousing/cancleWarehousing",
 					  method: "POST",
 					  data: { 'cancleDataArr' : cancleDataArr },
 					  dataType: "json"
@@ -299,7 +299,7 @@
 				var chk = confirm('정말 입고하시겠습니까?');
 				if(chk){
 					var request = $.ajax({
-						  url: "/confirmWarehousing",
+						  url: "warehousing/confirmWarehousing",
 						  method: "POST",
 						  data: { 'confirmWarehousingDataArr[]' : confirmWarehousingDataArr },
 						  dataType: "json"
