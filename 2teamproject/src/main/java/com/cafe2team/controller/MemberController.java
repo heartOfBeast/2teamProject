@@ -204,6 +204,20 @@ public class MemberController {
 		return idCheck;
 	}
 	
+	@PostMapping("/accountMemberIdCheck")
+	@ResponseBody
+	public boolean accountMemberIdCheck(@RequestParam (name ="accountApprovalId", required = false) String accountApprovalId) {
+		boolean idCheck = true;
+		
+		Shoppingmall shop = memberService.getsShopById(accountApprovalId);
+		
+		if(shop != null) idCheck = false;
+		
+		return idCheck;
+		
+	}
+	
+	
 	@GetMapping("/adminsignup")
 	public String adminSignUp(Model model) {
 		model.addAttribute("title", "관리자 회원가입");
