@@ -25,6 +25,14 @@
 		
 	</resultMap>
 	
+	<!-- 상품삭제 -->
+	<delete id="deleteProductByCode" parameterType="String">
+		DELETE
+		FROM
+			tb_product
+		WHERE
+			tb_product.product_code=#{productCode}
+	</delete>
 	
 	<!--쇼핑몰 사업자 창고별 재고조회 -->
 	<select id="getProductAmountPerWarehouse" resultType="Product">

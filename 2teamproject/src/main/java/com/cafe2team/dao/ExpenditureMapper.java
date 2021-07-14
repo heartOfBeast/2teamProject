@@ -14,4 +14,8 @@ public interface ExpenditureMapper {
 	 public int expenditureinsert(Expenditure expenditure);
 	 
 	 public int expenditureDeleteByCode(String paramList);
+
+	public List<Expenditure> getCaculate();
+
+	public List<Expenditure> getsales();
 }

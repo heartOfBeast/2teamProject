@@ -34,28 +34,51 @@ public class StockService {
 		return stockCheckListDetail;
 	}
 	
-	//재고조회 ajax
-	public List<Stock> getStockListDetail(String shoppingmall_name, String warehouse_name){
-		List<Stock> stockListDetail = stockMapper.getStockListDetail(shoppingmall_name, warehouse_name);
-		
-		return stockListDetail;
+	
+	//대분류 가져요기
+	public List<Stock> getStockBigCategoryInfo(){
+		List<Stock> stock = stockMapper.getStockBigCategoryInfo();
+		return stock;
 	}
+	//중분류 가져요기
+	public List<Stock> getStockMiddleCategoryInfo(String bCate) {
+		List<Stock> getStockMiddleCategoryInfo = stockMapper.getStockMiddleCategoryInfo(bCate);
+		return getStockMiddleCategoryInfo;
+	}
+	
+	//소분류 가져요기
+	public List<Stock> getStockSmallCategoryInfo(String bCate, String mCate) {
+		List<Stock> getStockSmallCategoryInfo = stockMapper.getStockSmallCategoryInfo(bCate, mCate);
+		return getStockSmallCategoryInfo;
+	}
+	
+	//모든분류 가져요기
+	public List<Stock> getStockCategoryInfo(String bCate, String mCate, String sCate) {
+		List<Stock> getStockCategoryInfo = stockMapper.getStockCategoryInfo(bCate, mCate, sCate);
+		return getStockCategoryInfo;
+	}
+	
 
 	//재고 상세 모달
-	public List<Stock> getStockListDetailModel(){
+	public List<Stock> getStockListDetailModal(){
 		List<Stock> stockList = stockMapper.getStockListDetailModal();
 		return stockList;
 	}	
 			
 	//재고 조회
-	public List<Stock> getStockList(String product_code, String receivinging_code){
-		List<Stock> stockList = stockMapper.getStockList(product_code, receivinging_code);
+	public List<Stock> getStockList(){
+		List<Stock> stockList = stockMapper.getStockList();
 		return stockList;
 	}
 	//재고실사 업데이트
 	public int stockCheckUpdate(StockCheck stockCheck) {
 		return stockCheckMapper.stockCheckUpdate(stockCheck);
 		
+	}
+	//재고 실사 등록
+	public List<StockCheck> getStockInfo() {
+		List<StockCheck> stock = stockCheckMapper.getStockInfo();
+		return stock;
 	}
 
 	

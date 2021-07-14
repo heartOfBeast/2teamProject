@@ -6167,6 +6167,16 @@ label {
     margin: -10px -.6rem 0 -.6rem;
     padding: 12px 10px;
     font-weight: 700; }
+    
+/* 테이블 창 수정 병윤 시작 */
+.table-container-ko {
+  padding: .6rem;
+  background: #ffffff;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  margin-bottom: 1rem; }
+/* 테이블 창 수정 병윤 끝 */
 
 .table {
   background: #ffffff;

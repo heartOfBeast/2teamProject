@@ -218,11 +218,12 @@
 						dataType : "json",
 						data : {'dataArr':dataArr},
 						success: function(jdata){
-							if(jdata != 1){
-								alert('오류 : 삭제 실패');
-							}else{
+							console.log(jdata);
+							if(jdata > 0){
 								alert('삭제 되었습니다.');
 								location.replace("vehicleList");
+							}else{
+								alert('오류 : 삭제 실패');
 							}
 						}
 			    	});

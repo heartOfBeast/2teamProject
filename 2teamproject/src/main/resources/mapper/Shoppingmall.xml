@@ -30,38 +30,6 @@
 	</select>
 	
 	<!-- 거래처 회원 등록 -->
-	<insert id="" >
-<!-- 		INSERT INTO tb_shoppingmall_user
-			( shoppingmall_user_id
-			, shoppingmall_user_pw
-			, shoppingmall_user_name
-			, shoppingmall_name
-			, shoppingmall_level_code
-			, shoppingmall_user_address
-			, shoppingmall_user_email
-			, shoppingmall_user_phone
-			, shoppingmall_user_iden_num
-			, shoppingmall_bank
-			, shoppingmall_bank_number
-			, shoppingmall_user_status
-			, shoppingmall_user_update
-		)VALUES 
-			( #{shoppingmallId}
-			, #{shoppingmallPw}
-			, #{shoppingmallUserName}
-			, #{shoppingmallName}
-			, #{shoppingmallLevel}
-			, #{shoppingmallAddr}
-			, #{shoppingmallEmail}
-			, #{shoppingmallPhone}
-			, #{shoppingmallNumber}
-			, #{shoppingmallBank}
-			, #{shoppingmallBankNum}
-			, "승인요청"
-			, NOW() ) -->
-	</insert>
-	
-	
 	<update id="shoppingmallAdd" parameterType="String">
 		UPDATE 
 			tb_shoppingmall_user
@@ -71,7 +39,9 @@
 			shoppingmall_user_reg_date			=		NOW(),
 			shoppingmall_user_status			=		"승인요청",
 			shoppingmall_bank					=		#{shoppingmallBank},
-			shoppingmall_bank_number			=		#{shoppingmallBankNum}
+			shoppingmall_bank_number			=		#{shoppingmallBankNum},
+			shoppingmall_user_update			=		NOW(),
+			shoppingmall_user_cause  			=		"요청대기중"
 		WHERE 
 			shoppingmall_user_id				=		#{shoppingmallId}
 	</update>
@@ -100,10 +70,25 @@
 			shoppingmall_user_id = #{shoppingmallId};
 	</select>
 	
-	<update id="shoppingmallApproval" parameterType="Shoppingmall">
-		
+	<update id="shoppingmallApproval" parameterType="String">
+		UPDATE tb_shoppingmall_user
+		SET
+			shoppingmall_user_status='승인',
+			shoppingmall_user_update=NOW(),
+			shoppingmall_user_cause='해당사항없음'
+		WHERE 
+			shoppingmall_user_id=#{shoppingmallId}
 	</update>
 	
+	<update id="shoppingmallCancel" parameterType="String">
+		UPDATE tb_shoppingmall_user
+		SET
+			shoppingmall_user_status='취소',
+			shoppingmall_user_update=NOW(),
+			shoppingmall_user_cause=#{shoppingmallStatusCause}
+		WHERE 
+			shoppingmall_user_id=#{shoppingmallId}
+	</update>
 	
 	
 	

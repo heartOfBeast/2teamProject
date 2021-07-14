@@ -127,7 +127,7 @@
 							<a th:href="@{/contractApproval}">계약 관리(동욱#)</a>
 						</li>
 						<li>
-							<a th:href="@{/schedule}">계약 스케줄관리(동욱#)</a>
+							<a th:href="@{/calendar}">계약 일정관리(동욱#)</a>
 						</li>
 					</ul>
 				</div>
@@ -143,6 +143,9 @@
 					<ul>
 						<li>
 							<a th:href="@{/receivingRequest(memberId=${session.SID})}">입고 요청</a>
+						</li>
+					<li>
+							<a th:href="@{/receivingRequestWaiting}">입고 요청 대기</a>
 						</li>
 						<li>
 							<a th:href="@{/receivingOrder}">입고지시서 목록</a>
@@ -225,7 +228,8 @@
 				<div class="sidebar-submenu">
 					<ul>
 						<li>
-							<a th:href="@{/estimate}">견적신청(병윤)</a>
+							<a th:unless="${session.SLEVEL == '사업자'}" th:href="@{/estimate}">견적신청(병윤)</a>
+							<a th:if="${session.SLEVEL == '사업자'}" th:href="@{/estimate(shoppingmallId=${session.SID})}">견적신청(병윤)</a>
 						</li>
 						<li>
 							<a th:href="@{/estimateAnother}">비회원 견적신청(병윤)</a>

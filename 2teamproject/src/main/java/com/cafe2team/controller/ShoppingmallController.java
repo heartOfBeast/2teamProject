@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.cafe2team.domain.Shoppingmall;
-import com.cafe2team.service.MemberService;
 import com.cafe2team.service.ShoppingmallService;
 
 
@@ -18,12 +17,10 @@ import com.cafe2team.service.ShoppingmallService;
 public class ShoppingmallController {
 	
 	private final ShoppingmallService shoppingmallService;
-	private final MemberService memberService;
 	
 	@Autowired
-	public ShoppingmallController(ShoppingmallService shoppingmallService, MemberService memberService) {
+	public ShoppingmallController(ShoppingmallService shoppingmallService) {
 		this.shoppingmallService = shoppingmallService;
-		this.memberService = memberService;
 	}
 	
 	
@@ -94,35 +91,37 @@ public class ShoppingmallController {
 /******************************* 거래처 권한 관리 시작 *******************************/
 	
 	  // 거래처 권한 관리 페이지 시작
-	  @GetMapping("/shoppingmallApproval") public String approval(Model model) {
+	  @GetMapping("/shoppingmallApproval") 
+	  public String Approval(Model model) {
 	  
-	  model.addAttribute("title", "계약 및 권한 승인 페이지");
-	  model.addAttribute("shoppingmallList",
-	  shoppingmallService.shoppingmallList());
+		  model.addAttribute("title", "계약 및 권한 승인 페이지");
+		  model.addAttribute("shoppingmallList",
+		  shoppingmallService.shoppingmallList());
+		  
+		  return "shoppingmall/shoppingmallApproval"; 
+	  }
 	  
-	  System.out.println(shoppingmallService.shoppingmallList()
-	  +"shoppingmallControllerList");
+	  // 권한 승인
+	  @PostMapping("/shoppingmallApproval") 
+	  public String shoppingmallApproval(Shoppingmall shoppingmall) {
 	  
-	  return "shoppingmall/shoppingmallApproval"; }
+		  shoppingmallService.shoppingmallApproval(shoppingmall);
+		  
+		  return "redirect:/shoppingmallApproval"; 
+	  }
 	  
-	  @PostMapping("/approval") public String approval1() {
-	  
-	  return "redirect:/shoppingmallApproval"; }
-
+	  // 권한 취소
+	  @PostMapping("/shoppingmallCancel")
+	  public String shoppingmallCancel(Shoppingmall shoppingmall) {
+		  
+		  shoppingmallService.shoppingmallCancel(shoppingmall);
+		  
+		  return "redirect:/shoppingmallApproval";
+	  }
 
 	
   /******************************* 거래처 권한 관리 종료 *******************************/	
 	
 	
-	/*Tab test*/
-	@GetMapping("/test")
-	public String test() {
-		return "test/test";
-	}
-	/*Tab test*/
-	@GetMapping("/test2")
-	public String test2() {
-		return "test/test2";
-	}
 	
 }

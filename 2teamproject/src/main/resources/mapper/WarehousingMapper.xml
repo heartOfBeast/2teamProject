@@ -2,24 +2,26 @@
 <!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cafe2team.dao.WarehousingMapper">
 
-	<resultMap type="Warehousing" id="WarehousingOrderResultMap">
-		<result property="warehousingOrderCode" column="warehousing_order_code"/>
-		<result property="warehousingRequestCode" column="warehousing_request_code"/>
-		<result property="productCode" column="product_code"/>
-		<result property="productName" column="product_name"/>
-		<result property="warehouseCode" column="warehouse_code"/>
-		<result property="sectorColumnFinalCode" column="sector_column_final_code"/>
-		<result property="warehousingOrderRequestAmount" column="warehousing_order_request_amount"/>
-		<result property="shoppingmallUserId" column="shoppingmall_user_id"/>
-		<result property="shoppingmallName" column="shoppingmall_name"/>
-		<result property="warehousingLotNumber" column="warehousing_lot_number"/>
-		<result property="warehousingBarcode" column="warehousing_barcode"/>
-		<result property="warehousingProductManufactureDate" column="warehousing_product_manufacture_date"/>
-		<result property="warehousingProductExpirationDate" column="warehousing_product_expiration_date"/>
-		<result property="warehousingOrderDueDate" column="warehousing_order_due_date"/>
-		<result property="wareAdminId" column="ware_admin_id"/>
-	</resultMap>
+	<resultMap type="Request" id="requestMap">
+		<result property="requsetCode" 									column="warehousing_request_code"/>
+		<result property="productCode" 									column="product_code"/>
+		<result property="warehouseCode" 								column="warehouse_code"/>
+		<result property="warehouseRequestAmount" 						column="warehousing_request_amount"/>
+		<result property="shoppingUserId" 								column="shoppingmall_user_id"/>
+		<result property="productName" 									column="product_name"/>
+		<result property="barcodeImg" 									column="barcode_file"/>
+		<result property="wareAdminId" 									column="ware_admin_id"/>
+		<result property="requestRegDate" 								column="warehousing_request_reg_date"/>
+		<result property="shopName" 									column="request_shopname"/>
+		<result property="requestStatus" 								column="request_status"/>
 	
+		<association property="wareHouse" javaType="Warehouse">
+			<result property="warehouseName" 							column="warehouse_name"/>
+			<result property="warehouseAddr" 							column="warehouse_addr"/>
+		</association>
+	
+	</resultMap>
+
 	<resultMap type="Product" id="productResultMap">
 		<result property="productCode" 						column="product_code"/>
 		<result property="productFreezeCoolCondition" 		column="product_freeze_cool_condition"/>
@@ -51,7 +53,87 @@
 		WHERE
 			p.product_name = #{productName};
 		
-	</select>		
-
-
+	</select>
+	
+	<insert id="addRequest" parameterType="Request">
+	INSERT INTO tb_request
+		(warehousing_request_code
+		, product_code
+		, warehouse_code
+		, warehousing_request_amount
+		, product_Name
+		, shoppingmall_user_id
+		, barcode_file
+		,warehousing_request_reg_date
+		,request_shopname
+		,request_status)
+	VALUES (
+		 #{requsetCode}
+		,#{productCode}
+		,#{warehouseCode}
+		,#{warehouseRequestAmount}
+		,#{productName}
+		,#{shoppingUserId}
+		,#{barcodeImg}
+		,#{requestRegDate}
+		,#{shopName}
+		,'입고요청');
+	</insert>
+	
+	<select id="maxGoodsCode" resultType="String">
+		SELECT
+			CONCAT('war_r_c',LpaD(CAST(SUBSTRING_INDEX(MAX(warehousing_request_code),'war_r_c',-1) AS UNSIGNED)+1, 6 ,0)) 
+		FROM
+			tb_request;
+	</select>
+	
+	<select id="getRequestList" parameterType="map" resultMap="requestMap">
+		SELECT
+			r.warehousing_request_code
+			,r.product_code
+			,r.product_name
+			,w.warehouse_name
+			,r.warehouse_code
+			,r.request_shopname
+			,r.request_status
+			,r.barcode_file
+			,r.warehousing_request_reg_date
+			,r.ware_admin_id
+			,r.warehousing_request_amount
+		FROM
+			tb_request AS r
+			INNER join
+			tb_warehouse AS w
+			ON
+			r.warehouse_code = w.warehouse_code
+	<trim prefix="WHERE" prefixOverrides="AND |OR"> 
+		<if test = "requsetCode != null and requsetCode != ''.toString()" >
+			r.warehousing_request_code = #{requsetCode};
+		</if>
+	</trim>
+	</select>
+	
+	<select	id = "getRequestCode" parameterType="String" resultMap="requestMap">
+	SELECT 
+		r.warehousing_request_code
+		,r.product_code
+		,r.warehouse_code
+		,w.warehouse_name
+		,w.warehouse_addr
+		,r.warehousing_request_amount
+		,r.shoppingmall_user_id
+		,r.product_name
+		,r.ware_admin_id
+		,r.warehousing_request_reg_date
+		,r.request_shopname
+		,r.request_status
+	FROM
+		tb_request AS r
+		INNER join
+		tb_warehouse AS w
+		on
+		r.warehouse_code = w.warehouse_code
+	WHERE
+		r.warehousing_request_code = #{requsetCode};
+	</select>	
 </mapper>

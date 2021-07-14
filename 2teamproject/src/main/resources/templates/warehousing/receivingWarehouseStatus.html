@@ -28,87 +28,62 @@
 </th:block>
 
 <th:block layout:fragment="container">
+	<style>
+		.hidden-col{display: none;}
+	</style>
 	<div class="main-container">
-			<div class="row gutters">
-				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-			
-					<div class="card">
-						<div class="card-header">
-							<div class="card-title">Basic Column Graph With Datatables</div>
-						</div>
-						<div class="card-body">
-							<div id="basic-column-graph-datalables" class="primary-graph"></div>
-							
-						</div>
+		<div class="row gutters">
+			<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+				<div class="card">
+					<div class="card-header">
+						<div class="card-title">Basic Column Graph With Datatables</div>
+					</div>
+					<div class="card-body">
+						<div id="basic-column-graph-datalables" class="primary-graph"></div>
+					</div>
+				</div>
+				<div class="table-container">
+					<div class="t-header">입고 현황 조회</div>
+					<div class="table-responsive">
+						<table id="copy-print-csv" class="table custom-table">
+							<thead>
+								<tr>
+									<th>
+										<input type="checkbox" id="checkAll" style="position: relative; top: 1.5px;">
+									</th>
+									<th>입고코드</th>
+									<th class="hidden-col">입고주문서코드</th>
+									<th>입고창고</th>
+								 	<th>상품명</th>
+									<th>쇼핑몰명</th>
+									<th>입고일</th>
+									<th>담당자</th>
+								</tr>			
+							</thead>
+							<tbody>
+								<tr th:if="${#lists.size(receivingStatusListForWarehouse)}>0" th:each="l:${receivingStatusListForWarehouse}">
+									<td>
+										<input type="checkbox" id="receivingingCode" class="checkOne" style="position: relative; top: 1.5px;" th:value="${l.receivingingCode}">
+									</td>
+									<td class="hidden-col" th:text="${l.warehousingOrderCode}"></td>
+									<td th:text="${l.receivingingCode}"></td>
+									<td th:text="${l.warehouse.warehouseName}"></td>
+									<td th:text="${l.product.productName}"></td>
+									<td th:text="${l.shoppingmall.shoppingmallName}"></td>
+									<td th:text="${l.warehousingRealDate}"></td>
+									<td th:text="${l.wareAdminId}"></td>
+								</tr>
+								<tr th:unless="${#lists.size(receivingStatusListForWarehouse)>0}" style="text-align: center;">
+									<td th:text="${검색된 결과가 없습니다}"></td>
+								</tr>
+							</tbody>
+		    			</table>
 					</div>
 				</div>
 			</div>
 		</div>
-						
-		<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">			
-			<div class="table-container">
-				<div class="t-header">입고 현황 조회</div>
-					<div class="table-responsive">
-						<table id="copy-print-csv" class="table custom-table">
-						<thead>
-							<tr>
-							  <th>아이디</th>
-							  <th>이름</th>
-							  <th>권한</th>
-							  <th>소속 물류센터</th>
-							  <th>번호</th>
-							</tr>
-							
-						</thead>
-						<tbody>
-							<tr>
-							  <td>id002</td>
-							  <td>강준</td>
-							  <td>창고관리자</td>
-							  <td>전주 물류센터</td>
-							  <td>010-1111-1111</td>
-							</tr>
-							<tr>
-							  <td>id003</td>
-							  <td>고병윤</td>
-							  <td>창고관리자</td>
-							  <td>전주 물류센터</td>
-							  <td>010-1111-1111</td>
-							</tr>
-							<tr>
-							  <td>id004</td>
-							  <td>백종민</td>
-							  <td>창고관리자</td>
-							  <td>전주 물류센터</td>
-							  <td>010-1111-1111</td>
-							</tr>
-							<tr>
-							  <td>id006</td>
-							  <td>김동욱</td>
-							  <td>창고관리자</td>
-							  <td>전주 물류센터</td>
-							  <td>010-1111-1111</td>
-							</tr>
-							<tr>
-							  <td>id007</td>
-							  <td>박수현</td>
-							  <td>창고관리자</td>
-							  <td>전주 물류센터</td>
-							  <td>010-1111-1111</td>
-							</tr>
-							<tr>
-							  <td>id008</td>
-							  <td>최상범</td>
-							  <td>창고관리자</td>
-							  <td>전주 물류센터</td>
-							  <td>010-1111-1111</td>
-							</tr>
-						</tbody>
-		    	</table>
-			</div>
-		</div>
-	</div>
 	<!-- Row end -->
+	</div>
 </th:block>
 		
 </html>

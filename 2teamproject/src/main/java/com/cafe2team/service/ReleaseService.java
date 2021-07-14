@@ -51,4 +51,8 @@ public class ReleaseService {
 	public int addInvoice(Invoice invoice) {
 		return releaseMapper.addInvoice(invoice);
 	}
+	
+	public int modifyInvoiceInfo(Invoice invoice) {
+		return releaseMapper.modifyInvoiceInfo(invoice);
+	}
 }

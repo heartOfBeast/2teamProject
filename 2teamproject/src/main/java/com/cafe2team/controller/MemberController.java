@@ -4,6 +4,7 @@ package com.cafe2team.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.channels.SeekableByteChannel;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +18,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -34,6 +37,9 @@ import com.cafe2team.controller.MemberController;
 public class MemberController {
 	
 	private static final Logger log = LoggerFactory.getLogger(MemberController.class);
+
+
+	private static final int ArrayList = 0;
 
 	
 	private final MemberService memberService;
@@ -198,6 +204,20 @@ public class MemberController {
 		return idCheck;
 	}
 	
+	@PostMapping("/accountMemberIdCheck")
+	@ResponseBody
+	public boolean accountMemberIdCheck(@RequestParam (name ="accountApprovalId", required = false) String accountApprovalId) {
+		boolean idCheck = true;
+		
+		Shoppingmall shop = memberService.getsShopById(accountApprovalId);
+		
+		if(shop != null) idCheck = false;
+		
+		return idCheck;
+		
+	}
+	
+	
 	@GetMapping("/adminsignup")
 	public String adminSignUp(Model model) {
 		model.addAttribute("title", "관리자 회원가입");
@@ -311,14 +331,27 @@ public class MemberController {
 		return "redirect:/";
 		
 	}
-
-	
 	
 	@GetMapping("/memberWithdrawal")
 	public String memberWithdrawal(Model model) {
 		model.addAttribute("title", "회원 탈퇴");
 		
 		return "member/memberWithdrawal";
+	}
+	
+	@RequestMapping("/memberListDetail")
+	public @ResponseBody List<Member> memberListDetail(
+			@RequestParam Map<String,Object> param,
+			@ModelAttribute("Member") Member member){
+
+		String selectLevelValue = (String)param.get("selectLevelValue");
+		
+		List<Member> data = memberService.getMemberListDetail(selectLevelValue);
+		
+		log.info("=============================== {} ", data);
+		
+		return data;
+		
 	}
 	
 }

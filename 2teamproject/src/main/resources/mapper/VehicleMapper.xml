@@ -73,10 +73,13 @@
 			car_code= #{carCode};
 	</update>
 	
-	<delete id="deleteVehicle" parameterType="String">
+	<delete id="deleteVehicle" parameterType="java.util.List">
 		DELETE FROM 
 			tb_car 
 		WHERE 
-			car_code= #{pramList};
+			car_code in
+			<foreach collection="list" item="code" open="(" close=")" separator=",">
+				#{code}
+			</foreach>
 	</delete>
 </mapper>

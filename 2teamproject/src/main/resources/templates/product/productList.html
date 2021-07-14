@@ -29,6 +29,9 @@
 </th:block>
 
 <th:block layout:fragment="container">
+	<style>
+		.hidden-col{display: none;}
+	</style>
 	<!-- Main container start -->
 	<div class="main-container">
 		<div class="row gutters">
@@ -42,17 +45,18 @@
 									<th>
 										<input type="checkbox" id="checkAll" style="position: relative; top: 1.5px;">
 									</th>
-									<!-- <th>상품코드</th> -->
+									<th class="hidden-col">상품코드</th>
 									<th>상품명</th>
 									<th>대분류</th>
 									<th>중분류</th>
 									<th>소분류</th>
+									<th class="hidden-col">품목코드</th>
 									<th>추가분류</th>
 									<th>보관유형</th>
 									<th>상품무게</th>
 									<th>무게단위</th>
-									<!-- <th>제조일자</th> -->
-									<!-- <th>유통기한</th> -->
+									<th class="hidden-col">제조일자</th>
+									<th class="hidden-col">유통기한</th>
 									<th>상세설명</th>
 									
 									<th>수정</th>
@@ -63,18 +67,18 @@
 								  <td>
 							  	  	<input type="checkbox" class="checkOne" style="position: relative; top: 1.5px;" th:value="${l.productCode}">
 								  </td>
-								  <td style="display: none;" th:text="${l.productCode}" id="productCodeData"></td>
+								  <td class="hidden-col" th:text="${l.productCode}" id="productCodeData"></td>
 								  <td th:text="${l.productName}" id="productNameData"></td>
 								  <td th:text="${l.item.itemBigCategory}" id="itemBigCategoryData"></td>
 								  <td th:text="${l.item.itemMiddleCategory}" id="itemMiddleCategoryData"></td>
 								  <td th:text="${l.item.itemSmallCategory}" id="itemSmallCategoryData"></td>
-								  <td style="display: none;" th:text="${l.productCategory}" id="productCategoryData"></td>
+								  <td class="hidden-col" th:text="${l.productCategory}" id="productCategoryData"></td>
 								  <td th:text="${l.productAddCategory}" id="productAddCategoryData"></td>
 								  <td th:text="${l.productFreezeCoolCondition}" id="productFreezeCoolConditionData"></td>
 								  <td th:text="${l.productWeight}" id="productWeightData"></td>
 								  <td th:text="${l.productWeightUnit}" id="productWeightUnitData"></td>
-								  <td style="display: none;" th:text="${l.productDateOfManufacture}" id="productDateOfManufactureData"></td>
-								  <td style="display: none;" th:text="${l.productExpirationDate}" id="productExpirationDateData"></td>
+								  <td class="hidden-col" th:text="${l.productDateOfManufacture}" id="productDateOfManufactureData"></td>
+								  <td class="hidden-col" th:text="${l.productExpirationDate}" id="productExpirationDateData"></td>
 								  <!-- <td th:text="${l.shoppingmallUserId}"></td> -->
 								  <td th:text="${l.productDetail}" id="productDetailData"></td>
 	

@@ -58,6 +58,20 @@ public class ProductController {
 		return "product/warehouseProduct";
 	}
 
+	//상품삭제
+	@PostMapping("/deleteProduct")
+	@ResponseBody
+	public int deleteProduct(@RequestParam(value="dataArr[]") String[] productCode) {
+		int result = 1;
+		System.out.println(productCode);
+		int size = productCode.length;
+		for(int i=0; i<size; i++) {
+			log.info(productCode[i] + " <-삭제할 값");
+			productService.deleteProduct(productCode[i]);
+		}
+		return result;
+	}
+	
 	// 상품수정
 	@PostMapping("/modifyProduct")
 	public String modifyProduct(Product product) {
@@ -143,7 +157,7 @@ public class ProductController {
 		return "product/addProduct";
 	}
 
-	//상품추가 대분류
+	//상품추가 중분류
 	@PostMapping("getMiddleCate")
 	@ResponseBody 
 	public List<Item> getmiddlecate(Model model,

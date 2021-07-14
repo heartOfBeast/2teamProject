@@ -18,5 +18,5 @@ public interface VehicleMapper {
 	public int modifyVehicle(Vehicle vehicle);
 	
 	//삭제
-	public int deleteVehicle(String paramList);
+	public int deleteVehicle(List<String> paramList);
 }

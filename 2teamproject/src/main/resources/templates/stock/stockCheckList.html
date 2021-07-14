@@ -68,31 +68,33 @@
 						<thead>
 							<tr >
 							  <th>실사결과 코드</th>
+							  <th>상품코드(상품명)</th>
 							  <th>창고코드</th>
-							  <th>구역코드</th>
-							  <th>등록담당자</th>
+							  <th>구역코드</th> 
+							  <th>실사전 수량</th>							  
 							  <th>오차수량</th>
-							  <th>실사수량</th>
-							  <th>실사단위</th>
+							  <th>실사후 수량</th>
+							  <th>등록담당자</th>
 							  <th>상세설명</th>
 							  <th>실사일자</th>
 							  <th>등록일자</th>
-							   <th>수정</th>
+							  <th>수정</th>
 							</tr>
 						</thead>
 						<tbody id="stockResultData">
 								<tr th:each="L : ${stockCheckList}">		
-								  <td th:text="${L.seccheckCode}" id="seccheckCodeId" th:onclick="'location.href=\''+ @{/#} + '\''"></td>
-								  <td th:text="${L.warehouseCode}" id="warehouseCodeId"></td>
-								  <td th:text="${L.secstatusCode}" id="secstatusCodeId"></td>
-								  <td th:text="${L.memberid}" id="memberidId"></td>
-								  <td th:text="${L.seccheckError}" id="seccheckErrorId"></td>
-								  <td th:text="${L.seccheckAmount}" id="seccheckAmountId"></td>
-								  <td th:text="${L.checkUnit}" id="checkUnitId"></td>
-								  <td th:text="${L.checkDetail}" id="checkDetailId"></td>
-								  <td th:text="${L.checkDate}" id="checkDateId"></td>
-								  <td th:text="${L.checkRegdate}" id="checkRegdateId"></td>
-								  <td>
+								  <td th:text="${L.seccheckCode}" id="seccheckCodeId" th:onclick="'location.href=\''+ @{/#} + '\''"></td>			
+								  <td th:text="|${L.stock.stockCode}(${L.product.productName})|" id="stockCodeId" ></td>
+								  <td th:text="${L.warehouseCode}" id="warehouseCodeId" ></td>
+								  <td th:text="${L.wareSector.sectorCode}" id="sectorCodeId" ></td>
+								  <td th:text="${L.stock.stockAmount}" id="stockAmountId" ></td>
+								  <td th:text="${L.seccheckError}" id="seccheckErrorId" ></td>
+								  <td th:text="${L.seccheckAmount}" id="seccheckAmountId" ></td>
+								  <td th:text="${L.memberid}" id="memberidId" ></td>
+								  <td th:text="${L.checkDetail}" id="checkDetailId" ></td>
+								  <td th:text="${L.checkDate}" id="checkDateId" ></td>
+								  <td th:text="${L.checkRegdate}" id="checkRegdateId" ></td>
+								 <td>
 								<!-- <a th:href="@{/myPage(memberId=${l.memberId})}" >수정</a> -->
 								<a href="#mymodal" type="button" class="btn btn-primary modifyBtn" 
 								data-toggle="modal" data-target=".bd-example-modal-lg" id = "viewModal">수정</a>
@@ -138,32 +140,31 @@
 					</div>
 					
 					<input type="hidden" class="form-control" name="warehouseCode" id="warehouseCode">
-					<input type="hidden" class="form-control" name="secstatusCode" id="secstatusCode">
 					
 					<div class="form-group">
 						<label for="memberid">등록담당자</label>
 						<input type="text" class="form-control" name="memberid" id="memberid" readonly="readonly" >
 					</div>
 					<div class="form-group">
+						<label for="stockAmount">실사전 수량</label>
+						<input type="text" class="form-control" name="stockAmount" id="stockAmount" readonly="readonly">
+					</div>
+
+					<div class="form-group">
 						<label for="seccheckError">오차수량</label>
 						<input type="text" class="form-control" name="seccheckError" id="seccheckError">
 					</div>
 					
 					<div class="form-group">
-						<label for="seccheckAmount">실사수량</label>
+						<label for="seccheckAmount">실사후 수량</label>
 						<input type="text" class="form-control" name="seccheckAmount" id="seccheckAmount">
 					</div>
 					
 					<div class="form-group">
 						<label for="checkUnit">상세설명</label>
-						<input type="text" class="form-control" name="checkUnit" id="checkUnit">
-					</div>
-					
-					<div class="form-group">
-						<label for="checkDetail">상세설명</label>
 						<input type="text" class="form-control" name="checkDetail" id="checkDetail">
 					</div>
-					
+									
 					<div class="form-group">
 						<label for="checkDate">실사일자</label>
 						<input type="text" class="form-control" name="checkDate" id="checkDate">
@@ -174,10 +175,9 @@
 						<input type="text" class="form-control" name="checkRegdate" id="checkRegdate">
 					</div>
 					
-					
 				<div class="modal-footer">
-					<button class="btn btn-secondary" data-dismiss="modal">Close</button>
-					<button type="submit" name="submit"  class="btn btn-primary">Save</button>
+					<button class="btn btn-secondary" data-dismiss="modal">닫기</button>
+					<button type="submit" name="submit"  class="btn btn-primary">수정</button>
 			</div>
 		</div>
 	  </div>
@@ -186,34 +186,30 @@
 </form>
 
 </th:block>
-<!----------------------------------------------------------------------모달---------------------------------------------------------------------->
-
 
 <th:block layout:fragment="customJs">
 <script src="js/jquery.min.js"></script>
 <script type="text/javascript">
 $('.modifyBtn').each(function(){
 	$(this).click(function(){
-		var seccheckCodeId 				= $(this).parents('tr').children('#seccheckCodeId').text();
+		var seccheckCodeId 					= $(this).parents('tr').children('#seccheckCodeId').text();
 		var warehouseCodeId 				= $(this).parents('tr').children('#warehouseCodeId').text();
-		var secstatusCodeId 				= $(this).parents('tr').children('#secstatusCodeId').text();
-		var memberidId 					= $(this).parents('tr').children('#memberidId').text();
+		var stockAmountId 					= $(this).parents('tr').children('#stockAmountId').text();
 		var seccheckErrorId 				= $(this).parents('tr').children('#seccheckErrorId').text();
 		var seccheckAmountId 				= $(this).parents('tr').children('#seccheckAmountId').text();
-		var checkUnitId 					= $(this).parents('tr').children('#checkUnitId').text();
-		var checkDetailId 				= $(this).parents('tr').children('#checkDetailId').text();
+		var memberidId 						= $(this).parents('tr').children('#memberidId').text();
+		var checkDetailId 					= $(this).parents('tr').children('#checkDetailId').text();
 		var checkDateId 					= $(this).parents('tr').children('#checkDateId').text();
-		var checkRegdateId 				= $(this).parents('tr').children('#checkRegdateId').text();
+		var checkRegdateId 					= $(this).parents('tr').children('#checkRegdateId').text();
 		
 		
 
 		$('#seccheckCode').val(seccheckCodeId);
 		$('#warehouseCode').val(warehouseCodeId);
-		$('#secstatusCode').val(secstatusCodeId);
-		$('#memberid').val(memberidId);
+		$('#stockAmount').val(stockAmountId);
 		$('#seccheckError').val(seccheckErrorId);
 		$('#seccheckAmount').val(seccheckAmountId);
-		$('#checkUnit').val(checkUnitId);
+		$('#memberid').val(memberidId);
 		$('#checkDetail').val(checkDetailId);
 		$('#checkDate').val(checkDateId);
 		$('#checkRegdate').val(checkRegdateId);
@@ -233,21 +229,14 @@ var wareSel = "";
 var sectorSel = "";
 
 	ware.addEventListener('change', function() {
-		console.log('ㅁㅁㅁㅁ1');
 		wareSel = ware.value;
 		console.log(wareSel);
-		/* 
-		 */
-		 getData()
+		getData()
 	});
 	sector.addEventListener('change', (event) => {
-		console.log('ㅁㅁㅁㅁ2');
 		sectorSel = sector.value;
-		sectorSel = "sec_stk_"+sectorSel.substring(1);
-
-		/* 
-		 */
-		 getData()
+		sectorSel = wareSel+"_"+sectorSel;
+		getData()
 	});
 	
 	function getData(){
@@ -262,12 +251,12 @@ var sectorSel = "";
 				$('#stockResultData').children().remove();
 				
 				
+	
 				var innerHtml = "";
 				$.each(res, function( index, value ) {
 		            innerHtml += '<tr>'	
 	            	innerHtml += '<td>'+value.seccheckCode+'</td>'
-            		innerHtml += '<td>'+value.warehouseCode+'</td>'
-           			innerHtml += '<td>'+value.secstatusCode+'</td>'
+            		innerHtml += '<td>'+value.stock.stockCode+'</td>'
        				innerHtml += '<td>'+value.memberid+'</td>'
     				innerHtml += '<td>'+value.seccheckError+'</td>'
 		            innerHtml += '<td>'+value.seccheckAmount+'</td>'
@@ -285,7 +274,7 @@ var sectorSel = "";
 			}
 		})	
 		
-	}
+	} 
 	
 
 </script>

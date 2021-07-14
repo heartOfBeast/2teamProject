@@ -39,20 +39,16 @@
   </div>
 </nav>
 <br/>
-<div class="row gutters" style="margin: 0px 100px 0px 100px;">
-	<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12" >
-		<div class="jumbotron">
-			<h1 class="display-4 text-primary">쇼핑몰 샘플 페이지를 만든 이유</h1>
-			<p class="lead">- 출고하는 과정에서의 프로세스의 흐름을 파악하기 위해서 쇼핑몰 샘플 페이지를 만들었다.</p>
-			<h3>프로세스 흐름 순서</h3>
-			<p> 고객이 상품을 구매 -> 구매한 상품에 대한 정보가 리스트에 들어옴 -> 쇼핑몰 관리자는 리스트에 들어온 상품을 통해 창고로 출고 요청을 한다</p> 
-			<p> -> 출고 요청을 바탕으로 출고 지시서를 작성 -> 배차 및 운송장 작성 -> 승인 및 출고 </p> <br/>
-		</div>
-	</div>
-<div class="row gutters" style="margin: 0px 100px 0px 100px;">
-	<div class="main-container">
+	<div class="row gutters" style="margin: 0px 100px 0px 100px;">
+		<div class="main-container">
 			<div class="row gutters">
-				<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+					<div class="jumbotron">
+						<h1 class="display-4 text-primary">쇼핑몰 샘플 페이지를 만든 이유</h1>
+						<p class="lead">- 출고하는 과정에서의 프로세스의 흐름을 파악하기 위해서 쇼핑몰 샘플 페이지를 만들었다.</p>
+						<h3>프로세스 흐름 순서</h3>
+						<p> 고객이 상품을 구매 -> 구매한 상품에 대한 정보가 리스트에 들어옴 -> 쇼핑몰 관리자는 리스트에 들어온 상품을 통해 창고로 출고 요청을 한다</p> 
+						<p> -> 출고 요청을 바탕으로 출고 지시서를 작성 -> 배차 및 운송장 작성 -> 승인 및 출고 </p> <br/>
+					</div>
 					<div class="table-container">
 						<div class="table-responsive">
 							<button type="button" class="btn btn-primary float-right" onclick="push();">출고요청 버튼</button>
@@ -79,7 +75,7 @@
 								<tbody>
 									<tr th:each="l: ${sampleList}">
 										<td>
-				  	  						<input type="checkbox" class="checkOne" style="position: relative; top: 1.5px;" th:value="${l.releasesCode}">
+				  	  						<input type="checkbox" class="checkOne" style="position: relative; top: 1.5px;" th:value="${l.releasesCode}"  >
 					   	 				</td>
 										<td class="sorting_1" th:text="${l.releasesCode}"></td>
 										<td class="sorting_1" th:text="${l.productName}"></td>
@@ -98,11 +94,9 @@
 						    </table>
 							</div>
 						</div>
-					</div>
 				</div>
 			</div>
 		</div>
-	</div>
 				<!-- Row end -->
 		<script th:src="@{/js/jquery.min.js}"></script>
 		<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
@@ -116,8 +110,6 @@
 					}
 				})
 			})
-			
-			
 			
 			function push(){
 				var pushDataArray = new Array();
@@ -139,16 +131,16 @@
 						  url: "/shop/samplePull",
 						  method: "POST",
 						  data: {'pushDataArray[]':pushDataArray},
-						  dataType: "text"
+						  dataType: "json"
 						});
-						 
-						request.done(function( jdata ) {
-							if(Number(jdata) == 0){
-								alert('오류 : 출고요청 신청 실패');
-								console.log(jdata);
+						 	
+						request.done(function( data ) {
+								console.log(data);
+							if(data != undefined && data != null){
+								alert('출고요청이 신청되었습니다.');
+								location.replace("/shop/sample");
 							}else{
-								alert('출고요청  신청이 되었습니다.');
-								location.replace("sample");
+								alert('오류 : 출고요청 신청 실패');
 							}
 						});
 						 

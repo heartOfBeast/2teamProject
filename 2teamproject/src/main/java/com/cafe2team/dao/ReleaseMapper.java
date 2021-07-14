@@ -29,4 +29,7 @@ public interface ReleaseMapper {
 	
 	//운송장등록
 	public int addInvoice(Invoice invoice);
+	
+	//운송장 수정
+	public int modifyInvoiceInfo(Invoice invoice);
 }

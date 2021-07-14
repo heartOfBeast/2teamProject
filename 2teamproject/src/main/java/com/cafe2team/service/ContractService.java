@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.cafe2team.dao.ContractMapper;
 import com.cafe2team.dao.UnitPriceMapper;
+import com.cafe2team.domain.Calendar;
 import com.cafe2team.domain.Contract;
 import com.cafe2team.domain.Price;
 
@@ -55,6 +56,12 @@ public class ContractService {
 		return result;
 	}
 	
+	// 최종계약 캘린더
+	public List<Calendar> ConreactCalendar(){
+		
+		
+		return contractMapper.ConreactCalendar();
+	}
 	
 	
 	

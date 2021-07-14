@@ -1,0 +1,78 @@
+<!doctype html>
+<html
+	xmlns:th="http://www.thymeleaf.org"
+ 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="@{layout/default}">
+	
+<th:block layout:fragment="pageTitle">
+<div class="page-header">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item">견적</li>
+		<li class="breadcrumb-item active">견적신청 조회</li>
+	</ol>
+
+	<ul class="app-actions">
+		<li>
+			<a href="#" id="reportrange">
+				<span class="range-text"></span>
+				<i class="icon-chevron-down"></i>	
+			</a>
+		</li>
+		<li>
+			<a href="#">
+				<i class="icon-export"></i>
+			</a>
+		</li>
+	</ul>
+</div>
+</th:block>
+
+<th:block layout:fragment="container">
+	<!-- Main container start -->
+<div class="main-container">
+	<div class="row gutters justify-content-center">
+		<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+			<div class="table-container">
+				<div class="table-responsive">
+					<table class="table custom-table m-0">
+						<thead>
+							<tr>
+								<th>업체명</th>
+								<th>담당자명</th>
+								<th>담당자 연락처</th>
+								<th>담당자 이메일</th>
+								<th>업종</th>
+								<th>품목</th>
+								<th>일일 판매수량</th>
+								<th>상담가능 시간</th>
+								<th>주소</th>
+								<th>직원수</th>
+								<th>신청날짜</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="L : ${estimate}">
+								<td th:text="${L.spmGuestName}"></td>
+								<td th:text="${L.spmGuestAdmin}"></td>
+								<td th:text="${L.spmGuestPhone}"></td>
+								<td th:text="${L.spmGuestEmail}"></td>
+								<td th:text="${L.spmGuestSectors}"></td>
+								<td th:text="${L.spmGuestProduct}"></td>
+								<td th:text="${L.spmGuestDailySales}"></td>
+								<td th:text="${L.spmGuestCounselTime}"></td>
+								<td th:text="${L.spmGuestAddress}"></td>
+								<td th:text="${L.spmGuestIndustries}"></td>
+								<td th:text="${L.spmGuestRegDate}"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	
+	</div>
+</div>
+				<!-- Main container end -->
+</th:block>
+		
+</html>

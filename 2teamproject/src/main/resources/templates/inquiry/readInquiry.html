@@ -34,29 +34,64 @@
 
 		<!-- Row start -->
 		<div class="row gutters justify-content-center">
-			<div class="col-xl-10 col-lg-7 col-md-8 col-sm-8 col-12">
+			<div class="col-xl-5 col-lg-5 col-md-6 col-sm-6 col-12">
 				<form>
 					<div class="card m-0">
 						<div class="card-header">
-							<button type="button" id="submit" name="submit" class="btn btn-primary float-right" style="margin: 5px;">삭제</button>
-							<button type="button" id="submit" name="submit" class="btn btn-primary float-right" style="margin: 5px;">수정</button>
 							<div class="card-sub-title">문의게시판</div>
 							
 						</div>
 						<div class="card-body">
 							<div class="form-group">
-								<input type="text" th:value="${inquiryList.boardQnaCode}" class="form-control" id="subject" name="subject" required="">
+								<label for="boardQnaCode" class="col-form-label">번호</label>
+								<input type="text" id="boardQnaCode" th:value="${readInquiry.boardQnaCode}" readonly class="form-control-plaintext">
 							</div>
 							<div class="form-group">
-							 	<textarea class="form-control" th:value="${inquiryList.boardQnaContent}" id="message" placeholder="contents" maxlength="500" rows="20" ></textarea>
+								<label for="boardQnaSubject" class="col-form-label">제목</label>
+								<input type="text" id="boardQnaSubject" th:value="${readInquiry.boardQnaSubject}" readonly class="form-control-plaintext">
+							</div>
+							<div class="form-group">
+								<label for="boardQnaWriter" class="col-form-label">작성자</label>
+								<input type="text" id="boardQnaWriter" th:value="${readInquiry.boardQnaWriter}" readonly class="form-control-plaintext">
+							</div>
+							<div class="form-group">
+								<label for="boardQnaContent" class="col-form-label">내용</label>
+							 	<textarea id="boardQnaContent" readonly class="form-control-plaintext" th:text="${readInquiry.boardQnaContent}" rows="20" ></textarea>
 
 							</div>
 							
 						</div>
 					</div>
+							<button type="button" id="deleteBtn" name="submit" class="btn btn-primary float-right" style="margin: 5px;">삭제</button>
+							<button type="button" id="modifyBtn" name="submit" class="btn btn-primary float-right" style="margin: 5px;">수정</button>
 				</form>
 
-
+				<!--댓글목록 -->
+				<div class="media comments" th:each="l:${inquiryReply}">
+					<div class="media-body">
+						<h5 class="mt-0 media-heading" th:text="${l.memberId}"><span class="date"></span></h5>
+						<p th:text="${l.replyCommentContent}"></p>
+						<div class="comments-footer clearfix">
+							<ul>
+								<li>
+									<button id="writeReReply" class="btn btn-outline-primary float-right">답글</button>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<!--댓글 목록  -->
+					<!-- 댓글작성 -->
+					<div class="clearfix comments-form">
+						<div class="form-group">
+							<label class="control-label"><b>댓글달기</b></label>
+							<textarea id="replyContent" class="form-control textarea" rows="3" placeholder="내용을 적어주세요"></textarea>
+						</div>
+						<div class="form-group clearfix">
+							<button id="insertBtn" class="btn btn-primary float-right">완료</button>
+						</div>
+					</div>
+				<!-- 댓글작성 -->
 				
 	
 			</div>
@@ -66,6 +101,60 @@
 	</div>
 	<!-- Main container end -->
 
-</th:block>
 		
+</th:block>
+<th:block layout:fragment="customJs">
+	<script>
+		$(function(){
+			$('#insertBtn').click(function(){
+ 				var replyContent = $('#replyContent').val();
+ 				var boardQnaCode = $('#boardQnaCode').val();
+ 				if(replyContent==null||replyContent==''||replyContent==undefined){
+					alert('내용을 입력해주세요') 					
+ 				}else{
+ 					
+	 				var request = $.ajax({
+	 					  url: "/readInquiryinfo",
+	 					  method: "GET",
+	 					  data: { 'replyContent' : replyContent,
+	 							  'boardQnaCode' : boardQnaCode
+	 							},
+	 					  dataType: "text"
+	 					});
+	 					 
+	 					request.done(function( data ) {
+	 						
+							alert('성공');
+							location.reload();
+	 					});
+	 					 
+	 					request.fail(function( jqXHR, textStatus ) {
+	 					  alert( "Request failed: " + textStatus );
+	 					});
+ 				}	
+			});
+
+		});
+
+		/* $(function(){
+			$('#writeReReply').click(function(){
+				var html = '<div class="clearfix comments-form">';
+				
+					html+='<li>';
+					html+='<div class="form-group">';
+					html+='<label class="control-label"><b>댓글달기</b></label>';
+					html+='<textarea id="replyContent" class="form-control textarea" rows="3" placeholder="내용을 적어주세요"></textarea>';
+					html+='</div>';
+					html+='<div class="form-group clearfix">';
+					html+='	<button id="insertBtn" class="btn btn-primary float-right">완료</button>';
+					html+='</div>';
+					html+='</div>';
+
+				$('')
+	
+			})
+		}) */
+	</script>
+	
+</th:block>
 </html>

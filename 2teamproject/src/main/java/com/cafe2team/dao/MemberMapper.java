@@ -55,7 +55,7 @@ public interface MemberMapper {
 
 	public AdminApproval getApprovalById(String approvalmemberId);
 	
-	
+	public List<Member> getMemberListDetail(String getMemberLevel);
 	
 	
 }

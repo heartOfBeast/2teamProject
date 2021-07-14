@@ -98,12 +98,15 @@
 			, #{facilityCheck})
 	</insert>
 	
-	<delete id="deleteSafetyCheckByCode" parameterType="String">
+	<delete id="deleteSafetyCheckByCode" parameterType="java.util.List">
 		DELETE 
 		FROM 
 			tb_safety_facility
 		WHERE 
-			facility_code = #{paramList};
+			facility_code in
+			<foreach collection="list" item="code" open="(" close=")" separator=",">
+				#{code}
+			</foreach>
 	</delete>
 	
 	<select id="getWareHouseInfo" resultType="Warehouse" fetchSize="1000">
