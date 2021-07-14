@@ -5,7 +5,6 @@
 	<resultMap type="StockCheck" id="stockCheckResultMap">
 		<result property="seccheckCode"			column="stock_sector_check_code"/>
 		<result property="warehouseCode"		column="warehouse_code"/>
-		<result property="secstatusCode"		column="sector_stock_status_code"/>
 		<result property="memberid"				column="member_id"/>
 		<result property="seccheckError"		column="stock_check_error_amount"/>
 		<result property="seccheckAmount"		column="stock_sector_check_amount"/>
@@ -13,44 +12,87 @@
 		<result property="checkDetail"			column="stock_check_detail"/>
 		<result property="checkDate"			column="stock_check_date"/>
 		<result property="checkRegdate"			column="stock_check_reg_date"/>
+		<association property="product" javaType="Product">
+			<id property="productCode" column="product_code"/>
+			<result property="productName" column="product_name"/>
+		</association>
+		<association property="stock" javaType="Stock">
+			<id property="stockCode" column="stock_code"/>
+			<result property="stockAmount" column="stock_amount"/>
+		</association>
+		<association property="wareSector" javaType="WareSector">
+			<id property="sectorCode" column="sector_code"/>		
+		</association>
 	</resultMap>
 	
 	
-	<select id="getStockCheckList" resultType="StockCheck" fetchSize="700" resultMap="stockCheckResultMap">
+	<!-- 재고실사 등록-->
+	<!-- 재고실사 등록용 조회-->
+	<select id="getStockInfo" resultType="StockCheck" fetchSize="700" resultMap="stockCheckResultMap">
 	SELECT 
-		stock_sector_check_code,
-		warehouse_code,
-		sector_stock_status_code,
-		member_id,
-		stock_check_error_amount,
-		stock_sector_check_amount,
-		stock_check_unit,
-		stock_check_detail,
-		stock_check_date,
-		stock_check_reg_date
-	FROM
-		tb_stock_sector_check;
+		ssc.stock_code
+		,p.product_name
+			FROM tb_stock_sector_check AS ssc
+	INNER JOIN tb_stock_status_backup AS ssb
+		ON 
+		ssc.stock_code =ssb.stock_code
+	INNER JOIN tb_product AS p
+		on
+		ssb.product_code = p.product_code;
 	</select> 
 	
+	<!-- 재고실사 조회 -->
+	<select id="getStockCheckList" resultType="StockCheck" fetchSize="700" resultMap="stockCheckResultMap">
+	SELECT 
+  			ssc.stock_sector_check_code
+		  , ssc.stock_code
+		  , p.product_name
+		  , ssc.warehouse_code
+		  , ws.sector_code
+		  , ssb.stock_amount
+		  , ssc.stock_check_error_amount
+		  , ssc.member_id
+		  , ssc.stock_check_detail
+		  , ssc.stock_check_date
+  		  , ssc.stock_check_reg_date
+			FROM tb_stock_sector_check AS ssc
+	INNER JOIN tb_stock_status_backup AS ssb
+		ON ssc.stock_code = ssb.stock_code
+	INNER JOIN tb_product AS p
+		ON ssb.product_code = p.product_code 
+	INNER JOIN tb_warehouse AS w
+		ON ssc.warehouse_code = w.warehouse_code
+	INNER JOIN tb_warehouse_sector AS ws
+		ON ws.warehouse_code = w.warehouse_code
+	</select> 
+	<!-- 재고실사 필터 -->
 	<select id="getStockCheckListDetail" resultType="StockCheck" fetchSize="700" resultMap="stockCheckResultMap">
 	SELECT 
-		stock_sector_check_code,
-		warehouse_code,
-		sector_stock_status_code,
-		member_id,
-		stock_check_error_amount,
-		stock_sector_check_amount,
-		stock_check_unit,
-		stock_check_detail,
-		stock_check_date,
-		stock_check_reg_date
-	FROM
-		tb_stock_sector_check
+  			ssc.stock_sector_check_code
+		  , ssc.stock_code
+		  , p.product_name
+		  , ssc.warehouse_code
+		  , ws.sector_code
+		  , ssb.stock_amount
+		  , ssc.stock_check_error_amount
+		  , ssc.member_id
+		  , ssc.stock_check_detail
+		  , ssc.stock_check_date
+  		  , ssc.stock_check_reg_date 
+			FROM tb_stock_sector_check AS ssc
+	INNER JOIN tb_stock_status_backup AS ssb
+		ON ssc.stock_code = ssb.stock_code
+	INNER JOIN tb_product AS p
+		ON ssb.product_code = p.product_code 
+	INNER JOIN tb_warehouse AS w
+		ON ssc.warehouse_code = w.warehouse_code
+	INNER JOIN tb_warehouse_sector AS ws
+		ON ws.warehouse_code = w.warehouse_code
 	WHERE
-		warehouse_code=#{warehouse_code}
-		<if test="sector_stock_status_code !=null and sector_stock_status_code != '' ">
-		AND sector_stock_status_code =#{sector_stock_status_code}
-		</if>
+		ssc.warehouse_code=#{warehouse_code}
+		<if test="sector_code !=null and sector_code != '' ">
+		AND ws.sector_code =#{sector_code}
+		</if> 
 		;
 	</select> 
 	
@@ -61,11 +103,11 @@
 	SET
 		stock_check_error_amount=#{seccheckError},
 		stock_sector_check_amount=#{seccheckAmount},
-		stock_check_unit=#{checkUnit},
 		stock_check_detail=#{checkDetail},
 		stock_check_date=NOW(),
-		stock_check_reg_date=NOW()
-	WHERE stock_sector_check_code=#{seccheckCode};
+		stock_check_reg_date=NOW()	
+	WHERE 
+		stock_sector_check_code=#{seccheckCode};
 </update>
 	
 	

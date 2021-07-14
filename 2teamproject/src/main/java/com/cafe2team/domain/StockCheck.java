@@ -3,7 +3,6 @@ package com.cafe2team.domain;
 public class StockCheck {
 	private String seccheckCode;
 	private String warehouseCode;
-	private String secstatusCode;
 	private String memberid;
 	private String seccheckError;
 	private String seccheckAmount;
@@ -11,6 +10,11 @@ public class StockCheck {
 	private String checkDetail;
 	private String checkDate;
 	private String checkRegdate;
+
+	private Product product;
+	private Stock stock;
+	private WareSector wareSector;
+	
 	public String getSeccheckCode() {
 		return seccheckCode;
 	}
@@ -22,12 +26,6 @@ public class StockCheck {
 	}
 	public void setWarehouseCode(String warehouseCode) {
 		this.warehouseCode = warehouseCode;
-	}
-	public String getSecstatusCode() {
-		return secstatusCode;
-	}
-	public void setSecstatusCode(String secstatusCode) {
-		this.secstatusCode = secstatusCode;
 	}
 	public String getMemberid() {
 		return memberid;
@@ -71,14 +69,35 @@ public class StockCheck {
 	public void setCheckRegdate(String checkRegdate) {
 		this.checkRegdate = checkRegdate;
 	}
+	public Product getProduct() {
+		return product;
+	}
+	public void setProduct(Product product) {
+		this.product = product;
+	}
+	public Stock getStock() {
+		return stock;
+	}
+	public void setStock(Stock stock) {
+		this.stock = stock;
+	}
+	public WareSector getWareSector() {
+		return wareSector;
+	}
+	public void setWareSector(WareSector wareSector) {
+		this.wareSector = wareSector;
+	}
 	@Override
 	public String toString() {
-		return "StockCheck [seccheckCode=" + seccheckCode + ", warehouseCode=" + warehouseCode + ", secstatusCode="
-				+ secstatusCode + ", memberid=" + memberid + ", seccheckError=" + seccheckError + ", seccheckAmount="
-				+ seccheckAmount + ", checkUnit=" + checkUnit + ", checkDetail=" + checkDetail + ", checkDate="
-				+ checkDate + ", checkRegdate=" + checkRegdate + "]";
+		return "StockCheck [seccheckCode=" + seccheckCode + ", warehouseCode=" + warehouseCode + ", memberid="
+				+ memberid + ", seccheckError=" + seccheckError + ", seccheckAmount=" + seccheckAmount + ", checkUnit="
+				+ checkUnit + ", checkDetail=" + checkDetail + ", checkDate=" + checkDate + ", checkRegdate="
+				+ checkRegdate + ", product=" + product + ", stock=" + stock + ", wareSector=" + wareSector + "]";
 	}
 	
+	
+	
+
 	
 	
 	

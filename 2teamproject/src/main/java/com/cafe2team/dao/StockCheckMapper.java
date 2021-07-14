@@ -15,4 +15,6 @@ public interface StockCheckMapper {
 
 	public int stockCheckUpdate(StockCheck stockCheck);
 
+	public List<StockCheck> getStockInfo();
+
 }
