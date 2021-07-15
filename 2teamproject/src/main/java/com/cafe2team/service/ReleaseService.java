@@ -14,6 +14,8 @@ import com.cafe2team.domain.CarManagement;
 import com.cafe2team.domain.Delivery;
 import com.cafe2team.domain.Invoice;
 import com.cafe2team.domain.Release;
+import com.cafe2team.domain.ReleaseInfo;
+import com.cafe2team.domain.Stock;
 
 @Service
 @Transactional
@@ -54,5 +56,17 @@ public class ReleaseService {
 	
 	public int modifyInvoiceInfo(Invoice invoice) {
 		return releaseMapper.modifyInvoiceInfo(invoice);
+	}
+	
+	public int addRelease(ReleaseInfo releaseInfo) {
+		return releaseMapper.addRelease(releaseInfo);
+	}
+	public int releaseStock(ReleaseInfo releaseInfo) {
+		return releaseMapper.releaseStock(releaseInfo);
+	}
+	
+	public List<ReleaseInfo> getReleaseList(){
+		List<ReleaseInfo> releaseInfo = releaseMapper.getReleaseList();
+		return releaseInfo;
 	}
 }
