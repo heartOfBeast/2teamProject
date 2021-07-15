@@ -20,12 +20,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cafe2team.dao.WarehousingMapper;
+import com.cafe2team.domain.Contract;
 import com.cafe2team.domain.Product;
 import com.cafe2team.domain.Receiving;
 import com.cafe2team.domain.Request;
 import com.cafe2team.domain.Shoppingmall;
 import com.cafe2team.domain.Warehouse;
 import com.cafe2team.domain.WarehousingOrder;
+import com.cafe2team.service.ContractService;
 import com.cafe2team.service.MemberService;
 import com.cafe2team.service.ProductService;
 import com.cafe2team.service.WarehouseService;
@@ -46,12 +48,13 @@ public class WareHousingController {
 	private final WarehouseService warehouseService;
 	private final WarehousingOrderService warehousingOrderService;
 	private final WarehousingMapper warehosingMapper;
+	private final ContractService contractService;
 	
 	@Autowired
 	public WareHousingController(ProductService productService, MemberService memberService,
 			WarehousingService warehousingService, WarehouseService warehouseService, 
 			WarehousingOrderService warehousingOrderService,
-			WarehousingMapper warehosingMapper) {
+			WarehousingMapper warehosingMapper, ContractService contractService) {
 		
 		this.productService = productService;
 		this.memberService = memberService;
@@ -59,6 +62,7 @@ public class WareHousingController {
 		this.warehouseService = warehouseService;
 		this.warehousingOrderService = warehousingOrderService;
 		this.warehosingMapper = warehosingMapper;
+		this.contractService = contractService;
 	}
 	
 	//입고요청시 뿌려주는 리스트
@@ -70,11 +74,12 @@ public class WareHousingController {
 		Shoppingmall shopmemberList = memberService.getsShopById(memberId);
 		List<Warehouse> warehouseList = warehouseService.getWarehouseList();		
 		List<Product> productList = productService.getProductList();
-		
+		List<Contract> contractList = contractService.ContractList();
 		
 		model.addAttribute("productList", productList);
 		model.addAttribute("shopmemberList", shopmemberList);
 		model.addAttribute("warehouseList", warehouseList);
+		model.addAttribute("contractList", contractList);
 		
 		return "warehousing/receivingRequest";
 	}

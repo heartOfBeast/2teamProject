@@ -275,6 +275,8 @@ public class MemberController {
 					member.setMemberLevelcode("배송기사");
 				}
 				
+				
+				
 				session.setAttribute("SID", member.getMemberId());
 				session.setAttribute("SLEVEL", member.getMemberLevelcode());
 				session.setAttribute("SNAME", member.getMemberName());

@@ -12,8 +12,6 @@
 			, contractFinal.contract_final_end				AS contractFinalEnd
 			, contractFinal.contract_final_warehouse_type	AS contractFinalWarehouseType
 			, contractFinal.contract_final_zone				AS contractFinalZone
-			, contractFinal.contract_final_position			AS contractFinalPosition
-			, contractFinal.product_code					AS contractFinalProduct 
 			, contractFinal.contract_final_product_name		AS contractFinalProductName
 			, contractFinal.contract_final_quantity			AS contractFinalQuantity
 			, contractFinal.contract_final_pay				AS contractFinalPay

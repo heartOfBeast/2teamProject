@@ -21,7 +21,6 @@ public interface MemberMapper {
 	//로그인, id 만 조회
 	public Member getMemberById(String memberId);
 	
-	
 	public Shoppingmall getShopById(String shoppingmallId);
 	
 	//관리자 등록
