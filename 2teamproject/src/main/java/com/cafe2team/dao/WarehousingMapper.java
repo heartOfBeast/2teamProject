@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.cafe2team.domain.Contract;
 import com.cafe2team.domain.Product;
 import com.cafe2team.domain.Request;
 
@@ -25,4 +26,6 @@ public interface WarehousingMapper {
 	public List<Request> getRequestList(Map<String,Object> paramMap);
 	
 	public Request getRequestCode(String requestCode);
+	
+	public List<Contract> getContractList();
 }

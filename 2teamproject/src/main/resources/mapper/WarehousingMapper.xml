@@ -44,6 +44,20 @@
 		
 	</resultMap>
 	
+	<resultMap type="Contract" id="contractResultMap">
+		<result property="contractFinalCode" 									column="contract_final_code"/>
+		<result property="contractFinalPriceCode" 								column="unit_price_final_name"/>
+		<result property="contractFinalPriceName" 								column="unit_price_final_name"/>
+		<result property="contractFinalStart" 									column="contract_final_start"/>
+		<result property="contractFinalEnd" 									column="contract_final_end"/>
+		<result property="contractFinalWarehouseType" 							column="contract_final_warehouse_type"/>
+		<result property="contractFinalZone" 									column="contract_final_zone"/>
+		<result property="contractFinalPay" 									column="contract_final_pay"/>
+		<result property="contractFinalUser" 									column="shoppingmall_user_id"/>
+		<result property="contractFinalRegDay" 									column="contract_final_reg_date"/>
+		<result property="contractFinalMemo" 									column="contract_final_memo"/>
+	</resultMap>
+	
 	<select id="getProductCode" resultMap="productResultMap">
 
 		SELECT
@@ -66,7 +80,8 @@
 		, barcode_file
 		,warehousing_request_reg_date
 		,request_shopname
-		,request_status)
+		,request_status
+		,request_contract_code)
 	VALUES (
 		 #{requsetCode}
 		,#{productCode}
@@ -77,7 +92,9 @@
 		,#{barcodeImg}
 		,#{requestRegDate}
 		,#{shopName}
-		,'입고요청');
+		,'입고요청'
+		,#{contractFinalCode});
+		
 	</insert>
 	
 	<select id="maxGoodsCode" resultType="String">
@@ -135,5 +152,26 @@
 		r.warehouse_code = w.warehouse_code
 	WHERE
 		r.warehousing_request_code = #{requsetCode};
-	</select>	
+	</select>
+	
+<!-- 	<select id="getContractList" parameterType="String" resultMap="contractResultMap"> -->
+<!-- 	SELECT  -->
+<!-- 		contract_final_code -->
+<!-- 		, unit_price_code -->
+<!-- 		, unit_price_final_name -->
+<!-- 		, contract_final_start -->
+<!-- 		, contract_final_end -->
+<!-- 		, contract_final_warehouse_type -->
+<!-- 		, contract_final_zone -->
+<!-- 		, contract_final_quantity -->
+<!-- 		, contract_final_pay -->
+<!-- 		, shoppingmall_user_id -->
+<!-- 		, contract_final_reg_date -->
+<!-- 		, contract_final_memo -->
+<!-- 	FROM  -->
+<!-- 		tb_contract_final -->
+<!-- 	WHERE -->
+<!-- 		shoppingmall_user_id = #{contractFinalUser}; -->
+	
+<!-- 	</select>	 -->
 </mapper>

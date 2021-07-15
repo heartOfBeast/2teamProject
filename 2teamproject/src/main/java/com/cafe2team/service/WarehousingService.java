@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cafe2team.dao.WarehousingMapper;
+import com.cafe2team.domain.Contract;
 import com.cafe2team.domain.Product;
 import com.cafe2team.domain.Request;
 
@@ -30,6 +31,11 @@ public class WarehousingService {
 	public int addRequest(Request request) {
 		
 		return warehousingMapper.addRequest(request);
+	}
+	
+	public List<Contract> getContractList(){
+
+		return warehousingMapper.getContractList();
 	}
 	
 	
