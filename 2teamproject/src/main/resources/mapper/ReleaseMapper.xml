@@ -3,6 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cafe2team.dao.ReleaseMapper">
+
 	<resultMap type="Release" id="ReleaseResultMap">
 		<result property="releaseOrderCode"  		column="release_order_code"/>
 		<result property="releaseCode"  			column="release_code"/>
@@ -14,6 +15,8 @@
 		<result property="recipientPhone"  			column="release_recipient_phone"/>
 		<result property="shoppingmallUserId"  		column="shoppingmall_user_id"/>
 		<result property="orderRegDate"  			column="release_order_reg_date"/>
+		<result property="releasesRequestCode"  	column="release_request_code"/>
+		<result property="releasesFinalSector"  	column="sector_column_final_code"/>
 		<association property="product" javaType="Product">
 			<id property="productCode" 				column="product_code"/>
 			<result property="productName" 			column="product_name"/>
@@ -28,19 +31,63 @@
 		<association property="invoice" javaType="Invoice">
 			<id property="releaseOrderCode" 		column="release_order_code"/>
 			<result property="invoiceCode" 			column="invoice_code"/>
-			<result property="invoiceName" 		column="invoice_recipient_name"/>
-			<result property="invoiceAddress" 	column="invoice_recipient_address"/>
+			<result property="invoiceName" 			column="invoice_recipient_name"/>
+			<result property="invoiceAddress" 		column="invoice_recipient_address"/>
 			<result property="invoicePhone" 		column="invoice_recipient_phone"/>
 		</association>
 		<association property="releaseInfo" javaType="ReleaseInfo">
-			<id property="releaseOrderCode" column="release_order_code"/>
-			<result property="releaseCode" column="release_code"/>
+			<id property="releaseOrderCode"	 		column="release_order_code"/>
+			<result property="realReleaseCode" 		column="release_real_code"/>
+		</association>
+	</resultMap>
+	
+	<resultMap type="ReleaseInfo" id="ReleaseInfoResultMap">
+		<result property="realReleaseCode" 			column="release_real_code"/>
+		<result property="releaseOrderCode" 		column="release_order_code"/>
+		<result property="warehouseCode" 			column="warehouse_code"/>
+		<result property="releasesFinalSector" 		column="sector_column_final_code"/>
+		<result property="releaseRealDate" 			column="release_real_date"/>
+		<result property="releaseRealAmount" 		column="release_real_amount"/>
+		<result property="wareAdminId" 				column="ware_admin_id"/>
+		<result property="releaseRegDate" 			column="release_reg_date"/>
+		<result property="productCode" 				column="product_code"/>
+		<result property="releaseRequestCode" 		column="release_request_code"/>
+		<association property="carManagement" javaType="CarManagement">
+			<id property="releaseOrderCode" 		column="release_order_code"/>
+			<result property="releaseOrderCar" 		column="release_order_car"/>
+		</association>
+		<association property="invoice" javaType="Invoice">
+			<id property="releaseOrderCode" 		column="release_order_code"/>
+			<result property="invoiceName" 			column="invoice_recipient_name"/>
+			<result property="invoiceAddress" 		column="invoice_recipient_address"/>
+			<result property="invoicePhone" 		column="invoice_recipient_phone"/>
+		</association>
+		<association property="delivery" javaType="Delivery">
+			<id property="deliveryMemberId"			column="delivery_member_id"/>
+			<result property="deliveryMemberName" 	column="delivery_member_name"/>		
+			<result property="deliveryMemberPhone" 	column="delivery_member_phone"/>		
+		</association>
+		<association property="vehicle" javaType="Vehicle">
+			<id property="carCode" 					column="car_code"/>
+			<result property="carNumber" 			column="car_num"/>
+		</association>
+		<association property="product" javaType="Product">
+			<id property="productCode" 				column="product_code"/>
+			<result property="productName" 			column="product_name"/>
+		</association>
+		<association property="warehouse" javaType="Warehouse">
+			<id property="warehouseCode" 			column="warehouse_code"/>
+			<result property="warehouseName" 		column="warehouse_name"/>
+		</association>
+		<association property="release" javaType="Release">
+			<id property="releaseOrderCode" 		column="release_order_code"/>
+			<result property="shoppingmallUserId" 	column="shoppingmall_user_id"/>
 		</association>
 	</resultMap>
 
 
 	<select id="gerReleaseOrder" resultType="Release" fetchSize="1000" resultMap="ReleaseResultMap">
-		SELECT 
+	SELECT 
 			r.release_order_code
 			, r.release_code
 			, r.warehouse_code
@@ -60,7 +107,8 @@
 			, i.invoice_recipient_name
 			, i.invoice_recipient_address
 			, i.invoice_recipient_phone
-			, rr.release_code
+			, rr.release_real_code
+			, ra.sector_column_final_code
 		FROM 
 			tb_release_order AS r
 			LEFT JOIN 
@@ -78,7 +126,11 @@
 			LEFT join
 			tb_release_info AS rr
 			on
-			r.release_order_code = rr.release_order_code;
+			r.release_order_code = rr.release_order_code
+			LEFT JOIN 
+			tb_release AS ra
+			on
+			r.release_code = ra.release_request_code;
 	</select>
 	
 	<select id="getDeliveryInfo" resultType="Delivery" fetchSize="1000">
@@ -181,4 +233,93 @@
 		WHERE 
 			invoice_code = #{invoiceCode};
 	</update>
+	
+	<insert id="addRelease" parameterType="ReleaseInfo">
+		INSERT INTO tb_release_info
+			(release_real_code
+			, release_order_code
+			, warehouse_code
+			, sector_column_final_code
+			, release_real_date
+			, release_real_amount
+			, ware_admin_id
+			, release_reg_date
+			, product_code
+			, release_request_code
+		)VALUES (
+			sf_newReleaseCode()
+			, #{releaseOrderCode}
+			, #{warehouseCode}
+			, #{releasesFinalSector}
+			, #{releaseRealDate}
+			, #{releaseRealAmount}
+			, #{wareAdminId}
+			, NOW()
+			, #{productCode}
+			, #{releaseRequestCode});
+	</insert>
+	
+	<update id="releaseStock" parameterType="ReleaseInfo">
+		UPDATE tb_stock_status_backup
+		SET
+			stock_amount= stock_amount - #{releaseRealAmount}
+			,release_order_quantity= #{releaseRealAmount}
+			,release_real_amount= #{releaseRealAmount}
+			,release_real_date= #{releaseRealDate}
+		WHERE 
+			product_code = #{productCode} AND warehouse_code = #{warehouseCode} AND sector_column_final_code = #{releasesFinalSector};
+	</update>
+	
+	<select id="getReleaseList" resultType="ReleaseInfo" fetchSize="1000" resultMap="ReleaseInfoResultMap">
+		SELECT 
+			r.release_real_code
+			, r.warehouse_code
+			, w.warehouse_name
+			, r.sector_column_final_code
+			, r.release_real_date
+			, r.release_real_amount
+			, r.ware_admin_id
+			, r.release_reg_date
+			, r.product_code
+			, m.release_order_car
+			, d.delivery_member_id
+			, d.delivery_member_name
+			, d.delivery_member_phone
+			, c.car_num
+			, i.invoice_recipient_name
+			, i.invoice_recipient_address
+			, i.invoice_recipient_phone
+			, p.product_name
+			, rr.shoppingmall_user_id
+		FROM 
+			tb_release_info AS r
+			LEFT JOIN 
+			tb_car_management AS m
+			on
+			r.release_order_code = m.release_order_code
+			LEFT JOIN
+			tb_invoice AS i
+			on
+			r.release_order_code = i.release_order_code
+			INNER JOIN 
+			tb_delivery AS d
+			on
+			m.delivery_member_id = d.delivery_member_id
+			INNER JOIN
+			tb_car AS c
+			on
+			m.release_order_car = c.car_code
+			INNER JOIN
+			tb_product AS p
+			on
+			r.product_code = p.product_code
+			INNER JOIN 
+			tb_warehouse AS w
+			on
+			r.warehouse_code = w.warehouse_code
+			LEFT JOIN 
+			tb_release_order AS rr
+			on
+			r.release_order_code = rr.release_order_code;
+	</select>
 </mapper>

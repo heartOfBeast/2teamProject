@@ -36,35 +36,41 @@
 							<table id="copy-print-csv" class="table custom-table">
 								<thead>
 									<tr>
-									  <th>test</th>
-									  <th>test</th>
-									  <th>test</th>
-									  <th>test</th>
-									  <th>test</th>
-									  <th>test</th>
-									  <th>test</th>
-									  <th>test</th>
-									  <th>test</th>
-									  <th>test</th>
-									  <th>test</th>
+									  <th>출고 코드</th>
+									  <th>출고 창고섹터</th>
+									  <th>출고 상품</th>
+									  <th>출고 수량</th>
+									  <th style="display: none;">수령인</th>
+									  <th style="display: none;">수령인 주소</th>
+									  <th style="display: none;">수령인 연락처</th>
+									  <th style="display: none;">배송기사</th>
+									  <th style="display: none;">배송기사 연락처</th>
+									  <th style="display: none;">배송차량 정보</th>
+									  <th>거래처 담당자</th>
+									  <th>출고일</th>
+									  <th>출고 승인일</th>
+									  <th>담당자</th>
+									  <th>배송정보</th>
 									</tr>
 								</thead>
 								<tbody>
-									<tr>
-									  <td>test</td>
-									  <td>test</td>
-									  <td>test</td>
-									  <td>test</td>
-									  <td>test</td>
-									  <td>test</td>
-									  <td>test</td>
-									  <td>test</td>
-									  <td>test</td>
+									<tr th:each=" r : ${releaseInfo}">
+									  <td th:text="${r.realReleaseCode}"></td>
+									  <td th:text="|${r.warehouse.warehouseName}(${r.releasesFinalSector})|"></td>
+									  <td th:text="${r.product.productName}"></td>
+									  <td th:text="${r.releaseRealAmount}"></td>
+									  <td style="display: none;" th:text="${r.invoice.invoiceName}" id="invoiceNameData"></td>
+									  <td style="display: none;" th:text="${r.invoice.invoiceAddress}" id="invoiceAddressData"></td>
+									  <td style="display: none;" th:text="${r.invoice.invoicePhone}" id="invoicePhoneData"></td>
+									  <td style="display: none;" th:text="|${r.delivery.deliveryMemberName} (${r.delivery.deliveryMemberId})|" id="deliveryMemberInfoData">
+									  <td style="display: none;" th:text="${r.delivery.deliveryMemberPhone}" id="deliveryPhoneInfoData">
+									  <td style="display: none;" th:text="|${r.vehicle.carNumber} (${r.carManagement.releaseOrderCar})|" id="deliveryCarInfoData">
+									  <td th:text="${r.release.shoppingmallUserId}"></td>
+									  <td th:text="${r.releaseRealDate}"></td>
+									  <td th:text="${r.releaseRegDate}"></td>
+									  <td th:text="${r.wareAdminId}"></td>
 									  <td>
-									  	<a href="#">test</a>
-								  	  </td>
-									  <td>
-									  	<a href="#">test</a>
+									  	<a type="button" class="btn btn-primary modifyBtn" data-toggle="modal" data-target=".bd-example-modal-lg" id="viewModal" style="color: white;">상세보기</a>
 								  	  </td>
 									</tr>
 								</tbody>
@@ -75,6 +81,71 @@
 				</div>
 			</div>
 		</div>
-	</th:block>
 		
+		<form id="">
+			<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" style="display: none;" aria-hidden="true">
+				<div class="modal-dialog modal-lg">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="myLargeModalLabel">배차등록</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">×</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<label for="deliveryMemberInfo">배송기사</label>
+							<div class="form-group">
+								<input type="text" class="form-control" id="deliveryMemberInfo" name="" readonly="readonly" style="background-color: white;">
+							</div>
+							<label for="deliveryPhoneInfo">배송기사 연락처</label>
+							<div class="form-group">
+								<input type="text" class="form-control" id="deliveryPhoneInfo" name="" readonly="readonly" style="background-color: white;">
+							</div>
+							<label for="deliveryCarInfo">배송차량 정보</label>
+							<div class="form-group">
+								<input type="text" class="form-control" id="deliveryCarInfo" name="" readonly="readonly" style="background-color: white;">
+							</div>
+							<label for="invoiceNameInfo">수령인</label>
+							<div class="form-group">
+								<input type="text" class="form-control" id="invoiceNameInfo" name="" readonly="readonly" style="background-color: white;">
+							</div>
+							<label for="invoiceAddressInfo">배송지</label>
+							<div class="form-group">
+								<input type="text" class="form-control" id="invoiceAddressInfo" name="" readonly="readonly" style="background-color: white;">
+							</div>
+							<label for="invoicePhoneInfo">수령인 연락처</label>
+							<div class="form-group">
+								<input type="text" class="form-control" id="invoicePhoneInfo" name="" readonly="readonly" style="background-color: white;">
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button class="btn btn-secondary" data-dismiss="modal">닫기</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>		
+	</th:block>
+	
+	<th:block layout:fragment="customJs">
+		<script>
+			$('.modifyBtn').each(function(){
+				$(this).click(function(){
+					var deliveryMemberInfoData = $(this).parents('tr').children('#deliveryMemberInfoData').text();
+					var deliveryPhoneInfoData = $(this).parents('tr').children('#deliveryPhoneInfoData').text();
+					var deliveryCarInfoData = $(this).parents('tr').children('#deliveryCarInfoData').text();
+					var invoiceNameData = $(this).parents('tr').children('#invoiceNameData').text();
+					var invoiceAddressData = $(this).parents('tr').children('#invoiceAddressData').text();
+					var invoicePhoneData = $(this).parents('tr').children('#invoicePhoneData').text();
+					
+					$('#deliveryMemberInfo').val(deliveryMemberInfoData);
+					$('#deliveryPhoneInfo').val(deliveryPhoneInfoData);
+					$('#deliveryCarInfo').val(deliveryCarInfoData);
+					$('#invoiceNameInfo').val(invoiceNameData);
+					$('#invoiceAddressInfo').val(invoiceAddressData);
+					$('#invoicePhoneInfo').val(invoicePhoneData);
+				})
+			})		
+		</script>
+	</th:block>			
 </html>

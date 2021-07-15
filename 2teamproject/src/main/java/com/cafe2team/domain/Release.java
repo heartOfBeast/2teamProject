@@ -20,6 +20,25 @@ public class Release {
 	
 	private ReleaseInfo releaseInfo;
 	
+	private String releasesRequestCode;
+	private String releasesFinalSector;
+	
+	public String getReleasesRequestCode() {
+		return releasesRequestCode;
+	}
+
+	public void setReleasesRequestCode(String releasesRequestCode) {
+		this.releasesRequestCode = releasesRequestCode;
+	}
+
+	public String getReleasesFinalSector() {
+		return releasesFinalSector;
+	}
+
+	public void setReleasesFinalSector(String releasesFinalSector) {
+		this.releasesFinalSector = releasesFinalSector;
+	}
+
 	public ReleaseInfo getReleaseInfo() {
 		return releaseInfo;
 	}
@@ -139,7 +158,8 @@ public class Release {
 				+ ", recipientName=" + recipientName + ", recipientAddress=" + recipientAddress + ", recipientPhone="
 				+ recipientPhone + ", shoppingmallUserId=" + shoppingmallUserId + ", orderRegDate=" + orderRegDate
 				+ ", product=" + product + ", carManagement=" + carManagement + ", invoice=" + invoice
-				+ ", releaseInfo=" + releaseInfo + "]";
+				+ ", releaseInfo=" + releaseInfo + ", releasesRequestCode=" + releasesRequestCode
+				+ ", releasesFinalSector=" + releasesFinalSector + "]";
 	}
 
 }

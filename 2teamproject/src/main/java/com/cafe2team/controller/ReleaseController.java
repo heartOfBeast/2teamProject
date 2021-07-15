@@ -21,6 +21,8 @@ import com.cafe2team.domain.CarManagement;
 import com.cafe2team.domain.Delivery;
 import com.cafe2team.domain.Invoice;
 import com.cafe2team.domain.Release;
+import com.cafe2team.domain.ReleaseInfo;
+import com.cafe2team.domain.Stock;
 import com.cafe2team.domain.Vehicle;
 import com.cafe2team.service.ReleaseService;
 import com.cafe2team.service.VehicleService;
@@ -101,5 +103,34 @@ public class ReleaseController {
 			log.info("invoice : {}", invoice);
 		}
 		return "redirect:/releaseOrder";
+	}
+	
+	//출고승인
+	@PostMapping("/addRelease")
+	public String addRelease(ReleaseInfo releaseInfo, HttpSession session) {
+		String addAdminID = (String) session.getAttribute("SID");
+		if(addAdminID != null) {
+			releaseInfo.setWareAdminId(addAdminID);
+			releaseService.addRelease(releaseInfo);
+			releaseService.releaseStock(releaseInfo);
+		}
+		return "redirect:/releaseOrder";
+	}
+	
+	//출고리스트조회
+	@GetMapping("/realReleaseList")
+	public String realReleaseList(Model model) {
+		List<ReleaseInfo> releaseInfo = releaseService.getReleaseList();
+		model.addAttribute("title", "출고 리스트");
+		model.addAttribute("releaseInfo", releaseInfo);
+		return "release/realReleaseList";
+	}
+	
+	
+	//운송장조회
+	@GetMapping("/wayBillSearch")
+	public String wayBillSearch(Model model) {
+		model.addAttribute("title", "운송장 조회");
+		return "release/wayBillSearch";
 	}
 }
