@@ -58,6 +58,7 @@
 		<result property="contractFinalMemo" 									column="contract_final_memo"/>
 	</resultMap>
 	
+	
 	<select id="getProductCode" resultMap="productResultMap">
 
 		SELECT
@@ -107,6 +108,7 @@
 	<select id="getRequestList" parameterType="map" resultMap="requestMap">
 		SELECT
 			r.warehousing_request_code
+			,r.shoppingmall_user_id
 			,r.product_code
 			,r.product_name
 			,w.warehouse_name
@@ -153,25 +155,37 @@
 	WHERE
 		r.warehousing_request_code = #{requsetCode};
 	</select>
-	
-<!-- 	<select id="getContractList" parameterType="String" resultMap="contractResultMap"> -->
-<!-- 	SELECT  -->
-<!-- 		contract_final_code -->
-<!-- 		, unit_price_code -->
-<!-- 		, unit_price_final_name -->
-<!-- 		, contract_final_start -->
-<!-- 		, contract_final_end -->
-<!-- 		, contract_final_warehouse_type -->
-<!-- 		, contract_final_zone -->
-<!-- 		, contract_final_quantity -->
-<!-- 		, contract_final_pay -->
-<!-- 		, shoppingmall_user_id -->
-<!-- 		, contract_final_reg_date -->
-<!-- 		, contract_final_memo -->
-<!-- 	FROM  -->
-<!-- 		tb_contract_final -->
-<!-- 	WHERE -->
-<!-- 		shoppingmall_user_id = #{contractFinalUser}; -->
-	
-<!-- 	</select>	 -->
+		
+	<insert id="addRequestOrder" parameterType="java.util.List">
+		INSERT INTO 
+			tb_request_order
+			(warehousing_order_code
+			,warehousing_request_code
+			,product_code
+			,warehouse_code
+			,shoppingmall_user_id
+			,warehousing_barcode
+			,warehousing_order_due_date
+			,warehousing_order_amount
+			,warehousing_order_status
+			,request_contract_code)
+			(SELECT
+			sf_newRequsetOrder()
+			,r.warehousing_request_code
+			,r.product_code
+			,r.warehouse_code
+			,r.shoppingmall_user_id
+			,r.barcode_file
+			,r.warehousing_request_reg_date
+			,r.warehousing_request_amount
+			,r.request_status
+			,r.request_contract_code
+		FROM
+			tb_request AS r
+		WHERE
+			r.warehousing_request_code in
+		<foreach collection="list" item="addCode" open ="(" close="))" separator=",">
+			#{addCode}
+		</foreach>
+	</insert>
 </mapper>

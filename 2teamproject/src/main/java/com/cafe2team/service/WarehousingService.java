@@ -9,6 +9,7 @@ import com.cafe2team.dao.WarehousingMapper;
 import com.cafe2team.domain.Contract;
 import com.cafe2team.domain.Product;
 import com.cafe2team.domain.Request;
+import com.cafe2team.domain.WarehousingOrder;
 
 @Service
 public class WarehousingService {
@@ -36,6 +37,10 @@ public class WarehousingService {
 	public List<Contract> getContractList(){
 
 		return warehousingMapper.getContractList();
+	}
+	
+	public int addRequestOrder(List<String> paramList) {
+		return warehousingMapper.addRequestOrder(paramList);
 	}
 	
 	

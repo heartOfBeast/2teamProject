@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 import com.cafe2team.domain.Contract;
 import com.cafe2team.domain.Product;
 import com.cafe2team.domain.Request;
+import com.cafe2team.domain.WarehousingOrder;
 
 @Mapper
 public interface WarehousingMapper {
@@ -28,4 +29,6 @@ public interface WarehousingMapper {
 	public Request getRequestCode(String requestCode);
 	
 	public List<Contract> getContractList();
+	
+	public int addRequestOrder(List<String> paramList);
 }

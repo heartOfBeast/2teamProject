@@ -182,6 +182,15 @@ public class WareHousingController {
 		return "warehousing/requestInfo";
 		
 	}
+	
+	@PostMapping("/addOrderWarehousing")
+	@ResponseBody
+	public int addOrderWarehousing(@RequestParam(value="addOrderWarehousing[]") List<String> paramList) {
+		
+		int result = 0;
+		result = warehosingMapper.addRequestOrder(paramList);
+		return result;
+	}
 
 	
 }
