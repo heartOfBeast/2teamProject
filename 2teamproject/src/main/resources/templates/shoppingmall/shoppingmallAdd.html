@@ -98,7 +98,7 @@
 														</label>
 														<div class="col-sm-6">
 															<!-- <input type="text" class="form-control" id="shoppingmallNumber" name="shoppingmallNumber" placeholder="사업자 등록번호" required="required"> -->
-															<input type="text" class="form-control input-sm" name="shoppingmallNumber" id="shoppingmallNumber" placeholder="사업자 등록번호를 입력해주세요 ex)000-00-00000" maxlength="12" required="required">
+															<input type="text" class="form-control input-sm" name="shoppingmallNumber" id="shoppingmallNumber" placeholder="사업자 등록번호를 입력해주세요 ex)000-00-00000" required="required">
 														</div>
 													</div>
 
@@ -132,7 +132,7 @@
 															</font>
 														</label>
 														<div class="col-sm-6">
-															<input type="text" class="form-control" id="shoppingmallBankNum" name="shoppingmallBankNum" placeholder="계좌번호" required="required">
+															<input type="text" class="form-control" id="shoppingmallBankNum" name="shoppingmallBankNum" placeholder="계좌번호">
 														</div>
 													</div>
 													
@@ -191,14 +191,17 @@
 		              return tmp;
 		          }
 		          return str;
-		      }
+		      };
 		 
 		var shoppingmallNumber = document.getElementById("shoppingmallNumber");
 		shoppingmallNumber.onkeyup = function(event){
 		       event = event || window.event;
 		       var _val = this.value.trim();
 		       this.value = licenseNum(_val) ;
-		}
+		};
+		
+		
+		
 	</script>
 
 

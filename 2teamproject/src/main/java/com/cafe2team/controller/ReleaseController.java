@@ -1,10 +1,7 @@
 package com.cafe2team.controller;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -14,15 +11,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.cafe2team.domain.CarManagement;
 import com.cafe2team.domain.Delivery;
 import com.cafe2team.domain.Invoice;
 import com.cafe2team.domain.Release;
 import com.cafe2team.domain.ReleaseInfo;
-import com.cafe2team.domain.Stock;
 import com.cafe2team.domain.Vehicle;
 import com.cafe2team.service.ReleaseService;
 import com.cafe2team.service.VehicleService;
@@ -126,11 +120,16 @@ public class ReleaseController {
 		return "release/realReleaseList";
 	}
 	
-	
 	//운송장조회
 	@GetMapping("/wayBillSearch")
 	public String wayBillSearch(Model model) {
+		
+		List<Invoice> InvoiceList = releaseService.wayBillSearch();
+		
 		model.addAttribute("title", "운송장 조회");
+		model.addAttribute("InvoiceList", InvoiceList);
+		System.out.println(InvoiceList + "Controller");
+		
 		return "release/wayBillSearch";
 	}
 }

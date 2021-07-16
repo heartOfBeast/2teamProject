@@ -1,5 +1,7 @@
 package com.cafe2team.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,13 +92,13 @@ public class ShoppingmallController {
 
 /******************************* 거래처 권한 관리 시작 *******************************/
 	
-	  // 거래처 권한 관리 페이지 시작
+	  // 거래처 권한 관리 리스트
 	  @GetMapping("/shoppingmallApproval") 
 	  public String Approval(Model model) {
 	  
+		  List<Shoppingmall> shoppingmallList = shoppingmallService.shoppingmallList();
 		  model.addAttribute("title", "계약 및 권한 승인 페이지");
-		  model.addAttribute("shoppingmallList",
-		  shoppingmallService.shoppingmallList());
+		  model.addAttribute("shoppingmallList", shoppingmallList);
 		  
 		  return "shoppingmall/shoppingmallApproval"; 
 	  }

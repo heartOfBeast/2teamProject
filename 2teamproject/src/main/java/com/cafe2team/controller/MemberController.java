@@ -308,7 +308,12 @@ public class MemberController {
 				session.setAttribute("SID", shop.getShoppingmallId());
 				session.setAttribute("SLEVEL", shop.getShoppingmallLevel());
 				session.setAttribute("SNAME", shop.getShoppingmallName());
-
+				
+				String sidcehck = shop.getShoppingmallId();
+				
+				log.info("========================={}" 
+						+ sidcehck);
+				
 				return "redirect:/main";
 
 			} else {

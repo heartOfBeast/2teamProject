@@ -1,7 +1,6 @@
 package com.cafe2team.dao;
 
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -10,7 +9,6 @@ import com.cafe2team.domain.Delivery;
 import com.cafe2team.domain.Invoice;
 import com.cafe2team.domain.Release;
 import com.cafe2team.domain.ReleaseInfo;
-import com.cafe2team.domain.Stock;
 
 @Mapper
 public interface ReleaseMapper {
@@ -41,4 +39,6 @@ public interface ReleaseMapper {
 	
 	//출고리스트조회
 	public List<ReleaseInfo> getReleaseList();
+	
+	public List<Invoice> wayBillSearch();
 }

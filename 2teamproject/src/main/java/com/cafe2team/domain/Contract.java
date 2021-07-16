@@ -8,8 +8,6 @@ public class Contract {
 	private String contractFinalEnd;
 	private String contractFinalWarehouseType;
 	private String contractFinalZone;
-	private String contractFinalPosition;
-	private String contractFinalProduct;
 	private String contractFinalProductName;
 	private String contractFinalQuantity;
 	private String contractFinalPay;
@@ -23,6 +21,9 @@ public class Contract {
 	private String wareHouseType;
 	private String priceZone;
 	private String pricePrice;
+	private String contractState;
+	private String contractStateMemo;
+	
 	public String getContractFinalCode() {
 		return contractFinalCode;
 	}
@@ -64,18 +65,6 @@ public class Contract {
 	}
 	public void setContractFinalZone(String contractFinalZone) {
 		this.contractFinalZone = contractFinalZone;
-	}
-	public String getContractFinalPosition() {
-		return contractFinalPosition;
-	}
-	public void setContractFinalPosition(String contractFinalPosition) {
-		this.contractFinalPosition = contractFinalPosition;
-	}
-	public String getContractFinalProduct() {
-		return contractFinalProduct;
-	}
-	public void setContractFinalProduct(String contractFinalProduct) {
-		this.contractFinalProduct = contractFinalProduct;
 	}
 	public String getContractFinalProductName() {
 		return contractFinalProductName;
@@ -155,24 +144,32 @@ public class Contract {
 	public void setPricePrice(String pricePrice) {
 		this.pricePrice = pricePrice;
 	}
+	public String getContractState() {
+		return contractState;
+	}
+	public void setContractState(String contractState) {
+		this.contractState = contractState;
+	}
+	public String getContractStateMemo() {
+		return contractStateMemo;
+	}
+	public void setContractStateMemo(String contractStateMemo) {
+		this.contractStateMemo = contractStateMemo;
+	}
 	@Override
 	public String toString() {
 		return "Contract [contractFinalCode=" + contractFinalCode + ", contractFinalPriceCode=" + contractFinalPriceCode
 				+ ", contractFinalPriceName=" + contractFinalPriceName + ", contractFinalStart=" + contractFinalStart
 				+ ", contractFinalEnd=" + contractFinalEnd + ", contractFinalWarehouseType="
-				+ contractFinalWarehouseType + ", contractFinalZone=" + contractFinalZone + ", contractFinalPosition="
-				+ contractFinalPosition + ", contractFinalProduct=" + contractFinalProduct
+				+ contractFinalWarehouseType + ", contractFinalZone=" + contractFinalZone
 				+ ", contractFinalProductName=" + contractFinalProductName + ", contractFinalQuantity="
 				+ contractFinalQuantity + ", contractFinalPay=" + contractFinalPay + ", contractFinalUser="
 				+ contractFinalUser + ", contractFinalUserName=" + contractFinalUserName + ", contractFinalRegDay="
 				+ contractFinalRegDay + ", contractFinalMember=" + contractFinalMember + ", contractFinalMemo="
 				+ contractFinalMemo + ", priceCode=" + priceCode + ", priceName=" + priceName + ", wareHouseType="
-				+ wareHouseType + ", priceZone=" + priceZone + ", pricePrice=" + pricePrice + "]";
+				+ wareHouseType + ", priceZone=" + priceZone + ", pricePrice=" + pricePrice + ", contractState="
+				+ contractState + ", contractStateMemo=" + contractStateMemo + "]";
 	}
-	
-	
-	
-	
 	
 	
 }

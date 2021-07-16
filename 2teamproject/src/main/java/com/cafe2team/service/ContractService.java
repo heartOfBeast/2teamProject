@@ -1,13 +1,13 @@
 package com.cafe2team.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cafe2team.dao.ContractMapper;
 import com.cafe2team.dao.UnitPriceMapper;
-import com.cafe2team.domain.Calendar;
 import com.cafe2team.domain.Contract;
 import com.cafe2team.domain.Price;
 
@@ -40,13 +40,6 @@ public class ContractService {
 		return result;
 	}
 	
-	/*
-	 * public Contract ContractInfo(String contractFinalCode) {
-	 * 
-	 * Contract result1 = contractMapper.ContractInfo(contractFinalCode);
-	 * 
-	 * return result1; }
-	 */
 	
 	// 계약 신청 등록
 	public int contractAdd(Contract contract) {
@@ -56,12 +49,17 @@ public class ContractService {
 		return result;
 	}
 	
+	
+	// 계약 관리 조회
+	
+	
 	// 최종계약 캘린더
-	public List<Calendar> ConreactCalendar(){
-		
-		
-		return contractMapper.ConreactCalendar();
-	}
+	public List<Map<String, Object>>CalendarList(){
+	
+		return contractMapper.CalendarList();
+	};
+
+
 	
 	
 	
