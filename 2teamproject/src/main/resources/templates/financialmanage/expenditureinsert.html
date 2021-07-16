@@ -103,9 +103,9 @@
 											</div>
 										</div>
 										<div class="form-group row gutters">
-											<label for="expensRegDate" class="col-sm-3 col-form-label text-right">등록일</label>
+										
 											<div class="col-sm-6">
-												<input type="text" class="form-control" id="expensRegDate" name="expensRegDate" placeholder="등록날짜 입력해주세요" required="required">
+												<input type="hidden" class="form-control" id="expensRegDate" name="expensRegDate" >
 											</div>
 										</div>
 										
@@ -126,18 +126,19 @@
 </th:block>
 <th:block layout:fragment="customJs">
 	<script>
+	$(function(){
 			$('#submitExpense').click(function(){
 				var addExpenditureForm = $('#addExpenditureForm');
 				var submitFlag = true;				
 				var expenseInfo = $('#expenseInfo').val();
 				var expenseDate = $('#expenseDate').val();
 				var expenseCashCard = $('#expenseCashCard').val();
-				var expenseCardInfo = $('#expenseCardInfo').val();;
-				var expenseStore = $('#expenseStore').val();;
-				var expenseCate = $('#expenseCate').val();;
-				var expensePayment = $('#expensePayment').val();;
-				var wareadminId = $('#wareadminId').val();;
-				var expensRegDate = $('#expensRegDate').val();;
+				var expenseCardInfo = $('#expenseCardInfo').val();
+				var expenseStore = $('#expenseStore').val();
+				var expenseCate = $('#expenseCate').val()
+				var expensePayment = $('#expensePayment').val();
+				var wareadminId = $('#wareadminId').val();
+			
 
 				
 
@@ -191,13 +192,9 @@
 					submitFlag = false;
 					return submitFlag;
 				
-				}else if(expensRegDate == null || expenseStore == '' || expenseStore == undefined){
-					alert('매장명을 다시 입력해주세요.');
-					$(this).focus();
-					submitFlag = false;
-					return submitFlag;
 				}
-	
+			});
+			if(submitFlag) addExpenditureForm.submit();
 			});
 		
 	</script>

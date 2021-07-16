@@ -24,7 +24,7 @@
 		</li>
 	</ul>
 </div>
-
+</th:block>
 <th:block layout:fragment="container">
 <div class="main-container">
 	<div class="row gutters">
@@ -75,16 +75,16 @@
 											    <td>
 								  	  			<input type="checkbox" class="expenseOne" style="position: relative; top: 1.5px;" th:value="${L.expenseCode}">
 									  			</td>
-												<td th:text ="${L.expenseCode}"></td>
-												<td th:text ="${L.expenseInfo}"></td>
-												<td th:text ="${L.expenseDate}"></td>
-												<td th:text ="${L.expenseCashCard}"></td>
-												<td th:text ="${L.expenseCardInfo}"></td>
-												<td th:text ="${L.expenseStore}"></td>
-												<td th:text ="${L.expenseCate}"></td>
-												<td th:text ="${L.expensePayment}"></td>
-												<td th:text ="${L.wareadminId}"></td>
-												<td th:text ="${L.expensRegDate}"></td>
+												<td th:text ="${L.expenseCode}" id="expenseCodeData"></td>
+												<td th:text ="${L.expenseInfo}" id="expenseInfoData"></td>
+												<td th:text ="${L.expenseDate}" id="expenseDateData"></td>
+												<td th:text ="${L.expenseCashCard}" id="expenseCashCardData"></td>
+												<td th:text ="${L.expenseCardInfo}" id="expenseCardInfoData"></td>
+												<td th:text ="${L.expenseStore}" id="expenseStoreData"></td>
+												<td th:text ="${L.expenseCate}" id="expenseCateData"></td>
+												<td th:text ="${L.expensePayment}" id="expensePaymentData"></td>
+												<td th:text ="${L.wareadminId}" id="wareadminIdData"></td>
+												<td th:text ="${L.expensRegDate}" id="expensRegDateData"></td>
 												<td>
 												<a type="button" class="btn btn-primary modifyBtn" data-toggle="modal" data-target=".bd-example-modal-lg" id="viewModal" style="color: white;">수정</a>
 												</td>
@@ -97,9 +97,156 @@
 					</div>
 	</div>
 </div>
+
+<form th:action="@{/modifyExpenditure}" method="post" id="modifyExpenInfo">
+			<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" style="display: none;" aria-hidden="true">
+				<div class="modal-dialog modal-lg">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="myLargeModalLabel">수정하기</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">×</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<div class="form-group">
+								<label for="expenseCodeModal">지출코드</label>	
+								<input type="text" class="form-control" name="expenseCode" placeholder="지출코드을 입력해주세요."  id="expenseCodeModal" required="required" readonly="readonly">						
+							</div>
+							<div class="form-group">
+								<label for="expenseInfoModal">지출내역</label>	
+								<input type="text" class="form-control" name="expenseInfo" placeholder="지출내역을 입력해주세요."  id="expenseInfoModal" required="required">						
+							</div>
+							
+							<div class="form-group">
+								<label for="expenseDateModal">지출날짜</label>	
+								<input type="text" class="form-control datepicker-dropdowns" name="expenseDate" placeholder="지출날짜를 입력해주세요"  id="expenseDateModal" required="required">						
+							</div>
+							
+							<div class="form-group">
+							<label for="expenseCashCardModal">현금/카드</label>	
+							<select class="form-control" id="expenseCashCardModal" name="expenseCashCard" required="required">
+						    	<option value="현금">현금</option>
+						    	<option value="카드">카드</option>
+							</select>
+							</div>
+							
+							<div class="form-group">
+								<label for="expenseCardInfoModal">카드정보</label>	
+								<input type="text" class="form-control" name="expenseCardInfo" placeholder="카드정보를 입력해주세요"  id="expenseCardInfoModal" required="required">						
+							</div>
+							
+							<div class="form-group">
+								<label for="expenseCardInfoModal">매장명</label>	
+								<input type="text" class="form-control" name="expenseStore" placeholder="매장명 입력해주세요"  id="expenseStoreModal" required="required">						
+							</div>
+							
+							<label for="expenseCateModal">지출종류</label>
+							<div class="form-group">
+								<input type="text" class="form-control" name="expenseCate" placeholder="지출종류를 입력해주세요."  id="expenseCateModal" required="required">
+							</div>
+							
+							<label for="expensePaymentModal">지출금액</label>
+							<div class="form-group">
+								<input type="number" class="form-control" id="expensePaymentModal" name="expensePayment" placeholder="지출금액을 입력해주세요." >
+							</div>
+							
+							<input type="text" style="display: none;" id="wareadminIdModal" name="wareadminId">
+							<input type="text" style="display: none;" id="expensRegDateModal" name="expensRegDate">
+							
+						<div class="modal-footer">
+							<button class="btn btn-secondary" data-dismiss="modal">취소</button>
+							<button type="submit" name="submit"  class="btn btn-primary" id="submitDone">수정</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+</form>			
 </th:block>
 
 <th:block layout:fragment="customJs">
+	<script>
+	$('.modifyBtn').each(function(){
+		$(this).click(function(){
+			var expenseCodeData = $(this).parents('tr').children('#expenseCodeData').text();
+			var expenseInfoData = $(this).parents('tr').children('#expenseInfoData').text();
+			var expenseDateData = $(this).parents('tr').children('#expenseDateData').text();
+			var expenseCashCardData = $(this).parents('tr').children('#expenseCashCardData').text();
+			var expenseCardInfoData = $(this).parents('tr').children('#expenseCardInfoData').text();
+			var expenseStoreData = $(this).parents('tr').children('#expenseStoreData').text();
+			var expenseCateData = $(this).parents('tr').children('#expenseCateData').text();
+			var expensePaymentData = $(this).parents('tr').children('#expensePaymentData').text();
+			var wareadminIdData = $(this).parents('tr').children('#wareadminIdData').text();
+			var expensRegDateData = $(this).parents('tr').children('#expensRegDateData').text();
+			
+			var cahsCardSelected = $('#expenseCashCardModal option:contains(' + expenseCashCardData + ')').val();
+		
+			
+			$('#expenseCodeModal').val(expenseCodeData);
+			$('#expenseInfoModal').val(expenseInfoData);
+			$('#expenseDateModal').val(expenseDateData);
+			$('#expenseCashCardModal').val(cahsCardSelected);
+			$('#expenseCardInfoModal').val(expenseCardInfoData);
+			$('#expenseStoreModal').val(expenseStoreData);
+			$('#expenseCateModal').val(expenseCateData);
+			$('#expensePaymentModal').val(expensePaymentData);
+			$('#wareadminIdModal').val(wareadminIdData);
+			$('#expensRegDateModal').val(expensRegDateData);
+
+		})
+	})
+	
+	$('#submitDone').click(function(){
+		var modifyExpenInfo = $('#modifyExpenInfo');
+		var submitFlag = true;
+	
+		
+		if($('#expenseInfoModal').val() == null || $('#expenseInfoModal').val() == '' || $('#expenseInfoModal').val() == undefined){
+			alert('지출정보를 입력해주세요.');
+			submitFlag = false;
+			$('#expenseInfoModal').focus();
+			return submitFlag;
+		}else if($('#expenseDateModal').val() == null || $('#expenseDateModal').val() == '' || $('#expenseDateModal').val() == undefined){
+			alert('지출날짜를 입력해주세요.');
+			submitFlag = false;
+			$('#expenseDateModal').focus();
+			return submitFlag;
+		}else if($('#expenseCashCardModal').val() == null || $('#expenseCashCardModal').val() == '' || $('#expenseCashCardModal').val() == undefined){
+			alert('현금/카드를 선택해주세요.');
+			submitFlag = false;
+			$('#expenseCashCardModal').focus();
+			return submitFlag;
+		}else if($('#expenseCardInfoModal').val() == null || $('#expenseCardInfoModal').val() == '' || $('#expenseCardInfoModal').val() == undefined){
+			alert('카드정보를 입력해주세요.');
+			submitFlag = false;
+			$('#expenseCardInfoModal').focus();
+			return submitFlag;
+		}else if($('#expenseStoreModal').val() == null || $('#expenseStoreModal').val() == '' || $('#expenseStoreModal').val() == undefined){
+			alert('매장명을 입력해주세요.');
+			submitFlag = false;
+			$('#expenseStoreModal').focus();
+			return submitFlag;
+		}else if($('#expenseCateModal').val() == null || $('#expenseCateModal').val() == '' || $('#expenseCateModal').val() == undefined){
+			alert('지출종류를 입력해주세요.');
+			submitFlag = false;
+			$('#expenseCateModal').focus();
+			return submitFlag;
+		}else if($('#expensePaymentModal').val() == null || $('#expensePaymentModal').val() == '' || $('#expensePaymentModal').val() == undefined){
+			alert('지출금액을 입력해주세요.');
+			submitFlag = false;
+			$('#expensePaymentModal').focus();
+			return submitFlag;
+		}
+		if(submitFlag){
+			$('#modifyExpenInfo').submit(function(){
+				alert('지출내역수정이 완료되었습니다.');
+			});
+		}
+	});
+	</script>
+	
+	
 	<script th:inline="javascript">
 	var options = null;
 			/*******************************그래프양식(?)******************************************/

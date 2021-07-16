@@ -80,6 +80,11 @@ public class StockService {
 		List<StockCheck> stock = stockCheckMapper.getStockInfo();
 		return stock;
 	}
+	//재고 실사 등록을 위한 물품최종위치 조회
+	public List<StockCheck> getSectorFinalCode(String stockCode) {
+		List<StockCheck> getSectorFinalCode = stockCheckMapper.getSectorFinalCode(stockCode);
+		return getSectorFinalCode;
+	}
 
 	
 }
