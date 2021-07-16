@@ -58,8 +58,8 @@
 	
 
 
-	
-		<insert id="expenditureinsert" parameterType="Expenditure">	   
+	<!-- 지출등록 -->
+	<insert id="expenditureinsert" parameterType="Expenditure">	   
 	INSERT INTO 
 	tb_expenditure
 		(
@@ -87,13 +87,31 @@
 		CURDATE()
 		);
 	</insert>
+	<!-- 지출수정 -->
+	<update id="modifyExpenditure" parameterType="Expenditure">
+		UPDATE tb_expenditure
+		SET
+				expenditure_information=#{expenseInfo}
+			  ,expenditure_date=#{expenseDate}
+			  ,expenditure_cash_card=#{expenseCashCard}
+			  ,expenditure_card_information=#{expenseCardInfo}
+			  ,expenditure_store=#{expenseStore}
+			  ,expenditure_category=#{expenseCate}
+			  ,expenditure_payment=#{expensePayment}
+		WHERE 
+				expenditure_code = #{expenseCode};
+	</update>
 	
-		<delete id="expenditureDeleteByCode" parameterType="String">
+	<!-- 지출삭제 -->
+	<delete id="expenditureDeleteByCode" parameterType="String">
 		DELETE 
 		FROM 
 			tb_expenditure
 		WHERE 
-			expenditure_code = #{paramList};
+			expenditure_code in
+			<foreach collection="list" item="code" open="(" close=")" separator=",">
+				#{code}
+			</foreach>
 	</delete>
 
 </mapper>

@@ -2,6 +2,7 @@ package com.cafe2team.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cafe2team.domain.Expenditure;
 import com.cafe2team.service.ExpenditureService;
@@ -71,7 +74,27 @@ public class FinancialManageController {
 		return "redirect:/expenditure";
 	}
 	
+	//지출삭제
+	@PostMapping("/deleteExpenditure")
+	@ResponseBody
+	public int deleteExpenditure(@RequestParam(value="dataArr[]") List<String> paramList) {
+		int result = 0;
+		result = expenditureSerivce.expenditureDelete(paramList);
+		return result;
+	}
 	
+	
+	 //지출내역 수정
+	 @PostMapping("/modifyExpenditure") 
+	 public String modifyExpenditure(Expenditure expenditure, HttpSession session) {
+		 String addAdminID = (String) session.getAttribute("SID");
+		 if(addAdminID !=null) {
+			 expenditure.setWareadminId(addAdminID);
+			 expenditureSerivce.modifyExpenditure(expenditure);
+		 }
+		 return "redirect:/expenditure";
+	 }
+	 
 	
 	
 

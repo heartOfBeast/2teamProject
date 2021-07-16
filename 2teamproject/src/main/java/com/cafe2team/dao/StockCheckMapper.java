@@ -17,4 +17,6 @@ public interface StockCheckMapper {
 
 	public List<StockCheck> getStockInfo();
 
+	public List<StockCheck> getSectorFinalCode(String stockCode);
+
 }

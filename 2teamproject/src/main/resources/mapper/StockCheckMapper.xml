@@ -19,6 +19,7 @@
 		<association property="stock" javaType="Stock">
 			<id property="stockCode" column="stock_code"/>
 			<result property="stockAmount" column="stock_amount"/>
+			<result property="finalSector" column="sector_column_final_code"/>
 		</association>
 		<association property="wareSector" javaType="WareSector">
 			<id property="sectorCode" column="sector_code"/>		
@@ -26,20 +27,28 @@
 	</resultMap>
 	
 	
-	<!-- 재고실사 등록-->
+	<!-- 재고실사 등록을 위한 물품최종위치 조회-->
+	<select id="getSectorFinalCode" resultType="StockCheck" fetchSize="700" resultMap="stockCheckResultMap">
+		SELECT 
+			sector_column_final_code			
+		from 
+			tb_stock_status_backup 
+		where 
+			stock_code =#{stock_code};
+	</select>
 	<!-- 재고실사 등록용 조회-->
-	<select id="getStockInfo" resultType="StockCheck" fetchSize="700" resultMap="stockCheckResultMap">
-	SELECT 
-		ssc.stock_code
-		,p.product_name
-			FROM tb_stock_sector_check AS ssc
-	INNER JOIN tb_stock_status_backup AS ssb
-		ON 
-		ssc.stock_code =ssb.stock_code
-	INNER JOIN tb_product AS p
-		on
-		ssb.product_code = p.product_code;
-	</select> 
+		<select id="getStockInfo" resultType="StockCheck" fetchSize="700" resultMap="stockCheckResultMap">
+		SELECT 
+			ssc.stock_code
+			,p.product_name
+				FROM tb_stock_sector_check AS ssc
+		INNER JOIN tb_stock_status_backup AS ssb
+			ON 
+			ssc.stock_code =ssb.stock_code
+		INNER JOIN tb_product AS p
+			on
+			ssb.product_code = p.product_code;
+		</select> 
 	
 	<!-- 재고실사 조회 -->
 	<select id="getStockCheckList" resultType="StockCheck" fetchSize="700" resultMap="stockCheckResultMap">

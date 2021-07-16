@@ -33,7 +33,7 @@ public class ExpenditureService {
  		 return result;
  	 }
  	 
- 	public int expenditureDelete(String paramList) {
+ 	public int expenditureDelete(List<String> paramList) {
 		return expenditureMapper.expenditureDeleteByCode(paramList);
 		
 	}
@@ -116,6 +116,11 @@ public class ExpenditureService {
 		return result;
 	}
 	/***********************************************/
+
+
+	public int modifyExpenditure(Expenditure expenditure) {
+		return expenditureMapper.modifyExpenditure(expenditure);
+	}
 	
 	
 	

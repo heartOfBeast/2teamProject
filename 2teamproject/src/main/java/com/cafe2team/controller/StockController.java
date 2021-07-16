@@ -136,6 +136,19 @@ public class StockController {
 		model.addAttribute("stock", stock);
 		return "stock/stockCheckInsert";
 	}
+	/************************************************************
+	 * 재고실사등록을 위해 재고코드를 입력시 최종위치 자동생성
+	 ************************************************************/
+	@PostMapping("/getSectorFinalCode")
+	@ResponseBody
+	public List<StockCheck> getsectorFinalCode(Model model,
+										  @RequestParam Map<String, Object> param
+										  ){
+		String stockCode = (String) param.get("stockCode");
+		List<StockCheck> getSectorFinal = stockService.getSectorFinalCode(stockCode);
+		return getSectorFinal;
+	}
+	
 	
 	/************************************************************
 	 * 재고실사 필터 조회
@@ -167,5 +180,6 @@ public class StockController {
 		}
 		return "redirect:/stockCheckList";
 	}
+	
 	
 }
