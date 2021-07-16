@@ -322,4 +322,44 @@
 			on
 			r.release_order_code = rr.release_order_code;
 	</select>
+	
+	<!-- 운송장 조히 -->
+	<select id="wayBillSearch" resultType="Invoice">
+		SELECT 
+			  i.invoice_code					AS invoiceCode
+			, i.invoice_recipient_name			AS invoiceName
+			, i.invoice_recipient_address		AS invoiceAddress
+			, s.shoppingmall_name				AS shoppingmallName
+			, p.product_name					AS productName
+			, o.release_order_quantity			AS releaseOrderQuantity
+			, d.delivery_member_name			AS deliveryMemberName
+			, d.delivery_member_phone			AS deliveryMemberPhone
+			, r.release_reg_date				AS releaseRealDate
+			FROM
+				tb_invoice AS i
+			INNER JOIN 
+				tb_shoppingmall_user AS s
+			ON 
+				i.shoppingmall_user_id = s.shoppingmall_user_id
+			INNER JOIN 
+				tb_release_order AS o
+			ON 
+				i.release_order_code = o.release_order_code
+			INNER join
+				tb_product AS p
+			ON 
+				o.product_code = p.product_code
+			INNER JOIN 
+				tb_car_management AS c
+			ON 
+				i.drive_manage_code = c.drive_manage_code
+			INNER JOIN 
+				tb_delivery AS d	
+			ON 
+				c.delivery_member_id = d.delivery_member_id
+			INNER JOIN 
+				tb_release_info AS r
+			ON 
+				i.ware_admin_id = r.ware_admin_id				
+	</select>
 </mapper>

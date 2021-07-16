@@ -19,6 +19,8 @@
 			, contractFinal.contract_final_reg_date			AS contractFinalRegDay
 			, memberId.member_id							AS contractFinalMember
 			, contractFinal.contract_final_memo				AS contractFinalMemo
+			, contractFinal.contract_final_state			AS contractState
+			, contractFinal.contract_final_state_memo		AS contractStateMemo
 		FROM 												
 			tb_contract_final 								AS contractFinal			
 		INNER JOIN 
@@ -64,15 +66,14 @@
 			, #{pricePrice}
 			, #{contractFinalUser}
 			, NOW()
-			, #{contractFinalMember}
+			, 'id001'
 			, #{contractFinalMemo} )
 	</insert>
 	
 	<!-- 최종계약 일정  -->
-	<select id="ConreactCalendar" resultType="Calendar">
+	<select id="CalendarList" resultType="Map" parameterType="String">
 		SELECT
 			 shoppingmall.shoppingmall_user_name	AS contractFinalUserName
-			,contractFinal.unit_price_final_name	AS contractFinalPriceName
 			,contractFinal.contract_final_start		AS contractFinalStart
 			,contractFinal.contract_final_end		AS contractFinalEnd
 		FROM
@@ -81,7 +82,6 @@
 			tb_shoppingmall_user 					AS shoppingmall
 		ON
 			contractFinal.shoppingmall_user_id = shoppingmall.shoppingmall_user_id;
-	
 	</select>
 	
 	

@@ -23,9 +23,9 @@
 			, shoppingmallUser.shoppingmall_user_update					AS shoppingmallUpdate
 		FROM 
 			tb_shoppingmall_user										AS shoppingmallUser 
-			INNER JOIN		
+		INNER JOIN		
 			tb_member_level												AS shoppingmallLevel
-			on
+		ON
 			shoppingmallUser.shoppingmall_level_code = shoppingmallLevel.level_code;
 	</select>
 	
@@ -70,6 +70,7 @@
 			shoppingmall_user_id = #{shoppingmallId};
 	</select>
 	
+	<!-- 거래처 권한 승인 -->
 	<update id="shoppingmallApproval" parameterType="String">
 		UPDATE tb_shoppingmall_user
 		SET
@@ -80,6 +81,7 @@
 			shoppingmall_user_id=#{shoppingmallId}
 	</update>
 	
+	<!-- 거래처 권한 취소 -->
 	<update id="shoppingmallCancel" parameterType="String">
 		UPDATE tb_shoppingmall_user
 		SET

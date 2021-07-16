@@ -9,9 +9,14 @@ public class Invoice {
 	private String invoicePhone;
 	private String wareAdminId;
 	private String shopUserId;
+	private String shoppingmallName;
+	private String productName;
+	private String releaseOrderQuantity;
+	private String deliveryMemberName;
+	private String deliveryMemberPhone;
+	private String releaseRealDate;
 	private String invoiceRegDate;
 	private String invoiceUpdateDate;
-	
 	public String getInvoiceCode() {
 		return invoiceCode;
 	}
@@ -60,6 +65,42 @@ public class Invoice {
 	public void setShopUserId(String shopUserId) {
 		this.shopUserId = shopUserId;
 	}
+	public String getShoppingmallName() {
+		return shoppingmallName;
+	}
+	public void setShoppingmallName(String shoppingmallName) {
+		this.shoppingmallName = shoppingmallName;
+	}
+	public String getProductName() {
+		return productName;
+	}
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+	public String getReleaseOrderQuantity() {
+		return releaseOrderQuantity;
+	}
+	public void setReleaseOrderQuantity(String releaseOrderQuantity) {
+		this.releaseOrderQuantity = releaseOrderQuantity;
+	}
+	public String getDeliveryMemberName() {
+		return deliveryMemberName;
+	}
+	public void setDeliveryMemberName(String deliveryMemberName) {
+		this.deliveryMemberName = deliveryMemberName;
+	}
+	public String getDeliveryMemberPhone() {
+		return deliveryMemberPhone;
+	}
+	public void setDeliveryMemberPhone(String deliveryMemberPhone) {
+		this.deliveryMemberPhone = deliveryMemberPhone;
+	}
+	public String getReleaseRealDate() {
+		return releaseRealDate;
+	}
+	public void setReleaseRealDate(String releaseRealDate) {
+		this.releaseRealDate = releaseRealDate;
+	}
 	public String getInvoiceRegDate() {
 		return invoiceRegDate;
 	}
@@ -72,13 +113,17 @@ public class Invoice {
 	public void setInvoiceUpdateDate(String invoiceUpdateDate) {
 		this.invoiceUpdateDate = invoiceUpdateDate;
 	}
-	
 	@Override
 	public String toString() {
 		return "Invoice [invoiceCode=" + invoiceCode + ", releaseOrderCode=" + releaseOrderCode + ", driveManageCode="
 				+ driveManageCode + ", invoiceName=" + invoiceName + ", invoiceAddress=" + invoiceAddress
 				+ ", invoicePhone=" + invoicePhone + ", wareAdminId=" + wareAdminId + ", shopUserId=" + shopUserId
-				+ ", invoiceRegDate=" + invoiceRegDate + ", invoiceUpdateDate=" + invoiceUpdateDate + "]";
+				+ ", shoppingmallName=" + shoppingmallName + ", productName=" + productName + ", releaseOrderQuantity="
+				+ releaseOrderQuantity + ", deliveryMemberName=" + deliveryMemberName + ", deliveryMemberPhone="
+				+ deliveryMemberPhone + ", releaseRealDate=" + releaseRealDate + ", invoiceRegDate=" + invoiceRegDate
+				+ ", invoiceUpdateDate=" + invoiceUpdateDate + "]";
 	}
+	
+	
 	
 }

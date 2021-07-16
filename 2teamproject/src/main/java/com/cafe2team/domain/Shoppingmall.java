@@ -18,6 +18,7 @@ public class Shoppingmall {
 	private String shoppingmallStatusCause;
 	private String shoppingmallUpdate;
 	private String SID;
+	
 	public String getShoppingmallId() {
 		return shoppingmallId;
 	}

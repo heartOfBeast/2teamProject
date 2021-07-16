@@ -1,72 +1,105 @@
 <!doctype html>
-<html
-	xmlns:th="http://www.thymeleaf.org"
- 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="@{layout/default}">
-	
-	<th:block layout:fragment="pageTitle">
-		<div class="page-header">
-			<ol class="breadcrumb">
-				<li class="breadcrumb-item">Home</li>
-				<li class="breadcrumb-item active">운송장 조회</li>
-			</ol>
-		
-			<ul class="app-actions">
-				<li>
-					<a href="#" id="reportrange">
-						<span class="range-text"></span>
-						<i class="icon-chevron-down"></i>	
-					</a>
-				</li>
-				<li>
-					<a href="#">
-						<i class="icon-export"></i>
-					</a>
-				</li>
-			</ul>
-		</div>
-	</th:block>
-	<th:block layout:fragment="container">
-		<div class="main-container">
 
-					<!-- Row start -->
-					<div class="row justify-content-center gutters">
-						<div class="col-xl-10 col-lg-10 col-md-12 col-sm-12 col-12">
-							<form>
-								<div class="card m-0">
-									<div class="card-header">
-										<div class="card-title">운송장 조회</div>
-										<ul class="text-muted custom">
-											<li>* 운송장번호 or 연락처 중 검색 키워드를 선택해주세요.</li>
-											<li>* 검색 키워드 선택 후 그에 맞는 정보를 입력해주세요..</li>
-										</ul>
-									</div>
-									<div class="card-body">
-										<!-- Row start -->
-										<div class="row gutters">
-											<div class="form-group">
-												<select class="form-control" required="required">
-													<option value="">검색 키워드를 선택해주세요.</option>
-													<option value="">운송장번호</option>
-													<option value="">연락처</option>
-												</select>
-											</div>
-											<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-												<div class="form-group" >
-													<input type="text" class="form-control" id="inputName" placeholder="운송장번호 or 연락처를 입력해주세요." required="required">
-												</div>
-											</div>
-										<!-- Row end -->
-										<button class="btn btn-primary btn-sm" type="submit" style="margin-bottom: 16px;">검색</button>	
-										</div>
+<th:block layout:fragment="pageTitle">
+	<div class="page-header">
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item">Home</li>
+			<li class="breadcrumb-item active">운송장 조회</li>
+		</ol>
+
+		<ul class="app-actions">
+			<li><a href="#" id="reportrange"> <span class="range-text"></span>
+					<i class="icon-chevron-down"></i>
+			</a></li>
+			<li><a href="#"> <i class="icon-export"></i>
+			</a></li>
+		</ul>
+	</div>
+</th:block>
+<th:block layout:fragment="container">
+	<div class="main-container">
+
+		<!-- Row start -->
+		<div class="row justify-content-center gutters">
+			<div class="col-xl-11 col-lg-11 col-md-12 col-sm-12 col-12">
+				<form>
+					<div class="card m-0">
+						<div class="card-header">
+							<div class="card-title">운송장 조회</div>
+							<ul class="text-muted custom">
+								<li>* 운송장번호를 선택 후 그에 맞는 정보를 입력해주세요..</li>
+							</ul>
+						</div>
+						<div class="card-body">
+							<!-- Row start -->
+							<div class="row gutters">
+								<div class="form-group">
+									<font style="vertical-align: inherit;">운송장번호 검색</font>
+								</div>
+								<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+									<div class="form-group">
+										<input type="text" class="form-control" id="inputName"
+											placeholder="운송장번호를 입력해주세요." required="required">
 									</div>
 								</div>
-							</form>
+								<!-- Row end -->
+								<button class="btn btn-primary btn-sm" type="submit"
+									style="margin-bottom: 16px;">검색</button>
+							</div>
 						</div>
 					</div>
-					<!-- Row end -->
 
+				</form>
+			</div>
+			<div class="main-container">
+				<!-- Row start -->
+				<!-- Row end -->
+			</div>
+		</div>
+		<div class="main-container">
+			<div class="row gutters">
+				<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+					<div class="table-container">
+						<div class="t-header">운송장 조회</div>
+						<div class="table-responsive">
+							<table class="table custom-table m-0">
+								<thead>
+									<tr>
+									  <th>운송장 코드</th>
+									  <th>수령인 이름</th>
+									  <th>수령인 주소</th>
+									  <th>쇼핑몰 이름</th>
+									  <th>상품 이름</th>
+									  <th>상품 수량</th>
+									  <th>배송기사 이름</th>
+									  <th>배송기사 핸드폰</th>
+									  <th>출고일자</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each=" l : ${InvoiceList}">
+									  <td th:text="${l.invoiceCode}"></td>
+									  <td th:text="${l.invoiceName}"></td>
+									  <td th:text="${l.invoiceAddress}"></td>
+									  <td th:text="${l.shoppingmallName}"></td>
+									  <td th:text="${l.productName}"></td>
+									  <td th:text="${l.releaseOrderQuantity}"></td>
+									  <td th:text="${l.deliveryMemberName}"></td>
+									  <td th:text="${l.deliveryMemberPhone}"></td>
+									  <td th:text="${l.releaseRealDate}"></td>
+									</tr>
+								</tbody>
+				    	</table>
+						</div>
+					</div>
+				
 				</div>
-	</th:block>
-		
+			</div>
+		</div>
+	</div>
+</th:block>
+
 </html>
