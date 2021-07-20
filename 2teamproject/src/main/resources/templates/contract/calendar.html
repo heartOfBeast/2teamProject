@@ -28,10 +28,12 @@
 </th:block>
 
 <th:block layout:fragment="container">
-
+	
+	<div style="float: left; width: 98%" >
+	<!-- <div style="float: left; width: 95%" align="center"> -->
 	<!-- 캘린더창 -->
-	<div id='calendar'></div>
-
+		<div id='calendar'></div>
+	</div>
 </th:block>
 
 <th:block layout:fragment="customJs">
@@ -40,7 +42,7 @@
 	<script src='fullcalendar/lib/main.min.js'></script>
 	<script src='fullcalendar/lib/min.js'></script>
 	<script src="js/jquery.min.js"></script>
-	<script src='fullcalendar/lib/locales/ko.js'></script>
+	<script src="fullcalendar/lib/locales/ko.js"></script>
 	<!-- 기본 캘린더 세팅 -->
 	<script type="text/javascript">
 		/* document.addEventListener('DOMContentLoaded', function() {
@@ -70,8 +72,9 @@
 						left : 'prev,next today',
 						center : 'title',
 						right : 'dayGridMonth,timeGridWeek,timeGridDay'
-					},
-					events : data
+					}
+					,events : data
+					,locale : 'ko'
 				});
 
 				calendar.render();
@@ -84,6 +87,4 @@
 	</script>
 
 </th:block>
-
-
 </html>

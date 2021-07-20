@@ -22,6 +22,12 @@ public interface ContractMapper {
 	// 계약 신청 등록
 	public int ContractAdd(Contract contract);
 	
+	// 계약 승인
+	public int contractApproval(Contract contract);
+
+	// 계약 승인 취소
+	public int contrcatCancel(Contract contract);
+	
 	// 최종계약 캘린더
 	public List<Map<String, Object>> CalendarList();
 

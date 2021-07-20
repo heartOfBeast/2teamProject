@@ -49,8 +49,22 @@ public class ContractService {
 		return result;
 	}
 	
+	// 계약 승인
+	public int contractApproval(Contract contract) {
+		
+		int result = contractMapper.contractApproval(contract);
+		
+		return result;
+	}
 	
-	// 계약 관리 조회
+	
+	// 계약 승인 취소
+	public int contrcatCancel(Contract contract) {
+		
+		int result = contractMapper.contrcatCancel(contract);
+		
+		return result;
+	}
 	
 	
 	// 최종계약 캘린더

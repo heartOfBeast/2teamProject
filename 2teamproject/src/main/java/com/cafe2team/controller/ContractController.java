@@ -137,11 +137,19 @@ public class ContractController {
 	@PostMapping("/contrcatApproval")
 	public String contractApproval(Contract contract) {
 		
-		
+		contractService.contractApproval(contract);
 		
 		return "redirect:/contractApproval";
 	}
 	
+	// 계약 관리 승인 취소
+	@PostMapping("/contrcatCancel")
+	public String contrcatCancel(Contract contract) {
+		
+		contractService.contrcatCancel(contract);
+		
+		return "redirect:/contractApproval";
+	}
 	
 	/******************************** 계약 종료 ********************************/
 	
