@@ -1,6 +1,7 @@
 package com.cafe2team.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,6 +42,15 @@ public class WarehousingService {
 	
 	public int addRequestOrder(List<String> paramList) {
 		return warehousingMapper.addRequestOrder(paramList);
+	}
+	
+	public Map<String,Object> wareHouseListDetail(Map<String,Object> paramMap){
+		return warehousingMapper.wareHouseListDetail(paramMap);
+	}
+	
+	public int cancleReuqestWareHouse(List<String> paramList) {
+		
+		return warehousingMapper.cancleReuqestWareHouse(paramList);
 	}
 	
 	

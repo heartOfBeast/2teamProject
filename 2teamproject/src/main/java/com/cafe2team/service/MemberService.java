@@ -139,6 +139,43 @@ public class MemberService {
 	}
 	
 	
+	public String getId(String memberEmail) {
+		
+		Member member = new Member();
+		Shoppingmall shop = new Shoppingmall();
+		
+		
+		if(memberEmail != null) {
+			
+			if("1".equals(member.getMemberLevelcode())) {
+				return memberMapper.getAdminAjaxId(memberEmail);
+
+			}else if(("2".equals(member.getMemberLevelcode()))) {
+				return memberMapper.getAdminAjaxId(memberEmail);
+				
+			}else if(("3".equals(member.getMemberLevelcode()))) {
+				return memberMapper.getAdminAjaxId(memberEmail);
+
+			}else if(("4".equals(member.getMemberLevelcode()))) {
+				return memberMapper.getAdminAjaxId(memberEmail);
+
+			}else if(("5".equals(member.getMemberLevelcode()))) {
+				return memberMapper.getAdminAjaxId(memberEmail);
+
+			}
+			
+			
+		}else {
+			
+			if("쇼핑몰사업자".equals(shop.getShoppingmallLevelName()))
+
+				return memberMapper.getShopAjaxId(memberEmail);
+
+		}
+		
+		return memberEmail;
+		
+	}
 	
 
 	

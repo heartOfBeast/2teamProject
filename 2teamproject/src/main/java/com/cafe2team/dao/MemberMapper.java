@@ -56,5 +56,12 @@ public interface MemberMapper {
 	
 	public List<Member> getMemberListDetail(String getMemberLevel);
 	
+	//shop 아이디 찾기
+	public String getShopAjaxId(String shopMemberEmail);
+	
+	//Admin 아이디 찾기
+	public String getAdminAjaxId(String adminMemberEmail);
+	
+	
 	
 }

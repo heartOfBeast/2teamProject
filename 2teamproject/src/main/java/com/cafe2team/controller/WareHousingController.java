@@ -183,6 +183,8 @@ public class WareHousingController {
 		
 	}
 	
+	
+	//입고요청대기 -> 입고지시서
 	@PostMapping("/addOrderWarehousing")
 	@ResponseBody
 	public int addOrderWarehousing(@RequestParam(value="addOrderWarehousing[]") List<String> paramList) {
@@ -191,6 +193,32 @@ public class WareHousingController {
 		result = warehosingMapper.addRequestOrder(paramList);
 		return result;
 	}
+	
+	//데이터테이블 이용 ajax (미완성)
+	@PostMapping("/wareHouseListDetail")
+	public @ResponseBody Map<String,Object> wareHouseListDetail(
+				@RequestParam Map<String,Object> paramMap){
+		
+			Map<String, Object> data = warehousingService.wareHouseListDetail(paramMap);
+		
+		return data;
+		
+	}
+	
+	@PostMapping("/cancleReuqestWareHouse")
+	@ResponseBody
+	public int cancleReuqestWareHouse(@RequestParam(value = "cancleDataArr[]") List<String> paramList) {
+		
+		log.info("================={}" + paramList);
+		
+		int result =0;
+		result = warehousingService.cancleReuqestWareHouse(paramList);
+		
+		log.info("================result={}" + result);
+
+		return result;
+	}
+	
 
 	
 }

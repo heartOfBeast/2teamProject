@@ -188,4 +188,45 @@
 			#{addCode}
 		</foreach>
 	</insert>
+	
+<!-- 	<select id="wareHouseListDetail" parameterType="map" resultMap="requestMap"> -->
+<!-- 		SELECT -->
+<!-- 			r.warehousing_request_code -->
+<!-- 			,r.shoppingmall_user_id -->
+<!-- 			,r.product_code -->
+<!-- 			,r.product_name -->
+<!-- 			,w.warehouse_name -->
+<!-- 			,r.warehouse_code -->
+<!-- 			,r.request_shopname -->
+<!-- 			,r.request_status -->
+<!-- 			,r.barcode_file -->
+<!-- 			,r.warehousing_request_reg_date -->
+<!-- 			,r.ware_admin_id -->
+<!-- 			,r.warehousing_request_amount -->
+<!-- 		FROM -->
+<!-- 			tb_request AS r -->
+<!-- 			INNER join -->
+<!-- 			tb_warehouse AS w -->
+<!-- 			ON -->
+<!-- 			r.warehouse_code = w.warehouse_code -->
+<!-- 	<trim prefix="WHERE" prefixOverrides="AND |OR">  -->
+<!-- 		<if test = "requsetCode != null and requsetCode != ''.toString()" > -->
+<!-- 			w.warehouse_name = #{warehouseName}; -->
+<!-- 		</if> -->
+<!-- 	</trim> -->
+<!-- 	</select> -->
+
+<delete id="cancleReuqestWareHouse" parameterType="java.util.List">
+	
+	DELETE 
+	FROM 
+		tb_request 
+	WHERE 
+		warehousing_request_code in 
+	<foreach collection="list" item="deleteCode" open="(" close=")" separator=",">
+		#{deleteCode}
+	</foreach>
+
+</delete>
+	
 </mapper>

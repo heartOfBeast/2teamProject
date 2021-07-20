@@ -30,5 +30,12 @@ public interface WarehousingMapper {
 	
 	public List<Contract> getContractList();
 	
+	//입고요청-> 입고지시서
 	public int addRequestOrder(List<String> paramList);
+	
+	public Map<String, Object> wareHouseListDetail(Map<String,Object> paramMap);
+	
+	//입고요청 취소
+	public int cancleReuqestWareHouse(List<String> paramList);
+	
 }
