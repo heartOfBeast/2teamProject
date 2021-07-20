@@ -1,8 +1,6 @@
 package com.cafe2team.controller;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -10,9 +8,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -34,6 +30,24 @@ public class InquiryController {
 		this.replyService = replyService;
 	}
 
+	
+	//문의게시판 글쓰기
+	@PostMapping("/writeInquiry")
+	public String writeInquiry(Inquiry inquiry) {
+		inquiryService.writeInquiry(inquiry);
+		return "redirect:/inquiryList";
+	}
+	
+	
+	//문의게시판 글쓰기
+	@GetMapping("/writeInquiry")
+	public String writeInquiry(Model model) {
+		model.addAttribute("title", "문의글 작성하기");
+		
+		return "inquiry/writeInquiry";
+	
+	}
+	
 	
 	//문의게시판 글 댓글작성
 	@GetMapping("/readInquiryinfo")

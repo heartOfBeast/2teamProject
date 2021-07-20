@@ -30,7 +30,6 @@
 	<!--입고 resultMap  -->
 	<resultMap type="Receiving" id="ReceivingResultMap">
 		<result property="receivingingCode" column="receivinging_code"/>
-		<result property="warehousingOrderCode" column="warehousing_order_code"/>
 		<result property="warehousingRealDate" column="warehousing_real_date"/>
 		<result property="warehousingRealAmount" column="warehousing_real_amount"/>
 		<result property="warehousingRegDate" column="warehousing_reg_date"/>
@@ -46,10 +45,62 @@
 		<association property="shoppingmall" javaType="Shoppingmall">
 			<result property="shoppingmallId" column="shoppingmall_user_id"/>
 			<result property="shoppingmallName" column="shoppingmall_name"/>
-		
+		</association>
+		<association property="warehousingOrder" javaType="WarehousingOrder">
+			<result property="warehousingOrderCode" column="warehousing_order_code"/>
+			<result property="warehousingOrderDueDate" column="warehousing_order_due_date"/>
+			<result property="warehousingOrderAmount" column="warehousing_order_amount"/>
 		</association>
 	</resultMap>
+
 	
+	<!--창고 섹터 받아오기  -->
+	<select id="getWarehouseSector" resultType="WareSector">
+		SELECT
+			wscf.sector_column_final_code				AS sectorColumnFinalCode
+		FROM
+			tb_warehouse_sector_column_final AS wscf
+		WHERE
+			wscf.warehouse_code=#{warehouseCode}
+	</select>
+	<!--모달 통해 입고 후 입고상태 변환  -->
+	<update id="changeWarehousingStatusFromModal">
+		UPDATE tb_request_order
+			SET
+				warehousing_order_status = '입고완료'
+			WHERE
+				tb_request_order.warehousing_order_code =#{warehousingOrderCode}
+	</update>
+	<!--모달통해 입고  -->
+	<insert id="receivingFromModal" parameterType="Receiving">
+	<selectKey keyProperty="receivingingCode" keyColumn="receivinging_code" resultType="String" order="BEFORE" >
+		SELECT CONCAT('recev_',LPAD(CAST(SUBSTRING(MAX(tb_receiving_info.receivinging_code),7,6) AS DECIMAL) +1, 6, 0)) FROM tb_receiving_info
+	</selectKey>
+		INSERT INTO tb_receiving_info
+			(receivinging_code
+			,warehousing_order_code
+			,warehouse_code
+			,warehousing_order_due_date
+			,warehousing_order_amount
+			,warehousing_real_date
+			,warehousing_real_amount
+			,shoppingmall_user_id
+			,warehousing_reg_date
+			,ware_admin_id
+			,product_code
+			)VALUES 
+			(#{receivingingCode}
+			,#{warehousingOrderCode}
+			,#{warehouseCode}
+			,#{warehousingOrderDueDate}
+			,#{warehousingOrderAmount}
+			,#{warehousingRealDate}
+			,#{warehousingRealAmount}
+			,#{shoppingmallId}
+			,NOW()
+			,#{wareAdminId}
+			,#{productCode})
+	</insert>
 	
 	<!--입고확정 후 입고지시서 입고상태 변환  -->
 	<update id="changeWarehousingStatus">
@@ -144,7 +195,7 @@
 			ro.warehousing_order_code, 
 			ro.warehousing_request_code, 
 			ro.product_code, 
-			ro.product_name,
+			p.product_name,
 			i.item_big_category,
 			i.item_middle_category,
 			i.item_small_category, 
@@ -177,7 +228,7 @@
 			ON
 			i.item_code = p.product_category
 		WHERE
-			ro.warehousing_order_status = '미입고'
+			ro.warehousing_order_status = '입고요청'
 	</select>
 
 </mapper>

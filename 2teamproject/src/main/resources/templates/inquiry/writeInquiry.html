@@ -9,7 +9,7 @@
 <div class="page-header">
 	<ol class="breadcrumb">
 		<li class="breadcrumb-item">고객관리</li>
-		<li class="breadcrumb-item active">자주 묻는 질문</li>
+		<li class="breadcrumb-item active">문의게시판</li>
 	</ol>
 
 	<ul class="app-actions">
@@ -27,12 +27,109 @@
 	</ul>
 </div>
 </th:block>
-
+<style>
+textarea {
+	resize: none;
+}
+</style>
 <th:block layout:fragment="container">
 	<!-- Main container start -->
+	<div class="main-container">
 
+		<!-- Row start -->
+		<div class="row gutters justify-content-center">
+			<div class="col-xl-5 col-lg-5 col-md-6 col-sm-6 col-12">
+				<form id="writeInquiryForm" th:action="@{/writeInquiry}" th:method="POST">
+					<div class="card m-0">
+						<div class="card-header">
+							<div class="card-sub-title">문의글 작성하기</div>	
+						</div>
+						<div class="card-body">
+							<div class="form-group">
+								<label for="boardQnaSubject" class="col-form-label">제목</label>
+								<input type="text" id="boardQnaSubject" class="form-control">
+							</div>
+							<div class="form-group">
+								<label for="boardQnaWriter" class="col-form-label">작성자</label>
+								<input type="text" id="boardQnaWriter" class="form-control">
+							</div>
+							<div class="form-group">
+								<label for="boardQnaContent" class="col-form-label">내용</label>
+							 	<textarea id="boardQnaContent" class="form-control" rows="20" maxlength="500"></textarea>
+							</div>
+							<div class="form-group">
+								<label for="boardQnaPassword" class="col-form-label">비밀번호</label>
+								<label>
+									<input type="checkbox" id="boardCheckPassword" value="Y" style="margin: 0px 0px 0px 10px">비밀번호 사용
+								</label>
+							 	<input type="password" id="boardQnaPassword" class="form-control">
+							</div>
+							<div class="form-group">
+								<label for="boardNonmemberPhone" class="col-form-label">연락처</label>
+								<input type="text" id="boardNonmemberPhone" class="form-control">
+							</div>
+							<div class="form-group">
+								<label for="boardNonmemberEmail" class="col-form-label">이메일주소</label>
+								<input type="text" id="boardNonmemberEmail" class="form-control">
+							</div>
+						</div>
+					</div>
+							<button type="button" id="cancleBtn" class="btn btn-primary float-right" style="margin: 5px;">취소</button>
+							<button type="submit" id="writeBtn" class="btn btn-primary float-right" style="margin: 5px;">등록</button>
+				</form>
+
+				
+				
+	
+			</div>
+		</div>
+		<!-- Row end -->
+
+	</div>
 	<!-- Main container end -->
 
 </th:block>
-		
+<th:block layout:fragment="customJs">
+	<script>
+		$(function(){
+			$('#writeBtn').click(function(){
+				var writeInquiryForm = $('#writeInquiryForm');
+ 				var boardQnaSubject = $('#boardQnaSubject').val()
+ 				var boardQnaWriter = $('#boardQnaWriter').val()
+ 				var boardQnaContent = $('#boardQnaContent').val()
+				var boardCheckPassword = $('#boardCheckPassword');
+				var boardQnaPassword = $('#boardQnaPassword').val();
+ 				var submitFlag = true;
+				
+				
+				if(boardQnaSubject == null||boardQnaSubject ==undefined||boardQnaSubject==''){
+					alert('제목을 입력해주세요');
+					submitFlag = false;
+					$(this).focus();
+					return submitFlag;
+				}else if(boardQnaWriter ==null||boardQnaWriter==undefined||boardQnaWriter==''.toString()){
+					alert('작성자를 입력해주세요');
+					submitFlag = false;
+					$(this).focus();
+					return submitFlag;
+				}else if(boardQnaContent ==null||boardQnaContent==undefined||boardQnaContent==''.toString()){
+					alert('내용을 입력해주세요');
+					submitFlag = false;
+					$(this).focus();
+					return submitFlag;
+				}else if(boardCheckPassword.is(':checked')){
+					if(boardQnaPassword ==null||boardQnaPassword==undefined||boardQnaPassword==''.toString()){
+						alert('비밀번호를 입력해주세요');
+						submitFlag = false;
+						$(this).focus();
+						return submitFlag;
+					}
+				}
+				
+				
+			});
+				if(submitFlag) writeInquiryForm.submit();
+		});
+	</script>
+</th:block> 		
 </html>

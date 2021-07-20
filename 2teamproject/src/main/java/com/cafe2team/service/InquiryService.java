@@ -14,6 +14,12 @@ public class InquiryService {
 	@Autowired
 	private InquiryMapper inquiryMapper;
 	
+	//게시글 작성
+	public int writeInquiry(Inquiry inquiry) {
+		int result = inquiryMapper.writeInquiry(inquiry);
+		return result;
+	}
+	
 	//문의게시판 게시글 조회
 	public Inquiry readInquiry(String boardQnaCode) {
 		
