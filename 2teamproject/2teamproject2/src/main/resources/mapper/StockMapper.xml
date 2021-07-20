@@ -22,7 +22,7 @@
 		ss.release_real_amount						AS	rRealAmount,
 		ss.release_real_date						AS	rRealDate
 	FROM
-		tb_stock_status_backup											AS ss
+		tb_stock_status											AS ss
 	INNER JOIN
 		tb_shoppingmall_user											AS su
 	ON	
@@ -65,7 +65,7 @@
 		ss.release_real_amount						AS	rRealAmount,
 		ss.release_real_date						AS	rRealDate
 	FROM
-		tb_stock_status_backup											AS ss
+		tb_stock_status											AS ss
 	INNER JOIN
 		tb_shoppingmall_user											AS su
 	ON	
@@ -109,7 +109,7 @@
 		ss.release_real_amount						AS rRealAmount,
 		ss.release_real_date						AS rRealDate
 	FROM
-		tb_stock_status_backup											AS ss
+		tb_stock_status											AS ss
 	INNER JOIN
 		tb_shoppingmall_user											AS su
 	ON	
@@ -161,7 +161,7 @@
 		ss.release_real_amount						AS rRealAmount,
 		ss.release_real_date						AS rRealDate
 	FROM
-		tb_stock_status_backup											AS ss
+		tb_stock_status											AS ss
 	INNER JOIN
 		tb_shoppingmall_user											AS su
 	ON	

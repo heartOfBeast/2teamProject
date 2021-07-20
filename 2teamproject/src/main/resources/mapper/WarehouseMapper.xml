@@ -4,15 +4,26 @@
 
 	<resultMap type="Warehouse" id="warehouseResultMap">
 		<result property="warehouseCode"			column="warehouse_code"/>
-		<result property="wareAdminId"			column="ware_admin_id"/>
+		<result property="wareAdminId"				column="ware_admin_id"/>
 		<result property="warehouseName"			column="warehouse_name"/>
 		<result property="warehouseAddr"			column="warehouse_addr"/>
-		<result property="warehouseCate"		column="warehouse_cate"/>
-		<result property="warehouseArea"		column="warehouse_area"/>
-		<result property="warehousePhone"		column="warehouse_phone"/>
+		<result property="warehouseCate"			column="warehouse_cate"/>
+		<result property="warehouseArea"			column="warehouse_area"/>
+		<result property="warehousePhone"			column="warehouse_phone"/>
 		<result property="warehouseRegNumber"		column="warehouse_reg_number"/>
-		<result property="warehouseDetail"		column="warehouse_detail"/>
-		<result property="warehouseRegDate"	column="warehouse_reg_date"/>
+		<result property="warehouseDetail"			column="warehouse_detail"/>
+		<result property="warehouseRegDate"			column="warehouse_reg_date"/>
+		
+<!--  		<association property="warehouseSector" javaType="warehouseSector">
+			<result property="sectorCode"			column="sector_code" />
+			<result property="sectorName"			column="sector_name" />
+			<result property="sectorAvailble"		column="sector_availability_space" />
+			<result property="sectorRegDate"		column="sertor_reg_date" />
+			<result property="wareAdminId"			column="ware_admin_id" />
+			<result property="memberId"				column="member_id" />
+			<result property="sectorUsing"			column="sector_using" />
+			<result property="sectorPCode"			column="sector_product_code" />
+		</association> -->
 	</resultMap>
 	
 	<update id="warehouseUpdateModal" parameterType="Warehouse">
@@ -46,7 +57,12 @@
 		WHERE
 			w.warehouse_name = #{warehouseName};
 	</select>
+	<insert id="addWarehouseSector" parameterType="Warehouse">
+		<selectKey keyColumn="">
+		
+		</selectKey>
 	
+	</insert>
 	<insert id="addWarehouse" parameterType="Warehouse">
 		<selectKey keyColumn="warehouse_code" keyProperty="warehouseCode" resultType="String" order="BEFORE">
 	      SELECT CONCAT('w','',(SELECT LPAD(COUNT(*)+1,3,'0')FROM tb_warehouse));
