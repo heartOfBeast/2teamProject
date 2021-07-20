@@ -146,5 +146,6 @@ public class WarehouseController {
 		model.addAttribute("title", "창고등록");
 		return "warehouse/addWarehouse";
 	}
+	
 
 }
