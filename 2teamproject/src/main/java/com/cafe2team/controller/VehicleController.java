@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.cafe2team.domain.CarManagement;
 import com.cafe2team.domain.Vehicle;
 import com.cafe2team.service.VehicleService;
 
@@ -78,20 +79,10 @@ public class VehicleController {
 		return result;
 	}
 	
-	@GetMapping("/dispatchList")
-	public String dispatchList(Model model) {
-		model.addAttribute("title", "배차조회");
-		return "vehicle/dispatchList";
-	}
-	
-	@GetMapping("/modifyDispatch")
-	public String modifyDispatch(Model model) {
-		model.addAttribute("title", "배차수정");
-		return "vehicle/modifyDispatch";
-	}
-	
-	@PostMapping("/dispatchList")
-	public String modifyDispatch() {
-		return "redirect:/dispatchList";
+	@GetMapping("getCarmanagementInfo")
+	@ResponseBody
+	public List<CarManagement> getCarmanagementInfo(@RequestParam(name="releaseOrderCode", required = false)String releaseOrderCode) {
+		List<CarManagement> carManagement = vehicleService.getCarManagementInfo(releaseOrderCode);
+		return carManagement;
 	}
 }

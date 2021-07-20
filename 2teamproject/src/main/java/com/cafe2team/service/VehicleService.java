@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cafe2team.dao.VehicleMapper;
+import com.cafe2team.domain.CarManagement;
 import com.cafe2team.domain.Vehicle;
 
 @Service
@@ -30,5 +31,10 @@ public class VehicleService {
 	
 	public int deleteVehicle(List<String> paramList) {
 		return vehicleMapper.deleteVehicle(paramList);
+	}
+	
+	public List<CarManagement> getCarManagementInfo(String releaseOrderCode) {
+		List<CarManagement> carManagement = vehicleMapper.getCarManagementInfo(releaseOrderCode);
+		return carManagement;
 	}
 }

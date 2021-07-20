@@ -9,11 +9,20 @@
 		<result property="carStatus" 			column="car_status"/>
 		<result property="carStatusDetail"		column="car_status_detail"/>
 		<result property="carUsingYear" 		column="car_using_year"/>
-		<result property="carNumber" 				column="car_num"/>
+		<result property="carNumber" 			column="car_num"/>
 		<result property="carUsingStatus" 		column="car_using_status"/>
 		<result property="wareAdminId" 			column="ware_admin_id"/>
 		<result property="carRegDate" 			column="car_reg_date"/>
 		<result property="carUpdateDate" 		column="car_update_date"/>
+	</resultMap>
+	
+	<resultMap type="CarManagement" id="carManagementResultMap">
+		<result property="driveManageCode" 		column="drive_manage_code"/>
+		<result property="deliveryMemberId" 	column="delivery_member_id"/>
+		<result property="releaseOrderCode" 	column="release_order_car"/>
+		<result property="dispatchReason" 		column="drive_application_reason"/>
+		<result property="driveUsingDate" 		column="drive_using_date"/>
+		<result property="wareAdminId" 			column="ware_admin_id"/>
 	</resultMap>
 	
 	<select id="getVehicleInfo" resultMap="vehicleResultMap" resultType="Vehicle" fetchSize="1000">
@@ -82,4 +91,17 @@
 				#{code}
 			</foreach>
 	</delete>
+	
+	<select id="getCarManagementInfo" resultMap="carManagementResultMap" resultType="CarManagement" parameterType="String" fetchSize="1000">
+		SELECT 
+			drive_manage_code
+			, delivery_member_id
+			, drive_application_reason
+			, drive_using_date
+			, ware_admin_id
+		FROM 
+			tb_car_management
+		WHERE	
+			release_order_car = #{releaseOrderCode}	
+	</select>
 </mapper>
