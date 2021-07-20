@@ -1,6 +1,7 @@
 package com.cafe2team.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -86,16 +87,27 @@ public class FinancialManageController {
 	
 	 //지출내역 수정
 	 @PostMapping("/modifyExpenditure") 
-	 public String modifyExpenditure(Expenditure expenditure, HttpSession session) {
-		 String addAdminID = (String) session.getAttribute("SID");
-		 if(addAdminID !=null) {
-			 expenditure.setWareadminId(addAdminID);
-			 expenditureSerivce.modifyExpenditure(expenditure);
-		 }
+	 public String modifyExpenditure(Expenditure expenditure) {
+		 expenditureSerivce.modifyExpenditure(expenditure);
 		 return "redirect:/expenditure";
-	 }
+		 }
 	 
+	 
+	//지출내역 연도별 조회 필터
+	@GetMapping("/getExpenseYear")
+	@ResponseBody
+	public List<Expenditure> getExpenseYear(
+			@RequestParam Map<String, Object> param
+			, Model model) {		
+		String expenditure_data = (String) param.get("expenditure_data");
+		log.info("expenditure_data",expenditure_data);
+		List<Expenditure> expenseYear = expenditureSerivce.getExpenseYear(expenditure_data);
+		log.info("expenseYear",expenseYear);
 	
+		
+		return expenseYear;
+	}
+}
 	
 
-}
+

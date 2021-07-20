@@ -160,8 +160,8 @@ public class StockController {
 										Model model) {
 
 		String warehouse_code = (String) param.get("warehouse_code");
-		String sector_code = (String) param.get("sector_code");
-		List<StockCheck> stockCheckList = stockService.getStockCheckListDetail(warehouse_code, sector_code);
+		String sector_stock_status_code = (String) param.get("sector_stock_status_code");
+		List<StockCheck> stockCheckList = stockService.getStockCheckListDetail(warehouse_code, sector_stock_status_code);
 		
 		
 		return stockCheckList;

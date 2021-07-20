@@ -23,7 +23,27 @@
 		
 </resultMap>
 	
+	<!-- 지출목록 연도별 조회 -->
+	<select id="getExpenseYear" resultType="Expenditure" resultMap="expenditureListResultMap">
+		SELECT
+				  expenditure_code
+				, expenditure_information
+				, expenditure_date
+				, expenditure_cash_card
+				, expenditure_card_information
+				, expenditure_store
+				, expenditure_category
+				, expenditure_payment
+				, ware_admin_id
+				, expenditure_reg_date
+		FROM
+				  tb_expenditure
+		WHERE
+				  SUBSTRING(expenditure_date,1,4) = #{expenditure_data}
 	
+	</select>
+	
+	<!-- 지출목록조회 -->
 	<select id="getExpenditureList" resultType="Expenditure" fetchSize="700" resultMap="expenditureListResultMap">
 	SELECT 
 		expenditure_code,

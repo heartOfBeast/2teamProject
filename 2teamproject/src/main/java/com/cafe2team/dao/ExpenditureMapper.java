@@ -21,4 +21,7 @@ public interface ExpenditureMapper {
 
 	 //수정
 	public int modifyExpenditure(Expenditure expenditure);
+
+	//연도조회
+	public List<Expenditure> getExpenseYear(String expenditure_data);
 }

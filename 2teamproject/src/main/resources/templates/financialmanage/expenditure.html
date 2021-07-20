@@ -32,12 +32,13 @@
 							<div class="card">
 								<div class="card-header">
 									<div class="card-title">
-									<select>
-										<option>2018년</option>
-										<option>2019년</option>
-										<option>2020년</option>
-										<option>2021년</option>
-										<option>2022년</option>
+									<select id ="year">
+										<option value=""> :: 선택 :: </option>
+										<option value="2018">2018년</option>
+										<option value="2019">2019년</option>
+										<option value="2020">2020년</option>
+										<option value="2021">2021년</option>
+										<option value="2022">2022년</option>
 									</select>
 									 지출현황(그래프)</div>
 								</div>
@@ -70,7 +71,7 @@
 												<th>수정</th>
 											</tr>
 										</thead>
-										<tbody>
+										<tbody id="expenseData">
 											<tr th:each="L :${expenditureList}">
 											    <td>
 								  	  			<input type="checkbox" class="expenseOne" style="position: relative; top: 1.5px;" th:value="${L.expenseCode}">
@@ -148,7 +149,7 @@
 							
 							<label for="expensePaymentModal">지출금액</label>
 							<div class="form-group">
-								<input type="number" class="form-control" id="expensePaymentModal" name="expensePayment" placeholder="지출금액을 입력해주세요." >
+								<input type="number" class="form-control" id="expen	sePaymentModal" name="expensePayment" placeholder="지출금액을 입력해주세요." >
 							</div>
 							
 							<input type="text" style="display: none;" id="wareadminIdModal" name="wareadminId">
@@ -167,36 +168,38 @@
 
 <th:block layout:fragment="customJs">
 	<script>
-	$('.modifyBtn').each(function(){
-		$(this).click(function(){
-			var expenseCodeData = $(this).parents('tr').children('#expenseCodeData').text();
-			var expenseInfoData = $(this).parents('tr').children('#expenseInfoData').text();
-			var expenseDateData = $(this).parents('tr').children('#expenseDateData').text();
-			var expenseCashCardData = $(this).parents('tr').children('#expenseCashCardData').text();
-			var expenseCardInfoData = $(this).parents('tr').children('#expenseCardInfoData').text();
-			var expenseStoreData = $(this).parents('tr').children('#expenseStoreData').text();
-			var expenseCateData = $(this).parents('tr').children('#expenseCateData').text();
-			var expensePaymentData = $(this).parents('tr').children('#expensePaymentData').text();
-			var wareadminIdData = $(this).parents('tr').children('#wareadminIdData').text();
-			var expensRegDateData = $(this).parents('tr').children('#expensRegDateData').text();
+	var fn_modifyDetail = function modifyDetail(){
+		$('.modifyBtn').each(function(){
+			$(this).click(function(){
+				var expenseCodeData = $(this).parents('tr').children('#expenseCodeData').text();
+				var expenseInfoData = $(this).parents('tr').children('#expenseInfoData').text();
+				var expenseDateData = $(this).parents('tr').children('#expenseDateData').text();
+				var expenseCashCardData = $(this).parents('tr').children('#expenseCashCardData').text();
+				var expenseCardInfoData = $(this).parents('tr').children('#expenseCardInfoData').text();
+				var expenseStoreData = $(this).parents('tr').children('#expenseStoreData').text();
+				var expenseCateData = $(this).parents('tr').children('#expenseCateData').text();
+				var expensePaymentData = $(this).parents('tr').children('#expensePaymentData').text();
+				var wareadminIdData = $(this).parents('tr').children('#wareadminIdData').text();
+				var expensRegDateData = $(this).parents('tr').children('#expensRegDateData').text();
+				
+				var cahsCardSelected = $('#expenseCashCardModal option:contains(' + expenseCashCardData + ')').val();
 			
-			var cahsCardSelected = $('#expenseCashCardModal option:contains(' + expenseCashCardData + ')').val();
-		
-			
-			$('#expenseCodeModal').val(expenseCodeData);
-			$('#expenseInfoModal').val(expenseInfoData);
-			$('#expenseDateModal').val(expenseDateData);
-			$('#expenseCashCardModal').val(cahsCardSelected);
-			$('#expenseCardInfoModal').val(expenseCardInfoData);
-			$('#expenseStoreModal').val(expenseStoreData);
-			$('#expenseCateModal').val(expenseCateData);
-			$('#expensePaymentModal').val(expensePaymentData);
-			$('#wareadminIdModal').val(wareadminIdData);
-			$('#expensRegDateModal').val(expensRegDateData);
-
-		})
-	})
+				
+				$('#expenseCodeModal').val(expenseCodeData);
+				$('#expenseInfoModal').val(expenseInfoData);
+				$('#expenseDateModal').val(expenseDateData);
+				$('#expenseCashCardModal').val(cahsCardSelected);
+				$('#expenseCardInfoModal').val(expenseCardInfoData);
+				$('#expenseStoreModal').val(expenseStoreData);
+				$('#expenseCateModal').val(expenseCateData);
+				$('#expensePaymentModal').val(expensePaymentData);
+				$('#wareadminIdModal').val(wareadminIdData);
+				$('#expensRegDateModal').val(expensRegDateData);
 	
+			})
+		})
+	};	
+	fn_modifyDetail();
 	$('#submitDone').click(function(){
 		var modifyExpenInfo = $('#modifyExpenInfo');
 		var submitFlag = true;
@@ -411,6 +414,57 @@
 				}
 			}
 		}
+		/*****************************연도 셀렉트박스에 따른 동적처리***************************************/
+		
+		var yearSelect = document.getElementById('year');
+		var yearSelected="";
+		
+			yearSelect.addEventListener('change', function(){
+				yearSelected = yearSelect.value;
+				
+				getData()
+			});
+		
+		
+		function getData(){
+			$.ajax({
+				url : "/getExpenseYear",
+				data : { expenditure_data : yearSelected},
+				
+				success : function(res){
+					$('#expenseData').children().remove();
+					
+				var html = "";
+				$.each(res, function( index, value) {
+					
+					html += '<tr>'
+					html += '<td><input type="checkbox" class="expenseOne" style="position: relative; top: 1.5px;" value="'+value.expenseCode+'" /></td>';
+					html += '<td id="expenseCodeData">'+value.expenseCode+'</td>'
+					html += '<td id="expenseInfoData">'+value.expenseInfo+'</td>'
+					html += '<td id="expenseDateData">'+value.expenseDate+'</td>'
+					html += '<td id="expenseCashCardData">'+value.expenseCashCard+'</td>'
+					html += '<td id="expenseCardInfoData">'+value.expenseCardInfo+'</td>'
+					html += '<td id="expenseStoreData">'+value.expenseStore+'</td>'
+					html += '<td id="expenseCateData">'+value.expenseCate+'</td>'
+					html += '<td id="expensePaymentData">'+value.expensePayment+'</td>'
+					html += '<td id="wareadminIdData">'+value.wareadminId+'</td>'
+					html += '<td id="expensRegDateData">'+value.expensRegDate+'</td>'
+					html += '<td><a type="button" class="btn btn-primary modifyBtn" data-toggle="modal" data-target=".bd-example-modal-lg" id="viewModal" style="color: white;">수정</a></td>';
+					html += '</tr>'
+					
+				});
+				$('#expenseData').append(html);
+				fn_modifyDetail();	
+		
+		
+				
+				
+				}
+			})	
+		}
+		/**********************************************************************************/
+		
+		
 		
 	</script>
 </th:block>
