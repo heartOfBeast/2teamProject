@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html
+	xmlns:th="http://www.thymeleaf.org"
+ 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="@{layout/default}">
+
+<th:block layout:fragment="pageTitle">
+	<div class="page-header">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item">Shoppingmall</li>
+		<li class="breadcrumb-item active">PriceAdd</li>
+	</ol>
+
+	<ul class="app-actions">
+		<li>
+			<a href="#" id="reportrange">
+				<span class="range-text"></span>
+				<i class="icon-chevron-down"></i>	
+			</a>
+		</li>
+		<li>
+			<a href="#">
+				<i class="icon-export"></i>
+			</a>
+		</li>
+	</ul>
+</div>
+</th:block>
+<!-- 일단 경로만 설정  -->
+<th:block layout:fragment="container">
+	<div class="main-container">
+		<div class="row gutters justify-content-center">
+			<div class="col-xl-10 col-lg-10 col-md-12 col-sm-12 col-24">
+			
+				<form id="priceAddFrom" th:action="@{/priceAdd}" method="post">
+					<div class="card m-0">
+						<div class="card-body">
+							<div class="form-group">
+								<h4>단가표 등록</h4>
+								<ul class="text-muted custom">
+										<li>* 계약이름 입력방식 ex)창고종류_계약종류_계약일_최대수량</li>
+								</ul>
+								<input type="text" class="form-control" id="priceName" name="priceName" placeholder="계약이름" required="required" />
+							</div>
+							<div class="form-group">
+								<select class="form-control" required="required" name="wareHouseType">
+									<option value="">등록할 창고 종류를 골라주세요.</option>
+									<option value="일반창고">일반창고</option>
+									<option value="냉장/냉동창고">냉장/냉동창고</option>
+								</select>
+							</div>
+							<div class="form-group">
+								<input type="text" class="form-control" id="contractType" name="contractType" placeholder="계약종류" required="required" />
+							</div>
+							<div class="form-group">
+								<input type="text" class="form-control" id="priceWeight" name="priceWeight" placeholder="20Kg 미만" required="required" readonly="readonly"/>
+							</div>
+							<div class="form-group">
+								<input type="text" class="form-control" id="priceNumber" name="priceNumber" placeholder="제한수량" required="required"/>
+							</div>
+							<div class="form-group">
+								<select class="form-control" required="required" name="priceZone">
+									<option value="섹터선택 개수없음">섹터선택 없음</option>
+									<option value="섹터 1개">섹터 1개</option>
+									<option value="섹터 2개">섹터 2개</option>
+									<option value="섹터 3개">섹터 3개</option>
+									<option value="섹터 4개">섹터 4개</option>
+									<option value="섹터 5개">섹터 5개</option>
+									<option value="섹터 6개">섹터 6개</option>
+								</select>
+							</div>
+							<div class="form-group">
+								<select class="form-control" required="required" name="priceDay">
+									<option value="">등록할 기간을 선택해주세요</option>
+									<option value="30일">30일</option>
+									<option value="180일">180일</option>
+									<option value="365일">365일</option>
+								</select>
+							</div>
+							<div class="form-group">
+								<input type="number" class="form-control" id="pricePrice" name="pricePrice" placeholder="사용요금" required="required" />
+							</div>
+							
+							<button type="submit" id="submit" name="submit" class="btn btn-primary float-right" >단가표 등록 버튼</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</th:block>
+
+</html>

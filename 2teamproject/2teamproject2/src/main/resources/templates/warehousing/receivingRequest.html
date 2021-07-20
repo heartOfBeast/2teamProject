@@ -1,0 +1,260 @@
+<!doctype html>
+<html
+	xmlns:th="http://www.thymeleaf.org"
+ 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="@{layout/default}">
+	
+<th:block layout:fragment="pageTitle">
+<div class="page-header">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item">warehousing</li>
+		<li class="breadcrumb-item active">receivingRequest</li>
+	</ol>
+
+	<ul class="app-actions">
+		<li>
+			<a href="#" id="reportrange">
+				<span class="range-text"></span>
+				<i class="icon-chevron-down"></i>	
+			</a>
+		</li>
+		<li>
+			<a href="#">
+				<i class="icon-export"></i>
+			</a>
+		</li>
+	</ul>
+</div>
+</th:block>
+
+<th:block layout:fragment="container">
+	<div class="main-container">
+
+					<!-- Row start -->
+					<div class="row gutters justify-content-center">
+						<div class="col-xl-5 col-lg-5 col-md-6 col-sm-6 col-12">
+							<form th:action="receivingRequest" method="post">
+								<div class="card m-0">
+									<div class="card-header">
+										<div class="card-title">입고요청</div>
+									</div>
+									<div class="card-body">
+										<div class="form-group">
+											<input type="text" class="form-control" id="shoppingmallName" name="shopName" placeholder="사업장명" th:value="${shopmemberList.shoppingmallName}" readonly="readonly"/>
+										</div>
+										<div class="form-group">
+											<input type="text" class="form-control" id="shoppingmallId" name="shoppingUserId" placeholder="쇼핑몰 사업자 아이디" th:value="${shopmemberList.shoppingmallId}" readonly="readonly"/>
+										</div>
+											<div class="input-group flex-nowrap" style="margin-bottom: 12px">
+						                         <select class="form-control form-control-lg" id="warehouseName" name="warehouseCode">
+													<option>창고목록</option>
+													<option th:each="b:${warehouseList}" th:value="${b.warehouseCode}" th:text="${b.warehouseName}"></option>
+												</select>
+			                       			 </div>	
+											<div class="form-group" style="margin-bottom: 12px" >
+						                         <select class="form-control form-control-lg" id="productName" name="productName" required="required">
+													<option>등록 상품이름</option>
+													<option th:each="c:${productList}" th:value="${c.productName}" th:text="${c.productName}"> </option>
+												</select>
+			                       			 </div>
+			                       			 	
+											<div class="form-group" style="margin-bottom: 12px" id="productCode">
+												<input type="text" class="form-control" name="productCode" placeholder="상품코드"/>
+			                       			 </div>
+			                       			 	
+											<div class="form-group" style="margin-bottom: 12px">
+												<input type="text" class="form-control" id="productAmount" name="warehouseRequestAmount" placeholder="입고요청수량"/>
+			                       			 </div>	
+										<div class="form-group">
+										<div class="image-container">
+										    <img style="width: 500px;" id="preview-image" src="https://dummyimage.com/500x500/ffffff/000000.png&text=preview+image">
+										    <input style="display: block;" type="file" id="input-image" name="barcodeImg">
+										</div>
+											<a type="button" class="btn btn-outline-info" id="barCode" style="margin-top: 10px;">QR코드생성</a>
+											<span style="font-size: 12px; font-weight: bold;">QR코드를 생성하면 제품에 맞는 바코드가 생성됩니다!(저장경로 C:/QR)</span>
+										</div>
+										<div class="form-group">
+											<input type="Date" class="form-control" id="recevingDate" name="requestRegDate" placeholder="입고 예정일">
+										</div>
+										<div class="input-group">
+											<div class="custom-file">
+												<input type="file" class="custom-file-input" id="inputGroupFile01"  name="productFile" aria-describedby="inputGroupFileAddon01">
+												<label class="custom-file-label" for="inputGroupFile01">일괄입고 Upload</label>
+											</div>
+										</div>
+										<button type="submit" id="submit" name="submit" class="btn btn-primary float-right" style="margin-top: 10px;">입고 요청</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+					<!-- Row end -->
+
+				</div>
+				<!-- Main container end -->
+	
+</th:block>
+<th:block layout:fragment="customJs">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script type="text/javascript">		
+// 		var itemMiddleCategory = $('#itemMiddleCategory');
+		
+// 		$('#itemBigCategory').change(function(){
+// 			var request = $.ajax({
+// 				url: "/getMiddleCate",
+// 				method: "POST", 
+// 				data: { itemBigCategory : $('#itemBigCategory').val()}, 
+// 				dataType: "json" 
+// 			}); 
+
+// 			request.done(function( data ) {
+// 				console.log(data);
+// 				var html = '';
+// 				if(data != undefined && data != '' && data.length > 0){
+// 					html += '<option value=""> :: 중분류 선택 :: </option>';
+// 					for(var i=0; i < data.length; i++){
+// 						html += '<option value="'+data[i].itemMiddleCategory+'">';
+// 						html += data[i].itemMiddleCategory;
+// 						html += '</option>';
+// 					}
+// 				}else{
+// 					html = '<option value=""> :: 이건 뭐지? :: </option>';
+// 				}
+// 				itemMiddleCategory.html(html);
+// 			}); 
+// 			request.fail(function( jqXHR, textStatus ) {
+// 				alert( "Request failed: " + textStatus );
+// 			});			
+// 		});
+		
+		
+// 		var itemSmallCategory = $('#productCategory');
+		
+// 		$('#itemMiddleCategory').change(function(){
+// 			var request = $.ajax({
+// 				url: "/getSmallCate",
+// 				method: "POST", 
+// 				data: { itemMiddleCategory : $('#itemMiddleCategory').val()	}, 
+// 				dataType: "json" 
+// 			}); 
+
+// 			request.done(function( data ) {
+// 				console.log(data);
+// 				var html = '';
+// 				if(data != undefined && data != '' && data.length > 0){
+					
+// 					html += '<option value=""> :: 소분류 선택 :: </option>';
+// 					for(var i=0; i < data.length; i++){
+// 						html += '<option value="'+data[i].itemSmallCategory+'">';
+// 						html += data[i].itemSmallCategory
+// 						html += '</option>';
+// 					}
+// 				}else{
+// 					html = '<option value=""> :: 이건 뭐지? :: </option>';
+// 				}
+// 				itemSmallCategory.html(html);
+// 			}); 
+// 			request.fail(function( jqXHR, textStatus ) {
+// 				alert( "Request failed: " + textStatus );
+// 			});			
+// 		});
+
+		
+		var productCode = $('#productCode');
+		
+		$('#productName').change(function(){
+			
+			var request = $.ajax({
+				  url: "/productCodeList",
+				  method: "POST",
+				  data: { productName : $('#productName').val() },
+				  dataType: "json"
+				});
+			
+				request.done(function( data ) {
+					
+					var html = '';
+					
+					if(data != undefined){
+						
+						for(var i=0; i<data.length; i++){
+							html += '<input type="text" class="form-control" name="productCode" value="'+data[i].productCode+'" readonly="readonly" />';
+						}
+						
+					}else{
+							console.log('실패');
+					}
+					
+					console.log(html);
+					
+					productCode.html(html);
+					
+				});
+				 
+				request.fail(function( jqXHR, textStatus ) {
+				  alert( "Request failed: " + textStatus );
+				});
+			
+		});
+	
+
+		
+		
+		$('#barCode').click(function(){
+			var request = $.ajax({
+				  url: "/barCodeCreate",
+				  method: "post",
+				  dataType: "json"
+				});
+				 
+				request.done(function( msg ) {
+					if(msg != 1){
+						Swal.fire({
+							  title: 'QR코드 바코드',
+							  text: 'QR코드 생성 실패!',
+							  icon: 'error'
+							});
+						
+					}else{
+						Swal.fire({
+							  title: 'QR코드 바코드',
+							  text: 'QR코드 생성 성공!',
+							  icon: 'success'
+							});
+						
+					}
+				});
+				request.fail(function( jqXHR, textStatus ) {
+				  alert( "Request failed: " + textStatus );
+				});
+			
+		});
+		
+		function readImage(input) {
+			
+		    // 인풋 태그에 파일이 있는 경우
+		    if(input.files && input.files[0]) {
+		        // 이미지 파일인지 검사 (생략)
+		        
+		        // FileReader 인스턴스 생성
+		        var reader = new FileReader()
+		        // 이미지가 로드가 된 경우
+		        reader.onload = e => {
+		            var previewImage = document.getElementById("preview-image")
+		            previewImage.src = e.target.result
+		        }
+		        // reader가 이미지 읽도록 하기
+		        reader.readAsDataURL(input.files[0])
+		    }
+		}
+		// input file에 change 이벤트 부여
+		var inputImage = document.getElementById("input-image")
+		inputImage.addEventListener("change", e => {
+		    readImage(e.target)
+		})
+			
+	</script>
+	
+</th:block>
+		
+</html>

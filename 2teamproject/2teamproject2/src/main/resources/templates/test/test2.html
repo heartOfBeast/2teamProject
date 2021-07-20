@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html
+	xmlns:th="http://www.thymeleaf.org"
+ 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="@{layout/default}">
+<th:block layout:fragment="pageTitle">
+	<div class="page-header">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item">Shoppingmall</li>
+		<li class="breadcrumb-item active">PriceList</li>
+	</ol>
+
+	<ul class="app-actions">
+		<li>
+			<a href="#" id="reportrange">
+				<span class="range-text"></span>
+				<i class="icon-chevron-down"></i>	
+			</a>
+		</li>
+		<li>
+			<a href="#">
+				<i class="icon-export"></i>
+			</a>
+		</li>
+	</ul>
+</div>
+<meta charset="UTF-8">
+	<title>tab example</title>
+	<style>
+		#container {
+			width:960px;
+			margin:0 auto;
+			text-align:center;
+		}
+		.tab {
+			list-style: none;
+			margin: 0;
+			padding: 0;
+			overflow: hidden;
+		}
+		/* Float the list items side by side */
+		.tab li {
+			float: left;
+		}
+		/* Style the links inside the list items */
+		.tab li a {
+			display: inline-block;
+			color: #000;
+			text-align: center;
+			text-decoration: none;
+			padding: 14px 16px;
+			font-size: 17px;
+			transition:0.3s;
+		}
+		/* Style the tab content */
+		.tabcontent {
+			display: none;
+			background-color:rgb(0,154,200);
+			padding: 6px 12px;
+			color:#fff;
+		}
+		ul.tab li.current{
+			background-color: rgb(0,154,200);
+			color: #222;
+		}
+		.tabcontent.current {
+			display: block;
+		}
+	</style>
+	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+</th:block>
+	
+<th:block layout:fragment="container">
+	<div class="row gutters">
+		<div class="col-12">
+
+		<!-- Card start -->
+			<div class="card">
+				<div class="card-header">
+					<div class="card-title"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">두 개의 열</font></font></div>
+				</div>
+				<div class="card-body">
+				
+				<!-- Row start -->
+				<div class="row gutters">
+					<div class="col-6">
+
+						<!-- Card start -->
+						<div class="card highlight">
+							<div class="card-body">
+
+							</div>
+						</div>
+						<!-- Card end -->
+
+					</div>
+					<div class="col-6">
+
+						<!-- Card start -->
+						<div class="card highlight">
+							<div class="card-body">
+
+							</div>
+						</div>
+						<!-- Card end -->
+
+					</div>
+				</div>
+				<!-- Row end -->
+
+				<!-- Code Syntax -->
+				<figure class="highlight"><pre class=" language-html"><code class=" language-html" data-lang="html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>row gutters<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+				 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>col-6<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Column<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+				  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>col-6<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Column<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+				<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+				</code></pre></figure>
+
+
+			</div>
+		</div>
+		<!-- Card end -->
+	</div>
+</div>
+	
+	
+	
+	
+	
+</th:block>
+</html>

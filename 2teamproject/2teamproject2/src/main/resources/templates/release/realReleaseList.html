@@ -1,0 +1,80 @@
+<!doctype html>
+<html
+	xmlns:th="http://www.thymeleaf.org"
+ 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="@{layout/default}">
+	
+	<th:block layout:fragment="pageTitle">
+		<div class="page-header">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item">Home</li>
+				<li class="breadcrumb-item active">출고 리스트</li>
+			</ol>
+		
+			<ul class="app-actions">
+				<li>
+					<a href="#" id="reportrange">
+						<span class="range-text"></span>
+						<i class="icon-chevron-down"></i>	
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						<i class="icon-export"></i>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</th:block>
+	<th:block layout:fragment="container">
+		<div class="main-container">
+			<div class="row gutters">
+				<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+					<div class="table-container">
+						<div class="t-header">출고 리스트</div>
+						<div class="table-responsive">
+							<table id="copy-print-csv" class="table custom-table">
+								<thead>
+									<tr>
+									  <th>test</th>
+									  <th>test</th>
+									  <th>test</th>
+									  <th>test</th>
+									  <th>test</th>
+									  <th>test</th>
+									  <th>test</th>
+									  <th>test</th>
+									  <th>test</th>
+									  <th>test</th>
+									  <th>test</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+									  <td>test</td>
+									  <td>test</td>
+									  <td>test</td>
+									  <td>test</td>
+									  <td>test</td>
+									  <td>test</td>
+									  <td>test</td>
+									  <td>test</td>
+									  <td>test</td>
+									  <td>
+									  	<a href="#">test</a>
+								  	  </td>
+									  <td>
+									  	<a href="#">test</a>
+								  	  </td>
+									</tr>
+								</tbody>
+				    	</table>
+						</div>
+					</div>
+				
+				</div>
+			</div>
+		</div>
+	</th:block>
+		
+</html>

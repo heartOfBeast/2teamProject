@@ -1,0 +1,284 @@
+<!doctype html>
+<html
+	xmlns:th="http://www.thymeleaf.org"
+ 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="@{layout/default}">
+<th:block layout:fragment="pageTitle">
+<div class="page-header">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item">재무관리</li>
+		<li class="breadcrumb-item active">지출내역조회</li>
+	</ol>
+
+	<ul class="app-actions">
+		<li>
+			<a href="#" id="reportrange">
+				<span class="range-text"></span>
+				<i class="icon-chevron-down"></i>	
+			</a>
+		</li>
+		<li>
+			<a href="#">
+				<i class="icon-export"></i>
+			</a>
+		</li>
+	</ul>
+</div>
+
+<th:block layout:fragment="container">
+<div class="main-container">
+	<div class="row gutters">
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+					
+							<div class="card">
+								<div class="card-header">
+									<div class="card-title">
+									<select>
+										<option>2018년</option>
+										<option>2019년</option>
+										<option>2020년</option>
+										<option>2021년</option>
+										<option>2022년</option>
+									</select>
+									 지출현황(그래프)</div>
+								</div>
+								<div class="card-body">
+									<div id="basic-column-stack-graph-fullheight2" class="primary-graph"></div>
+								</div>
+							</div>
+
+					
+
+						</div>
+				
+					<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+							
+						<div class="table-container">
+							<div class="t-header">21년 지출현황(표)</div>
+								<div class="table-responsive">
+									<table id="copy-print-csv" class="table custom-table">
+										<thead>
+											<tr>
+												<th>
+									  		<input type="checkbox" id="expenseCheckAll" style="position: relative; top: 1.5px;">
+									  			</th>
+												<th>지출코드</th>
+												<th>지출내역</th>
+												<th>지출날짜</th>
+												<th>현금카드</th>
+												<th>카드정보</th>
+												<th>매장명</th>
+												<th>종류</th>
+												<th>금액</th>
+												<th>등록자</th>
+												<th>등록일</th>
+												<th>수정</th>
+											
+											</tr>
+										</thead>
+										<tbody>
+											<tr th:each="L :${expenditureList}">
+												 <td>
+								  	  	<input type="checkbox" class="expenseCheckOne" style="position: relative; top: 1.5px;" th:value="${L.expenseCode}">
+									  			</td>
+												<td th:text ="${L.expenseCode}"></td>
+												<td th:text ="${L.expenseInfo}"></td>
+												<td th:text ="${L.expenseDate}"></td>
+												<td th:text ="${L.expenseCashCard}"></td>
+												<td th:text ="${L.expenseCardInfo}"></td>
+												<td th:text ="${L.expenseStore}"></td>
+												<td th:text ="${L.expenseCate}"></td>
+												<td th:text ="${L.expensePayment}"></td>
+												<td th:text ="${L.wareadminId}"></td>
+												<td th:text ="${L.expensRegDate}"></td>
+												<td></td>
+											
+											</tr>
+										</tbody>
+									</table>
+								<button type="button" class="btn btn-primary float-right" onclick="deleteDate();">삭제</button>
+									
+							</div>
+							</div>
+					</div>
+	</div>
+</div>
+</th:block>
+
+<th:block layout:fragment="customJs">
+	<script th:inline="javascript">
+	var options = null;
+			/*******************************그래프양식(?)******************************************/
+	window.onload = function(){
+		
+	options = {
+		  chart:	 	{
+		    				height: 350,
+		    				type: 'bar',
+		    				stacked: true,
+		    				stackType: '100%',
+		   					toolbar: {
+		      				show: false
+		    				},
+		    				zoom: {
+		      				enabled: true
+		    				}
+		  				},
+		 responsive: 	[{
+		    				breakpoint: 480,
+		    				options: {
+		      				legend: {
+		        			position: 'bottom',
+		        			offsetX: -10,
+		        			offsetY: 0
+		     			    }
+		    			}
+		  				}],
+		plotOptions: 	{
+		    				bar: {
+		      				horizontal: false,
+		    				},
+		  				},
+		dataLabels: 	{
+		    				enabled: true
+		  				},
+		  
+		series: 		[
+// 							{
+// 								NAME : '',
+// 								DATA : []
+// 							},
+// 							{
+// 								NAME : '',
+// 								DATA : []
+// 							}
+						],
+		  xaxis: 		{
+						    type: 'datetime',
+						    categories: ['01/01/2021 GMT', '02/01/2021 GMT', '03/01/2021 GMT', '04/01/2021 GMT', '05/01/2021 GMT', '06/01/2021 GMT'
+						    			,'07/01/2021 GMT', '08/01/2021 GMT', '09/01/2021 GMT', '10/01/2021 GMT', '11/01/2021 GMT', '12/01/2021 GMT','01/01/2022 GMT'],
+				  		},
+		  legend: 		{
+						    position: 'top',
+						    offsetY: 10
+		  				},
+		  fill: 		{
+						    opacity: 1
+						},
+		  colors: 		['#FE2E2E', '#2EFE64', '#DA81F5', '#81F7F3','#6E6E6E','#0B4C5F','#886A08','#3B0B0B',
+			  			'#240B3B', '#240B3B', '#FFFFFF', '#FAAC58'],
+				}
+	
+	
+	options.series = SeriesData;
+		var chart2 = new ApexCharts(
+		  document.querySelector("#basic-column-stack-graph-fullheight2"),
+		  options
+		);
+		chart2.render();
+		}
+	/********************************위에꺼 계산식***************************************/
+		
+
+		
+		/*<![CDATA[*/
+		var result =/*[[${expenditureList}]]*/;
+		/*]]>*/
+ 	
+		var resultExpenCate =[];
+		var dupleExpenCate =[];
+			for(var i=0; i<result.length; i++){
+				resultExpenCate[i] = result[i].expenseCate;
+				if (dupleExpenCate.indexOf(resultExpenCate[i]) === -1) dupleExpenCate.push(resultExpenCate[i]);
+				
+			}
+			
+		var SeriesData= [];
+		
+		// data가 12달의 금액이 들어가는 배열이기때문에 배열의 길이를 12개로 초기화시킴
+		for(var i=0; i<dupleExpenCate.length; i++){
+			SeriesData[i] = {name : dupleExpenCate[i], data:[] };
+			SeriesData[i].data = new Array(12);
+		}
+		
+		
+		for(var i=0; i<result.length; i++){
+			for(var j=0; j<SeriesData.length; j++){
+					
+				var resultCateName = result[i].expenseCate;
+				var seriesCateName = SeriesData[j].name;
+				if(resultCateName == seriesCateName){
+					 var date = new Date(result[i].expenseDate);
+					 var m = date.getMonth();
+
+					 if(SeriesData[j].data[m] === undefined){
+						 SeriesData[j].data[m] = 0;
+					 }
+					 SeriesData[j].data[m] += parseInt(result[i].expensePayment);
+				}
+			}
+		}
+		
+		for(var i = 0; i < SeriesData.length; i++){
+			for(var j = 0; j < SeriesData[i].data.length; j++){
+				if(SeriesData[i].data[j] === undefined){
+					SeriesData[i].data[j] = 0;
+				}
+			}
+		}
+
+		
+		
+
+
+	/**********************************************************************************/
+			(event) => {
+				$('#expenseCheckAll').click(function(){
+					if($('#expenseCheckAll').prop('checked')){
+						$('.expenseCheckOne').prop('checked', true);
+					}else{
+						$('.expenseCheckOne').prop('checked', false);
+					}
+				}
+			)};
+			
+			function deleteDate(){
+				var dataArr = new Array();
+				var list = $('.expenseCheckOne');
+				for(var i=0; i<list.length; i++){
+					if(list[i].checked){
+						dataArr.push(list[i].value);
+					}
+				}
+				if(dataArr.length == 0){
+					alert('삭제할 항목을 선택해주세요.');
+				}
+				else{
+					var chk = confirm('정말 삭제하시겠습니까?');
+					if(chk){
+						$.ajax({
+							url : "/expenditureDelete",
+							method : 'post',
+							async : true,
+							dataType : "json",
+							data : {'dataArr':dataArr},
+							success: function(jdata){
+								if(jdata != 1){
+									alert('오류 : 삭제 실패');
+								}else{
+									alert('삭제 되었습니다.');
+									location.replace("expenditure");
+								}
+							}
+				    	});
+					}else{
+						return false;
+					}
+				}
+			}
+			
+	</script>
+
+</th:block>
+</html>

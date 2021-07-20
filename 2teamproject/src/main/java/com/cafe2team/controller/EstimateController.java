@@ -123,9 +123,11 @@ public class EstimateController {
 				out.println("<script>alert('없는 데이터입니다. 다시 확인하여 입력해주세요.');</script>");
 				out.flush();
 				return "estimate/estimateLook";
+				
 			}else {
 				model.addAttribute("estimate", estimate);
 					log.info("estimate", estimate);
+					if(SID == null) return "estimate/estimateAnotherLookList";
 				return "estimate/estimateLookList";
 			}
 			
