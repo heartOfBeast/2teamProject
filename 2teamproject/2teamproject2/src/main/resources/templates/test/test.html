@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html
+	xmlns:th="http://www.thymeleaf.org"
+ 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="@{layout/default}">
+<th:block layout:fragment="pageTitle">
+	<div class="page-header">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item">Shoppingmall</li>
+		<li class="breadcrumb-item active">PriceList</li>
+	</ol>
+
+	<ul class="app-actions">
+		<li>
+			<a href="#" id="reportrange">
+				<span class="range-text"></span>
+				<i class="icon-chevron-down"></i>	
+			</a>
+		</li>
+		<li>
+			<a href="#">
+				<i class="icon-export"></i>
+			</a>
+		</li>
+	</ul>
+</div>
+<meta charset="UTF-8">
+	<title>tab example</title>
+	<style>
+		#container {
+			width:960px;
+			margin:0 auto;
+			text-align:center;
+		}
+		.tab {
+			list-style: none;
+			margin: 0;
+			padding: 0;
+			overflow: hidden;
+		}
+		/* Float the list items side by side */
+		.tab li {
+			float: left;
+		}
+		/* Style the links inside the list items */
+		.tab li a {
+			display: inline-block;
+			color: #000;
+			text-align: center;
+			text-decoration: none;
+			padding: 14px 16px;
+			font-size: 17px;
+			transition:0.3s;
+		}
+		/* Style the tab content */
+		.tabcontent {
+			display: none;
+			background-color:rgb(0,154,200);
+			padding: 6px 12px;
+			color:#fff;
+		}
+		ul.tab li.current{
+			background-color: rgb(0,154,200);
+			color: #222;
+		}
+		.tabcontent.current {
+			display: block;
+		}
+	</style>
+	
+</th:block>
+	
+<th:block layout:fragment="container">
+	<div id="container">
+		<h2>요금표 선택</h2>
+		<ul class="tab">
+			<li class="current" data-tab="tab1"><a href="#">일반창고</a></li>
+			<li data-tab="tab2"><a href="#">냉장/냉동창고</a></li>
+		</ul>
+
+		<div id="tab1" class="tabcontent current">
+			<h3>일반창고</h3>
+			<table class="table custom-table m-0">
+				<thead>
+					<tr>
+						<th>창고 종류</th>
+						<th>계약 종류</th>
+						<th>물품 개당 무게</th>
+						<th>제한 수량</th>
+						<th>구역 개수</th>
+						<th>계약 기간</th>
+						<th>사용 요금</th>
+						<th>등록</th>
+						<th>수정</th>
+						<th>삭제</th>
+						<th>계약신청</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>1</td>
+						<td>2</td>
+						<td>3</td>
+						<td>4</td>
+						<td>5</td>
+						<td>6</td>
+						<td>7</td>
+						<td>
+							<a th:href="@{/priceAdd}">등록</a>
+						</td>
+						<td>
+							<a th:href="@{/priceUpdate(price_Code=${l.price_Code})}" >수정</a>
+						</td>
+						<td>
+							<a th:href="@{/priceRemove(price_Code=${l.price_Code})}">삭제</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div id="tab2" class="tabcontent">
+			<h3>냉장/냉동창고</h3>
+			<p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.</p>
+		</div>
+	</div>
+</th:block>
+<th:block layout:fragment="customJs">
+	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+	<script>
+		$(function() {
+			$('ul.tab li').click(function() {
+				var activeTab = $(this).attr('data-tab');
+				$('ul.tab li').removeClass('current');
+				$('.tabcontent').removeClass('current');
+				$(this).addClass('current');
+				$('#' + activeTab).addClass('current');
+			})
+		});
+	</script>
+
+</th:block>
+</html>

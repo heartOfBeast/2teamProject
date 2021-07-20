@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cafe2team.dao.SafetyCheckMapper">
+	<resultMap type="SafetyCheck" id="SafetyCheckResultMap">
+		<result property="facilityCode" 			column="facility_code"/>
+		<result property="warehouseCode" 			column="warehouse_code"/>
+		<result property="facilityFiresafety" 		column="facility_firesafety"/>
+		<result property="facilityLogistics" 		column="facility_logistics"/>
+		<result property="facilityMainEquipemnt" 	column="facility_main_equipemnt"/>
+		<result property="wareAdminId" 				column="ware_admin_id"/>
+		<result property="facilityRegDate" 			column="facility_reg_date"/>
+		<result property="facilityUpdateDate" 		column="facility_update_date"/>
+		<result property="facilityCheck" 			column="facility_check"/>
+		<association property="warehouse" javaType="Warehouse">
+			<id property="warehouseCode" 			column="warehouse_code" />
+			<result property="warehouseName" 		column="warehouse_name"/>
+		</association>
+	</resultMap>
+
+	<select id="getSafetyCheck" resultType="SafetyCheck" fetchSize="1000" resultMap="SafetyCheckResultMap">
+		SELECT 
+			  s.facility_code
+			, s.warehouse_code
+			, w.warehouse_name
+			, s.facility_firesafety
+			, s.facility_logistics
+			, s.facility_main_equipemnt
+			, s.ware_admin_id
+			, s.facility_reg_date
+			, s.facility_update_date
+			, s.facility_check
+		FROM 
+			tb_safety_facility AS s
+			INNER JOIN 
+			tb_warehouse AS w
+			ON 
+			s.warehouse_code = w.warehouse_code;
+	</select>
+	
+		<select id="getSafetyCheckById" parameterType="String" resultMap="SafetyCheckResultMap">
+		SELECT 
+			  s.facility_code
+			, s.warehouse_code
+			, w.warehouse_name
+			, s.facility_firesafety
+			, s.facility_logistics
+			, s.facility_main_equipemnt
+			, s.ware_admin_id
+			, s.facility_reg_date
+			, s.facility_update_date
+			, s.facility_check
+		FROM 
+			tb_safety_facility AS s
+			INNER JOIN 
+			tb_warehouse AS w
+			ON 
+			s.warehouse_code = w.warehouse_code
+		WHERE
+			s.facility_code = #{facilityCode};
+	</select>
+	
+ 	<update id="modifySafeCheck" parameterType="SafetyCheck">
+		UPDATE tb_safety_facility
+		SET
+			warehouse_code = #{warehouseCode}
+			,facility_firesafety = #{facilityFiresafety}
+			,facility_logistics = #{facilityLogistics}
+			,facility_main_equipemnt = #{facilityMainEquipemnt}
+			, ware_admin_id = #{wareAdminId}
+			, facility_update_date = CURDATE()
+			,facility_check = #{facilityCheck}
+		WHERE 
+			facility_code=#{facilityCode};
+	</update>
+	
+	<insert id="addSafetyCheck" parameterType="SafetyCheck">
+		INSERT INTO tb_safety_facility(
+			  facility_code
+			, warehouse_code
+			, facility_firesafety
+			, facility_logistics
+			, facility_main_equipemnt
+			, ware_admin_id
+			, facility_reg_date
+			, facility_update_date
+			, facility_check
+		)VALUES (
+			sf_newSafetyCode()
+			, #{warehouseCode}
+			, #{facilityFiresafety}
+			, #{facilityLogistics}
+			, #{facilityMainEquipemnt}
+			, #{wareAdminId}
+			, CURDATE()
+			, CURDATE()
+			, #{facilityCheck})
+	</insert>
+	
+	<delete id="deleteSafetyCheckByCode" parameterType="java.util.List">
+		DELETE 
+		FROM 
+			tb_safety_facility
+		WHERE 
+			facility_code in
+			<foreach collection="list" item="code" open="(" close=")" separator=",">
+				#{code}
+			</foreach>
+	</delete>
+	
+	<select id="getWareHouseInfo" resultType="Warehouse" fetchSize="1000">
+		SELECT 
+			warehouse_code AS warehouseCode
+	 	  , warehouse_name AS warehouseName
+	
+		FROM 
+			tb_warehouse
+	</select>
+</mapper> 

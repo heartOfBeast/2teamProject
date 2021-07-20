@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="com.cafe2team.dao.InquiryMapper">
+ 	<resultMap type="Inquiry" id="inquiryResultMap">
+ 		<result property="boardQnaCode" column="board_qna_code"/>
+ 		<result property="boardQnaSubject" column="board_qna_subject"/>
+ 		<result property="boardQnaContent" column="board_qna_content"/>
+ 		<result property="boardQnaWriter" column="board_qna_writer"/>
+ 		<result property="boardNonmemberPhone" column="board_nonmember_phone"/>
+ 		<result property="boardNonmemberEmail" column="board_nonmember_email"/>
+ 		<result property="boardQnaViews" column="board_qna_views"/>
+ 		<result property="boardCheckPassword" column="board_qna_views"/>
+ 		<result property="boardQnaPassword" column="board_check_password"/>
+ 		<result property="boardQnaTemp" column="board_qna_password"/>
+ 		<result property="boardQnaRegDate" column="board_qna_reg_date"/>
+  	</resultMap>
+  	
+  	<!--게시글 조회  -->
+  	<select id="readInquiry" parameterType="String" resultType="Inquiry">
+	  	SELECT
+			b.board_qna_code,
+			b.board_qna_subject,
+			b.board_qna_content,
+			b.board_qna_writer,
+			b.board_qna_reg_date
+		FROM 
+			tb_board AS b
+		WHERE
+			b.board_qna_code = #{boardQnaCode}
+  	</select>
+  	
+  	<!--문의게시판 게시글 목록  -->
+  	<select id="getInquiryList" resultMap="inquiryResultMap" >
+  		SELECT
+			b.board_qna_code,
+			b.board_qna_subject,
+			b.board_qna_content,
+			b.board_qna_writer,
+			b.board_nonmember_phone,
+			b.board_nonmember_email,
+			b.board_qna_reg_date,
+			b.board_qna_views,
+			b.board_check_password,
+			b.board_qna_password,
+			b.board_qna_temp
+		FROM
+			tb_board AS b
+  	</select>
+ 
+ </mapper>

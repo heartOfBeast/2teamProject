@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cafe2team.sample.dao.SampleMapper">
+	
+	<!-- 출고요청 조회 -->
+	<select id="getSampleList" resultType="com.cafe2team.sample.domain.Sample">
+		SELECT 
+			  releases.release_request_code					AS releasesCode
+			, product.product_code							AS productCode
+			, product.product_name							AS productName
+			, war.warehouse_code							AS wareHouseCode
+			, war.warehouse_name							AS wareHouseName
+			, releases.sector_column_final_code				AS releasesFinal
+			, releases.release_request_amount				AS releasesAmount
+			, releases.release_request_name					AS releasesName
+			, releases.release_request_address				AS releasesAddr
+			, releases.release_request_phone				AS releasesPhone
+			, shUser.shoppingmall_user_id					AS shoppingmallUserserId
+			, shUser.shoppingmall_user_name					AS shoppingmallUserName
+			, releases.release_request_status				AS releasesStatus
+			, releases.ware_admin_id						AS releasesAdmin
+			, releases.release_request_reg_date				AS releasesReg
+		FROM
+			tb_release  									AS releases
+		INNER JOIN 
+			tb_product										AS product
+		ON 
+			releases.product_code = product.product_code
+		INNER JOIN 
+			tb_warehouse									AS war
+		ON
+			releases.warehouse_code = war.warehouse_code
+		INNER JOIN 
+			tb_shoppingmall_user 							AS shUser
+		ON 
+			releases.shoppingmall_user_id = shUser.shoppingmall_user_id;
+	</select>
+	
+	<!-- 출고 요청 배열받기 -->
+	<!-- <select id="samplePush" parameterType="java.util.ArrayList" resultType="com.cafe2team.sample.domain.Sample">
+     
+	</select> -->
+
+	<update id="samplePush" parameterType="java.util.List">
+		UPDATE tb_release
+			SET
+				release_request_status='요청',
+				release_request_reg_date=NOW()
+			WHERE 
+	        	release_request_code in 
+	        <foreach collection="list" item="push"  open="(" close=")" separator=",">
+	            #{push}
+	        </foreach>
+	</update>
+	
+	
+	<!-- 출고 요청시 조회 -->
+	<select id="releaseInfo" parameterType="com.cafe2team.sample.domain.Sample">
+		SELECT 
+			  release_request_code			AS releasesCode
+			, product_code					AS productCode
+			, warehouse_code				AS wareHouseCode
+			, sector_column_final_code		AS releasesFinal
+			, release_request_amount		AS releasesAmount
+			, release_request_name			AS releasesName
+			, release_request_address		AS releasesAddr
+			, release_request_phone			AS releasesPhone
+			, shoppingmall_user_id			AS shoppingmallUserserId
+			, shoppingmall_user_name		AS shoppingmallUserName
+			, release_request_status		AS releasesStatus
+			, ware_admin_id					AS releasesAdmin
+			, release_request_reg_date		AS releasesReg
+		FROM 
+			tb_release
+		WHERE
+			release_request_code = #{releasesStatus};
+	</select>
+	
+		
+	<!-- 출고 요청시 상태 업데이트 -->
+	<update id="releaseUpdate" parameterType="com.cafe2team.sample.domain.Sample">
+		UPDATE tb_release
+		SET
+			 release_request_status  = '요청'
+		WHERE 
+			release_request_code	 = #{releasesCode};
+	</update>
+	
+	<!-- 출고 요청시 정보추가  -->
+	<insert id="releasesInsert" parameterType="String">
+		INSERT INTO tb_release_order
+			( release_order_code
+			, release_code
+			, warehouse_code
+			, product_code
+			, release_order_quantity
+			, release_recipient_name
+			, release_recipient_address
+			, release_recipient_phone
+			, shoppingmall_user_id
+			, release_order_reg_date
+			)VALUES (
+			  sf__newReleaseOderCode()
+			, #{releasesCode}
+			, #{wareHouseCode}
+			, #{productName}
+			, #{releasesAmount}
+			, #{releasesName}
+			, #{releasesAddr}
+			, #{releasesPhone}
+			, #{shoppingmallUserserId}
+			, NOW() );
+	</insert>
+	
+	
+</mapper>

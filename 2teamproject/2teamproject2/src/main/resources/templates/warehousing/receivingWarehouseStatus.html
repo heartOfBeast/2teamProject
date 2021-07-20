@@ -1,0 +1,89 @@
+<!doctype html>
+<html
+	xmlns:th="http://www.thymeleaf.org"
+ 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="@{layout/default}">
+	
+<th:block layout:fragment="pageTitle">
+<div class="page-header">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item">warehousing</li>
+		<li class="breadcrumb-item active">receivingStatus</li>
+	</ol>
+
+	<ul class="app-actions">
+		<li>
+			<a href="#" id="reportrange">
+				<span class="range-text"></span>
+				<i class="icon-chevron-down"></i>	
+			</a>
+		</li>
+		<li>
+			<a href="#">
+				<i class="icon-export"></i>
+			</a>
+		</li>
+	</ul>
+</div>
+</th:block>
+
+<th:block layout:fragment="container">
+	<style>
+		.hidden-col{display: none;}
+	</style>
+	<div class="main-container">
+		<div class="row gutters">
+			<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+				<div class="card">
+					<div class="card-header">
+						<div class="card-title">Basic Column Graph With Datatables</div>
+					</div>
+					<div class="card-body">
+						<div id="basic-column-graph-datalables" class="primary-graph"></div>
+					</div>
+				</div>
+				<div class="table-container">
+					<div class="t-header">입고 현황 조회</div>
+					<div class="table-responsive">
+						<table id="copy-print-csv" class="table custom-table">
+							<thead>
+								<tr>
+									<th>
+										<input type="checkbox" id="checkAll" style="position: relative; top: 1.5px;">
+									</th>
+									<th>입고코드</th>
+									<th class="hidden-col">입고주문서코드</th>
+									<th>입고창고</th>
+								 	<th>상품명</th>
+									<th>쇼핑몰명</th>
+									<th>입고일</th>
+									<th>담당자</th>
+								</tr>			
+							</thead>
+							<tbody>
+								<tr th:if="${#lists.size(receivingStatusListForWarehouse)}>0" th:each="l:${receivingStatusListForWarehouse}">
+									<td>
+										<input type="checkbox" id="receivingingCode" class="checkOne" style="position: relative; top: 1.5px;" th:value="${l.receivingingCode}">
+									</td>
+									<td class="hidden-col" th:text="${l.warehousingOrderCode}"></td>
+									<td th:text="${l.receivingingCode}"></td>
+									<td th:text="${l.warehouse.warehouseName}"></td>
+									<td th:text="${l.product.productName}"></td>
+									<td th:text="${l.shoppingmall.shoppingmallName}"></td>
+									<td th:text="${l.warehousingRealDate}"></td>
+									<td th:text="${l.wareAdminId}"></td>
+								</tr>
+								<tr th:unless="${#lists.size(receivingStatusListForWarehouse)>0}" style="text-align: center;">
+									<td th:text="${검색된 결과가 없습니다}"></td>
+								</tr>
+							</tbody>
+		    			</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	<!-- Row end -->
+	</div>
+</th:block>
+		
+</html>

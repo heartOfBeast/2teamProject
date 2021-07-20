@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en"
+	xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/jumbotron.css}">
+
+    <title>SHOP SMAPLE</title>
+	 
+  </head>
+  <body>
+  
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+	  <a class="navbar-brand" th:href="@{/sample}">SHOP</a>
+	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+	    <span class="navbar-toggler-icon"></span>
+	  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+			<button type="button" class="btn btn-outline-primary">입고요청</button>
+      </li>
+      &nbsp
+      <li class="nav-item">
+			<button type="button" class="btn btn-outline-primary">입고현황</button>
+      </li>
+      &nbsp
+      <li class="nav-item">
+			<button type="button" class="btn btn-outline-primary">출고현황</button>
+      </li>
+      &nbsp
+    </ul>
+  </div>
+</nav>
+<br/>
+<div class="row gutters" style="margin: 0px 100px 0px 100px;">
+	<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12" >
+		<div class="jumbotron">
+			<h1 class="display-4 text-primary">쇼핑몰 샘플 페이지를 만든 이유</h1>
+			<p class="lead">- 출고하는 과정에서의 프로세스의 흐름을 파악하기 위해서 쇼핑몰 샘플 페이지를 만들었다.</p>
+			<h3>프로세스 흐름 순서</h3>
+			<p> 고객이 상품을 구매 -> 구매한 상품에 대한 정보가 리스트에 들어옴 -> 쇼핑몰 관리자는 리스트에 들어온 상품을 통해 창고로 출고 요청을 한다</p> 
+			<p> -> 출고 요청을 바탕으로 출고 지시서를 작성 -> 배차 및 운송장 작성 -> 승인 및 출고 </p> <br/>
+		</div>
+	</div>
+<div class="row gutters" style="margin: 0px 100px 0px 100px;">
+	<div class="main-container">
+			<div class="row gutters">
+				<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+					<div class="table-container">
+						<div class="table-responsive">
+							<button type="button" class="btn btn-primary float-right" onclick="push();">출고요청 버튼</button>
+							<table id="copy-print-csv" class="table custom-table">
+								<thead>
+									<tr>
+										<th>
+						  					<input type="checkbox" id="releasePush" style="position: relative; top: 1.5px;">
+						   				</th>
+										<th>출고요청코드</th>
+										<th>상품명</th>
+										<th>창고이름</th>
+										<th>최종위치</th>
+										<th>요청수량</th>
+										<th>수령인성함</th>
+										<th>수령인주소</th>
+										<th>수령인연락처</th>
+										<th>쇼핑몰 담장자 이름</th>
+										<th>출고현황</th>
+										<th>출고담당자</th>
+										<th>등록일</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="l: ${sampleList}">
+										<td>
+				  	  						<input type="checkbox" class="checkOne" style="position: relative; top: 1.5px;" th:value="${l.releasesCode}">
+					   	 				</td>
+										<td class="sorting_1" th:text="${l.releasesCode}"></td>
+										<td class="sorting_1" th:text="${l.productName}"></td>
+										<td class="sorting_1" th:text="${l.wareHouseName}"></td>
+										<td class="sorting_1" th:text="${l.releasesFinal}"></td>
+										<td class="sorting_1" th:text="${l.releasesAmount}"></td>
+										<td class="sorting_1" th:text="${l.releasesName}"></td>
+										<td class="sorting_1" th:text="${l.releasesAddr}"></td>
+										<td class="sorting_1" th:text="${l.releasesPhone}"></td>
+										<td class="sorting_1" th:text="${l.shoppingmallUserName}"></td>
+										<td class="sorting_1" th:text="${l.releasesStatus}"></td>
+										<td class="sorting_1" th:text="${l.releasesAdmin}"></td>
+										<td class="sorting_1" th:text="${l.releasesReg}"></td>
+									 </tr>
+								</tbody>
+						    </table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+				<!-- Row end -->
+		<script th:src="@{/js/jquery.min.js}"></script>
+		<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+		<script>
+			$(function(){
+				$('#releasePush').click(function(){
+					if($('#releasePush').prop('checked')){
+						$('.checkOne').prop('checked', true);
+					}else{
+						$('.checkOne').prop('checked', false);
+					}
+				})
+			})
+			
+			
+			
+			function push(){
+				var pushDataArray = new Array();
+				var list = $('.checkOne');
+				for(var i=0; i<list.length; i++){
+					if(list[i].checked){
+						pushDataArray.push(list[i].value);
+					}
+				}
+				if(pushDataArray.length == 0){
+					alert('출고요청 신청 할 항목을 선택해주세요.');
+				}
+				else{
+					console.log(pushDataArray)
+					var chk = confirm('정말 출고요청 신청하시겠습니까?');
+					if(chk){
+						
+						var request = $.ajax({
+						  url: "/shop/samplePull",
+						  method: "POST",
+						  data: {'pushDataArray[]':pushDataArray},
+						  dataType: "text"
+						});
+						 
+						request.done(function( jdata ) {
+							if(Number(jdata) == 0){
+								alert('오류 : 출고요청 신청 실패');
+								console.log(jdata);
+							}else{
+								alert('출고요청  신청이 되었습니다.');
+								location.replace("sample");
+							}
+						});
+						 
+						request.fail(function( jqXHR, textStatus ) {
+						  alert( "Request failed: " + textStatus );
+						});
+							
+						
+					}else{
+						return false;
+					}
+						
+					
+				}
+			}
+			
+			
+			
+			
+		</script>
+  </body>
+</html>

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cafe2team.dao.UnitPriceMapper">
+	
+	<!-- <resultMap type="Price" id="priceResultMap">
+		<result property="code" 			column="unit_Price_code"/>
+		<result property="wareHouseType" 	column="wareHouse_Type"/>
+		<result property="contractType" 	column="unit_Price_Contract_Type"/>
+		<result property="weight" 			column="unit_Price_Contract_Weight"/>
+		<result property="number" 			column="unit_Price_Contract_Number"/>
+		<result property="priceZone" 		column="unit_Price_Contract_Zone"/>
+		<result property="priceDay" 		column="unit_Price_Contract_Day"/>
+		<result property="price" 			column="unit_Price_Contract_Price"/>
+		<result property="priceId" 			column="member_id"/>
+		<result property="priceRegDate" 	column="unit_Price_Reg_Date"/>
+	</resultMap>  -->
+	
+	<!-- 요금안내 조회 -->
+	<select id="getPriceList" resultType="Price" fetchSize="1000">
+		SELECT 
+			  Price.unit_price_code				AS priceCode
+			, Price.unit_price_name				as priceName
+			, Price.unit_price_warehouse_type	AS wareHouseType
+			, Price.unit_price_contract_type	AS contractType
+			, Price.unit_price_contract_weight	AS priceWeight
+			, Price.unit_price_contract_number	AS priceNumber
+			, Price.unit_price_contract_zone	AS priceZone
+			, Price.unit_price_contract_day		AS priceDay
+			, Price.unit_Price_Contract_Price	AS pricePrice
+			, Member.member_id					AS unitPriceId
+			, Price.unit_price_reg_date			AS unitPriceRegDate
+		FROM 
+			tb_contract_unit_price				AS Price
+		INNER JOIN 
+			tb_member 							AS Member
+		ON 
+			Price.member_id = Member.member_id;		
+	</select>
+	
+	<!-- 요금안내추가 -->
+	<insert id="priceAdd" parameterType="String">
+		<selectKey keyColumn="priceCode" keyProperty="priceCode" resultType="String" order="BEFORE">
+			SELECT CONCAT('contract_code',MAX(SUBSTRING(unit_price_code,14))+1) FROM tb_contract_unit_price
+		</selectKey>
+		INSERT INTO tb_contract_unit_price
+			( unit_price_code
+			, unit_price_name
+			, unit_price_warehouse_type
+			, unit_price_contract_type
+			, unit_price_contract_weight
+			, unit_price_contract_number
+			, unit_price_contract_zone
+			, unit_price_contract_day
+			, unit_price_contract_price
+			, member_id
+			, unit_price_reg_date
+		)VALUES (
+			  #{priceCode}
+			, #{priceName}
+			, #{wareHouseType}
+			, #{contractType}
+			, "20KG 미만"
+			, #{priceNumber}
+			, #{priceZone}
+			, #{priceDay}
+			, #{pricePrice}
+			, 'id001' <!-- 세션을 통해서 자동으로 들어가게 만들어야된다. -->
+			, NOW());		
+	</insert>
+	
+	<!-- 계약 등록을 위한 조회  -->
+	<select id="priceInfo" resultType="Price" fetchSize="1000">
+		
+		SELECT 
+			  p.unit_price_code					AS priceCode
+			, unit_price_name					AS priceName
+			, p.unit_price_warehouse_type		AS wareHouseType
+			, p.unit_price_contract_type		AS contractType
+			, p.unit_price_contract_weight		AS priceWeight
+			, p.unit_price_contract_number		AS priceNumber
+			, p.unit_price_contract_zone		AS priceZone
+			, p.unit_price_contract_day			AS priceDay
+			, p.unit_Price_Contract_Price		AS pricePrice
+			, m.member_id						AS unitPriceId
+			, p.unit_price_reg_date				AS unitPriceRegDate			
+			, p.unit_price_update				AS unitPriceUpdate		
+		FROM 
+			tb_contract_unit_price			AS p
+		INNER JOIN 
+			tb_member 						AS m
+		ON 
+			p.member_id = m.member_id
+		WHERE
+			unit_price_code = #{unit_price_code};
+	</select>
+	
+	<!-- 요금안내 수정 -->
+	<update id="priceUpdate" parameterType="Price">
+	
+		UPDATE 
+			tb_contract_unit_price
+		SET
+			 unit_price_code			=  #{priceCode}
+			,unit_price_name			=  #{priceName}
+			,unit_price_warehouse_type	=  #{wareHouseType}
+			,unit_price_contract_type	=  #{contractType}
+			,unit_price_contract_weight	=  #{priceWeight}
+			,unit_price_contract_number	=  #{priceNumber}
+			,unit_price_contract_zone	=  #{priceZone}
+			,unit_price_contract_day	=  #{priceDay}
+			,unit_price_contract_price	=  #{pricePrice}
+			,unit_price_update			=  NOW()
+		WHERE 
+			unit_price_code 			=  #{priceCode};
+	</update>
+	
+	<delete id="priceRemove" parameterType="String">
+		DELETE 
+		FROM 
+			tb_contract_unit_price 
+		WHERE 
+			unit_price_code = #{priceCode};		
+	</delete>
+</mapper>

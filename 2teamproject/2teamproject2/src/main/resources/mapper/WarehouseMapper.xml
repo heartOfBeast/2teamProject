@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cafe2team.dao.WarehouseMapper">
+
+	<resultMap type="Warehouse" id="warehouseResultMap">
+		<result property="warehouseCode"			column="warehouse_code"/>
+		<result property="wareAdminId"			column="ware_admin_id"/>
+		<result property="warehouseName"			column="warehouse_name"/>
+		<result property="warehouseAddr"			column="warehouse_addr"/>
+		<result property="warehouseCate"		column="warehouse_cate"/>
+		<result property="warehouseArea"		column="warehouse_area"/>
+		<result property="warehousePhone"		column="warehouse_phone"/>
+		<result property="warehouseRegNumber"		column="warehouse_reg_number"/>
+		<result property="warehouseDetail"		column="warehouse_detail"/>
+		<result property="warehouseRegDate"	column="warehouse_reg_date"/>
+	</resultMap>
+	
+	<update id="warehouseUpdateModal" parameterType="Warehouse">
+		UPDATE tb_warehouse
+		SET
+			warehouse_name = #{warehouseName},
+			warehouse_addr = #{warehouseAddr},
+			warehouse_cate = #{warehouseCate},
+			warehouse_area = #{warehouseArea},
+			warehouse_phone = #{warehousePhone},
+			warehouse_reg_number = #{warehouseRegNumber},
+			warehouse_detail = #{warehouseDetail}
+		WHERE
+			warehouse_code = #{warehouseCode};
+	</update>
+	
+	<select id="getWarehouseInfoByCode" parameterType="String" resultMap="warehouseResultMap">
+		SELECT
+			warehouse_code,
+			warehouse_name,
+			warehouse_addr,
+			warehouse_cate,
+			warehouse_area,
+			warehouse_phone,
+			warehouse_reg_number,
+			warehouse_detail,
+			warehouse_reg_date,
+			ware_admin_id
+		FROM
+			tb_warehouse as w
+		WHERE
+			w.warehouse_name = #{warehouseName};
+	</select>
+	
+	<insert id="addWarehouse" parameterType="Warehouse">
+		<selectKey keyColumn="warehouse_code" keyProperty="warehouseCode" resultType="String" order="BEFORE">
+	      SELECT CONCAT('w','',(SELECT LPAD(COUNT(*)+1,3,'0')FROM tb_warehouse));
+	     </selectKey>
+	INSERT INTO 
+		tb_warehouse
+			(
+			warehouse_code,
+			warehouse_name,
+			warehouse_addr,
+			warehouse_cate,
+			warehouse_area,
+			warehouse_phone,
+			warehouse_reg_number,
+			warehouse_detail,
+			warehouse_reg_date,
+			ware_admin_id
+			)
+	VALUES (
+			#{warehouseCode},
+			#{warehouseName},
+			#{warehouseAddr},
+			#{warehouseCate},
+			#{warehouseArea},
+			#{warehousePhone},
+			#{warehouseRegNumber},
+			#{warehouseDetail},
+			CURDATE(),
+			#{wareAdminId});
+	</insert>
+	
+	<select id="getWarehouseList" resultType="Warehouse" fetchSize="1000" resultMap="warehouseResultMap">
+	SELECT 
+		warehouse_code,
+		warehouse_name,
+		warehouse_addr,
+		warehouse_cate,
+		warehouse_area,
+		warehouse_phone,
+		warehouse_reg_number,
+		warehouse_detail,
+		warehouse_reg_date,
+		ware_admin_id
+	FROM
+		tb_warehouse
+	ORDER BY
+		binary(warehouse_addr);
+	</select>
+	
+	
+	<select id="getWarehouseListDetailCate" resultType="Warehouse" fetchSize="1000" resultMap="warehouseResultMap">
+	SELECT 
+		warehouse_code,
+		warehouse_name,
+		warehouse_addr,
+		warehouse_cate,
+		warehouse_area,
+		warehouse_phone,
+		warehouse_reg_number,
+		warehouse_detail,
+		warehouse_reg_date,
+		ware_admin_id
+	FROM
+		tb_warehouse
+	WHERE
+	<if test="warehouse_addr !=null and warehouse_addr != '' ">
+		warehouse_addr = #{warehouse_addr}
+	</if>
+	<if test="(warehouse_addr !=null and warehouse_addr != '') and (warehouse_name !=null and warehouse_name != '' )">
+	AND
+	</if>
+	<if test="warehouse_name !=null and warehouse_name != '' ">
+		warehouse_name = #{warehouse_name}
+	</if>
+	<if test="(warehouse_name !=null and warehouse_name != '') and (warehouse_cate !=null and warehouse_cate != '' )">
+	AND
+	</if>
+	<if test="warehouse_cate !=null and warehouse_cate != '' ">
+		warehouse_cate = #{warehouse_cate}
+	</if>
+	ORDER BY
+		binary(warehouse_addr);
+	</select>
+	
+	<select id="getWarehouseListDetailAddr" resultType="Warehouse" fetchSize="1000" resultMap="warehouseResultMap">
+	
+	SELECT
+		warehouse_code,
+		warehouse_name,
+		warehouse_addr,
+		warehouse_cate,
+		warehouse_area,
+		warehouse_phone,
+		warehouse_reg_number,
+		warehouse_detail,
+		warehouse_reg_date,
+		ware_admin_id
+	FROM
+		tb_warehouse
+	WHERE
+		warehouse_addr = #{warehouse_addr}
+	ORDER BY
+		binary(warehouse_addr);
+	</select>
+	
+	<select id="getWarehouseListDetailName" resultType="Warehouse" fetchSize="1000" resultMap="warehouseResultMap">
+	
+	SELECT
+		warehouse_code,
+		warehouse_name,
+		warehouse_addr,
+		warehouse_cate,
+		warehouse_area,
+		warehouse_phone,
+		warehouse_reg_number,
+		warehouse_detail,
+		warehouse_reg_date,
+		ware_admin_id
+	FROM
+		tb_warehouse
+	WHERE
+	<if test="warehouse_addr !=null and warehouse_addr != '' ">
+		warehouse_addr = #{warehouse_addr}
+	</if>
+	<if test="(warehouse_addr !=null and warehouse_addr != '') and (warehouse_name !=null and warehouse_name != '' )">
+	AND
+	</if>
+	<if test="warehouse_name !=null and warehouse_name != '' ">
+		warehouse_name = #{warehouse_name}
+	</if>
+	ORDER BY
+		binary(warehouse_addr);
+	</select>
+	
+</mapper>

@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cafe2team.dao.ReleaseMapper">
+	<resultMap type="Release" id="ReleaseResultMap">
+		<result property="releaseOrderCode"  		column="release_order_code"/>
+		<result property="releaseCode"  			column="release_code"/>
+		<result property="warehouseCode"  			column="warehouse_code"/>
+		<result property="productCode"  			column="product_code"/>
+		<result property="releaseOrderQuantity"  	column="release_order_quantity"/>
+		<result property="recipientName"  			column="release_recipient_name"/>
+		<result property="recipientAddress"  		column="release_recipient_address"/>
+		<result property="recipientPhone"  			column="release_recipient_phone"/>
+		<result property="shoppingmallUserId"  		column="shoppingmall_user_id"/>
+		<result property="orderRegDate"  			column="release_order_reg_date"/>
+		<association property="product" javaType="Product">
+			<id property="productCode" 				column="product_code"/>
+			<result property="productName" 			column="product_name"/>
+		</association>
+		<association property="carManagement" javaType="CarManagement">
+			<id property="releaseOrderCode" 		column="release_order_code"/>
+			<result property="driveManageCode" 		column="drive_manage_code"/>
+			<result property="deliveryMemberId" 	column="delivery_member_id"/>
+			<result property="releaseOrderCar" 		column="release_order_car"/>
+			<result property="driveUsingDate" 		column="drive_using_date"/>
+		</association>
+		<association property="invoice" javaType="Invoice">
+			<id property="releaseOrderCode" 		column="release_order_code"/>
+			<result property="invoiceCode" 			column="invoice_code"/>
+			<result property="invoiceName" 		column="invoice_recipient_name"/>
+			<result property="invoiceAddress" 	column="invoice_recipient_address"/>
+			<result property="invoicePhone" 		column="invoice_recipient_phone"/>
+		</association>
+		<association property="releaseInfo" javaType="ReleaseInfo">
+			<id property="releaseOrderCode" column="release_order_code"/>
+			<result property="releaseCode" column="release_code"/>
+		</association>
+	</resultMap>
+
+
+	<select id="gerReleaseOrder" resultType="Release" fetchSize="1000" resultMap="ReleaseResultMap">
+		SELECT 
+			r.release_order_code
+			, r.release_code
+			, r.warehouse_code
+			, r.product_code
+			, p.product_name
+			, r.release_order_quantity
+			, r.release_recipient_name
+			, r.release_recipient_address
+			, r.release_recipient_phone
+			, r.shoppingmall_user_id
+			, r.release_order_reg_date
+			, c.drive_manage_code
+			, c.delivery_member_id
+			, c.release_order_car
+			, c.drive_using_date
+			, i.invoice_code
+			, i.invoice_recipient_name
+			, i.invoice_recipient_address
+			, i.invoice_recipient_phone
+			, rr.release_code
+		FROM 
+			tb_release_order AS r
+			LEFT JOIN 
+			tb_car_management AS c
+			on
+			r.release_order_code = c.release_order_code
+			INNER JOIN
+			tb_product AS p
+			on
+			r.product_code = p.product_code
+			left join
+			tb_invoice AS i
+			ON 
+			r.release_order_code = i.release_order_code
+			LEFT join
+			tb_release_info AS rr
+			on
+			r.release_order_code = rr.release_order_code;
+	</select>
+	
+	<select id="getDeliveryInfo" resultType="Delivery" fetchSize="1000">
+		SELECT 
+			delivery_member_id AS deliveryMemberId
+			, warehouse_code AS warehouseCode
+			, level_code AS levelCode
+			, delivery_member_name AS deliveryMemberName
+			, delivery_member_address AS deliveryMemberAddress
+			, delivery_member_phone AS deliveryMemberPhone
+			, ware_admin_id AS  wareAdminId
+			, delivery_reg_date AS deliveryRegDate
+			, delivery_member_incentive AS deliveryIncentive
+		FROM 
+			tb_delivery
+	</select>
+	
+	<insert id="addDriveManagement" parameterType="CarManagement">
+		INSERT INTO tb_car_management
+			(drive_manage_code
+			, release_order_code
+			, delivery_member_id
+			, release_order_car
+			, drive_application_reason
+			, drive_using_date
+			, drive_reg_date
+			, drive_update_date
+			, ware_admin_id
+		)VALUES 
+			(sf_newCarManageCode()
+			, #{releaseOrderCode}
+			, #{deliveryMemberId}
+			, #{releaseOrderCar}
+			, #{dispatchReason}
+			, #{driveUsingDate}
+			, NOW()
+			, NOW()
+			, #{wareAdminId});
+	</insert>
+	
+	<update id="modifyDriveManagement" parameterType="CarManagement">
+		UPDATE tb_car_management
+		SET
+			delivery_member_id = #{deliveryMemberId}
+			, release_order_car = #{releaseOrderCar}
+			, drive_using_date = #{driveUsingDate}
+			, drive_update_date=NOW()
+			, ware_admin_id= #{wareAdminId}
+		WHERE 
+			drive_manage_code = #{driveManageCode};
+	</update>
+	
+	<!-- <select id="getDriveManagement" resultType="CarManagement" fetchSize="1000">
+		SELECT 
+			drive_manage_code AS dirveManageCode
+			, release_order_code AS releaseOrderCode
+			, delivery_member_id AS deliveryMemberId
+			, release_order_car AS releaseOrderCar
+			, drive_application_reason AS dispatchReason
+			, drive_using_date AS driveUsingDate
+			, drive_reg_date AS driveRegDate
+			, ware_admin_id AS wareAdminId
+		FROM 
+			tb_car_management;		
+	</select> -->
+	
+	<insert id="addInvoice" parameterType="Invoice">
+		INSERT INTO tb_invoice
+			(invoice_code
+			, release_order_code
+			, drive_manage_code
+			, invoice_recipient_name
+			, invoice_recipient_address
+			, invoice_recipient_phone
+			, ware_admin_id
+			, shoppingmall_user_id
+			, invoice_reg_date
+			, invoice_update_date
+		)VALUES (
+			sf_newInvoiceCode()
+			, #{releaseOrderCode}
+			, #{driveManageCode}
+			, #{invoiceName}
+			, #{invoiceAddress}
+			, #{invoicePhone}
+			, #{wareAdminId}
+			, #{shopUserId}
+			, NOW()
+			, NOW());
+	</insert>
+	
+	<update id="modifyInvoiceInfo" parameterType="Invoice">
+		UPDATE tb_invoice
+		SET
+			invoice_recipient_name= #{invoiceName}
+			, invoice_recipient_address= #{invoiceAddress}
+			, invoice_recipient_phone= #{invoicePhone}
+			, ware_admin_id= #{wareAdminId}
+			, invoice_update_date=NOW()
+		WHERE 
+			invoice_code = #{invoiceCode};
+	</update>
+</mapper>

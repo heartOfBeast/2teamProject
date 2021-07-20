@@ -1,0 +1,207 @@
+<!doctype html>
+<html
+	xmlns:th="http://www.thymeleaf.org"
+ 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="@{layout/default}">
+	
+
+	
+<th:block layout:fragment="pageTitle">
+<div class="page-header">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item">재무관리</li>
+		<li class="breadcrumb-item active">지출내역등록</li>
+	</ol>
+
+	<ul class="app-actions">
+
+		<li>
+			<a href="#">
+				<i class="icon-export"></i>
+			</a>
+		</li>
+	</ul>
+</div>
+
+
+
+<th:block layout:fragment="container">
+<div class="main-container">
+			<div class="row justify-content-center gutters">
+						<div class="col-xl-7 col-lg-7 col-md-9 col-sm-10">
+							<form id ="addExpenditureForm" th:action="@{/expenditureinsert}" method="POST">
+								<div class="card m-0">
+									<div class="card-header">
+										<div class="card-title">지출내역등록</div>
+										<div class="card-sub-title"></div>
+									</div>
+									<div class="card-body">
+										
+										
+										<div class="form-group row gutters">
+											<label for="expenseInfo" class="col-sm-3 col-form-label text-right">지출내역</label>
+											<div class="col-sm-6">
+												<input type="text" class="form-control" id="expenseInfo" name="expenseInfo" placeholder="지출내용을 입력해주세요" required="required">
+											</div>
+										</div>
+										
+										<div class="form-group row gutters">
+											<label for="expenseDate" class="col-sm-3 col-form-label text-right">지출날짜</label>
+											<div class="col-sm-6 custom-date-input">
+												<input type="text" class="form-control datepicker-dropdowns" id="expenseDate" name="expenseDate" placeholder="지출날짜를 입력해주세요" required="required">
+											</div>
+										</div>
+										
+										<div class="form-group row gutters">
+										<label for="expenseCashCard" class="col-sm-3 col-form-label text-right">현금/카드</label>
+											<div class="col-sm-6">
+												<select class = "form-control" id="expenseCashCard" name ="expenseCashCard" required="required">
+													<option value=""> :: 구매수단선택 ::</option>
+													<option value="카드">  카드 </option>
+													<option value="현금">  현금 </option>
+												</select>
+											</div>
+										</div>
+										
+										<div class="form-group row gutters">
+											<label for="expenseCardInfo" class="col-sm-3 col-form-label text-right">카드정보</label>
+											<div class="col-sm-6">
+												<input type="text" class="form-control" id="expenseCardInfo" name="expenseCardInfo" placeholder="카드정보를 입력해주세요" required="required">
+											</div>
+										</div>
+										
+										<div class="form-group row gutters">
+											<label for="expenseStore" class="col-sm-3 col-form-label text-right">매장명</label>
+											<div class="col-sm-6">
+												<input type="text" class="form-control" id="expenseStore" name="expenseStore" placeholder="매장명을 입력해주세요" required="required">
+											</div>
+										</div>
+										
+										<div class="form-group row gutters">
+											<label for="expenseCate" class="col-sm-3 col-form-label text-right">종류</label>
+											<div class="col-sm-6">
+												<select id="expenseCate" class="form-control" name="expenseCate" required="required">
+													<option value=""> :: 종류선택 ::</option>
+													<option value="식대">  식대 </option>
+													<option value="교통비">  교통비 </option>
+													<option value="창고유지보수비">  창고유지보수비 </option>
+													<option value="임금">  임금 </option>
+												</select>
+											</div>
+										</div>
+										
+										<div class="form-group row gutters">
+											<label for="expensePayment" class="col-sm-3 col-form-label text-right">금액</label>
+											<div class="col-sm-6">
+												<input type="text" class="form-control" id="expensePayment" name="expensePayment" placeholder="금액(숫자)을 입력해주세요" required="required">
+											</div>
+										</div>
+										<div class="form-group row gutters">
+											<label for="wareadminId" class="col-sm-3 col-form-label text-right">등록담당자</label>
+											<div class="col-sm-6">
+												<input type="text" class="form-control" id="wareadminId" name="wareadminId" placeholder="등록담당자를 입력해주세요" required="required">
+											</div>
+										</div>
+										<div class="form-group row gutters">
+											<label for="expensRegDate" class="col-sm-3 col-form-label text-right">등록일</label>
+											<div class="col-sm-6">
+												<input type="text" class="form-control" id="expensRegDate" name="expensRegDate" placeholder="등록날짜 입력해주세요" required="required">
+											</div>
+										</div>
+										
+										
+								<!-- 		<button type="button" id="expensList" class="btn btn-primary float-right" onclick="location.href='expenditure.html'">지출목록조회</button> -->
+
+										<a th:href="@{/expenditure}" class="btn btn-primary float-right">지출목록조회</a>										
+										<button type="submit" id="submitExpense" class="btn btn-primary float-right">등록하기</button>
+
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+
+	
+</div>
+</th:block>
+<th:block layout:fragment="customJs">
+	<script>
+			$('#submitExpense').click(function(){
+				var addExpenditureForm = $('#addExpenditureForm');
+				var submitFlag = true;				
+				var expenseInfo = $('#expenseInfo').val();
+				var expenseDate = $('#expenseDate').val();
+				var expenseCashCard = $('#expenseCashCard').val();
+				var expenseCardInfo = $('#expenseCardInfo').val();;
+				var expenseStore = $('#expenseStore').val();;
+				var expenseCate = $('#expenseCate').val();;
+				var expensePayment = $('#expensePayment').val();;
+				var wareadminId = $('#wareadminId').val();;
+				var expensRegDate = $('#expensRegDate').val();;
+
+				
+
+				if(expenseInfo == null || expenseInfo == '' || expenseInfo == undefined){
+					alert('지출내역을 다시 입력해주세요.');
+					$(this).focus();
+					submitFlag = false;
+					return submitFlag;
+					
+				}else if(expenseDate == null || expenseDate == '' || expenseDate == undefined){
+					alert('지출날짜를 다시 입력해주세요.');
+					$(this).focus();
+					submitFlag = false;
+					return submitFlag;
+					
+				}else if(expenseCashCard == null || expenseCashCard == '' || expenseCashCard == undefined){
+					alert('지출방법을 다시 골라주세요.');
+					$(this).focus();
+					submitFlag = false;
+					return submitFlag;
+					
+				}else if(expenseCardInfo == null || expenseCardInfo == '' || expenseCardInfo == undefined){
+					alert('카드정보를 다시 입력해주세요. 없을시 없음작성');
+					$(this).focus();
+					submitFlag = false;
+					return submitFlag;
+				
+					
+				}else if(expenseStore == null || expenseStore == '' || expenseStore == undefined){
+					alert('매장명을 다시 입력해주세요.');
+					$(this).focus();
+					submitFlag = false;
+					return submitFlag;
+				}
+				
+				}else if(expenseCate == null || expenseCate == '' || expenseCate == undefined){
+					alert('종류을 다시 선택해주세요.');
+					$(this).focus();
+					submitFlag = false;
+					return submitFlag;
+				}
+				}else if(expensePayment == null ||expensePayment == '' || expensePayment == undefined){
+					alert('종류을 다시 선택해주세요.');
+					$(this).focus();
+					submitFlag = false;
+					return submitFlag;
+				}
+				}else if(wareadminId == null || wareadminId == '' || wareadminId == undefined || wareadminId != "admin00"){
+					alert('등록자를 다시 입력해주세요.');
+					$(this).focus();
+					submitFlag = false;
+					return submitFlag;
+				}
+				}else if(expensRegDate == null || expenseStore == '' || expenseStore == undefined){
+					alert('매장명을 다시 입력해주세요.');
+					$(this).focus();
+					submitFlag = false;
+					return submitFlag;
+				}
+	
+			});
+		
+	</script>
+</th:block>
+
+		
+</html>

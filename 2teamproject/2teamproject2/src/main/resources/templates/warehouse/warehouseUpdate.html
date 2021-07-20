@@ -1,0 +1,112 @@
+<!doctype html>
+<html
+	xmlns:th="http://www.thymeleaf.org"
+ 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="@{layout/default}">
+	
+<th:block layout:fragment="pageTitle">
+<div class="page-header">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item">창고</li>
+		<li class="breadcrumb-item active">창고 정보수정</li>
+	</ol>
+
+	<ul class="app-actions">
+		<li>
+			<a href="#" id="reportrange">
+				<span class="range-text"></span>
+				<i class="icon-chevron-down"></i>	
+			</a>
+		</li>
+		<li>
+			<a href="#">
+				<i class="icon-export"></i>
+			</a>
+		</li>
+	</ul>
+</div>
+</th:block>
+
+<form th:action="@{warehouseUpdateModal}" method="POST">
+	<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" style="display: none;" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="myLargeModalLabel">창고수정</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+				</div>
+					<div class="modal-body">
+						<div class="form-group">
+							<label for="name">창고명</label>
+							<input type="text" class="form-control" name="name" id="warePhone" placeholder="수정하실 창고명을 입력해주세요.">
+						</div>
+						<div class="form-group">
+							<label for="address">소재지</label>
+							<input type="text" class="form-control" name="address" id="wareAddr" placeholder="수정하실 소재지를 입력해주세요.">
+						</div>
+						<div class="form-group">
+							<label for="category">종류</label>
+							<select class="form-control" name="category" id="wareCategory">
+								<option value="">:::  창고 종류(형태)를 선택해주세요.  :::</option>
+								<option value="일반">일반</option>
+								<option value="냉장/냉동">냉장/냉동</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label for="area">면적</label>
+							<input type="text" class="form-control" name="area" id="wareArea" placeholder="수정하실 면적을 입력해주세요.">
+						</div>
+						<div class="form-group">
+							<label for="phone">연락처</label>
+							<input type="text" class="form-control" name="phone" id="warePhone" placeholder="수정하실 연락처를 입력해주세요.">
+						</div>
+						<div class="form-group">
+							<label for="regNum">연락처</label>
+							<input type="text" class="form-control" name="regNum" id="wareRegNum" placeholder="수정하실 연락처를 입력해주세요.">
+						</div>
+						<div class="form-group">
+							<label for="detail">상세설명</label>
+							<textarea class="form-control" id="detail" name="warehouseDetail" placeholder="등록하실 창고의 추가설명이 필요하다면 입력해주세요." rows="3" maxlength="50"></textarea>
+								<div class="form-text text-muted">
+									<p id="characterLeftaddWare" class="help-block">50 characters left</p>
+								</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button class="btn btn-secondary" data-dismiss="modal">닫기</button>
+						<button type="buttone" name="submitDone"  class="btn btn-primary">수정완료</button>
+					</div>
+			</div>
+		</div>
+	</div>
+</form>
+
+<th:block layout:fragment="customJs">
+	<script>
+$('#viewModal').each(function(){
+	$(this).click(function(){
+		var dataName 			= $(this).parents('tr').children('#dataName').text();
+		var dataAddr 			= $(this).parents('tr').children('#dataAddr').text();
+		var dataArea 			= $(this).parents('tr').children('#dataArea').text();
+		var dataPhone			= $(this).parents('tr').children('#dataPhone').text();
+		var dataRegNum 			= $(this).parents('tr').children('#dataRegNum').text();
+		var dataDetail			= $(this).parents('tr').children('#dataDetail').text();		
+		
+		var dataCate = $('#wareCategory option:contains(' + dataCate + ')').val();
+		
+		$('#wareName').val(dataName);
+		$('#wareAddr').val(dataAddr);
+		$('#wareArea').val(dataArea);
+		$('#warePhone').val(dataPhone);
+		$('#wareRegNum').val(dataRegNum);
+		$('#wareDetail').val(dataDetail);
+		$('#wareCate').val(dataCate);
+	})
+})
+	
+	
+	</script>
+</th:block>
+</html>

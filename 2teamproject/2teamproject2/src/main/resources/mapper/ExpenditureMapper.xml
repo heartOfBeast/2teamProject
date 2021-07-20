@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cafe2team.dao.ExpenditureMapper">
+ 
+<resultMap type="Expenditure" id="expenditureListResultMap">
+		<result property="expenseCode"			column="expenditure_code"/>
+		<result property="expenseInfo"			column="expenditure_information"/>
+		<result property="expenseDate"			column="expenditure_date"/>
+		<result property="expenseCashCard"		column="expenditure_cash_card"/>
+		<result property="expenseCardInfo"		column="expenditure_card_information"/>
+		<result property="expenseStore"			column="expenditure_store"/>
+		<result property="expenseCate"			column="expenditure_category"/>
+		<result property="expensePayment"		column="expenditure_payment"/>
+		<result property="wareadminId"			column="ware_admin_id"/>
+		<result property="expensRegDate"		column="expenditure_reg_date"/>
+		<result property="expense"		column="expense"/>
+		<result property="month"		column="month"/>
+		<association property="contract" javaType="Contract">
+			<id property="contractFinalCode" 	column = "contract_final_code" ></id>
+			<result property="contractFinalPay" column= "contract_final_pay"></result>
+			<result property="contractFinalRegDay" column= "contract_final_reg_date"></result>			
+		</association>
+		
+</resultMap>
+	
+	
+	<select id="getExpenditureList" resultType="Expenditure" fetchSize="700" resultMap="expenditureListResultMap">
+	SELECT 
+		expenditure_code,
+		expenditure_information,
+		expenditure_date,
+		expenditure_cash_card,
+		expenditure_card_information,
+		expenditure_store,
+		expenditure_category,
+		expenditure_payment,
+		ware_admin_id,
+		expenditure_reg_date
+	FROM
+		tb_expenditure;
+	</select>
+	
+<!-- 정산조회시 지출부분만  -->	
+	<select id="getCaculate" resultType = "Expenditure" fetchSize="700" resultMap ="expenditureListResultMap">
+		select SUM(e.expenditure_payment) as expense, DATE_FORMAT(e.expenditure_date,'%m') as month 
+			FROM tb_expenditure as e
+				where YEAR(e.expenditure_date) = 2021
+		group by month
+	</select>
+	
+	<!--  매출 -->
+	<select id="getsales" resultType = "Expenditure" fetchSize="700" resultMap ="expenditureListResultMap">
+		select SUM(c.contract_final_pay) as expense, DATE_FORMAT(c.contract_final_reg_date,'%m') as month 
+				FROM tb_contract_final as c
+					where year(c.contract_final_reg_date) = 2021
+		group by month
+	</select>
+	
+
+
+	
+		<insert id="expenditureinsert" parameterType="Expenditure">	   
+	INSERT INTO 
+	tb_expenditure
+		(
+		expenditure_code,
+		expenditure_information,
+		expenditure_date,
+		expenditure_cash_card,
+		expenditure_card_information,
+		expenditure_store,
+		expenditure_category,
+		expenditure_payment,
+		ware_admin_id,
+		expenditure_reg_date
+		)
+	VALUES (
+		sf_newExpenditureCode(),
+		#{expenseInfo},
+		#{expenseDate},
+		#{expenseCashCard},
+		#{expenseCardInfo},
+		#{expenseStore},
+		#{expenseCate},
+		#{expensePayment},
+		#{wareadminId},
+		CURDATE()
+		);
+	</insert>
+	
+		<delete id="expenditureDeleteByCode" parameterType="String">
+		DELETE 
+		FROM 
+			tb_expenditure
+		WHERE 
+			expenditure_code = #{paramList};
+	</delete>
+
+</mapper>
