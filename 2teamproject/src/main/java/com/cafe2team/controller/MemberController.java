@@ -361,6 +361,31 @@ public class MemberController {
 		
 	}
 	
+	@GetMapping("/findId")
+	public String findId() {
+		
+		return "member/findId";
+	}
+	
+	
+	@PostMapping("/findId")
+	@ResponseBody
+	public String findId(@RequestParam(value = "memberEmail", required = false) String memberEmail,
+						@RequestParam(value = "Check", required = false) String Check
+						) {
+		
+		log.info("==============={}" + memberEmail);
+		
+		if(Check.equals("memberCheck")) {
+			String id = memberService.getId(memberEmail);
+			return id;
+		}else {
+			String id = memberService.getId(memberEmail);
+			return id;
+		}
+		
+	}
+	
 }
 
 

@@ -128,6 +128,25 @@
 	
 	</select>
 	
+	<select id="getShopAjaxId" parameterType="String" resultType="Shoppingmall">
+	SELECT 
+		shoppingmall_user_id AS shoppingmallId
+	FROM 
+		tb_shoppingmall_user
+	WHERE
+		shoppingmall_user_email = #{shoppingmallEmail};
+		
+	</select>
+	
+	<select id="getAdminAjaxId" parameterType="String" resultMap="memberResultMap">
+	SELECT 
+		member_id
+	FROM 
+		tb_member
+	WHERE 
+		member_email = #{memberEmail};
+	</select>
+	
 <!-- 업데이트 -->
 <update id ="updateMember" parameterType="Member">
 		UPDATE tb_member

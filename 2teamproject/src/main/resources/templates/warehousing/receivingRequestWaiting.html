@@ -35,7 +35,14 @@
 		<div class="row gutters">
 			<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 				<div class="table-container">
-					<div class="t-header">입고요청조회</div> <h6>요청대기 데이터 보관기간은 1년입니다.</h6>
+					<div class="t-header">입고요청조회</div>
+					<div class="t-header" id="Period">창고별 회원조회</div>
+					
+					<select id="wareHouseNameCheck">
+						
+					</select>
+					
+					<h6>요청대기 데이터 보관기간은 1년입니다.</h6>
 					<div class="table-responsive">
 						<table id="copy-print-csv" class="table custom-table">
 							<thead>
@@ -165,7 +172,7 @@
 <th:block layout:fragment="customJs">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
-	<script>
+	<script type="text/javascript" th:inline="javascript">
 		/*********** 입고지시서 상세정보 ***********/
 		$('.detailModalBtn').each(function(){
 			$(this).click(function(){
@@ -197,6 +204,7 @@
 				$('#barcodeImageModal').attr('src', barcodeImg);
 			})
 		});
+		
 		/* 항목체크 */
 		$(function(){
 			$('#checkAll').click(function(){
@@ -207,6 +215,7 @@
 				}
 			})
 		})
+		
 		/* 입고취소 */
 		$('#cancleBtn').click(function(){
 			var cancleDataArr = new Array();
@@ -221,18 +230,27 @@
 				var chk = confirm('정말 취소하시겠습니까?');
 				if(chk){
 				var request = $.ajax({
-					  url: "/cancleWarehousing",
+					  url: "/cancleReuqestWareHouse",
 					  method: "POST",
 					  data: { 'cancleDataArr' : cancleDataArr },
 					  dataType: "json"
 					});
 					 
 					request.done(function( cancleData ) {
-						if(cancleData !=1){
-							alert('오류:입고 취소 실패');
+						console.log(cancleData);
+						if(cancleData = null){
+							Swal.fire({
+								  title: '입고취소 실패!',
+								  text: '입고취소 실패!',
+								  icon: 'error'
+								});
 						}else{
-							alert('입고취소되었습니다');
-							location.replace("receivingOrder");
+							Swal.fire({
+								  title: '입고취소성공',
+								  text: '입고취소성공',
+								  icon: 'success'
+								});
+							location.replace("receivingRequestWaiting");
 						}
 					});
 					 
@@ -285,30 +303,94 @@
 		});
 		
 		
-// 		function readImage(input) {
-			
-// 		    // 인풋 태그에 파일이 있는 경우
-// 		    if(input.files && input.files[0]) {
-// 		        // 이미지 파일인지 검사 (생략)
-		        
-// 		        // FileReader 인스턴스 생성
-// 		        var reader = new FileReader()
-// 		        // 이미지가 로드가 된 경우
-// 		        reader.onload = e => {
-// 		            var previewImage = document.getElementById("preview-image")
-// 		            previewImage.src = e.target.result
-// 		        }
-// 		        // reader가 이미지 읽도록 하기
-// 		        reader.readAsDataURL(input.files[0])
-// 		    }
-// 		}
-// 		// input file에 change 이벤트 부여
-// 		var inputImage = document.getElementById("input-image")
-// 		inputImage.addEventListener("change", e => {
-// 		    readImage(e.target)
-// 		})
+		/*********중복제거*************/
+		//<![CDATA[
+		var requestList = [[${requestList}]];
+		//]]>
 		
-
+		var wareHouseList = [];
+		
+		for(var i=0; i<requestList.length; i++){
+			wareHouseList.push(requestList[i].wareHouse.warehouseName)
+		}
+		
+		console.log(wareHouseList);
+		
+		var wareHouseListCheck = [...new Set(wareHouseList)];
+		
+		var wareHouseList = "";
+		
+		wareHouseList += "<option disabled='disabled' selected='selected'> :: 창고 선택 :: </option>";
+		
+		for(var i=0; i<wareHouseListCheck.length; i++){
+			wareHouseList += "<option>";
+			wareHouseList += wareHouseListCheck[i];
+			wareHouseList += "</option>";
+		}
+		
+		$('#wareHouseNameCheck').html(wareHouseList);
+		/*********중복제거끝************/
+		
+		$('#wareHouseNameCheck').change(function(){
+			selectWareHouseName = $('#wareHouseNameCheck').val();
+			//getWareHouseSelect();
+		})
+		
+		
+// 		$(function(){
+// 			function getWareHouseSelect(){
+// 				var request = $.ajax({
+// 					  url: "/wareHouseListDetail",
+// 					  method: "post",
+// 					  dataType: "JSON"
+// 					});
+					 
+// 					request.done(function( msg ) {
+// 						$('#copy-print-csv').datTable({
+// 							destory: true,
+// 							data: data,
+// 							columns: [
+// 								{"data": shopName },
+// 								{"data": wareHouseName },
+// 								{"data": productName },
+// 								{"data": productAmount },
+// 								{"data": insertDate },
+// 								{"data": insertCode },
+// 								{"data": productCode },
+// 								{"data": wareHouseCode},
+// 								{"data": shopId },
+// 								{"data": adminId},
+// 								{"data": insertStatus},
+// 								{"data": QrBarcode },
+// 								{"data": 상세보기 },
+// 								{"data": 수정 }
+// 							],
+							
+// 							columnDefs:[{
+// 								"targets" : [12]
+// 								"orderable" : false,
+// 								"searchable" : false,
+// 								"className" : "center",
+// 								"render" : function(data, type ,row) {
+// 										var html = '<button class="btn btn-outline-info detailModalBtn" data-toggle="modal" data-target=".bd-example-modal-lg">상세정보</button>';
+// 										html += '<a type="button" class="btn btn-primary modifyBtn" data-toggle="modal" data-target=".bd-example-modal-lg" id="viewModal" style="color: white;">수정</a>;
+// 										return html;
+// 								}
+// 							}]
+							
+// 						})			
+// 					});
+					 
+// 					request.fail(function( jqXHR, textStatus ) {
+// 					  alert( "Request failed: " + textStatus );
+// 					});
+// 				}
+			
+// 		});
+		
+		
+			
+		
 		
 	</script>
 </th:block>	
