@@ -60,4 +60,9 @@ public class WarehousingOrderService {
 	public int changeWarehousingStatusFromModal(String warehousingOrderCode) {
 		return warehousingOrderMapper.changeWarehousingStatusFromModal(warehousingOrderCode);
 	}
+	
+	//입고 후 재고테이블에 재고 추가 혹은 재고수량 수정
+	public int insertOrUpdateStock(Receiving receiving) {
+		return warehousingOrderMapper.insertOrUpdateStock(receiving);
+	}
 }

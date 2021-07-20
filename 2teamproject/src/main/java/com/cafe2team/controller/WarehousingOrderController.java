@@ -31,6 +31,8 @@ public class WarehousingOrderController {
 	
 	private static final Logger log = LoggerFactory.getLogger(WarehousingOrderController.class);
 
+
+	
 	
 	//수정시 보관할 창고 구역 가져오기
 	@PostMapping("getWarehouseSector")
@@ -47,6 +49,7 @@ public class WarehousingOrderController {
 		
 		warehousingOrderService.receivingFromModal(receiving);
 		warehousingOrderService.changeWarehousingStatusFromModal(warehousingOrderCode);
+		warehousingOrderService.insertOrUpdateStock(receiving);
 		return "redirect:/receivingOrder";
 		
 	}

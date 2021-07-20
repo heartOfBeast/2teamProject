@@ -15,22 +15,29 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.cafe2team.domain.Contract;
 import com.cafe2team.domain.Expenditure;
 import com.cafe2team.service.ExpenditureService;
+import com.cafe2team.service.SalesService;
 
 @Controller
 public class FinancialManageController {
 	private ExpenditureService expenditureSerivce;
+	private SalesService salesService;
 	private static final Logger log = LoggerFactory.getLogger(FinancialManageController.class);
 	//매출현황
 	
-	public FinancialManageController(ExpenditureService expenditureSerivce) {
+	public FinancialManageController(ExpenditureService expenditureSerivce, SalesService salesService) {
 		this.expenditureSerivce =expenditureSerivce;
+		this.salesService = salesService;
 	}
 	
 	@GetMapping("/currentSalesState")
 	public String currentSalesState(Model model) {
+		List<Contract> salesList = salesService.salesList();
 		model.addAttribute("title", "정산내역조회");
+		model.addAttribute("salesList", salesList);
+		
 		return "financialmanage/currentSalesState";
 	}
 	
