@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.cafe2team.domain.CarManagement;
 import com.cafe2team.domain.Vehicle;
 
 @Mapper
@@ -19,4 +20,7 @@ public interface VehicleMapper {
 	
 	//삭제
 	public int deleteVehicle(List<String> paramList);
+	
+	//배차내역조회
+	public List<CarManagement> getCarManagementInfo(String releaseOrderCode);
 }

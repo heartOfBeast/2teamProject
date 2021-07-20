@@ -68,7 +68,9 @@
 									  <td th:text="${v.wareAdminId}"></td>
 									  <td th:text="${v.carRegDate}"></td>
 									  <td th:text="${v.carUpdateDate}"></td>
-									  <td></td>
+									  <td>
+									  	<a type="button" class="btn btn-primary getInfoBtn" data-toggle="modal" data-target=".bd-example-modal-lg2"  style="color: white;">상세보기</a>
+									  </td>
 									  <td>
 									  	<a type="button" class="btn btn-primary modifyBtn" data-toggle="modal" data-target=".bd-example-modal-lg" id="viewModal" style="color: white;">수정</a>
 								  	  </td>
@@ -82,6 +84,7 @@
 			</div>
 		</div>
 		
+		<!-- 차량정보 수정폼 -->
 		<form th:action="@{/modifyVehicle}" method="post" id="modifyCarInfo">
 			<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" style="display: none;" aria-hidden="true">
 				<div class="modal-dialog modal-lg">
@@ -135,7 +138,42 @@
 					</div>
 				</div>
 			</div>
-		</form>			
+		</form>		
+		
+		<!-- 차량사용 내역폼 -->
+		<form>
+			<div class="modal fade bd-example-modal-lg2" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" style="display: none;" aria-hidden="true">
+				<div class="modal-dialog modal-lg">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="myLargeModalLabel">사용내역</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeBtn">
+								<span aria-hidden="true">×</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<div class="table-responsive">
+								<table class="table custom-table m-0"  id="listTest">
+									<thead>
+										<tr>
+											<th>배차코드</th>
+											<th>차량사용직원</th>
+											<th>사유</th>
+											<th>사용날짜</th>
+											<th>담당자</th>
+									</thead>
+									<tbody id="tbodyModal">
+									</tbody>	
+								</table>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button class="btn btn-secondary" data-dismiss="modal" id="closeModal">닫기</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>				
 	</th:block>
 <th:block layout:fragment="customJs">
 	<script>
@@ -232,6 +270,55 @@
 				}
 			}
 		}
+		
+		$('.getInfoBtn').each(function(){
+			$(this).click(function(){
+				var releaseOrderCode = $(this).parents('tr').children('#carCodeData').text();
+				console.log(releaseOrderCode);
+				if(releaseOrderCode != null){
+					$.ajax({
+						url : "/getCarmanagementInfo",
+						method : 'get',
+						async : true,
+						dataType : "json",
+						data : {'releaseOrderCode':releaseOrderCode},
+						success: function(data){
+							if(data != null && data != '' && data != undefined){
+								console.log(true);
+								console.log(data[0].driveManageCode);
+								console.log(data);
+								for(var i=0; i<data.length; i++){
+									var carManagementData = 	
+												'<tr>' +
+												'<td>' + data[i].driveManageCode + '</td>' +
+												'<td>' + data[i].deliveryMemberId + '</td>' +
+												'<td>' + data[i].dispatchReason + '</td>' +
+												'<td>' + data[i].driveUsingDate + '</td>' +
+												'<td>' + data[i].wareAdminId + '</td>' +
+											   '</tr>' ;
+									$('#tbodyModal').append(carManagementData);
+								};
+								$('.bd-example-modal-lg2').on('hidden.bs.modal', function (){
+									$('#tbodyModal').children('tr').remove();
+								});
+							}else{
+								console.log(false);
+								var carManagementData = 	
+											'<tr>' +
+											'<td colspan="5" style="text-align: center;">' + '데이터가 없습니다.' + '</td>' +
+										   '</tr>' ;
+								$('#tbodyModal').append(carManagementData);
+								$('.bd-example-modal-lg2').on('hidden.bs.modal', function (){
+									$('#tbodyModal').children('tr').remove();
+								});
+							}
+								
+						}
+					})
+				}
+			})
+		})
+			
 	</script>
 </th:block>		
 </html>
