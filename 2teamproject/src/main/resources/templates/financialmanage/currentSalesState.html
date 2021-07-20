@@ -58,32 +58,36 @@
 							<th>
 								<input type="checkbox" id="checkAll" style="position: relative; top: 1.5px;">
 							</th>
-							<th>매출코드</th>
-							<th>계약코드</th>
-							<th>사업자명</th>
-							<th>계약금액</th>
-							<th>계약납부상태</th>
-							<th>매출메모</th>
-							<th>입금일</th>
-							<th>작성일</th>
-							<th>작성자</th>
+							<th>최종계약코드</th>
+							<th>단가표코드</th>
+							<th>계약명</th>
+							<th>시작일</th>
+							<th>종료일</th>
+							<th>수량</th>
+							<th>금액</th>
+							<th>쇼핑몰</th>
+							<th>보관유형</th>
+							<th>계약상태</th>
+							<th>메모</th>
 							<th>수정</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr th:if="${#lists.size(salesList)>0}" th:each="l : ${salesList}">
 							<td>
-								<input type="checkbox" class="checkOne" style="position: relative; top: 1.5px;" th:value="${l.calculateCode}">
+								<input type="checkbox" class="checkOne" style="position: relative; top: 1.5px;" th:value="${l.contractFinalCode}">
 							</td>
-							<td th:text="${l.calculateCode}"></td>
 							<td th:text="${l.contractFinalCode}"></td>
-							<td th:text="${l.shoppingmallUserId}"></td>
-							<td th:text="${l.calculatePayment}"></td>
-							<td th:text="${l.calculateType}"></td>
-							<td th:text="${l.calculateMemo}"></td>
-							<td th:text="${l.calculateDate}"></td>
-							<td th:text="${l.calculateRegDate}"></td>
-							<td th:text="${l.wareAdminId}"></td>
+							<td th:text="${l.contractFinalPriceCode}"></td>
+							<td th:text="${l.contractFinalPriceName}"></td>
+							<td th:text="${l.contractFinalStart}"></td>
+							<td th:text="${l.contractFinalEnd}"></td>
+							<td th:text="${l.contractFinalQuantity}"></td>
+							<td th:text="${l.contractFinalPay}"></td>
+							<td th:text="${l.contractFinalUser}"></td>
+							<td th:text="${l.contractFinalWarehouseType}"></td>
+							<td th:text="${l.contractState}"></td>
+							<td th:text="${l.contractStateMemo}"></td>
 							<td>
 								<a type="button" class="btn btn-primary modifyBtn" data-toggle="modal" data-target=".bd-example-modal-lg" id="viewModal" style="color: white;">수정</a>
 							</td>

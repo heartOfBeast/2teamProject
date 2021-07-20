@@ -13,12 +13,16 @@ public class Receiving {
 	private String warehousingRegDate;
 	private String wareAdminId;
 	private String productCode;
+	private String stockCode;
+	private String sectorColumnFinalCode;
+	private String stockAmount;
 	
 	private WarehousingOrder warehousingOrder;
 	private Warehouse warehouse;
 	private Shoppingmall shoppingmall;
 	private WareAdmin wareAdmin;
 	private Product product;
+	private Stock stock;
 	public String getReceivingingCode() {
 		return receivingingCode;
 	}
@@ -85,6 +89,18 @@ public class Receiving {
 	public void setProductCode(String productCode) {
 		this.productCode = productCode;
 	}
+	public String getStockCode() {
+		return stockCode;
+	}
+	public void setStockCode(String stockCode) {
+		this.stockCode = stockCode;
+	}
+	public String getSectorColumnFinalCode() {
+		return sectorColumnFinalCode;
+	}
+	public void setSectorColumnFinalCode(String sectorColumnFinalCode) {
+		this.sectorColumnFinalCode = sectorColumnFinalCode;
+	}
 	public WarehousingOrder getWarehousingOrder() {
 		return warehousingOrder;
 	}
@@ -115,6 +131,18 @@ public class Receiving {
 	public void setProduct(Product product) {
 		this.product = product;
 	}
+	public Stock getStock() {
+		return stock;
+	}
+	public void setStock(Stock stock) {
+		this.stock = stock;
+	}
+	public String getStockAmount() {
+		return stockAmount;
+	}
+	public void setStockAmount(String stockAmount) {
+		this.stockAmount = stockAmount;
+	}
 	@Override
 	public String toString() {
 		return "Receiving [receivingingCode=" + receivingingCode + ", warehousingOrderCode=" + warehousingOrderCode
@@ -122,8 +150,11 @@ public class Receiving {
 				+ ", warehousingOrderAmount=" + warehousingOrderAmount + ", warehousingRealDate=" + warehousingRealDate
 				+ ", warehousingRealAmount=" + warehousingRealAmount + ", shoppingmallId=" + shoppingmallId
 				+ ", warehousingRegDate=" + warehousingRegDate + ", wareAdminId=" + wareAdminId + ", productCode="
-				+ productCode + ", warehousingOrder=" + warehousingOrder + ", warehouse=" + warehouse
-				+ ", shoppingmall=" + shoppingmall + ", wareAdmin=" + wareAdmin + ", product=" + product + "]";
+				+ productCode + ", stockCode=" + stockCode + ", sectorColumnFinalCode=" + sectorColumnFinalCode
+				+ ", stockAmount=" + stockAmount + ", warehousingOrder=" + warehousingOrder + ", warehouse=" + warehouse
+				+ ", shoppingmall=" + shoppingmall + ", wareAdmin=" + wareAdmin + ", product=" + product + ", stock="
+				+ stock + "]";
 	}
+	
 
 }

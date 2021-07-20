@@ -53,6 +53,41 @@
 		</association>
 	</resultMap>
 
+	<!-- 입고 후 재고 테이블 에 재고 추가 혹은 수정 -->
+	<insert id="insertOrUpdateStock" parameterType="Receiving">
+		<selectKey keyProperty="stockCode" keyColumn="stock_code" resultType="String" order="BEFORE">
+			SELECT CONCAT('stock_',LPAD(CAST(SUBSTRING(MAX(tb_stock_status_backup.stock_code),7,5) AS DECIMAL) +1, 5, 0)) FROM tb_stock_status_backup
+		</selectKey>
+		INSERT INTO tb_stock_status
+			(stock_code
+			,shoppingmall_user_id
+			,warehouse_code
+			,product_code
+			,sector_column_final_code
+			,stock_amount
+			,warehousing_order_due_date
+			,warehousing_order_amount
+			,warehousing_real_amount
+			,warehousing_real_date
+
+			)VALUES 
+			(#{stockCode}
+			,#{shoppingmallId}
+			,#{warehouseCode}
+			,#{productCode}
+			,#{sectorColumnFinalCode}
+			,#{warehousingRealAmount}
+			,#{warehousingOrderDueDate}
+			,#{warehousingOrderAmount}
+			,#{warehousingRealAmount}
+			,#{warehousingRealDate}
+
+			)
+			on duplicate key update
+				stock_amount = stock_amount+#{warehousingRealAmount},	
+				warehousing_real_amount = #{warehousingRealAmount}
+	</insert>
+	
 	
 	<!--창고 섹터 받아오기  -->
 	<select id="getWarehouseSector" resultType="WareSector">
