@@ -76,7 +76,7 @@ public class ProductController {
 	@PostMapping("/modifyProduct")
 	public String modifyProduct(Product product) {
 		log.info("========================================");
-		log.info("화면에서 입력받은 값(회원수정폼) product: {}", product);
+		log.info("화면에서 입력받은 값(상품수정폼) product: {}", product);
 		log.info("========================================");
 		productService.modifyProduct(product);
 
