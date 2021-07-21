@@ -370,19 +370,24 @@ public class MemberController {
 	
 	@PostMapping("/findId")
 	@ResponseBody
-	public String findId(@RequestParam(value = "memberEmail", required = false) String memberEmail,
-						@RequestParam(value = "Check", required = false) String Check
+	public Map<String, Object> findId(@RequestParam(value = "memberEmail", required = false) String memberEmail,
+						@RequestParam(value = "check", required = false) String check
 						) {
 		
-		log.info("==============={}" + memberEmail);
+		Map<String, Object> map = new HashMap<String, Object>();
 		
-		if(Check.equals("memberCheck")) {
-			String id = memberService.getId(memberEmail);
-			return id;
+		if(check.equals("memberCheck")) {
+			
+			Member member = memberService.getAdminAjaxId(memberEmail);
+			map.put("member", member);
+				
 		}else {
-			String id = memberService.getId(memberEmail);
-			return id;
+			Shoppingmall shop = memberService.getShopAjaxId(memberEmail);
+			map.put("shop", shop);
 		}
+		
+		return map;
+		
 		
 	}
 	

@@ -73,9 +73,6 @@
 									<td th:text="${l.warehousingRealDate}"></td>
 									<td th:text="${l.wareAdminId}"></td>
 								</tr>
-								<tr th:unless="${#lists.size(receivingStatusListForWarehouse)>0}" style="text-align: center;">
-									<td th:text="${검색된 결과가 없습니다}"></td>
-								</tr>
 							</tbody>
 		    			</table>
 					</div>
@@ -85,5 +82,8 @@
 	<!-- Row end -->
 	</div>
 </th:block>
+
+<th:block layout:fragment="customJs"></th:block>
+
 		
 </html>

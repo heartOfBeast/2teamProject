@@ -21,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cafe2team.dao.WarehousingMapper;
 import com.cafe2team.domain.Contract;
+import com.cafe2team.domain.Member;
 import com.cafe2team.domain.Product;
 import com.cafe2team.domain.Receiving;
 import com.cafe2team.domain.Request;
@@ -70,12 +71,13 @@ public class WareHousingController {
 	public String receivingRequest(@RequestParam(value = "memberId", required = false) String memberId
 									,Model model) {
 		
-		
+		Member memberList = memberService.getMemberInfoById(memberId);
 		Shoppingmall shopmemberList = memberService.getsShopById(memberId);
 		List<Warehouse> warehouseList = warehouseService.getWarehouseList();		
 		List<Product> productList = productService.getProductList();
 		List<Contract> contractList = contractService.ContractList();
 		
+		model.addAttribute("memberList", memberList);
 		model.addAttribute("productList", productList);
 		model.addAttribute("shopmemberList", shopmemberList);
 		model.addAttribute("warehouseList", warehouseList);
