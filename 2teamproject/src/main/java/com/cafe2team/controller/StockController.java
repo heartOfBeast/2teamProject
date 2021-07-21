@@ -27,7 +27,7 @@ public class StockController {
 	public StockController(StockService stockService) {
 		this.stockService = stockService;
 	}
-	
+	//재고상세정보모달
 	@GetMapping("/stockListDetailModal")
 	public List<Stock> stockListDetailModal(Model model){
 		
@@ -81,7 +81,7 @@ public class StockController {
 		return getMiddleCategory;
   
 	}
-	
+	//재고 소분류
 	@PostMapping("/getStockSmallCate")
 	@ResponseBody 
 	public List<Stock> getStockSmallCate(Model model,@RequestParam Map<String, Object> param) {
@@ -94,7 +94,7 @@ public class StockController {
 		return getSmallCategory;
   
 	}	
-	
+	//전체 분류
 	@PostMapping("/getStockCate")
 	@ResponseBody 
 	public List<Stock> getStockCate(Model model,@RequestParam Map<String, Object> param) {

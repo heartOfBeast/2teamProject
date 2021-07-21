@@ -12,6 +12,20 @@ public class Warehouse {
 	private String warehouseRegDate;
 	private String wareAdminId;
 	
+	private String sectorCode;
+	private String sectorName;
+	private String sectorAvailble;
+	private String sectorRegDate;
+	private String wareSectorAdminId;
+	private String sectorUsing;
+	private String sectorPCode;
+	
+	public String getSectorCode() {
+		return sectorCode;
+	}
+	public void setSectorCode(String sectorCode) {
+		this.sectorCode = sectorCode;
+	}
 	public String getWarehouseCode() {
 		return warehouseCode;
 	}
@@ -72,14 +86,52 @@ public class Warehouse {
 	public void setWareAdminId(String wareAdminId) {
 		this.wareAdminId = wareAdminId;
 	}
+	public String getSectorName() {
+		return sectorName;
+	}
+	public void setSectorName(String sectorName) {
+		this.sectorName = sectorName;
+	}
+	public String getSectorAvailble() {
+		return sectorAvailble;
+	}
+	public void setSectorAvailble(String sectorAvailble) {
+		this.sectorAvailble = sectorAvailble;
+	}
+	public String getSectorRegDate() {
+		return sectorRegDate;
+	}
+	public void setSectorRegDate(String sectorRegDate) {
+		this.sectorRegDate = sectorRegDate;
+	}
+	public String getWareSectorAdminId() {
+		return wareSectorAdminId;
+	}
+	public void setWareSectorAdminId(String wareSectorAdminId) {
+		this.wareSectorAdminId = wareSectorAdminId;
+	}
+	public String getSectorUsing() {
+		return sectorUsing;
+	}
+	public void setSectorUsing(String sectorUsing) {
+		this.sectorUsing = sectorUsing;
+	}
+	public String getSectorPCode() {
+		return sectorPCode;
+	}
+	public void setSectorPCode(String sectorPCode) {
+		this.sectorPCode = sectorPCode;
+	}
 	@Override
 	public String toString() {
 		return "Warehouse [warehouseCode=" + warehouseCode + ", warehouseName=" + warehouseName + ", warehouseAddr="
 				+ warehouseAddr + ", warehouseCate=" + warehouseCate + ", warehouseArea=" + warehouseArea
 				+ ", warehousePhone=" + warehousePhone + ", warehouseRegNumber=" + warehouseRegNumber
 				+ ", warehouseDetail=" + warehouseDetail + ", warehouseRegDate=" + warehouseRegDate + ", wareAdminId="
-				+ wareAdminId + "]";
+				+ wareAdminId + ", sectorCode=" + sectorCode + ", sectorName=" + sectorName + ", sectorAvailble="
+				+ sectorAvailble + ", sectorRegDate=" + sectorRegDate + ", wareSectorAdminId=" + wareSectorAdminId
+				+ ", sectorUsing=" + sectorUsing + ", sectorPCode=" + sectorPCode + "]";
 	}
-	
 
+	
 }
