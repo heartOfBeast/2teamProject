@@ -54,7 +54,7 @@ public class WarehouseController {
 
 		return "redirect:/warehouseList";
 	}
-
+	//창고상세정보 주소
 	@PostMapping("/warehouseListDetailAddr")
 	@ResponseBody
 	public List<Warehouse> warehouseListDetailAddr(@RequestParam Map<String, Object> param, Model model){
@@ -66,7 +66,7 @@ public class WarehouseController {
 		log.info("warehouseList", warehouseList);
 		return warehouseList;
 	}
-	
+	//창고상세정보 창고이름
 	@PostMapping("/warehouseListDetailName")
 	@ResponseBody
 	public List<Warehouse> warehouseListDetailName(@RequestParam Map<String, Object> param, Model model){
@@ -80,7 +80,8 @@ public class WarehouseController {
 		log.info("warehouseList", warehouseList);
 		return warehouseList;
 	}
-	
+	//창고상세정보 창고종류
+
 	@PostMapping("/warehouseListDetailCate")
 	@ResponseBody
 	public List<Warehouse> warehouseListDetailCate(@RequestParam Map<String, Object> param, Model model){
@@ -120,11 +121,17 @@ public class WarehouseController {
 								,RedirectAttributes reAttr
 								,HttpServletResponse response) throws IOException {
 
-		String adminId = (String) session.getAttribute("SID");
-		if (adminId != null) {
-			warehouse.setWareAdminId(adminId);
+		String SID = (String) session.getAttribute("SID");
+		String SLEVEL = (String) session.getAttribute("SLEVEL");
+		System.out.println(SID);
+		System.out.println(SLEVEL);
+		
+		if (SID != null && SLEVEL.equals("총관리자")) {
+			warehouse.setWareAdminId(SID);
+			warehouse.setWareSectorAdminId(SID);
 			warehouseservice.addWarehouse(warehouse);
-			reAttr.addAttribute("wareAdminId", adminId);
+			warehouseservice.addWarehouseSector(warehouse);
+			reAttr.addAttribute("wareAdminId", SID);
 			log.info("warehouse", warehouse);
 		}
 //		else 
