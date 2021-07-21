@@ -54,13 +54,26 @@ html,body {
 				  url: "/findId",
 				  method: "POST",
 				  data: { 	memberEmail : $('#memberEmail').val() ,
-					  		Check : $('[name=Check]:checked').val() },
+					  		check : $('[name=Check]:checked').val() },
 				  dataType: "json"
 				});
 				 
 				request.done(function( data ) {
-					alert(data);
 					
+					console.log(data);
+					
+					$.each(data, function(key, value){
+							
+						if(key == "member"){
+							alert(value.memberId);
+							
+						}else{
+							alert(value.shoppingmallId);		    
+							
+						}
+							
+					});
+										
 				});
 				 
 				request.fail(function( jqXHR, textStatus ) {

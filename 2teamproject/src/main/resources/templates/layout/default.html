@@ -93,14 +93,36 @@
 		<script src="vendor/apex/examples/column/basic-column-graph-monthlySales.js"></script>
 		
 		<!-- customJS -->
-        <th:block layout:fragment="customJs"></th:block>
-		
-		<script>
+        <th:block layout:fragment="customJs">
+        </th:block>
+
+		<script type="text/javascript" th:inline="javascript">
+			/***************************************** left active *********************************************************/
+		 	var currentPage = [[${#httpServletRequest.requestURI}]];
+//			console.log(currentPage)	
+			var aObj = $('.sidebar-menu a');
+//			console.log(aObj);
+			$.each(aObj, function(){
+				let parentObj = $(this).parents('.sidebar-dropdown');
+				let ahref = $(this).attr('href');
+//				console.log(ahref)
+				if(currentPage == ahref){
+					$(parentObj).addClass('active');
+					$(this).addClass('current-page');
+					return false;
+				}
+			});	
+    	</script>
+
+
+
+<script>
 			$(document).ready(function() {
 				$('.summernote').summernote({
 					height: 170,
 					tabsize: 2
 				});
 			});
+			
 		</script>
 </html>

@@ -139,42 +139,18 @@ public class MemberService {
 	}
 	
 	
-	public String getId(String memberEmail) {
+	public Shoppingmall getShopAjaxId(String shopEmail) {
 		
-		Member member = new Member();
-		Shoppingmall shop = new Shoppingmall();
+		Shoppingmall shop = memberMapper.getShopAjaxId(shopEmail);
 		
+		return shop;
+	}
+	
+	public Member getAdminAjaxId(String adminEmail) {
 		
-		if(memberEmail != null) {
-			
-			if("1".equals(member.getMemberLevelcode())) {
-				return memberMapper.getAdminAjaxId(memberEmail);
-
-			}else if(("2".equals(member.getMemberLevelcode()))) {
-				return memberMapper.getAdminAjaxId(memberEmail);
-				
-			}else if(("3".equals(member.getMemberLevelcode()))) {
-				return memberMapper.getAdminAjaxId(memberEmail);
-
-			}else if(("4".equals(member.getMemberLevelcode()))) {
-				return memberMapper.getAdminAjaxId(memberEmail);
-
-			}else if(("5".equals(member.getMemberLevelcode()))) {
-				return memberMapper.getAdminAjaxId(memberEmail);
-
-			}
-			
-			
-		}else {
-			
-			if("쇼핑몰사업자".equals(shop.getShoppingmallLevelName()))
-
-				return memberMapper.getShopAjaxId(memberEmail);
-
-		}
+		Member member =  memberMapper.getAdminAjaxId(adminEmail);
 		
-		return memberEmail;
-		
+		return member;
 	}
 	
 
