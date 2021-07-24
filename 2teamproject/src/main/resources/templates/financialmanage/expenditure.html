@@ -168,6 +168,8 @@
 
 <th:block layout:fragment="customJs">
 	<script>
+	/***********************************************수정처리 **************************************************/
+
 	var fn_modifyDetail = function modifyDetail(){
 		$('.modifyBtn').each(function(){
 			$(this).click(function(){
@@ -200,6 +202,8 @@
 		})
 	};	
 	fn_modifyDetail();
+	/***********************************************수정처리 유효성검사 **************************************************/
+
 	$('#submitDone').click(function(){
 		var modifyExpenInfo = $('#modifyExpenInfo');
 		var submitFlag = true;
@@ -252,7 +256,7 @@
 	
 	<script th:inline="javascript">
 	var options = null;
-			/*******************************그래프양식(?)******************************************/
+	/***********************************************그래프 양식**************************************************/
 	window.onload = function(){
 		
 	options = {
@@ -299,7 +303,7 @@
 						],
 		  xaxis: 		{
 						    type: 'datetime',
-						    categories: ['01/01/2021 GMT', '02/01/2021 GMT', '03/01/2021 GMT', '04/01/2021 GMT', '05/01/2021 GMT', '06/01/2021 GMT'
+						    categories: ['01/01/2021 gmt', '02/01/2021 GMT', '03/01/2021 GMT', '04/01/2021 GMT', '05/01/2021 GMT', '06/01/2021 GMT'
 						    			,'07/01/2021 GMT', '08/01/2021 GMT', '09/01/2021 GMT', '10/01/2021 GMT', '11/01/2021 GMT', '12/01/2021 GMT','01/01/2022 GMT'],
 				  		},
 		  legend: 		{
@@ -320,11 +324,9 @@
 		  options
 		);
 		chart2.render();
-		}
-	/****************************************************************************************************/
-		
-
-		
+	}//fn onload end
+	
+	/*******************************************그래프 데이터처리 *****************************************************************/
 		/*<![CDATA[*/
 		var result =/*[[${expenditureList}]]*/;
 		/*]]>*/
@@ -370,7 +372,7 @@
 				}
 			}
 		}
-
+		/***********************************************삭제처리 **************************************************/
 		$(function(){
 			$('#expenseAll').click(function(){
 				if($('#expenseAll').prop('checked')){
@@ -455,16 +457,74 @@
 				});
 				$('#expenseData').append(html);
 				fn_modifyDetail();	
-		
-		
+				setSelectedYearToDG();
 				
+// 				options.series = SeriesData;
+				var chart2 = new ApexCharts(
+					  document.querySelector("#basic-column-stack-graph-fullheight2"),
+					  options
+					);
+				chart2.render();
 				
-				}
+				}//success end
 			})	
 		}
-		/**********************************************************************************/
+			/**************************************************그래프 연도 동적처리*********************************************************/
 		
-		
+		var setSelectedYearToDG = function(){
+			console.log("그래프 연도 동적처리");
+			var resultExpenDate =[];
+			var dupleExpenDate =[];
+			var expenDate = [];
+			var dupExpenDate = [];
+			var uniqExpenDate = [];
+			var xaxisData = [];
+			
+			for(var i=0; i<result.length; i++){
+				resultExpenDate[i] = result[i].expenseDate;
+				if (dupleExpenDate.indexOf(resultExpenDate[i]) === -1) dupleExpenDate.push(resultExpenDate[i]);
+			}
+			for( var i = 0; i<dupleExpenDate.length; i++){
+				expenDate.push(dupleExpenDate[i].split('-'))
+			}
+			for(var i=0; i<expenDate.length; i++){
+				dupExpenDate.push(expenDate[i][0])
+			}
+			var set = new Set(dupExpenDate)
+			var uniqExpenDate = [...set]
+			
+			for(var i =0; i<uniqExpenDate.length; i++){
+				if(yearSelected == uniqExpenDate[i]){
+					for(var j=0; j<13; j++){
+						var pre = "";
+						if(j < 9){
+							pre = "0"+(j+1)+"/01/";
+						}else if(j < 12){
+							pre = (j+1)+"/01/";
+						}else {
+							pre = "01/01/"
+						}
+						var curYear = yearSelected;
+						var suf = " GMT"
+						var formatted = "";
+						if(j!=12){
+							formatted = pre+curYear+suf;	
+						}else {
+							formatted = pre+( parseInt(curYear)+1 )+suf;
+						}
+						console.log("test : "+j)
+						console.log(formatted);
+						options.xaxis.categories[j] = formatted;
+
+					}
+				}
+			}
+		}
+		setSelectedYearToDG();
+
+		/********************************************동적처리된 연도 및 데이터로 그래프에 반영시키기****************************************************/
+
+				
 		
 	</script>
 </th:block>
