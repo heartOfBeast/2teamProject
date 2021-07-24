@@ -32,7 +32,7 @@
 		SELECT 
 			sector_column_final_code			
 		from 
-			tb_stock_status_backup 
+			tb_stock_status
 		where 
 			stock_code =#{stock_code};
 	</select>
@@ -42,7 +42,7 @@
 			ssc.stock_code
 			,p.product_name
 				FROM tb_stock_sector_check AS ssc
-		INNER JOIN tb_stock_status_backup AS ssb
+		INNER JOIN tb_stock_status AS ssb
 			ON 
 			ssc.stock_code =ssb.stock_code
 		INNER JOIN tb_product AS p
@@ -65,7 +65,7 @@
 		  , ssc.stock_check_date
   		  , ssc.stock_check_reg_date
 			FROM tb_stock_sector_check AS ssc
-	INNER JOIN tb_stock_status_backup AS ssb
+	INNER JOIN tb_stock_status AS ssb
 		ON ssc.stock_code = ssb.stock_code
 	INNER JOIN tb_product AS p
 		ON ssb.product_code = p.product_code 
@@ -89,7 +89,7 @@
 		  , ssc.stock_check_date
   		  , ssc.stock_check_reg_date 
 			FROM tb_stock_sector_check AS ssc
-	INNER JOIN tb_stock_status_backup AS ssb
+	INNER JOIN tb_stock_status AS ssb
 		ON ssc.stock_code = ssb.stock_code
 	INNER JOIN tb_product AS p
 		ON ssb.product_code = p.product_code 
