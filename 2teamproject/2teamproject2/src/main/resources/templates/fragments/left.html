@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html xmlns:th = "http://www.thymeleaf.org">
+
+<nav th:fragment="left" id="sidebar" class="sidebar-wrapper">			
+<!-- Sidebar brand start  -->
+<div class="sidebar-brand">
+	<a th:href="@{/main}" class="logo">
+		<span class="text-avatar rounded xxl">2TEAM</span>
+	</a>
+</div>
+<!-- Sidebar brand end  -->
+
+<!-- Sidebar content start -->
+<div class="sidebar-content">
+
+	<!-- sidebar menu start -->
+	<div class="sidebar-menu">
+		<ul>
+			<li class="header-menu">MENU</li>
+			
+			<!-- 창고메뉴 -->
+			<li class="sidebar-dropdown">
+				<a href="#">
+					<i class="icon-devices_other"></i>
+					<span class="menu-text">#창고(병윤)</span>
+				</a>
+				<div class="sidebar-submenu">
+					<ul>
+						<li>
+							<a th:href="@{addWarehouse}">창고등록(고뱅)</a>
+						</li>
+						<li>
+							<a th:href="@{warehouseList}">창고조회(고뱅)</a>
+						</li>
+					</ul>
+				</div>
+			</li>
+			
+			<!-- 회원관리메뉴 -->
+			<li class="sidebar-dropdown">
+				<a href="#">
+					<i class="icon-devices_other"></i>
+					<span class="menu-text">!회원관리(준)</span>
+				</a>
+				<div class="sidebar-submenu">
+					<ul>
+						<li>
+							<a th:href="@{/memberList}">거래처 및 관리자 조회</a>
+						</li>
+						<li>
+							<a th:href="@{/adminWaiting}">관리자 승인 대기 조회</a>
+						</li>
+						<li>
+							<a th:href="@{/accountInquiry}">등록미승인 거래처 조회</a>
+						</li>
+						<li>
+							<a th:href="@{/whzoneinquiry}">창고&구역 관리자 조회</a>
+						</li>
+					</ul>
+				</div>
+			</li>
+			
+			<!-- 재무관리메뉴 -->
+			<li class="sidebar-dropdown">
+				<a href="#">
+					<i class="icon-devices_other"></i>
+					<span class="menu-text">#재무관리(수현)</span>
+				</a>
+				<div class="sidebar-submenu">
+					<ul>
+						<li>
+							<a th:href="@{currentSalesState}" class="current-page">매출관리(상범)</a>
+						</li>
+						<li>
+							<a th:href="@{/expenditure}">지출내역조회</a>
+						</li>
+						<li>
+							<a th:href="@{/expenditureinsert}">지출내역등록</a>
+						</li>
+						<li>
+							<a th:href="@{/calculate}">정산관리</a>
+						</li>
+					</ul>
+				</div>
+			</li>
+			
+			<!-- 재고관리메뉴 -->
+			<li class="sidebar-dropdown">
+				<a href="#">
+					<i class="icon-devices_other"></i>
+					<span class="menu-text">#재고</span>
+				</a>
+				<div class="sidebar-submenu">
+					<ul>
+						<li>
+							<a th:href="@{/stockList}">재고조회(병윤)</a>
+						</li>
+						<li>
+							<a th:href="@{/stockCheckList}">재고실사조회(수현)</a>
+						</li>
+						<li>
+							<a th:href="@{/stockCheckInsert}">재고실사등록(수현)</a>
+						</li>
+					</ul>
+				</div>
+			</li>
+			
+		<!-- 거래처관리메뉴 -->
+			<li class="sidebar-dropdown">
+				<a href="#">
+					<i class="icon-devices_other"></i>
+					<span class="menu-text">#거래처(동욱)</span>
+				</a>
+				<div class="sidebar-submenu">
+					<ul>
+						<li>
+							<a th:href="@{/priceList}">요금안내 및 계약신청(동욱#)</a>
+						</li>
+						<li>
+							<a th:unless="${session.SLEVEL == '사업자'}" th:href="@{#}">거래처 등록(동욱#)</a>
+							<a th:if="${session.SLEVEL == '사업자'}" th:href="@{/shoppingmallAdd(shoppingmallId=${session.SID})}">거래처 등록(동욱#)</a>
+						</li>
+						<li>
+							<a th:href="@{/shoppingmallApproval}">거래처 권한 관리(동욱#)</a>
+						</li>
+						<li>
+							<a th:href="@{/contractApproval}">계약 관리(동욱#)</a>
+						</li>
+						<li>
+							<a th:href="@{/schedule}">계약 스케줄관리(동욱#)</a>
+						</li>
+					</ul>
+				</div>
+			</li>
+			
+			<!-- 입고관리메뉴 -->
+			<li class="sidebar-dropdown">
+				<a href="#">
+					<i class="icon-devices_other"></i>
+					<span class="menu-text">#입고</span>
+				</a>
+				<div class="sidebar-submenu">
+					<ul>
+						<li>
+							<a th:href="@{/receivingRequest(memberId=${session.SID})}">입고 요청</a>
+						</li>
+						<li>
+							<a th:href="@{/#}">입고 요청 대기</a>
+						</li>
+						<li>
+							<a th:href="@{/receivingOrder}">입고지시서 목록</a>
+						</li>
+						<li>
+							<a th:href="@{/receivingWarehouseStatus}">입고 현황(관리자 전용)</a>
+						</li>
+						<li>
+							<a th:href="@{/receivingShopStatus}">입고 현황(고객 전용)</a>
+						</li>
+					</ul>
+				</div>
+			</li>
+			
+			<!-- 출고관리메뉴 -->
+			<li class="sidebar-dropdown">
+				<a href="#">
+					<i class="icon-devices_other"></i>
+					<span class="menu-text">#출고</span>
+				</a>
+				<div class="sidebar-submenu">
+					<ul>
+						<li>
+							<a th:href="@{/releaseOrder}">출고 지시서</a>
+						</li>
+						<li>
+							<a th:href="@{/realReleaseList}">출고 리스트</a>
+						</li>
+						<li>
+							<a th:href="@{/wayBillSearch}">운송장 조회</a>
+						</li>
+					</ul>
+				</div>
+			</li>
+			
+			
+			<!-- 안전점검관리메뉴 -->
+			<li class="sidebar-dropdown">
+				<a href="#">
+					<i class="icon-devices_other"></i>
+					<span class="menu-text">#안전점검(종민)</span>
+				</a>
+				<div class="sidebar-submenu">
+					<ul>
+						<li>
+							<a th:href="@{/safetyCheckAdd}" class="current-page">안전점검등록</a>
+						</li>
+						<li>
+							<a th:href="@{/safetyCheck}">안전점검 내역조회</a>
+						</li>
+					</ul>
+				</div>
+			</li>
+			
+			<!-- 차량관리메뉴 -->
+			<li class="sidebar-dropdown">
+				<a href="#">
+					<i class="icon-devices_other"></i>
+					<span class="menu-text">#차량관리(종민)</span>
+				</a>
+				<div class="sidebar-submenu">
+					<ul>
+						<li>
+							<a th:href="@{/vehicleAdd}" class="current-page">차량 등록</a>
+						</li>
+						<li>
+							<a th:href="@{/vehicleList}">차량목록 조회</a>
+						</li>
+					</ul>
+				</div>
+			</li>
+			
+			
+			<!-- 견적관리메뉴 -->
+			<li class="sidebar-dropdown">
+				<a href="#">
+					<i class="icon-devices_other"></i>
+					<span class="menu-text">#견적(병윤)</span>
+				</a>
+				<div class="sidebar-submenu">
+					<ul>
+						<li>
+							<a th:unless="${session.SLEVEL == '사업자'}" th:href="@{/estimate}">견적신청(병윤)</a>
+							<a th:if="${session.SLEVEL == '사업자'}" th:href="@{/estimate(shoppingmallId=${session.SID})}">견적신청(병윤)</a>
+						</li>
+						<li>
+							<a th:href="@{/estimateAnother}">비회원 견적신청(병윤)</a>
+						</li>
+						<li>
+							<a th:href="@{/estimateLook}">견적신청 조회(병윤)</a>
+						</li>
+						<li>
+							<a th:href="@{/estimatePermit}">견적신청 검토(병윤)</a>
+						</li>
+					</ul>
+				</div>
+			</li>
+			
+			<!--고객센터메뉴 -->
+			<li class="sidebar-dropdown">
+				<a href="#">
+					<i class="icon-devices_other"></i>
+					<span class="menu-text">#고객센터(상범)</span>
+				</a>
+				<div class="sidebar-submenu">
+					<ul>
+						<li>
+							<a th:href="@{/noticeList}">공지사항게시판(수현)</a>
+						</li>
+						<li>
+							<a th:href="@{/inquiryList}">#문의게시판</a>
+						</li>
+						<li>
+							<a th:href="@{/sendOneByOne}">#1:1문의</a>
+						</li>
+						<li>
+							<a th:href="@{/oftenFaq}">자주 묻는 질문</a>
+						</li>
+						
+					</ul>
+				</div>
+			</li>
+			
+			<!--상품관리 -->
+			<li class="sidebar-dropdown">
+				<a href="#">
+					<i class="icon-devices_other"></i>
+					<span class="menu-text">#상품목록관리(상범)</span>
+				</a>
+				<div class="sidebar-submenu">
+					<ul>
+						<li>
+							<a th:href="@{/productList}">상품목록</a>
+						</li>
+						<li>
+							<a th:href="@{/addProduct}">상품등록</a>
+						</li>
+						<li>
+							<a th:href="@{/warehouseProduct}">창고별 목록</a>
+						</li>
+						<li>
+							<a href="ecommerce-dashboard.html">Ecommerce Dashboard</a>
+						</li>
+					</ul>
+				</div>
+			</li>
+			
+			
+		</ul>
+	</div>
+	<!-- sidebar menu end -->
+
+</div>
+<!-- Sidebar content end -->
+	
+</nav>

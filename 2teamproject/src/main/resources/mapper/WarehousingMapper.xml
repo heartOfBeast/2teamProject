@@ -44,6 +44,21 @@
 		
 	</resultMap>
 	
+	<resultMap type="Contract" id="contractResultMap">
+		<result property="contractFinalCode" 									column="contract_final_code"/>
+		<result property="contractFinalPriceCode" 								column="unit_price_final_name"/>
+		<result property="contractFinalPriceName" 								column="unit_price_final_name"/>
+		<result property="contractFinalStart" 									column="contract_final_start"/>
+		<result property="contractFinalEnd" 									column="contract_final_end"/>
+		<result property="contractFinalWarehouseType" 							column="contract_final_warehouse_type"/>
+		<result property="contractFinalZone" 									column="contract_final_zone"/>
+		<result property="contractFinalPay" 									column="contract_final_pay"/>
+		<result property="contractFinalUser" 									column="shoppingmall_user_id"/>
+		<result property="contractFinalRegDay" 									column="contract_final_reg_date"/>
+		<result property="contractFinalMemo" 									column="contract_final_memo"/>
+	</resultMap>
+	
+	
 	<select id="getProductCode" resultMap="productResultMap">
 
 		SELECT
@@ -66,7 +81,8 @@
 		, barcode_file
 		,warehousing_request_reg_date
 		,request_shopname
-		,request_status)
+		,request_status
+		,request_contract_code)
 	VALUES (
 		 #{requsetCode}
 		,#{productCode}
@@ -77,7 +93,9 @@
 		,#{barcodeImg}
 		,#{requestRegDate}
 		,#{shopName}
-		,'입고요청');
+		,'입고요청'
+		,#{contractFinalCode});
+		
 	</insert>
 	
 	<select id="maxGoodsCode" resultType="String">
@@ -90,6 +108,7 @@
 	<select id="getRequestList" parameterType="map" resultMap="requestMap">
 		SELECT
 			r.warehousing_request_code
+			,r.shoppingmall_user_id
 			,r.product_code
 			,r.product_name
 			,w.warehouse_name
@@ -135,5 +154,79 @@
 		r.warehouse_code = w.warehouse_code
 	WHERE
 		r.warehousing_request_code = #{requsetCode};
-	</select>	
+	</select>
+		
+	<insert id="addRequestOrder" parameterType="java.util.List">
+		INSERT INTO 
+			tb_request_order
+			(warehousing_order_code
+			,warehousing_request_code
+			,product_code
+			,warehouse_code
+			,shoppingmall_user_id
+			,warehousing_barcode
+			,warehousing_order_due_date
+			,warehousing_order_amount
+			,warehousing_order_status
+			,request_contract_code)
+			(SELECT
+			sf_newRequsetOrder()
+			,r.warehousing_request_code
+			,r.product_code
+			,r.warehouse_code
+			,r.shoppingmall_user_id
+			,r.barcode_file
+			,r.warehousing_request_reg_date
+			,r.warehousing_request_amount
+			,r.request_status
+			,r.request_contract_code
+		FROM
+			tb_request AS r
+		WHERE
+			r.warehousing_request_code in
+		<foreach collection="list" item="addCode" open ="(" close="))" separator=",">
+			#{addCode}
+		</foreach>
+	</insert>
+	
+<!-- 	<select id="wareHouseListDetail" parameterType="map" resultMap="requestMap"> -->
+<!-- 		SELECT -->
+<!-- 			r.warehousing_request_code -->
+<!-- 			,r.shoppingmall_user_id -->
+<!-- 			,r.product_code -->
+<!-- 			,r.product_name -->
+<!-- 			,w.warehouse_name -->
+<!-- 			,r.warehouse_code -->
+<!-- 			,r.request_shopname -->
+<!-- 			,r.request_status -->
+<!-- 			,r.barcode_file -->
+<!-- 			,r.warehousing_request_reg_date -->
+<!-- 			,r.ware_admin_id -->
+<!-- 			,r.warehousing_request_amount -->
+<!-- 		FROM -->
+<!-- 			tb_request AS r -->
+<!-- 			INNER join -->
+<!-- 			tb_warehouse AS w -->
+<!-- 			ON -->
+<!-- 			r.warehouse_code = w.warehouse_code -->
+<!-- 	<trim prefix="WHERE" prefixOverrides="AND |OR">  -->
+<!-- 		<if test = "requsetCode != null and requsetCode != ''.toString()" > -->
+<!-- 			w.warehouse_name = #{warehouseName}; -->
+<!-- 		</if> -->
+<!-- 	</trim> -->
+<!-- 	</select> -->
+
+<delete id="cancleReuqestWareHouse" parameterType="java.util.List">
+	
+	DELETE 
+	FROM 
+		tb_request 
+	WHERE 
+		warehousing_request_code in 
+	<foreach collection="list" item="deleteCode" open="(" close=")" separator=",">
+		#{deleteCode}
+	</foreach>
+
+</delete>
+	
 </mapper>

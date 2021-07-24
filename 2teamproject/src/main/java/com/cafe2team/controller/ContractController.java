@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.cafe2team.domain.Calendar;
 import com.cafe2team.domain.Contract;
 import com.cafe2team.domain.Price;
 import com.cafe2team.service.ContractService;
@@ -23,6 +24,7 @@ public class ContractController {
 		
 	private final UnitPriceService unitPriceService;
 	private final ContractService contractService;
+	
 	
 	public ContractController(UnitPriceService unitPriceService, ContractService contractService) {
 		this.unitPriceService = unitPriceService;
@@ -100,11 +102,9 @@ public class ContractController {
 	public String contractAdd(@RequestParam(name = "priceCode", required = false)String priceCode, Model model) {
 		
 		Price price = unitPriceService.priceInfo(priceCode);
-		List<Contract> contractList = contractService.ContractList();
 		
-		model.addAttribute("title", "계약신청");
 		model.addAttribute("price", price);
-		model.addAttribute("contractList", contractList);
+		model.addAttribute("contractList", contractService.ContractList());
 		
 		
 		return "contract/contractAdd";
@@ -121,11 +121,34 @@ public class ContractController {
 	}
 	
 	
-	// 계약관리
+	// 계약관리 리스트
 	@GetMapping("/contractApproval")
-	public String contractApproval() {
+	public String contractApproval(Model model) {
+		
+		List<Contract> contractList = contractService.ContractList();
+
+		model.addAttribute("title", "계약 관리");
+		model.addAttribute("contractList", contractList);
 		
 		return "contract/contractApproval";
+	}
+	
+	// 계약 관리 승인
+	@PostMapping("/contrcatApproval")
+	public String contractApproval(Contract contract) {
+		
+		contractService.contractApproval(contract);
+		
+		return "redirect:/contractApproval";
+	}
+	
+	// 계약 관리 승인 취소
+	@PostMapping("/contrcatCancel")
+	public String contrcatCancel(Contract contract) {
+		
+		contractService.contrcatCancel(contract);
+		
+		return "redirect:/contractApproval";
 	}
 	
 	/******************************** 계약 종료 ********************************/
@@ -133,26 +156,37 @@ public class ContractController {
 	
 	
 	// 스케줄 관리 페이지
-	@GetMapping("/calendar") 
-	public String Calendar(Model model) {
-		
-		 model.addAttribute("title", "최종계약 캘린더");
-		 
+	@GetMapping("/calendar")
+	public String calendar(Model model) {
+		model.addAttribute("title", "계약 일정관리");
 		return "contract/calendar";
 	}
+	
+	@PostMapping("/calendar")
+	@ResponseBody
+	public List<Map<String, Object>> CalendarList() {
+		List<Map<String, Object>> list = contractService.CalendarList();
+		
+		JSONObject jsonObj = new JSONObject();
+		JSONArray jsonArr = new JSONArray();
+		HashMap<String, Object> hash = new HashMap<String, Object>();		
+		
+		for(int i=0; i < list.size(); i++) {			
+			hash.put("title", list.get(i).get("contractFinalUserName")); //제목
+			hash.put("start", list.get(i).get("contractFinalStart")); //시작일자
+			hash.put("end", list.get(i).get("contractFinalEnd")); //종료일자
+			
+			jsonObj = new JSONObject(hash); //중괄호 {key:value , key:value, key:value}
+			jsonArr.add(jsonObj); // 대괄호 안에 넣어주기[{key:value , key:value, key:value},{key:value , key:value, key:value}]
+		}
+		
+		System.out.println("jsonArrCheck: "+ jsonArr);
+		
+		return jsonArr;
+	}
 	 
-	// 스케줄 관리 페이지
-	 @PostMapping("/calendar")
-	 @ResponseBody
-	 public Map<String, Object> contractCalendar() {
-		 
-		Map<String,Object> map = new HashMap<String,Object>(); 
-		List<Calendar> clendar = contractService.ConreactCalendar();
-		map.put("clendar", clendar);
 		
-		 return map;
-	 }
-		
+
 		
 		
 }

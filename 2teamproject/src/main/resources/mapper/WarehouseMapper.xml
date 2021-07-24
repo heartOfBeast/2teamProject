@@ -4,15 +4,26 @@
 
 	<resultMap type="Warehouse" id="warehouseResultMap">
 		<result property="warehouseCode"			column="warehouse_code"/>
-		<result property="wareAdminId"			column="ware_admin_id"/>
+		<result property="wareAdminId"				column="ware_admin_id"/>
 		<result property="warehouseName"			column="warehouse_name"/>
 		<result property="warehouseAddr"			column="warehouse_addr"/>
-		<result property="warehouseCate"		column="warehouse_cate"/>
-		<result property="warehouseArea"		column="warehouse_area"/>
-		<result property="warehousePhone"		column="warehouse_phone"/>
+		<result property="warehouseCate"			column="warehouse_cate"/>
+		<result property="warehouseArea"			column="warehouse_area"/>
+		<result property="warehousePhone"			column="warehouse_phone"/>
 		<result property="warehouseRegNumber"		column="warehouse_reg_number"/>
-		<result property="warehouseDetail"		column="warehouse_detail"/>
-		<result property="warehouseRegDate"	column="warehouse_reg_date"/>
+		<result property="warehouseDetail"			column="warehouse_detail"/>
+		<result property="warehouseRegDate"			column="warehouse_reg_date"/>
+	</resultMap>
+		
+  	<resultMap type="warehouseSector" id="warehouseSectorResultMap">
+			<result property="sectorCode"			column="sector_code" />
+			<result property="wareSectorCode"		column="warehouse_code" />
+			<result property="sectorName"			column="sector_name" />
+			<result property="sectorAvailble"		column="sector_availability_space" />
+			<result property="sectorRegDate"		column="sertor_reg_date" />
+			<result property="wareSectorAdminId"	column="ware_admin_id" />
+			<result property="sectorUsing"			column="sector_using" />
+			<result property="sectorPCode"			column="sector_product_code" />
 	</resultMap>
 	
 	<update id="warehouseUpdateModal" parameterType="Warehouse">
@@ -47,6 +58,7 @@
 			w.warehouse_name = #{warehouseName};
 	</select>
 	
+	
 	<insert id="addWarehouse" parameterType="Warehouse">
 		<selectKey keyColumn="warehouse_code" keyProperty="warehouseCode" resultType="String" order="BEFORE">
 	      SELECT CONCAT('w','',(SELECT LPAD(COUNT(*)+1,3,'0')FROM tb_warehouse));
@@ -76,6 +88,35 @@
 			#{warehouseDetail},
 			CURDATE(),
 			#{wareAdminId});
+	</insert>
+	
+	<insert id="addWarehouseSector">
+		<selectKey keyColumn="sector_code,warehouse_code" keyProperty="sectorCode,warehouseCode" resultType="MAP" order="BEFORE">
+			SELECT CAST(CONCAT('w','',(SELECT LPAD(COUNT(*),3,'0')FROM tb_warehouse),'_','s001') AS CHAR) AS sector_code, max(tb_warehouse.warehouse_code) AS warehouse_code from tb_warehouse;
+		</selectKey>
+<!-- 		<selectKey keyColumn="warehouse_code" keyProperty="wareSectorCode" resultType="String" order="BEFORE"> -->
+<!-- 			SELECT ,max(tb_warehouse.warehouse_code) AS ware_code from tb_warehouse; -->
+<!-- 		</selectKey> -->
+	INSERT INTO 
+		tb_warehouse_sector
+			(
+			sector_code,
+			warehouse_code,
+			sector_name,
+			sector_availability_space,
+			sertor_reg_date,
+			ware_admin_id,
+			sector_using
+			)
+	VALUES (
+			#{sectorCode},
+			#{warehouseCode},
+			 'sector_A',
+			 '10X60X8',
+			 NOW(),
+			 #{wareSectorAdminId},
+			 '사용가능'
+			);
 	</insert>
 	
 	<select id="getWarehouseList" resultType="Warehouse" fetchSize="1000" resultMap="warehouseResultMap">

@@ -1,0 +1,237 @@
+<!doctype html>
+<html
+	xmlns:th="http://www.thymeleaf.org"
+ 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="@{layout/default}">
+	
+	<th:block layout:fragment="pageTitle">
+		<div class="page-header">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item">Home</li>
+				<li class="breadcrumb-item active">차량목록 조회</li>
+			</ol>
+		
+			<ul class="app-actions">
+				<li>
+					<a href="#" id="reportrange">
+						<span class="range-text"></span>
+						<i class="icon-chevron-down"></i>	
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						<i class="icon-export"></i>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</th:block>
+	<th:block layout:fragment="container">
+		<div class="main-container">
+			<div class="row gutters">
+				<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+					<div class="table-container">
+						<div class="t-header">차량목록 조회</div>
+						<div class="table-responsive">
+							<table id="copy-print-csv" class="table custom-table">
+								<thead>
+									<tr>
+						 		 	  <th>
+								  		<input type="checkbox" id="checkAll" style="position: relative; top: 1.5px;">
+									  </th>
+									  <th style="display: none;">차량코드</th>
+									  <th>차량종류</th>
+									  <th>차량상태</th>
+									  <th>차량상태 상세설명</th>
+									  <th>차량 사용연식</th>
+									  <th>번호판</th>
+									  <th>사용유무</th>
+									  <th>등록담당자</th>
+									  <th>등록일</th>
+									  <th>수정일</th>
+									  <th>사용내역</th>
+									  <th>수정</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="v : ${vehicle}">
+									  <td>
+								  	  	<input type="checkbox" class="checkOne" style="position: relative; top: 1.5px;" th:value="${v.carCode}">
+									  </td>
+									  <td style="display: none;" th:text="${v.carCode}" id="carCodeData"></td>
+									  <td th:text="${v.carKind}" id="carKindData"></td>
+									  <td th:text="${v.carStatus}" id="carStatusData"></td>
+									  <td th:text="${v.carStatusDetail}" id="carStatusDetailData"></td>
+									  <td th:text="${v.carUsingYear}" id="carUsingYearData"></td>
+									  <td th:text="${v.carNumber}" id="carNumberData"></td>
+									  <td th:text="${v.carUsingStatus}" id="carUsingStatusData"></td>
+									  <td th:text="${v.wareAdminId}"></td>
+									  <td th:text="${v.carRegDate}"></td>
+									  <td th:text="${v.carUpdateDate}"></td>
+									  <td></td>
+									  <td>
+									  	<a type="button" class="btn btn-primary modifyBtn" data-toggle="modal" data-target=".bd-example-modal-lg" id="viewModal" style="color: white;">수정</a>
+								  	  </td>
+									</tr>
+								</tbody>
+				    		</table>
+				    		<button type="button" class="btn btn-primary float-right" onclick="deleteDate();">삭제</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<form th:action="@{/modifyVehicle}" method="post" id="modifyCarInfo">
+			<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" style="display: none;" aria-hidden="true">
+				<div class="modal-dialog modal-lg">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="myLargeModalLabel">수정하기</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">×</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<input type="text" style="display: none;" id="carCodeModal" name="carCode">
+							<div class="form-group">
+								<label for="carKindModal">차량종류</label>	
+								<select class="form-control" id="carKindModal" name="carKind" required="required">
+							    	<option value="일반 탑차">일반 탑차</option>
+							    	<option value="냉동 탑차">냉동 탑차</option>
+								</select>
+							</div>
+							<div class="form-group">
+								<label for="carKindModal">차량상태</label>	
+								<select class="form-control" id="carStatusModal" name="carStatus" required="required">
+							    	<option value="정상">정상</option>
+							    	<option value="고장">고장</option>
+								</select>
+							</div>
+							<div class="safeAddText">
+								<label for="carStatusInfoModal">차량상태 상세내용</label>	
+							</div>
+							<textarea class="form-control" id="carStatusInfoModal" placeholder="차량상태 상새내용을 작성해주세요." maxlength="140" rows="4"  name="carStatusDetail" required="required"></textarea>
+							<label for="carUseYearModal" style="margin-top: 15px;">차량사용 연식</label>
+							<div class="form-group">
+								<input type="number" class="form-control" name="carUsingYear" placeholder="차량사용 연식을 입력해주세요."  id="carUseYearModal" required="required">
+							</div>
+							<label for="carNumCheckModal">번호판</label>
+							<div class="form-group">
+								<input type="text" class="form-control" id="carNumCheckModal" name="carNumber" placeholder="차량번호를 입력해주세요." maxlength="8">
+							</div>
+							<div class="form-group">
+							<label for="carUsingStatusModal">사용유무</label>	
+							<select class="form-control" id="carUsingStatusModal" name="carUsingStatus" required="required">
+						    	<option value="유">유</option>
+						    	<option value="무">무</option>
+							</select>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button class="btn btn-secondary" data-dismiss="modal">취소</button>
+							<button type="submit" name="submit"  class="btn btn-primary" id="submitDone">수정</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>			
+	</th:block>
+<th:block layout:fragment="customJs">
+	<script>
+		$('.modifyBtn').each(function(){
+			$(this).click(function(){
+				var carCodeData = $(this).parents('tr').children('#carCodeData').text();
+				var carKindData = $(this).parents('tr').children('#carKindData').text();
+				var carStatusData = $(this).parents('tr').children('#carStatusData').text();
+				var carStatusDetailData = $(this).parents('tr').children('#carStatusDetailData').text();
+				var carUsingYearData = $(this).parents('tr').children('#carUsingYearData').text();
+				var carNumberData = $(this).parents('tr').children('#carNumberData').text();
+				var carUsingStatusData = $(this).parents('tr').children('#carUsingStatusData').text();
+				
+				var carKindSelected = $('#carKindModal option:contains(' + carKindData + ')').val();
+				var carStatusSelected = $('#carStatusModal option:contains(' + carStatusData + ')').val();
+				var carUsingStatusSelected = $('#carUsingStatusModal option:contains(' + carUsingStatusData + ')').val();
+				
+				$('#carCodeModal').val(carCodeData);
+				$('#carKindModal').val(carKindSelected);
+				$('#carStatusModal').val(carStatusSelected);
+				$('#carStatusInfoModal').val(carStatusDetailData);
+				$('#carUseYearModal').val(carUsingYearData);
+				$('#carNumCheckModal').val(carNumberData);
+				$('#carUsingStatusModal').val(carUsingStatusSelected);
+			})
+		})
+		
+		$('#submitDone').click(function(){
+			var modifyCarInfo = $('#modifyCarInfo');
+			var submitFlag = true;
+			var carNumCheckModal = $('#carNumCheckModal');
+			var regCarNum = /^\d{3}[가-힣]\d{4}/.test(carNumCheckModal.val());
+			var regCarNum2 = /^\d{2}[가-힣]\d{4}/.test(carNumCheckModal.val());
+			
+			if($('#carNumCheckModal').val() == null || $('#carNumCheckModal').val() == '' || $('#carNumCheckModal').val() == undefined){
+				alert('차량번호를 입력해주세요.');
+				submitFlag = false;
+				$('#carNumCheckModal').focus();
+				return submitFlag;
+			}else if(!regCarNum && !regCarNum2){
+				alert('올바른 차량번호를 입력해주세요.');
+				submitFlag = false;
+				$('#carNumCheckModal').focus();
+				return submitFlag;
+			}
+			if(submitFlag){
+				$('#modifyCarInfo').submit(function(){
+					alert('차량정보수정이 완료되었습니다.');
+				});
+			}
+		});
+		
+		$(function(){
+			$('#checkAll').click(function(){
+				if($('#checkAll').prop('checked')){
+					$('.checkOne').prop('checked', true);
+				}else{
+					$('.checkOne').prop('checked', false);
+				}
+			})
+		})
+		function deleteDate(){
+			var dataArr = new Array();
+			var list = $('.checkOne');
+			for(var i=0; i<list.length; i++){
+				if(list[i].checked){
+					dataArr.push(list[i].value);
+				}
+			}
+			if(dataArr.length == 0){
+				alert('삭제할 항목을 선택해주세요.');
+			}
+			else{
+				var chk = confirm('정말 삭제하시겠습니까?');
+				if(chk){
+					$.ajax({
+						url : "/deleteVehicle",
+						method : 'post',
+						async : true,
+						dataType : "json",
+						data : {'dataArr':dataArr},
+						success: function(jdata){
+							console.log(jdata);
+							if(jdata > 0){
+								alert('삭제 되었습니다.');
+								location.replace("vehicleList");
+							}else{
+								alert('오류 : 삭제 실패');
+							}
+						}
+			    	});
+				}else{
+					return false;
+				}
+			}
+		}
+	</script>
+</th:block>		
+</html>

@@ -5,30 +5,30 @@
 	<!-- 최종계약 조회  -->
 	<select id="ContractList" resultType="Contract">
 		SELECT 
-			  contractFinal.contract_final_code				AS contractFinalCode
-			, contractFinal.unit_price_code					AS contractFinalPriceCode
-			, contractFinal.unit_price_final_name			AS contractFinalPriceName
-			, contractFinal.contract_final_start			AS contractFinalStart
-			, contractFinal.contract_final_end				AS contractFinalEnd
-			, contractFinal.contract_final_warehouse_type	AS contractFinalWarehouseType
-			, contractFinal.contract_final_zone				AS contractFinalZone
-			, contractFinal.contract_final_position			AS contractFinalPosition
-			, contractFinal.product_code					AS contractFinalProduct 
-			, contractFinal.contract_final_product_name		AS contractFinalProductName
-			, contractFinal.contract_final_quantity			AS contractFinalQuantity
-			, contractFinal.contract_final_pay				AS contractFinalPay
-			, shoppingmallUser.shoppingmall_user_id			AS contractFinalUser
-			, contractFinal.contract_final_reg_date			AS contractFinalRegDay
-			, memberId.member_id							AS contractFinalMember
-			, contractFinal.contract_final_memo				AS contractFinalMemo
+			  contractFinal.contract_final_code					AS contractFinalCode
+			, contractFinal.unit_price_code						AS contractFinalPriceCode
+			, contractFinal.unit_price_final_name				AS contractFinalPriceName
+			, contractFinal.contract_final_start				AS contractFinalStart
+			, contractFinal.contract_final_end					AS contractFinalEnd
+			, contractFinal.contract_final_warehouse_type		AS contractFinalWarehouseType
+			, contractFinal.contract_final_zone					AS contractFinalZone
+			, contractFinal.contract_final_product_name			AS contractFinalProductName
+			, contractFinal.contract_final_quantity				AS contractFinalQuantity
+			, contractFinal.contract_final_pay					AS contractFinalPay
+			, shoppingmallUser.shoppingmall_user_id				AS contractFinalUser
+			, contractFinal.contract_final_reg_date				AS contractFinalRegDay
+			, memberId.member_id								AS contractFinalMember
+			, contractFinal.contract_final_state				AS contractState
+			, contractFinal.contract_final_state_memo			AS contractStateMemo
+			, contractFinal.contract_final_reg_date_approval	AS contractApprovalDate
 		FROM 												
-			tb_contract_final 								AS contractFinal			
+			tb_contract_final 									AS contractFinal			
 		INNER JOIN 
-			tb_shoppingmall_user 							AS shoppingmallUser
+			tb_shoppingmall_user 								AS shoppingmallUser
 		ON
 			contractFinal.shoppingmall_user_id = shoppingmallUser.shoppingmall_user_id
 		INNER JOIN 
-			tb_member										AS memberId
+			tb_member											AS memberId
 		ON
 			contractFinal.member_id = memberId.member_id;
 	</select>
@@ -51,8 +51,10 @@
 			, contract_final_pay
 			, shoppingmall_user_id
 			, contract_final_reg_date
+			, contract_final_reg_date_approval
 			, member_id
-			, contract_final_memo
+			, contract_final_state
+			, contract_final_state_memo
 		)VALUES (
 			  #{contractFinalCode}
 			, #{priceCode}
@@ -66,15 +68,38 @@
 			, #{pricePrice}
 			, #{contractFinalUser}
 			, NOW()
-			, #{contractFinalMember}
-			, #{contractFinalMemo} )
+			, NOW()
+			, 'id001'
+			, '승인요청'
+			, '요청대기' )
 	</insert>
 	
+	<!-- 계약승인 -->
+	<update id="contractApproval" parameterType="String">
+		UPDATE tb_contract_final
+		SET
+			contract_final_state				='승인',
+			contract_final_state_memo			='해당사항없음',
+			contract_final_reg_date_approval	= NOW()
+		WHERE 
+			contract_final_code					= #{contractFinalCode}
+	</update>
+
+	<!-- 계약승인 취소 -->
+	<update id="contrcatCancel" parameterType="String">
+		UPDATE tb_contract_final
+		SET
+			contract_final_state				='승인취소',
+			contract_final_state_memo			=#{contractStateMemo},
+			contract_final_reg_date_approval	= NOW()
+		WHERE 
+			contract_final_code					= #{contractFinalCode}
+	</update>
+	
 	<!-- 최종계약 일정  -->
-	<select id="ConreactCalendar" resultType="Calendar">
+	<select id="CalendarList" resultType="Map" parameterType="String">
 		SELECT
 			 shoppingmall.shoppingmall_user_name	AS contractFinalUserName
-			,contractFinal.unit_price_final_name	AS contractFinalPriceName
 			,contractFinal.contract_final_start		AS contractFinalStart
 			,contractFinal.contract_final_end		AS contractFinalEnd
 		FROM
@@ -82,8 +107,9 @@
 		INNER JOIN 
 			tb_shoppingmall_user 					AS shoppingmall
 		ON
-			contractFinal.shoppingmall_user_id = shoppingmall.shoppingmall_user_id;
-	
+			contractFinal.shoppingmall_user_id = shoppingmall.shoppingmall_user_id
+		WHERE
+			contractFinal.contract_final_state = '승인';
 	</select>
 	
 	

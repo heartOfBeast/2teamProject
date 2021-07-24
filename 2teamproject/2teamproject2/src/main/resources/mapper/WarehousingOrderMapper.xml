@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cafe2team.dao.WarehousingOrderMapper">
+	<!--입고지시서 resultMap  -->
+	<resultMap type="WarehousingOrder" id="WarehousingOrderResultMap">
+		<result property="warehousingOrderCode" 	column="warehousing_order_code"/>
+		<result property="warehousingRequestCode" 	column="warehousing_request_code"/>
+		<result property="productCode" 				column="product_code"/>
+		<result property="productName" 				column="product_name"/>
+		<result property="sectorColumnFinalCode" 	column="sector_column_final_code"/>
+		<result property="warehousingBarcode" 		column="warehousing_barcode"/>
+		<result property="warehousingOrderDueDate" 	column="warehousing_order_due_date"/>
+		<result property="warehousingOrderAmount" 	column="warehousing_order_amount"/>
+		<result property="wareAdminId" 				column="ware_admin_id"/>	
+		<result property="warehousingOrderStatus"	column="warehousing_order_status"/>
+		 <association property="shoppingmall" javaType="Shoppingmall">
+			<result property="shoppingmallId" 		column="shoppingmall_user_id"/>
+			<result property="shoppingmallName" 		column="shoppingmall_name"/>
+		</association>
+		<association property="warehouse" javaType="Warehouse">
+			<result property="warehouseCode" 			column="warehouse_code"/>
+			<result property="warehouseName" 			column="warehouse_name"/>
+		</association>
+		<association property="item" javaType="Item">
+			<result property="itemBigCategory" column="item_big_category"/>
+			<result property="itemMiddleCategory" column="item_middle_category"/>
+			<result property="itemSmallCategory" column="item_small_category"/>
+		</association>
+	</resultMap>
+	<!--입고 resultMap  -->
+	<resultMap type="Receiving" id="ReceivingResultMap">
+		<result property="receivingingCode" column="receivinging_code"/>
+		<result property="warehousingOrderCode" column="warehousing_order_code"/>
+		<result property="warehousingRealDate" column="warehousing_real_date"/>
+		<result property="warehousingRealAmount" column="warehousing_real_amount"/>
+		<result property="warehousingRegDate" column="warehousing_reg_date"/>
+		<result property="wareAdminId" column="ware_admin_id"/>
+		<association property="warehouse" javaType="Warehouse">
+			<result property="warehouseCode" column="warehouse_code"/>
+			<result property="warehouseName" column="warehouse_name"/>
+		</association>
+		<association property="product" javaType="Product">
+			<result property="productCode" column="product_code"/>
+			<result property="productName" column="product_name"/>
+		</association>
+		<association property="shoppingmall" javaType="Shoppingmall">
+			<result property="shoppingmallId" column="shoppingmall_user_id"/>
+			<result property="shoppingmallName" column="shoppingmall_name"/>
+		
+		</association>
+	</resultMap>
+	
+	
+	<!--입고확정 후 입고지시서 입고상태 변환  -->
+	<update id="changeWarehousingStatus">
+		UPDATE tb_request_order
+		SET
+			warehousing_order_status = '입고완료'
+		WHERE
+			tb_request_order.warehousing_order_code IN
+			<foreach collection="list" item="changeStatus"  open="(" close=")" separator=",">
+	            #{changeStatus}
+	        </foreach>
+	</update>
+
+	<!--입고 확정 후 입고 테이블 입고내역 저장  -->
+	<insert id="addReceiving" parameterType="Receiving">
+	INSERT INTO 
+		tb_receiving_info(
+			receivinging_code, 
+			warehousing_order_code, 
+			warehouse_code, 
+			warehousing_real_date, 
+			warehousing_real_amount, 
+			shoppingmall_user_id, 
+			warehousing_reg_date, 
+			ware_admin_id, 
+			product_code)
+		SELECT
+			sf_newReceivingCode(),
+			ro.warehousing_order_code,
+			ro.warehouse_code,
+			CURDATE(),
+			ro.warehousing_order_amount,
+			ro.shoppingmall_user_id,
+			ro.warehousing_order_due_date,
+			ro.ware_admin_id,
+			ro.product_code
+		FROM
+			tb_request_order AS ro
+		WHERE
+			ro.warehousing_order_code IN
+			<foreach collection="list" item="item"  open="(" close=")" separator=",">
+		        #{item}
+	        </foreach>
+			
+	</insert>
+
+
+	<!--입고현황  -->
+	<select id="getReceivingList" resultMap="ReceivingResultMap">
+		SELECT 
+			ri.receivinging_code, 
+			ri.warehousing_order_code,
+			ri.warehouse_code, 
+			w.warehouse_name,
+			ri.warehousing_real_date, 
+			ri.warehousing_real_amount, 
+			su.shoppingmall_user_id,
+			su.shoppingmall_user_name, 
+			su.shoppingmall_name,
+			ri.warehousing_reg_date, 
+			ri.ware_admin_id, 
+			p.product_code,
+			p.product_name
+		FROM 
+			tb_receiving_info  AS ri
+			INNER JOIN
+			tb_product AS p
+			ON
+			ri.product_code = p.product_code
+			INNER JOIN
+			tb_shoppingmall_user AS su
+			ON
+			su.shoppingmall_user_id = ri.shoppingmall_user_id
+			INNER JOIN
+			tb_warehouse AS w
+			ON
+			w.warehouse_code=ri.warehouse_code
+	</select> 
+		
+	<!-- 입고취소 -->
+	<update id="cancleEntering" parameterType="warehousingOrder">
+		UPDATE 
+			tb_request_order
+		SET
+			warehousing_order_status = '입고취소'
+		WHERE
+			tb_request_order.warehousing_order_code=#{warehousingOrderCode}
+	</update>
+	<!--입고지시서 리스트  -->
+	<select id="getWarehousingOrderList" resultMap="WarehousingOrderResultMap">
+		SELECT
+			ro.warehousing_order_code, 
+			ro.warehousing_request_code, 
+			ro.product_code, 
+			ro.product_name,
+			i.item_big_category,
+			i.item_middle_category,
+			i.item_small_category, 
+			ro.warehouse_code, 
+			w.warehouse_name,
+			ro.sector_column_final_code, 
+			ro.shoppingmall_user_id,
+			su.shoppingmall_name, 
+			ro.warehousing_barcode, 
+			ro.warehousing_order_due_date, 
+			ro.warehousing_order_amount, 
+			ro.ware_admin_id,
+			ro.warehousing_order_status
+		FROM 
+			tb_request_order AS ro
+			INNER JOIN
+			tb_shoppingmall_user AS su
+			ON
+			ro.shoppingmall_user_id = su.shoppingmall_user_id
+			INNER JOIN
+			tb_warehouse AS w
+			ON
+			ro.warehouse_code=w.warehouse_code
+			INNER JOIN
+			tb_product AS p
+			ON 
+			p.product_code = ro.product_code
+			INNER JOIN
+			tb_item AS i
+			ON
+			i.item_code = p.product_category
+		WHERE
+			ro.warehousing_order_status = '미입고'
+	</select>
+
+</mapper>

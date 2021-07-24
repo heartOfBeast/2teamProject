@@ -11,6 +11,10 @@ public class Release {
 	private String recipientPhone;
 	private String shoppingmallUserId;
 	private String orderRegDate;
+
+	private Delivery delivery;
+
+	private Shoppingmall shoppingmall;
 	
 	private Product product;
 	
@@ -20,21 +24,9 @@ public class Release {
 	
 	private ReleaseInfo releaseInfo;
 	
-	public ReleaseInfo getReleaseInfo() {
-		return releaseInfo;
-	}
-
-	public void setReleaseInfo(ReleaseInfo releaseInfo) {
-		this.releaseInfo = releaseInfo;
-	}
-
-	public Invoice getInvoice() {
-		return invoice;
-	}
-
-	public void setInvoice(Invoice invoice) {
-		this.invoice = invoice;
-	}
+	private String releasesRequestCode;
+	
+	private String releasesFinalSector;
 
 	public String getReleaseOrderCode() {
 		return releaseOrderCode;
@@ -116,6 +108,22 @@ public class Release {
 		this.orderRegDate = orderRegDate;
 	}
 
+	public Delivery getDelivery() {
+		return delivery;
+	}
+
+	public void setDelivery(Delivery delivery) {
+		this.delivery = delivery;
+	}
+
+	public Shoppingmall getShoppingmall() {
+		return shoppingmall;
+	}
+
+	public void setShoppingmall(Shoppingmall shoppingmall) {
+		this.shoppingmall = shoppingmall;
+	}
+
 	public Product getProduct() {
 		return product;
 	}
@@ -132,14 +140,49 @@ public class Release {
 		this.carManagement = carManagement;
 	}
 
+	public Invoice getInvoice() {
+		return invoice;
+	}
+
+	public void setInvoice(Invoice invoice) {
+		this.invoice = invoice;
+	}
+
+	public ReleaseInfo getReleaseInfo() {
+		return releaseInfo;
+	}
+
+	public void setReleaseInfo(ReleaseInfo releaseInfo) {
+		this.releaseInfo = releaseInfo;
+	}
+
+	public String getReleasesRequestCode() {
+		return releasesRequestCode;
+	}
+
+	public void setReleasesRequestCode(String releasesRequestCode) {
+		this.releasesRequestCode = releasesRequestCode;
+	}
+
+	public String getReleasesFinalSector() {
+		return releasesFinalSector;
+	}
+
+	public void setReleasesFinalSector(String releasesFinalSector) {
+		this.releasesFinalSector = releasesFinalSector;
+	}
+
 	@Override
 	public String toString() {
 		return "Release [releaseOrderCode=" + releaseOrderCode + ", releaseCode=" + releaseCode + ", warehouseCode="
 				+ warehouseCode + ", productCode=" + productCode + ", releaseOrderQuantity=" + releaseOrderQuantity
 				+ ", recipientName=" + recipientName + ", recipientAddress=" + recipientAddress + ", recipientPhone="
 				+ recipientPhone + ", shoppingmallUserId=" + shoppingmallUserId + ", orderRegDate=" + orderRegDate
-				+ ", product=" + product + ", carManagement=" + carManagement + ", invoice=" + invoice
-				+ ", releaseInfo=" + releaseInfo + "]";
+				+ ", delivery=" + delivery + ", shoppingmall=" + shoppingmall + ", product=" + product
+				+ ", carManagement=" + carManagement + ", invoice=" + invoice + ", releaseInfo=" + releaseInfo
+				+ ", releasesRequestCode=" + releasesRequestCode + ", releasesFinalSector=" + releasesFinalSector + "]";
 	}
+	
+	
 
 }

@@ -33,7 +33,7 @@ public class ExpenditureService {
  		 return result;
  	 }
  	 
- 	public int expenditureDelete(String paramList) {
+ 	public int expenditureDelete(List<String> paramList) {
 		return expenditureMapper.expenditureDeleteByCode(paramList);
 		
 	}
@@ -116,6 +116,22 @@ public class ExpenditureService {
 		return result;
 	}
 	/***********************************************/
+
+	//수정
+	public int modifyExpenditure(Expenditure expenditure) {
+		return expenditureMapper.modifyExpenditure(expenditure);
+	}
+
+	//연도필터
+	public List<Expenditure> getExpenseYear(String expenditure_data) {
+		
+ 		List<Expenditure> expenseYear = expenditureMapper.getExpenseYear(expenditure_data);
+
+		return expenseYear;
+	}
+
+	
+	
 	
 	
 	

@@ -21,7 +21,6 @@ public interface MemberMapper {
 	//로그인, id 만 조회
 	public Member getMemberById(String memberId);
 	
-	
 	public Shoppingmall getShopById(String shoppingmallId);
 	
 	//관리자 등록
@@ -56,6 +55,13 @@ public interface MemberMapper {
 	public AdminApproval getApprovalById(String approvalmemberId);
 	
 	public List<Member> getMemberListDetail(String getMemberLevel);
+	
+	//shop 아이디 찾기
+	public Shoppingmall getShopAjaxId(String shopMemberEmail);
+	
+	//Admin 아이디 찾기
+	public Member getAdminAjaxId(String adminMemberEmail);
+	
 	
 	
 }

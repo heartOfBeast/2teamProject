@@ -16,18 +16,22 @@
 		<result property="wareAdminId" column="ware_admin_id"/>
 	</resultMap>
 	
-	<select id="getSalesList" resultType="ShoppingmallCalculate" resultMap="ShoppingmallCalculateResultMap">
-		SELECT 
-			calculate_code, 
-			contract_final_code, 
-			shoppingmall_user_id, 
-			calculate_type, 
-			calculate_payment, 
-			calculate_memo, 
-			calculate_date, 
-			calculate_reg_date, 
-			ware_admin_id
-		FROM 
-			tb_shoppingmall_calculate
+	<select id="getSalesList" resultType="Contract" >
+		SELECT
+			cf.contract_final_code				AS contractFinalCode,
+			cf.unit_price_code					AS contractFinalPriceCode,
+			cf.unit_price_final_name			AS contractFinalPriceName,
+			cf.contract_final_start				AS contractFinalStart,
+			cf.contract_final_end				AS contractFinalEnd,
+			cf.contract_final_quantity			AS contractFinalQuantity,
+			cf.contract_final_pay				AS contractFinalPay,
+			cf.shoppingmall_user_id				AS contractFinalUser,
+			cf.contract_final_warehouse_type	AS contractFinalWarehouseType,
+			cf.contract_final_state				AS contractState,
+			cf.contract_final_state_memo		AS contractStateMemo
+		FROM
+			tb_contract_final AS cf
+		WHERE
+			cf.contract_final_state = '승인'
 	</select>
 </mapper>

@@ -1,9 +1,10 @@
 package com.cafe2team.domain;
 
 public class ReleaseInfo {
-	private String releaseCode;
+	private String realReleaseCode;
 	private String releaseOrderCode;
 	private String warehouseCode;
+	private String releasesFinalSector;
 	private String releaseRealDate;
 	private int releaseRealAmount;
 	private String wareAdminId;
@@ -11,11 +12,74 @@ public class ReleaseInfo {
 	private String productCode;
 	private String releaseRequestCode;
 	
-	public String getReleaseCode() {
-		return releaseCode;
+	private CarManagement carManagement;
+	
+	private Product product;
+	
+	private Vehicle vehicle;
+	
+	private Invoice invoice;
+	
+	private Delivery delivery;
+	
+	private Warehouse warehouse;
+	
+	private Release release;
+	
+	
+	public Release getRelease() {
+		return release;
 	}
-	public void setReleaseCode(String releaseCode) {
-		this.releaseCode = releaseCode;
+	public void setRelease(Release release) {
+		this.release = release;
+	}
+	public Warehouse getWarehouse() {
+		return warehouse;
+	}
+	public void setWarehouse(Warehouse warehouse) {
+		this.warehouse = warehouse;
+	}
+	public String getReleasesFinalSector() {
+		return releasesFinalSector;
+	}
+	public void setReleasesFinalSector(String releasesFinalSector) {
+		this.releasesFinalSector = releasesFinalSector;
+	}
+	public CarManagement getCarManagement() {
+		return carManagement;
+	}
+	public void setCarManagement(CarManagement carManagement) {
+		this.carManagement = carManagement;
+	}
+	public Product getProduct() {
+		return product;
+	}
+	public void setProduct(Product product) {
+		this.product = product;
+	}
+	public Vehicle getVehicle() {
+		return vehicle;
+	}
+	public void setVehicle(Vehicle vehicle) {
+		this.vehicle = vehicle;
+	}
+	public Invoice getInvoice() {
+		return invoice;
+	}
+	public void setInvoice(Invoice invoice) {
+		this.invoice = invoice;
+	}
+	public Delivery getDelivery() {
+		return delivery;
+	}
+	public void setDelivery(Delivery delivery) {
+		this.delivery = delivery;
+	}
+	public String getRealReleaseCode() {
+		return realReleaseCode;
+	}
+	public void setRealReleaseCode(String realReleaseCode) {
+		this.realReleaseCode = realReleaseCode;
 	}
 	public String getReleaseOrderCode() {
 		return releaseOrderCode;
@@ -68,10 +132,13 @@ public class ReleaseInfo {
 	
 	@Override
 	public String toString() {
-		return "ReleaseInfo [releaseCode=" + releaseCode + ", releaseOrderCode=" + releaseOrderCode + ", warehouseCode="
-				+ warehouseCode + ", releaseRealDate=" + releaseRealDate + ", releaseRealAmount=" + releaseRealAmount
-				+ ", wareAdminId=" + wareAdminId + ", releaseRegDate=" + releaseRegDate + ", productCode=" + productCode
-				+ ", releaseRequestCode=" + releaseRequestCode + "]";
+		return "ReleaseInfo [realReleaseCode=" + realReleaseCode + ", releaseOrderCode=" + releaseOrderCode
+				+ ", warehouseCode=" + warehouseCode + ", releasesFinalSector=" + releasesFinalSector
+				+ ", releaseRealDate=" + releaseRealDate + ", releaseRealAmount=" + releaseRealAmount + ", wareAdminId="
+				+ wareAdminId + ", releaseRegDate=" + releaseRegDate + ", productCode=" + productCode
+				+ ", releaseRequestCode=" + releaseRequestCode + ", carManagement=" + carManagement + ", product="
+				+ product + ", vehicle=" + vehicle + ", invoice=" + invoice + ", delivery=" + delivery + ", warehouse="
+				+ warehouse + ", release=" + release + "]";
 	}
 	
 }

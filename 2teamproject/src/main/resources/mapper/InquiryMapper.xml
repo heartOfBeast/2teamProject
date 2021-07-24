@@ -17,6 +17,38 @@
  		<result property="boardQnaRegDate" column="board_qna_reg_date"/>
   	</resultMap>
   	
+  	<!--문의게시글 작성  -->
+	<insert id="writeInquiry" parameterType="Inquiry">
+		<selectKey keyProperty="boardQnaCode" keyColumn="board_qna_code" resultType="String" order="BEFORE">
+			SELECT CONCAT('board_',LPAD(CAST(SUBSTRING(MAX(tb_board.board_qna_code),7,4) AS DECIMAL) +1, 4, 0)) FROM tb_board
+		</selectKey>
+		INSERT INTO tb_board
+			(board_qna_code
+			,board_qna_subject
+			,board_qna_content
+			,board_qna_writer
+			,board_nonmember_phone
+			,board_nonmember_email
+			,board_qna_reg_date
+			,board_qna_views
+			,board_check_password
+			,board_qna_password
+			,board_qna_temp
+			)VALUES
+			(#{boardQnaCode}
+			,#{boardQnaSubject}
+			,#{boardQnaContent}
+			,#{boardQnaWriter}
+			,#{boardNonmemberPhone}
+			,#{boardNonmemberEmail}
+			,NOW()
+			,0
+			,#{boardCheckPassword}
+			,#{boardQnaPassword}
+			,'안함')
+	</insert>
+  	<!--게시글 작성  -->
+  	
   	<!--게시글 조회  -->
   	<select id="readInquiry" parameterType="String" resultMap="inquiryResultMap">
 	  	SELECT

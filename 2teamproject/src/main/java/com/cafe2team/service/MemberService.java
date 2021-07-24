@@ -139,6 +139,19 @@ public class MemberService {
 	}
 	
 	
+	public Shoppingmall getShopAjaxId(String shopEmail) {
+		
+		Shoppingmall shop = memberMapper.getShopAjaxId(shopEmail);
+		
+		return shop;
+	}
+	
+	public Member getAdminAjaxId(String adminEmail) {
+		
+		Member member =  memberMapper.getAdminAjaxId(adminEmail);
+		
+		return member;
+	}
 	
 
 	

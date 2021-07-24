@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th = "http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head th:replace="fragments/head :: headFragment"></head>
+
+<style>
+html,body {
+  height: 100%;
+}
+</style>
+
+<body>
+<th:block layout:fragment="container">
+<div class="container h-70">
+    <div class="row d-flex justify-content-center align-items-center h-120">
+      	<div class="container">
+				<div class="row justify-content-md-center">
+					<div class="col-xl-5 col-lg-6 col-md-6 col-sm-12">
+						<div class="login-screen">
+							<div class="login-box">
+							<span>!준</span>
+								<h5>ID찾기</h5>
+					 				<div style="margin-bottom : 10px;">
+						 				<input type="radio" name="Check" value="memberCheck" id="adminSelect" checked="checked"> 관리자
+		                    			<input type="radio" name="Check" value="shopCheck" id="shopSelect"> 거래처
+					 				</div>
+	                    			
+								<div class="form-group">
+									<input type="text" class="form-control" name="memberEmail" placeholder="가입한 이메일 입력" id="memberEmail" required = "required"/>
+								</div>
+								
+								<div class="actions mb-4">
+									<button type="submit" class="btn btn-outline-primary" style="margin-top: 10px" id="signUp">아이디찾기</button>
+								</div>
+								<hr>
+								<div class="m-0">
+									<span class="additional-link"> 아이디가 존재 하십니까? <a th:href="@{/memberlogin}" class="btn btn-outline-primary">Login</a></span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+				</div>
+			</div>
+    	</div> <!-- END OF ROW -->
+</th:block>
+<th:block layout:fragment="customJs">
+<script src="js/jquery.min.js"></script>
+<script type="text/javascript">
+
+		$('#signUp').click(function(){
+			var request = $.ajax({
+				  url: "/findId",
+				  method: "POST",
+				  data: { 	memberEmail : $('#memberEmail').val() ,
+					  		check : $('[name=Check]:checked').val() },
+				  dataType: "json"
+				});
+				 
+				request.done(function( data ) {
+					
+					console.log(data);
+					
+					$.each(data, function(key, value){
+							
+						if(key == "member"){
+							alert(value.memberId);
+							
+						}else{
+							alert(value.shoppingmallId);		    
+							
+						}
+							
+					});
+										
+				});
+				 
+				request.fail(function( jqXHR, textStatus ) {
+				  alert( "Request failed: " + textStatus );
+				});
+		});
+</script>
+
+		
+	
+	
+</th:block>
+</body>
+</html>

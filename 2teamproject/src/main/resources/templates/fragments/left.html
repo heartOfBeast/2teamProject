@@ -19,7 +19,7 @@
 			<li class="header-menu">MENU</li>
 			
 			<!-- 창고메뉴 -->
-			<li class="sidebar-dropdown">
+			<li class="sidebar-dropdown" th:if="${session.SLEVEL =='총관리자' or session.SLEVEL =='창고관리자' }">
 				<a href="#">
 					<i class="icon-devices_other"></i>
 					<span class="menu-text">#창고(병윤)</span>
@@ -27,17 +27,17 @@
 				<div class="sidebar-submenu">
 					<ul>
 						<li>
-							<a th:href="@{addWarehouse}">창고등록(고뱅)</a>
+							<a th:href="@{/addWarehouse}">창고등록(병윤)</a>
 						</li>
 						<li>
-							<a th:href="@{warehouseList}">창고조회(고뱅)</a>
+							<a th:href="@{/warehouseList}">창고조회(병윤)</a>
 						</li>
 					</ul>
 				</div>
 			</li>
 			
 			<!-- 회원관리메뉴 -->
-			<li class="sidebar-dropdown">
+			<li class="sidebar-dropdown" th:if="${session.SLEVEL =='총관리자'}">
 				<a href="#">
 					<i class="icon-devices_other"></i>
 					<span class="menu-text">!회원관리(준)</span>
@@ -61,7 +61,7 @@
 			</li>
 			
 			<!-- 재무관리메뉴 -->
-			<li class="sidebar-dropdown">
+			<li class="sidebar-dropdown" th:if="${session.SLEVEL =='총관리자' or session.SLEVEL =='창고관리자'}">
 				<a href="#">
 					<i class="icon-devices_other"></i>
 					<span class="menu-text">#재무관리(수현)</span>
@@ -69,7 +69,7 @@
 				<div class="sidebar-submenu">
 					<ul>
 						<li>
-							<a th:href="@{currentSalesState}" class="current-page">매출관리(상범)</a>
+							<a th:href="@{/currentSalesState}">매출관리(상범)</a>
 						</li>
 						<li>
 							<a th:href="@{/expenditure}">지출내역조회</a>
@@ -85,7 +85,7 @@
 			</li>
 			
 			<!-- 재고관리메뉴 -->
-			<li class="sidebar-dropdown">
+			<li class="sidebar-dropdown" th:if="${session.SLEVEL =='총관리자' or session.SLEVEL =='창고관리자' }">
 				<a href="#">
 					<i class="icon-devices_other"></i>
 					<span class="menu-text">#재고</span>
@@ -117,17 +117,16 @@
 							<a th:href="@{/priceList}">요금안내 및 계약신청(동욱#)</a>
 						</li>
 						<li>
-							<a th:unless="${session.SLEVEL == '사업자'}" th:href="@{#}">거래처 등록(동욱#)</a>
 							<a th:if="${session.SLEVEL == '사업자'}" th:href="@{/shoppingmallAdd(shoppingmallId=${session.SID})}">거래처 등록(동욱#)</a>
 						</li>
 						<li>
-							<a th:href="@{/shoppingmallApproval}">거래처 권한 관리(동욱#)</a>
+							<a th:unless="${session.SLEVEL == '사업자'}" th:href="@{/shoppingmallApproval}">거래처 권한 관리(동욱#)</a>
 						</li>
 						<li>
-							<a th:href="@{/contractApproval}">계약 관리(동욱#)</a>
+							<a th:unless="${session.SLEVEL == '사업자'}"  th:href="@{/contractApproval}">계약 관리(동욱#)</a>
 						</li>
 						<li>
-							<a th:href="@{/calendar}">계약 일정관리(동욱#)</a>
+							<a th:unless="${session.SLEVEL == '사업자'}"  th:href="@{/calendar}">계약 일정관리(동욱#)</a>
 						</li>
 					</ul>
 				</div>
@@ -145,13 +144,13 @@
 							<a th:href="@{/receivingRequest(memberId=${session.SID})}">입고 요청</a>
 						</li>
 					<li>
-							<a th:href="@{/receivingRequestWaiting}">입고 요청 대기</a>
+							<a th:href="@{/receivingRequestWaiting}" th:if="${session.SLEVEL =='총관리자' or session.SLEVEL =='창고관리자' }">입고 요청 대기</a>
 						</li>
 						<li>
-							<a th:href="@{/receivingOrder}">입고지시서 목록</a>
+							<a th:href="@{/receivingOrder}" th:if="${session.SLEVEL =='총관리자' or session.SLEVEL =='창고관리자' }">입고지시서 목록</a>
 						</li>
 						<li>
-							<a th:href="@{/receivingWarehouseStatus}">입고 현황(관리자 전용)</a>
+							<a th:href="@{/receivingWarehouseStatus}" th:if="${session.SLEVEL =='총관리자' or session.SLEVEL =='창고관리자' }">입고 현황(관리자 전용)</a>
 						</li>
 						<li>
 							<a th:href="@{/receivingShopStatus}">입고 현황(고객 전용)</a>
@@ -169,7 +168,7 @@
 				<div class="sidebar-submenu">
 					<ul>
 						<li>
-							<a th:href="@{/releaseOrder}">출고 지시서</a>
+							<a th:href="@{/releaseOrder}" th:if="${session.SLEVEL =='총관리자' or session.SLEVEL =='창고관리자'}">출고 지시서</a>
 						</li>
 						<li>
 							<a th:href="@{/realReleaseList}">출고 리스트</a>
@@ -183,7 +182,7 @@
 			
 			
 			<!-- 안전점검관리메뉴 -->
-			<li class="sidebar-dropdown">
+			<li class="sidebar-dropdown" th:if="${session.SLEVEL =='총관리자' or session.SLEVEL =='창고관리자' }">
 				<a href="#">
 					<i class="icon-devices_other"></i>
 					<span class="menu-text">#안전점검(종민)</span>
@@ -201,7 +200,7 @@
 			</li>
 			
 			<!-- 차량관리메뉴 -->
-			<li class="sidebar-dropdown">
+			<li class="sidebar-dropdown" th:if="${session.SLEVEL =='총관리자' or session.SLEVEL =='창고관리자' }">
 				<a href="#">
 					<i class="icon-devices_other"></i>
 					<span class="menu-text">#차량관리(종민)</span>
@@ -235,10 +234,10 @@
 							<a th:href="@{/estimateAnother}">비회원 견적신청(병윤)</a>
 						</li>
 						<li>
-							<a th:href="@{/estimateLook}">견적신청 조회(병윤)</a>
+							<a th:href="@{/estimateLook}" th:if="${session.SLEVEL =='총관리자' or session.SLEVEL =='창고관리자' }">견적신청 조회(병윤)</a>
 						</li>
 						<li>
-							<a th:href="@{/estimatePermit}">견적신청 검토(병윤)</a>
+							<a th:href="@{/estimatePermit}" th:if="${session.SLEVEL =='총관리자' or session.SLEVEL =='창고관리자' }">견적신청 검토(병윤)</a>
 						</li>
 					</ul>
 				</div>
@@ -285,9 +284,6 @@
 						</li>
 						<li>
 							<a th:href="@{/warehouseProduct}">창고별 목록</a>
-						</li>
-						<li>
-							<a href="ecommerce-dashboard.html">Ecommerce Dashboard</a>
 						</li>
 					</ul>
 				</div>

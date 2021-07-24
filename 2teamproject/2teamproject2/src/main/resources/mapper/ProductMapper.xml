@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.cafe2team.dao.ProductMapper">
+  
+  	<resultMap type="Product" id="productResultMap">
+		<result property="productCode" 						column="product_code"/>
+		<result property="productFreezeCoolCondition" 		column="product_freeze_cool_condition"/>
+		<result property="productAddCategory" 				column="product_add_category"/>
+		<result property="productName" 						column="product_name"/>
+		<result property="productWeight" 					column="product_weight"/>
+		<result property="productWeightUnit"				column="product_weight_unit"/>
+		<result property="productDateOfManufacture"			column="product_date_of_manufacture"/>
+		<result property="productExpirationDate"			column="product_expiration_date"/>
+		<result property="shoppingmallUserId"				column="shoppingmall_user_id"/>
+		<result property="productRegDate"					column="product_reg_date"/>
+		<result property="productDetail"					column="product_detail"/>
+		<association property="item" javaType="Item">
+			<id property="itemCode"					column="item_code"/>
+			<result property="itemBigCategory" 		column="item_big_category"/>
+			<result property="itemMiddleCategory"	column="item_middle_category"/>
+			<result property="itemSmallCategory" 	column="item_small_category"/>
+		</association>
+		
+	</resultMap>
+	
+	<!-- 상품삭제 -->
+	<delete id="deleteProductByCode" parameterType="String">
+		DELETE
+		FROM
+			tb_product
+		WHERE
+			tb_product.product_code=#{productCode}
+	</delete>
+	
+	<!--쇼핑몰 사업자 창고별 재고조회 -->
+	<select id="getProductAmountPerWarehouse" resultType="Product">
+		SELECT 
+			product_name				AS productName,
+			sector_stock_amount			AS sectorStockAmount,
+			sector_stock_status_code	AS sectorStockStatusCode,
+			warehouse_name				AS warehouseName
+		FROM
+			tb_product AS p
+			INNER JOIN
+			tb_sector_stock_status AS sss
+			ON
+			p.product_code = sss.product_code
+			INNER JOIN
+			tb_warehouse_sector_column_final AS wscf
+			ON
+			sss.sector_column_final_code = wscf.sector_column_final_code
+			INNER JOIN
+			tb_warehouse AS w
+			ON
+			wscf.warehouse_code = w.warehouse_code
+		WHERE
+			p.shoppingmall_user_id = #{shoppingmallUserId}
+			
+	</select>
+	
+	
+	<!-- 상품수정 -->
+	<update id="modifyProduct" parameterType="Product">
+		UPDATE tb_product
+		<trim prefix="SET" prefixOverrides=",">
+			<if test="productFreezeCoolCondition !=null and productFreezeCoolCondition != ''.toString()">
+				,product_freeze_cool_condition=#{productFreezeCoolCondition}
+			</if>
+			<if test="productCategory !=null and productCategory != ''.toString()">
+				,product_category=sf_selectItemCode(#{productCategory})
+			</if>
+			<if test="productAddCategory !=null and productAddCategory != ''.toString()">
+				,product_add_category=#{productAddCategory}
+			</if>
+			<if test="productWeight !=null and productWeight != ''.toString()">
+				,product_weight=#{productWeight}
+			</if>
+			<if test="productWeightUnit !=null and productWeightUnit != ''.toString()">
+				,product_weight_unit=#{productWeightUnit}
+			</if>
+			<if test="productDateOfManufacture !=null and productDateOfManufacture != ''.toString()">
+				,product_date_of_manufacture=#{productDateOfManufacture}
+			</if>
+			<if test="productExpirationDate !=null and productExpirationDate != ''.toString()">
+				,product_expiration_date=#{productExpirationDate}
+			</if>
+			<if test="productDetail !=null and productDetail != ''.toString()">
+				,product_detail=#{productDetail}
+			</if>
+		</trim>
+
+			WHERE
+				product_code = #{productCode};
+	</update>
+	
+	
+	<!--상품 정보 조회  -->
+	<select id="getProductInfoByCode" parameterType="String" resultMap="productResultMap">
+		SELECT 
+			product_code, 
+			product_freeze_cool_condition, 
+			product_category,	 
+			product_add_category, 
+			product_name, product_weight, 
+			product_weight_unit, 
+			product_date_of_manufacture, 
+			product_expiration_date, 
+			shoppingmall_user_id, 
+			product_reg_date, product_detail
+		FROM 
+			tb_product
+			INNER JOIN
+			tb_item
+			ON
+			tb_product.product_category = tb_item.item_code
+			
+		WHERE tb_product.product_code=#{productCode};
+	</select>
+	
+	<!--상품추가  -->
+	<insert id="addProduct" parameterType="Product" >
+		INSERT INTO tb_product(
+			product_code					,
+			product_freeze_cool_condition	,
+			product_category				,
+	 		product_add_category			,
+	 		product_name					,
+	 		product_weight					,
+	 		product_weight_unit				,
+	 		product_date_of_manufacture		,
+	 		product_expiration_date			,
+	 		shoppingmall_user_id			,
+	 		product_reg_date				,
+	 		product_detail					)
+		VALUES (
+			sf_newProductCode(),
+			#{productFreezeCoolCondition},
+			sf_selectItemCode(#{productCategory}),
+			#{productAddCategory},
+			#{productName},
+			#{productWeight},
+			#{productWeightUnit},
+			#{productDateOfManufacture},
+			#{productExpirationDate},
+			#{shoppingmallUserId},
+			NOW(),
+			#{productDetail})
+	</insert>
+	
+	<!--상품추가 페이지 품목 대분류 가져오기  -->
+	<select id="getItemBigCategoryInfo" resultType="Item" fetchSize="1000">
+		SELECT
+			DISTINCT tb_item.item_big_category AS itemBigCategory
+		FROM
+			tb_item
+			<!-- <if test="itemBigCategory !=null and itemBigCategory !=''">
+			SELECT
+				DISTINCT tb_item.item_middle_category AS itemMiddleCategory
+			FROM
+				tb_item
+			WHERE
+				tb_item.item_big_category = #{itemBigCategory}
+			
+			</if> -->
+	</select>
+	<!--상품추가 페이지 품목 중분류 가져오기  -->
+	<select id="getItemMiddleCategoryInfo" resultType="Item" fetchSize="1000">
+		SELECT
+			DISTINCT tb_item.item_middle_category AS itemMiddleCategory
+		FROM
+			tb_item
+		WHERE
+			tb_item.item_big_category = #{itemBigCategory}
+	</select>
+	<!--상품추가 페이지 품목 소분류 가져오기  -->
+	<select id="getItemSmallCategoryInfo" resultType="Item" fetchSize="1000">
+		SELECT
+			DISTINCT tb_item.item_small_category AS itemSmallCategory
+		FROM
+			tb_item
+		WHERE
+			tb_item.item_middle_category = #{itemMiddleCategory}
+	</select>
+	
+	<!-- 전체상품목록조회 -->
+	<select id="getProductList" resultMap="productResultMap" fetchSize="1000">
+		SELECT 
+			product_code
+			,product_freeze_cool_condition
+			,product_category
+			,item_big_category
+			,item_middle_category
+			,item_small_category
+			,product_add_category
+			,product_name
+			,product_weight	
+			,product_weight_unit
+			,product_date_of_manufacture
+			,product_expiration_date
+			,shoppingmall_user_id	
+			,product_reg_date
+			,product_detail
+		FROM
+			tb_product
+			INNER JOIN
+			tb_item
+			ON
+			tb_product.product_category = tb_item.item_code
+			
+
+	</select>
+
+
+
+</mapper>
+	

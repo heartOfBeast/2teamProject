@@ -39,6 +39,7 @@
 									  <th>출고지시코드</th>
 									  <th style="display: none;">출고요청코드</th>
 									  <th style="display: none;">출고창고코드</th>
+									  <th style="display: none;">출고섹터코드</th>
 									  <th style="display: none;">상품코드</th>
 									  <th>상품명</th> 
 									  <th>수량</th>
@@ -47,7 +48,7 @@
 									  <th>수령인 연락처</th>
 									  <th>출고요청인</th>
 									  <th>출고지시일</th>
-									  <th style="display: none;">배차관리코드</th>
+									  <th >배차관리코드</th>
 									  <th style="display: none;">배송기사</th>
 									  <th style="display: none;">배송차량</th>
 									  <th style="display: none;">차량사용날짜</th>
@@ -56,7 +57,7 @@
 									  <th style="display: none;">수령인 주소(운송장)</th>
 									  <th style="display: none;">수령인 연락처(운송장)</th>
 									  <th style="display: none;">출고코드</th>
-									  <th>배차등록</th>
+									  <th style="display: none;">배차등록</th>
 									  <th>운송장등록</th>
 									  <th>출고</th>
 									  
@@ -65,9 +66,10 @@
 								<tbody>
 									<tr th:each="r : ${release}">
 									  <td th:text="${r.releaseOrderCode}" id="orderCodeData"></td>
-									  <td th:text="${r.releaseCode}" style="display: none;" ></td>
+									  <td th:text="${r.releaseCode}" style="display: none;" id="releaseRequestCodeData"></td>
 									  <td th:text="${r.warehouseCode}" style="display: none;" id="releaseWarehouseCodeData"></td>
-									  <td th:text="${r.productCode}" style="display: none;"></td>	
+									  <td th:text="${r.releasesFinalSector}" style="display: none;" id="finalSectorData"></td>
+									  <td th:text="${r.productCode}" style="display: none;" id="releaseProductCodeData"></td>	
 									  <td th:text="${r.product.productName}" id="productNameData"></td>
 									  <td th:text="${r.releaseOrderQuantity}" id="OrderQuantityData"></td>
 									  <td th:text="${r.recipientName}" id="recipientNameData"></td>
@@ -83,7 +85,7 @@
 									  <td style="display: none;" th:text="${r.invoice.invoiceName}" id="invoiceNameData"></td>
 									  <td style="display: none;" th:text="${r.invoice.invoiceAddress}" id="invoiceAddressData"></td>
 									  <td style="display: none;" th:text="${r.invoice.invoicePhone}" id="invoicePhoneData"></td>
-									  <td style="display: none;" th:text="${r.releaseInfo.releaseCode}" id=""></td>
+									  <td style="display: none;" th:text="${r.releaseInfo.realReleaseCode}" id="releaseCodeData"></td>
 									  <td>
 									  	<a th:if="${r.carManagement.driveManageCode == null}" type="button" class="btn btn-primary modifyBtn" data-toggle="modal" data-target=".bd-example-modal-lg" id="viewModal" style="color: white;">배차등록</a>
 									  	<a th:if="${r.carManagement.driveManageCode != null}" type="button" class="btn btn-primary modifyBtn" data-toggle="modal" data-target=".bd-example-modal-lg2" id="viewModal" style="color: yellow;">배차수정</a>
@@ -91,11 +93,12 @@
 								  	  <td>
 								  	  	<a th:if="${r.carManagement.driveManageCode != null && r.invoice.invoiceCode == null}" type="button" class="btn btn-primary modifyBtn" data-toggle="modal" data-target=".bd-example-modal-lg3" id="viewModal" style="color: white;">운송장등록</a>
 								  	  	<a th:if="${r.invoice.invoiceCode != null && r.carManagement.driveManageCode != null}" type="button" class="btn btn-primary modifyBtn" data-toggle="modal" data-target=".bd-example-modal-lg4" id="viewModal" style="color: yellow;">운송장수정</a>
-								  	  	<a th:if="${r.carManagement.driveManageCode == null && r.invoice.invoiceCode == null}" type="button" class="btn btn-primary modifyBtn1" style="color: white;" id="notInvoiceBtn">운송장등록</a>
+								  	  	<a th:if="${r.carManagement.driveManageCode == null && r.invoice.invoiceCode == null}" type="button" class="btn btn-primary modifyBtnNotInvoice" style="color: white;" >운송장등록</a>
 								  	  </td>
 									  <td>
-									  	<a th:if="${r.invoice.invoiceCode != null}" type="button" class="btn btn-primary modifyBtn" data-toggle="modal" data-target=".bd-example-modal-lg5" id="viewModal" style="color: white;">출고</a>
-									  	<a th:if="${r.invoice.invoiceCode == null}" type="button" class="btn btn-primary modifyBtn2" id="notReleaseBtn" style="color: white;">출고</a>
+									  	<a th:if="${r.invoice.invoiceCode != null && r.releaseInfo.realReleaseCode == null}" type="button" class="btn btn-primary modifyBtn" data-toggle="modal" data-target=".bd-example-modal-lg5" id="viewModal" style="color: white;">출고승인</a>
+									  	<a th:if="${r.invoice.invoiceCode == null }" type="button" class="btn btn-primary modifyBtnNotRelease"  style="color: white;">출고승인</a>
+									  	<a th:if="${r.invoice.invoiceCode != null && r.releaseInfo.realReleaseCode != null}" type="button" class="btn btn-primary modifyBtnDoneRelease"  style="color: yellow;">출고완료</a>
 								  	  </td>
 									</tr>
 								</tbody>
@@ -168,17 +171,17 @@
 							</button>
 						</div>
 						<div class="modal-body">
-							<label for="orderCodeModal">배차관리코드</label>
+							<label for="driveManageCodeModal">배차관리코드</label>
 							<div class="form-group">
 								<input type="text" class="form-control" id="driveManageCodeModal" name="driveManageCode" readonly="readonly" style="background-color: white;">
 							</div>
 							<label for="orderCodeModal">출고지시서코드</label>
 							<div class="form-group">
-								<input type="text" class="form-control" id="orderCodeModal2" name="releaseOrderCode" readonly="readonly" style="background-color: white;">
+								<input type="text" class="form-control" id="orderCodeModalForCar" name="releaseOrderCode" readonly="readonly" style="background-color: white;">
 							</div>
 							<label for="releaseWarehouseCodeModal">출고창고코드</label>
 							<div class="form-group">
-								<input type="text" class="form-control" id="releaseWarehouseCodeModal2" name="" readonly="readonly" style="background-color: white;">
+								<input type="text" class="form-control" id="releaseWarehouseCodeModalForCar" name="" readonly="readonly" style="background-color: white;">
 							</div>
 							<div class="form-group">
 								<label for="">배송기사</label>	
@@ -222,15 +225,15 @@
 						<div class="modal-body">
 							<label for="orderCodeModal">배차관리코드</label>
 							<div class="form-group">
-								<input type="text" class="form-control" id="driveManageCodeModal2" name="driveManageCode" readonly="readonly" style="background-color: white;" >
+								<input type="text" class="form-control" id="driveManageCodeInvoice" name="driveManageCode" readonly="readonly" style="background-color: white;" >
 							</div>
 							<label for="orderCodeModal">출고지시서코드</label>
 							<div class="form-group">
-								<input type="text" class="form-control" id="orderCodeModal3" name="releaseOrderCode" readonly="readonly" style="background-color: white;">
+								<input type="text" class="form-control" id="orderCodeInvoice" name="releaseOrderCode" readonly="readonly" style="background-color: white;">
 							</div>
 							<label for="orderCodeModal">배송기사</label>
 							<div class="form-group">
-								<input type="text" class="form-control" id="deliveryMemberIdModal2" name="" readonly="readonly" style="background-color: white;">
+								<input type="text" class="form-control" id="deliveryMemberIdInvoice" name="" readonly="readonly" style="background-color: white;">
 							</div>
 							<label for="orderCodeModal">배송예정일</label>
 							<div class="form-group">
@@ -281,15 +284,15 @@
 							</div>	
 							<label for="recipientNameModal2">수령인</label>
 							<div class="form-group">
-								<input type="text" class="form-control" id="recipientNameModal2" name="invoiceName" required="required">
+								<input type="text" class="form-control" id="recipientNameModify" name="invoiceName" required="required">
 							</div>
 							<label for="recipientAddressModal2">주소</label>
 							<div class="form-group">
-								<input type="text" class="form-control" id="recipientAddressModal2" name="invoiceAddress" required="required">
+								<input type="text" class="form-control" id="recipientAddressModify" name="invoiceAddress" required="required">
 							</div>
 							<label for="recipientPhoneModal2">연락처</label>
 							<div class="form-group">
-								<input type="text" class="form-control" id="recipientPhoneModal2" name="invoicePhone" required="required">
+								<input type="text" class="form-control" id="recipientPhoneModify" name="invoicePhone" required="required">
 							</div>
 						</div>
 						<div class="modal-footer">
@@ -302,7 +305,7 @@
 		</form>		
 		
 		<!-- 출고등록 -->
-		<form th:action="@{/modifyInvoiceInfo}" method="post" id="addReleaseForm">
+		<form th:action="@{/addRelease}" method="post" id="addReleaseForm">
 			<div class="modal fade bd-example-modal-lg5" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" style="display: none;" aria-hidden="true">
 				<div class="modal-dialog modal-lg">
 					<div class="modal-content">
@@ -313,11 +316,36 @@
 							</button>
 						</div>
 						<div class="modal-body">
-							
+							<label for="orderCodeForRelease">출고지시서코드</label>
+							<div class="form-group">
+								<input type="text" class="form-control" id="orderCodeForRelease" name="releaseOrderCode" readonly="readonly" style="background-color: white;">
+							</div>
+							<label for="warehouseCodeForRelease">출고창고코드</label>
+							<div class="form-group">
+								<input type="text" class="form-control" id="warehouseCodeForRelease" name="warehouseCode" readonly="readonly" style="background-color: white;">
+							</div>
+							<label for="releaseFinalSector">출고물품섹터코드</label>
+							<div class="form-group">
+								<input type="text" class="form-control" id="releaseFinalSector" name="releasesFinalSector" readonly="readonly" style="background-color: white;">
+							</div>
+							<label for="releaseQuantity">출고상품명</label>
+							<div class="form-group">
+								<input type="text" class="form-control" id="releaseProductName" name="" readonly="readonly" style="background-color: white;">
+							</div>
+							<label for="releaseQuantity">실제출고수량</label>
+							<div class="form-group">
+								<input type="text" class="form-control" id="releaseQuantity" name="releaseRealAmount" readonly="readonly" style="background-color: white;">
+							</div>
+							<label for="releaseDate">실제출고일</label>
+							<div class="form-group">
+								<input type="date" class="form-control" id="releaseDate" name="releaseRealDate"  style="background-color: white;" readonly="readonly">
+							</div>
+							<input type="text" class="form-control" id="releaseProductCode" name="productCode" style="display: none;">
+							<input type="text" class="form-control" id="releaseRequestCode" name="releaseRequestCode" style="display: none;">
 						</div>
 						<div class="modal-footer">
 							<button class="btn btn-secondary" data-dismiss="modal">취소</button>
-							<button type="submit" name="submit"  class="btn btn-primary" >확인</button>
+							<button type="submit" name="submit"  class="btn btn-primary" id="releaseSubmit">확인</button>
 						</div>
 					</div>
 				</div>
@@ -346,57 +374,88 @@
 				var invoiceNameData = $(this).parents('tr').children('#invoiceNameData').text();
 				var invoiceAddressData = $(this).parents('tr').children('#invoiceAddressData').text();
 				var invoicePhoneData = $(this).parents('tr').children('#invoicePhoneData').text();
+				var releaseProductCodeData = $(this).parents('tr').children('#releaseProductCodeData').text();
+				var releaseRequestCodeData = $(this).parents('tr').children('#releaseRequestCodeData').text();
+				var finalSectorData = $(this).parents('tr').children('#finalSectorData').text();
 				
 				
 				$('#orderCodeModal').val(orderCodeData);
 				$('#releaseWarehouseCodeModal').val(releaseWarehouseCodeData);
 				
 				$('#deliveryMemberIdModal').val(deliveryMemberIdData);
-				$('#orderCodeModal2').val(orderCodeData);
-				$('#releaseWarehouseCodeModal2').val(releaseWarehouseCodeData);
+				$('#orderCodeModalForCar').val(orderCodeData);
+				$('#releaseWarehouseCodeModalForCar').val(releaseWarehouseCodeData);
 				$('#releaseOrderCarModal').val(releaseOrderCarData);
 				$('#carUsingDateModal').val(driveUsingDateData);
 				$('#driveManageCodeModal').val(driveManageCodeData);
 				
-				$('#driveManageCodeModal2').val(driveManageCodeData);
-				$('#orderCodeModal3').val(orderCodeData);
+				$('#driveManageCodeInvoice').val(driveManageCodeData);
+				$('#orderCodeInvoice').val(orderCodeData);
 				$('#recipientNameModal').val(recipientNameData);
 				$('#recipientAddressModal').val(recipientAddressData);
 				$('#recipientPhoneModal').val(recipientPhoneData);
 				$('#shoppingmallUserIdModal').val(shoppingmallUserIdData);
-				$('#deliveryMemberIdModal2').val(deliveryMemberIdData);
+				$('#deliveryMemberIdInvoice').val(deliveryMemberIdData);
 				$('#deliveryDateData').val(driveUsingDateData);
 				$('#productNameModal').val(productNameData + "(" + OrderQuantityData + ")");
 				
 				$('#invoiceCodeModal').val(invoiceCodeData);
-				$('#recipientNameModal2').val(invoiceNameData);
-				$('#recipientAddressModal2').val(invoiceAddressData);
-				$('#recipientPhoneModal2').val(invoicePhoneData);
+				$('#recipientNameModify').val(invoiceNameData);
+				$('#recipientAddressModify').val(invoiceAddressData);
+				$('#recipientPhoneModify').val(invoicePhoneData);
+				
+				$('#orderCodeForRelease').val(orderCodeData);
+				$('#warehouseCodeForRelease').val(releaseWarehouseCodeData);
+				$('#releaseDate').val(driveUsingDateData);
+				$('#releaseQuantity').val(OrderQuantityData);
+				$('#releaseProductCode').val(releaseProductCodeData);
+				$('#releaseRequestCode').val(releaseRequestCodeData);
+				$('#releaseProductName').val(productNameData);
+				$('#releaseFinalSector').val(finalSectorData);
 			})
 		})
+		
 		$('#addDriveForm').submit(function(){
 			alert('배차가 등록되었습니다.');
 		})
 		$('#modityDriveForm').submit(function(){
-			alert('수정이 완료되었습니다.')
+			alert('수정이 완료되었습니다.');
 		})
 		$('#addInvoiceForm').submit(function(){
-			alert('운송장이 등록되었습니다.')
+			alert('운송장이 등록되었습니다.');
 		});
 		$('#modifyInvoiceForm').submit(function(){
-			alert('수정이 완료되었습니다.')
+			alert('수정이 완료되었습니다.');
 		});
 
-		$('.modifyBtn1').each(function(){
+		$('.modifyBtnNotInvoice').each(function(){
 			$(this).click(function(){
-				alert('배차 등록 후 운송장 등록이 가능합니다.')
+				alert('배차 등록 후 운송장 등록이 가능합니다.');
 			})
 		});
 		
-		$('.modifyBtn2').each(function(){
+		$('.modifyBtnNotRelease').each(function(){
 			$(this).click(function(){
-				alert('배차 및 운송장 등록 후 출고가 가능합니다.')
+				alert('배차 및 운송장 등록 후 출고가 가능합니다.');
 			});
+		});
+		
+		$('.modifyBtnDoneRelease').each(function(){
+			$(this).click(function(){
+				var releaseCodeData = $(this).parents('tr').children('#releaseCodeData').text();
+				alert('출고승인 완료된 항목입니다. 출고리스트에서 확인해주세요. \n (출고코드 : ' +releaseCodeData+ ')');
+			})
+		});
+		
+		$('#releaseSubmit').click(function(){
+			var chk = confirm('출고요청을 승인하시겠습니까?');
+			if(chk){
+				$('#addReleaseForm').submit(function(){
+					alert('출고요청이 승인되었습니다.');
+				})
+			}else{
+				return false;
+			}
 		});
 		
 	</script>

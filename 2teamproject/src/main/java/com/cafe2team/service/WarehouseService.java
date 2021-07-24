@@ -20,20 +20,22 @@ public class WarehouseService {
 			return warehouseMapper.warehouseUpdateModal(warehouse);
 		}
 	
-		//창고이름 정보 가져오기
+		//창고 정보 가져오기
 		public Warehouse getWarehouseInfoByCode(String warehouseCode) {
 			return warehouseMapper.getWarehouseInfoByCode(warehouseCode);
 		}
 		
-		//
+		//창고주소 가져오기
 		public List<Warehouse> getWarehouseListDetailAddr(String warehouse_addr){
 			List<Warehouse> warehouseListDetailAddr = warehouseMapper.getWarehouseListDetailAddr(warehouse_addr);
 			return warehouseListDetailAddr;
 		}
+		//창고이름 가져오기
 		public List<Warehouse> getWarehouseListDetailName(String warehouse_addr, String warehouse_name){
 			List<Warehouse> warehouseListDetailName = warehouseMapper.getWarehouseListDetailName(warehouse_addr, warehouse_name);
 			return warehouseListDetailName;
 		}
+		//창고종류 가져오기
 		public List<Warehouse> getWarehouseListDetailCate(String warehouse_name, String warehouse_addr, String warehouse_cate){
 			List<Warehouse> warehouseListDetailCate = warehouseMapper.getWarehouseListDetailCate(warehouse_name, warehouse_addr, warehouse_cate);
 			return warehouseListDetailCate;
@@ -48,7 +50,12 @@ public class WarehouseService {
 		//창고등록
 		public int addWarehouse(Warehouse warehouse) {
 			int result = warehouseMapper.addWarehouse(warehouse);
-			
+			return result;
+		}
+		
+		//창고섹터등록
+		public int addWarehouseSector(Warehouse warehouse) {
+			int result = warehouseMapper.addWarehouseSector(warehouse);
 			return result;
 		}
 }

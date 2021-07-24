@@ -14,15 +14,15 @@
 		ss.sector_column_final_code					AS finalSector,
 		su.shoppingmall_name						AS spmName,
 		ss.stock_amount								AS stockAmount,
-		ss.warehousing_order_amount					AS	wOrderAmount,
-		ss.warehousing_order_due_date				AS	wOrderDate,
+		ro.warehousing_order_amount					AS	wOrderAmount,
+		ro.warehousing_order_due_date				AS	wOrderDate,
 		ss.warehousing_real_amount					AS	wRealAmount,
 		ss.warehousing_real_date					AS	wRealDate,
 		ss.release_order_quantity					AS	rOrderAmount,
 		ss.release_real_amount						AS	rRealAmount,
 		ss.release_real_date						AS	rRealDate
 	FROM
-		tb_stock_status_backup											AS ss
+		tb_stock_status													AS ss
 	INNER JOIN
 		tb_shoppingmall_user											AS su
 	ON	
@@ -40,9 +40,13 @@
 	ON
 		ss.sector_column_final_code = wscf.sector_column_final_code
 	INNER JOIN
-		tb_item												AS i
+		tb_item															AS i
 	ON
-		p.product_category = i.item_code;
+		p.product_category = i.item_code
+	INNER JOIN
+		tb_request_order												AS ro
+	ON	
+		ss.product_code = ro.product_code;
 
 	</select>
 
@@ -65,7 +69,7 @@
 		ss.release_real_amount						AS	rRealAmount,
 		ss.release_real_date						AS	rRealDate
 	FROM
-		tb_stock_status_backup											AS ss
+		tb_stock_status											AS ss
 	INNER JOIN
 		tb_shoppingmall_user											AS su
 	ON	
@@ -109,7 +113,7 @@
 		ss.release_real_amount						AS rRealAmount,
 		ss.release_real_date						AS rRealDate
 	FROM
-		tb_stock_status_backup											AS ss
+		tb_stock_status											AS ss
 	INNER JOIN
 		tb_shoppingmall_user											AS su
 	ON	
@@ -161,7 +165,7 @@
 		ss.release_real_amount						AS rRealAmount,
 		ss.release_real_date						AS rRealDate
 	FROM
-		tb_stock_status_backup											AS ss
+		tb_stock_status											AS ss
 	INNER JOIN
 		tb_shoppingmall_user											AS su
 	ON	

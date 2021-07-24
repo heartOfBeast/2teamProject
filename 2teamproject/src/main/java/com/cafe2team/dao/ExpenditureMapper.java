@@ -13,9 +13,15 @@ public interface ExpenditureMapper {
 	 
 	 public int expenditureinsert(Expenditure expenditure);
 	 
-	 public int expenditureDeleteByCode(String paramList);
+	 public int expenditureDeleteByCode(List<String> paramList);
 
-	public List<Expenditure> getCaculate();
+	 public List<Expenditure> getCaculate();
 
-	public List<Expenditure> getsales();
+	 public List<Expenditure> getsales();
+
+	 //수정
+	public int modifyExpenditure(Expenditure expenditure);
+
+	//연도조회
+	public List<Expenditure> getExpenseYear(String expenditure_data);
 }

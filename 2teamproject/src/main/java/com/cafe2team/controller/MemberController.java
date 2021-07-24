@@ -275,6 +275,8 @@ public class MemberController {
 					member.setMemberLevelcode("배송기사");
 				}
 				
+				
+				
 				session.setAttribute("SID", member.getMemberId());
 				session.setAttribute("SLEVEL", member.getMemberLevelcode());
 				session.setAttribute("SNAME", member.getMemberName());
@@ -306,7 +308,12 @@ public class MemberController {
 				session.setAttribute("SID", shop.getShoppingmallId());
 				session.setAttribute("SLEVEL", shop.getShoppingmallLevel());
 				session.setAttribute("SNAME", shop.getShoppingmallName());
-
+				
+				String sidcehck = shop.getShoppingmallId();
+				
+				log.info("========================={}" 
+						+ sidcehck);
+				
 				return "redirect:/main";
 
 			} else {
@@ -351,6 +358,36 @@ public class MemberController {
 		log.info("=============================== {} ", data);
 		
 		return data;
+		
+	}
+	
+	@GetMapping("/findId")
+	public String findId() {
+		
+		return "member/findId";
+	}
+	
+	
+	@PostMapping("/findId")
+	@ResponseBody
+	public Map<String, Object> findId(@RequestParam(value = "memberEmail", required = false) String memberEmail,
+						@RequestParam(value = "check", required = false) String check
+						) {
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		if(check.equals("memberCheck")) {
+			
+			Member member = memberService.getAdminAjaxId(memberEmail);
+			map.put("member", member);
+				
+		}else {
+			Shoppingmall shop = memberService.getShopAjaxId(memberEmail);
+			map.put("shop", shop);
+		}
+		
+		return map;
+		
 		
 	}
 	

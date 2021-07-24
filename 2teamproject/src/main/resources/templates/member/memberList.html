@@ -25,7 +25,7 @@
 				<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 					<div class="table-container">
 						<div class="t-header">회원 조회</div>
-						<div class="t-header" id="Period">기간별 회원조회</div>
+						<div class="t-header" id="Period">권한별 회원조회</div>
 						<select id="authority" name="levelName">
 							<option class="memberAuthority" th:each="l : ${memberList}"
 								th:value="${l.memberLevel.levelName}"></option>
@@ -162,8 +162,6 @@
 		<script src="js/jquery.min.js"></script>
 		<script type="text/javascript" th:inline="javascript">
 	
-	
-	
 		$('.modifyBtn').each(function(){
 			$(this).click(function(){
 				var dataId 				= $(this).parents('tr').children('.dataId').text();
@@ -189,7 +187,7 @@
 				$('#memberIncentive').val(dataIncentiveSeleted);
 			})
 		});
-	
+		
 		
 		$(function(){
 			$('#checkAll').click(function(){
@@ -269,7 +267,7 @@
 	
  	$('#authority').html(htmlLevel);
  	
-	/*********************************************중복제거 스크립트*****************************************************/
+	/**************************************************************************************************/
 	
 	
 	var selectLevelValue = "";
@@ -318,6 +316,33 @@
 				alert(textStatus);
 			});
 		}
+	
+	$(function(){
+		$(document).on('click', '.modifyBtn', function(){
+			var dataId 				= $(this).parents('tr').children('.dataId').text();
+			var dataName 			= $(this).parents('tr').children('.dataName').text();
+			var dataLevel 			= $(this).parents('tr').children('.dataLevel').text();
+			var dataAddress 		= $(this).parents('tr').children('.dataAddress').text();
+			var dataEmail 			= $(this).parents('tr').children('.dataEmail').text();
+			var dataPhone 			= $(this).parents('tr').children('.dataPhone').text();
+			var dataRegDate 		= $(this).parents('tr').children('.dataRegDate').text();
+			var dataAccountStatus 	= $(this).parents('tr').children('.dataAccountStatus').text();
+			var dataIncentive 		= $(this).parents('tr').children('.dataIncentive').text();
+			
+			
+			var dataLevelSeleted = $('#memberAuthority option:contains(' + dataLevel + ')').val();
+			var dataIncentiveSeleted = $('#memberIncentive option:contains(' + dataIncentive + ')').val();
+			
+			
+			$('#memberId').val(dataId);
+			$('#memberPhone').val(dataPhone);
+			$('#memberEmail').val(dataEmail);
+			$('#memberAuthority').val(dataLevelSeleted);
+			$('#memberActivation').val(dataAccountStatus);
+			$('#memberIncentive').val(dataIncentiveSeleted);
+		
+		})
+	})
 	
 	
 	

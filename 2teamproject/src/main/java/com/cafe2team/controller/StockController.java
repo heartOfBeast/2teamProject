@@ -27,7 +27,7 @@ public class StockController {
 	public StockController(StockService stockService) {
 		this.stockService = stockService;
 	}
-	
+	//재고상세정보모달
 	@GetMapping("/stockListDetailModal")
 	public List<Stock> stockListDetailModal(Model model){
 		
@@ -81,7 +81,7 @@ public class StockController {
 		return getMiddleCategory;
   
 	}
-	
+	//재고 소분류
 	@PostMapping("/getStockSmallCate")
 	@ResponseBody 
 	public List<Stock> getStockSmallCate(Model model,@RequestParam Map<String, Object> param) {
@@ -94,7 +94,7 @@ public class StockController {
 		return getSmallCategory;
   
 	}	
-	
+	//전체 분류
 	@PostMapping("/getStockCate")
 	@ResponseBody 
 	public List<Stock> getStockCate(Model model,@RequestParam Map<String, Object> param) {
@@ -136,6 +136,19 @@ public class StockController {
 		model.addAttribute("stock", stock);
 		return "stock/stockCheckInsert";
 	}
+	/************************************************************
+	 * 재고실사등록을 위해 재고코드를 입력시 최종위치 자동생성
+	 ************************************************************/
+	@PostMapping("/getSectorFinalCode")
+	@ResponseBody
+	public List<StockCheck> getsectorFinalCode(Model model,
+										  @RequestParam Map<String, Object> param
+										  ){
+		String stockCode = (String) param.get("stockCode");
+		List<StockCheck> getSectorFinal = stockService.getSectorFinalCode(stockCode);
+		return getSectorFinal;
+	}
+	
 	
 	/************************************************************
 	 * 재고실사 필터 조회
@@ -147,8 +160,8 @@ public class StockController {
 										Model model) {
 
 		String warehouse_code = (String) param.get("warehouse_code");
-		String sector_code = (String) param.get("sector_code");
-		List<StockCheck> stockCheckList = stockService.getStockCheckListDetail(warehouse_code, sector_code);
+		String sector_stock_status_code = (String) param.get("sector_stock_status_code");
+		List<StockCheck> stockCheckList = stockService.getStockCheckListDetail(warehouse_code, sector_stock_status_code);
 		
 		
 		return stockCheckList;
@@ -167,5 +180,6 @@ public class StockController {
 		}
 		return "redirect:/stockCheckList";
 	}
+	
 	
 }

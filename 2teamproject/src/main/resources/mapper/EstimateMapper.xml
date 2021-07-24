@@ -113,7 +113,18 @@
 	
 	<select id="getEstimateAnotherInfoCheck" parameterType="String" resultType="Estimate" fetchSize="1000" resultMap="estimateResultMap">
 		SELECT
-			*
+			estimate_guest_code,
+			shoppingmall_guest_name,
+			shoppingmall_guest_admin,
+			shoppingmall_guest_phone,
+			shoppingmall_guest_email,
+			shoppingmall_guest_sectors,
+			shoppingmall_guest_product,
+			shoppingmall_guest_daily_sales,
+			shoppingmall_guest_counsel_time,
+			shoppingmall_guest_address,
+			shoppingmall_guest_industries,
+			estimate_guest_reg_date
 		FROM
 			tb_estimate_guest
 		WHERE
@@ -124,7 +135,15 @@
 	
 	<select id="getEstimateInfoCheck" parameterType="String" resultType="Estimate" fetchSize="1000" resultMap="estimateResultMap">
 		SELECT
-			*
+			estimate_code,
+			shoppingmall_user_id,
+			shoppingmall_name,
+			shoppingmall_user_phone,
+			shoppingmall_user_email,
+			estimate_industries,
+			estimate_sectors,
+			estimate_counsel_time,
+			estimate_reg_date
 		FROM
 			tb_estimate
 		WHERE
@@ -136,7 +155,18 @@
 	
  	<select id="getEstimateAnotherLookList" resultType="Estimate" fetchSize="1000" resultMap="estimateResultMap">
 		SELECT
-			*
+			estimate_guest_code,
+			shoppingmall_guest_name,
+			shoppingmall_guest_admin,
+			shoppingmall_guest_phone,
+			shoppingmall_guest_email,
+			shoppingmall_guest_sectors,
+			shoppingmall_guest_product,
+			shoppingmall_guest_daily_sales,
+			shoppingmall_guest_counsel_time,
+			shoppingmall_guest_address,
+			shoppingmall_guest_industries,
+			estimate_guest_reg_date
 		FROM
 			tb_estimate_guest
 		WHERE
@@ -153,7 +183,15 @@
 	
  	<select id="getEstimateLookList" resultType="Estimate" fetchSize="1000" resultMap="estimateResultMap">
 		SELECT
-			*
+			estimate_code,
+			shoppingmall_user_id,
+			shoppingmall_name,
+			shoppingmall_user_phone,
+			shoppingmall_user_email,
+			estimate_industries,
+			estimate_sectors,
+			estimate_counsel_time,
+			estimate_reg_date
 		FROM
 			tb_estimate
 		WHERE

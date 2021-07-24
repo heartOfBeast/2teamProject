@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cafe2team.dao.SalesMapper;
+import com.cafe2team.domain.Contract;
 import com.cafe2team.domain.ShoppingmallCalculate;
 
 @Service
@@ -20,8 +21,8 @@ public class SalesService {
 	
 	//매출리스트
 	
-	public List<ShoppingmallCalculate> salesList(){
-		List<ShoppingmallCalculate> salesList = salesMapper.getSalesList();
+	public List<Contract> salesList(){
+		List<Contract> salesList = salesMapper.getSalesList();
 
 		return salesList;
 		

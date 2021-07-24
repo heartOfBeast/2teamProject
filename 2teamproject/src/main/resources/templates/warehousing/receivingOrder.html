@@ -53,6 +53,7 @@
 									<th class="hidden-col">중분류</th>
 									<th class="hidden-col">소분류</th>
 									<th class="hidden-col">입고현황</th>
+									<th class="hidden-col">바코드</th>
 									<th>사업자명</th>
 									<th>입고 창고</th>
 									<th>보관 위치</th>
@@ -60,7 +61,7 @@
 									<th>입고 수량</th>
 									<th>입고예정일</th>
 						 			<th>상세정보</th>
-									<th>수정</th>
+
 								</tr>
 								
 							</thead>
@@ -80,6 +81,7 @@
 									<td class="hidden-col" th:text="${l.item.itemMiddleCategory}" id="itemMiddleCategoryData"></td>
 									<td class="hidden-col" th:text="${l.item.itemSmallCategory}" id="itemSmallCategoryData"></td>
 									<td class="hidden-col" th:text="${l.warehousingOrderStatus}" id="warehousingOrderStatusData"></td>
+									<td class="hidden-col" th:text="${l.warehousingBarcode}" id="warehousingBacodeData"></td>
 									<td th:text="${l.shoppingmall.shoppingmallName}" id="shoppingmallNameData"></td>
 									<td th:text="${l.warehouse.warehouseName}" id="warehouseNameData"></td>
 									<td th:text="${l.sectorColumnFinalCode}" id="sectorColumnFinalCodeData"></td>
@@ -89,9 +91,7 @@
 									<td>
 										<button class="btn btn-outline-info detailModalBtn" data-toggle="modal" data-target=".bd-example-modal-lg">상세정보</button>
 									</td>
-									<td>
-										<a type="button" class="btn btn-primary modifyBtn" data-toggle="modal" data-target=".bd-example-modal-lg" id="viewModal" style="color: white;">수정</a>
-									</td>
+
 								</tr>
 							</tbody>
 			    		</table>
@@ -104,95 +104,108 @@
 		</div>
 	</div>
 	<!--상세정보 모달  -->
-	<div class="modal fade bd-example-modal-lg" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" style="display: none;" aria-hidden="true">
-		<div class="modal-dialog modal-lg">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="myLargeModalLabel">상세정보</h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">X</span>
-					</button>
-				</div>
-				<div class="modal-body">
-					<div class="form-group">
-						<label for="warehousingOrderCodeModal">입고지시코드</label>
-						<input type="text" class="form-control" id="warehousingOrderCodeModal" name="warehousingOrderCode" readonly>
+	<form id="receivingFrom" th:action="@{/warehousing/receivingFromModal}" method="post">
+		<div class="modal fade bd-example-modal-lg" id="modifyModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" style="display: none;" aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="myLargeModalLabel">상세정보</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">X</span>
+						</button>
 					</div>
-					<div class="form-group">
-						<label for="warehousingRequestCodeModal">입고요청코드</label>
-						<input type="text" class="form-control" id="warehousingRequestCodeModal" name="warehousingRequestCode" readonly>
+					<div class="modal-body">
+						<div class="form-group">
+							<label for="warehousingOrderCodeModal">입고지시코드</label>
+							<input type="text" class="form-control" id="warehousingOrderCodeModal" name="warehousingOrderCode" readonly="readonly">
+						</div>
+						<div class="form-group">
+							<label for="warehousingRequestCodeModal">입고요청코드</label>
+							<input type="text" class="form-control" id="warehousingRequestCodeModal" name="warehousingRequestCode" readonly>
+						</div>
+						<div class="form-group">
+							<label for="productCodeModal">상품코드</label>
+							<input type="text" class="form-control" id="productCodeModal" name="productCode" readonly>
+						</div>
+						<div class="form-group">
+							<label for="productNameModal">상품명</label>
+							<input type="text" class="form-control" id="productNameModal" name="productName" readonly>
+						</div>
+						<div class="form-group">
+							<label for="itemBigCategoryModal">대분류</label>
+							<input type="text" class="form-control" id="itemBigCategoryModal" name="itemBigCategory" readonly>
+						</div>
+						<div class="form-group">
+							<label for="itemMiddleCategoryModal">중분류</label>
+							<input type="text" class="form-control" id="itemMiddleCategoryModal" name="itemMiddleCategory" readonly>
+						</div>
+						<div class="form-group">
+							<label for="itemSmallCategoryModal">소분류</label>
+							<input type="text" class="form-control" id="itemSmallCategoryModal" name="itemSmallCategory" readonly>
+						</div>
+						<div class="form-group">
+							<label for="warehouseCodeModal">창고코드</label>
+							<input type="text" class="form-control" id="warehouseCodeModal" name="warehouseCode" readonly>
+						</div>
+						<div class="form-group">
+							<label for="warehouseNameModal">창고명</label>
+							<input type="text" class="form_control" id="warehouseNameModal" name="warehouseName" readonly>
+						</div>
+						<div class="form-group">
+							<label for="sectorColumnFinalCodeModal">보관위치</label>
+							<select class="form-control" id="sectorColumnFinalCodeModal" name="sectorColumnFinalCode">
+								<option value="">::보관할 위치를 정해주세요::</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label for="shoppingmallIdModal">쇼핑몰사업자아이디</label>
+							<input type="text" class="form-control" id="shoppingmallIdModal" name="shoppingmallId" readonly>
+						</div>
+						<div class="form-group">
+							<label for="shoppingmallNameModal">쇼핑몰명</label>
+							<input type="text" class="form-control" id="shoppingmallNameModal" name="shoppingmallName" readonly>
+						</div>
+						<div class="image-container">
+							<img style="width: 500px; height: 500px;" id="barcodeImageModal">
+						</div>
+						<div class="form-group">
+							<label for="warehousingBarcodeModal">바코드</label>
+							<input type="text" class="form-control" id="warehousingBarcodeModal" name="warehousingBarcode" readonly>
+						</div>
+						<div class="form-group">
+							<label for="warehousingOrderDueDateModal">입고예정일</label>
+							<input type="text" class="form-control" id="warehousingOrderDueDateModal" name="warehousingOrderDueDate" readonly>
+						</div>
+						<div class="custom-date-input">
+							<label for="warehousingRealDateModal">실제입고일</label>
+							<input type="text" class="form-control datepicker-dropdowns" id="warehousingRealDateModal" name="warehousingRealDate">
+						</div>
+						<div class="form-group">
+							<label for="warehousingOrderAmountModal">입고예정수량</label>
+							<input type="text" class="form-control" id="warehousingOrderAmountModal" name="warehousingOrderAmount" readonly>
+						</div>
+						<div class="form-group">
+							<label for="warehousingRealAmountModal">실제입고수량</label>
+							<input type="text" class="form-control" id="warehousingRealAmountModal" name="warehousingRealAmount" >
+						</div>
+						<div class="form-group">
+							<label for="wareAdminIdModal">입고담당자</label>
+							<input type="text" class="form-control" id="wareAdminIdModal" name="wareAdminId" readonly>
+						</div>
+						<div class="form-group">
+							<label for="warehousingOrderStatusModal">입고상태</label>
+							<input type="text" class="form-control" id="warehousingOrderStatusModal" name="warehousingOrderStatus" readonly>
+						</div>
 					</div>
-					<div class="form-group">
-						<label for="productCodeModal">상품코드</label>
-						<input type="text" class="form-control" id="productCodeModal" name="productCode" readonly>
+					<div class="modal-footer">
+						<!-- <button type="submit" id="modifyBtn" class="btn btn-secondary" >수정</button> -->
+						<button type="submit" name="submit" class="btn btn-secondary" >입고</button>
+						<button class="btn btn-secondary" data-dismiss="modal" >닫기</button>
 					</div>
-					<div class="form-group">
-						<label for="productNameModal">상품명</label>
-						<input type="text" class="form-control" id="productNameModal" name="productName" readonly>
-					</div>
-					<div class="form-group">
-						<label for="itemBigCategoryModal">대분류</label>
-						<input type="text" class="form-control" id="itemBigCategoryModal" name="itemBigCategory" readonly>
-					</div>
-					<div class="form-group">
-						<label for="itemMiddleCategoryModal">중분류</label>
-						<input type="text" class="form-control" id="itemMiddleCategoryModal" name="itemMiddleCategory" readonly>
-					</div>
-					<div class="form-group">
-						<label for="itemSmallCategoryModal">소분류</label>
-						<input type="text" class="form-control" id="itemSmallCategoryModal" name="itemSmallCategory" readonly>
-					</div>
-					<div class="form-group">
-						<label for="warehouseCodeModal">창고코드</label>
-						<input type="text" class="form-control" id="warehouseCodeModal" name="warehouseCode" readonly>
-					</div>
-					<div class="form-group">
-						<label for="warehouseNameModal">창고명</label>
-						<input type="text" class="form-control" id="warehouseNameModal" name="warehouseName" readonly>
-					</div>
-					<div class="form-group">
-						<label for="sectorColumnFinalCodeModal">보관위치</label>
-						<input type="text" class="form-control" id="sectorColumnFinalCodeModal" name="sectorColumnFinalCode" readonly>
-					</div>
-					<div class="form-group">
-						<label for="shoppingmallIdModal">쇼핑몰사업자아이디</label>
-						<input type="text" class="form-control" id="shoppingmallIdModal" name="shoppingmallId" readonly>
-					</div>
-					<div class="form-group">
-						<label for="shoppingmallNameModal">쇼핑몰명</label>
-						<input type="text" class="form-control" id="shoppingmallNameModal" name="shoppingmallName" readonly>
-					</div>
-					<div class="image-container">
-						<img style="width: 500px;" id="preview-imageModal" src="https://dummyimage.com/500x500/ffffff/000000.png&text=preview+image">
-					</div>
-					<div class="form-group">
-						<label for="warehousingBarcodeModal">바코드</label>
-						<input type="text" class="form-control" id="warehousingBarcodeModal" name="warehousingBarcode" readonly>
-					</div>
-					<div class="form-group">
-						<label for="warehousingOrderDueDateModal">입고예정일</label>
-						<input type="text" class="form-control" id="warehousingOrderDueDateModal" name="warehousingOrderDueDate" readonly>
-					</div>
-					<div class="form-group">
-						<label for="warehousingOrderAmountModal">입고수량</label>
-						<input type="text" class="form-control" id="warehousingOrderAmountModal" name="warehousingOrderAmount" readonly>
-					</div>
-					<div class="form-group">
-						<label for="wareAdminIdModal">입고담당자</label>
-						<input type="text" class="form-control" id="wareAdminIdModal" name="wareAdminId" readonly>
-					</div>
-					<div class="form-group">
-						<label for="warehousingOrderStatusModal">입고상태</label>
-						<input type="text" class="form-control" id="warehousingOrderStatusModal" name="warehousingOrderStatus" readonly>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button class="btn btn-secondary" data-dismiss="modal" >닫기</button>
 				</div>
 			</div>
 		</div>
-	</div>
-
+	</form>
 	
 	
 </th:block>
@@ -218,6 +231,8 @@
 				var warehousingOrderAmountData = $(this).parents('tr').children('#warehousingOrderAmountData').text();
 				var warehousingOrderDueDateData = $(this).parents('tr').children('#warehousingOrderDueDateData').text();
 				var warehousingOrderStatusData = $(this).parents('tr').children('#warehousingOrderStatusData').text();
+				var barcodeImg = $(this).parents('tr').find('img').attr('src');
+
 				
 				$('#warehousingOrderCodeModal').val(warehousingOrderCodeData);
 				$('#warehousingRequestCodeModal').val(warehousingRequestCodeData);
@@ -236,8 +251,43 @@
 				$('#warehousingOrderAmountModal').val(warehousingOrderAmountData);
 				$('#warehousingOrderDueDateModal').val(warehousingOrderDueDateData);
 				$('#warehousingOrderStatusModal').val(warehousingOrderStatusData);
+				$('#barcodeImageModal').attr('src', barcodeImg);
+
+				
 			})
+			
 		});
+		$('.detailModalBtn').each(function(){
+			$(this).click(function(){
+				var sectorColumnFinalCodeModal = $('#sectorColumnFinalCodeModal');
+				var request = $.ajax({
+					url: "/warehousing/getWarehouseSector",
+					method: "POST", 
+					data: { warehouseCode : $('#warehouseCodeModal').val()}, 
+					dataType: "json" 
+				}); 
+
+				request.done(function( data ) {
+					console.log(data);
+					var html = '';
+					if(data != undefined && data != '' && data.length > 0){
+						html += '<option value=""> :: 보관할 구역을 선택해주세요 :: </option>';
+						for(var i=0; i < data.length; i++){
+							html += '<option value="'+data[i].sectorColumnFinalCode+'">';
+							html += data[i].sectorColumnFinalCode;
+							html += '</option>';
+						}
+					}else{
+						html = '<option value=""> 보관할 수 있는 공간이 없습니다 </option>';
+					}
+					sectorColumnFinalCodeModal.html(html);
+				}); 
+				request.fail(function( jqXHR, textStatus ) {
+					alert( "Request failed: " + textStatus );
+				});			
+			});
+		})
+		
 		/* 항목체크 */
 		$(function(){
 			$('#checkAll').click(function(){

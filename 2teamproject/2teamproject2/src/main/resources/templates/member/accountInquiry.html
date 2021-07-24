@@ -1,0 +1,75 @@
+<!doctype html>
+<html
+	xmlns:th="http://www.thymeleaf.org"
+ 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="@{layout/default}">
+<th:block layout:fragment="pageTitle">
+<div class="page-header">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item">Member</li>
+		<li class="breadcrumb-item active">accountInquiry</li>
+	</ol>
+
+	<ul class="app-actions">
+		<li>
+			<a href="#" id="reportrange">
+				<span class="range-text"></span>
+				<i class="icon-chevron-down"></i>	
+			</a>
+		</li>
+		<li>
+			<a href="#">
+				<i class="icon-export"></i>
+			</a>
+		</li>
+	</ul>
+</div>
+
+<th:block layout:fragment="container">
+<div class="main-container">
+	<div class="row gutters">
+		<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+			<div class="table-container">
+				<div class="t-header">미승인 거래처 조회</div>
+					<div class="table-responsive">
+						<table id="copy-print-csv" class="table custom-table">
+						<thead>
+							<tr>
+							  <th>아이디</th>
+							  <th>권한</th>
+							  <th>사업자명</th>
+							  <th>담당자명</th>
+							  <th>이메일</th>
+							  <th>번호</th>
+							  <th>계정상태</th>
+							  <th>등록일</th>
+							  <th>삭제</th>
+							</tr>
+							
+						</thead>
+						<tbody>
+							<tr th:if="${#lists.size(getshopList) > 0}" th:each="l : ${getshopList}">
+							  <td th:text="${l.shoppingmallId}"></td>
+							  <td th:text="${l.shoppingmallLevelName}"></td>
+							  <td th:text="${l.shoppingmallName}"></td>
+							  <td th:text="${l.shoppingmallUserName}"></td>
+							  <td th:text="${l.shoppingmallEmail}"></td>
+							  <td th:text="${l.shoppingmallPhone}"></td>
+							  <td th:text="${l.shoppingmallStatus}"></td>
+							  <td th:text="${l.shoppingmallRegDay}"></td>
+							  <td></td>
+							</tr>
+						</tbody>
+		    	</table>
+				</div>
+			</div>
+		
+		</div>
+	</div>
+</div>
+
+
+</th:block>
+
+		
+</html>

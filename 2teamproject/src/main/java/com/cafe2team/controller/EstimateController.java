@@ -95,40 +95,46 @@ public class EstimateController {
 									,String companyEmail
 									,HttpServletResponse response
 									,HttpSession session) throws IOException {
-			Estimate estimate = null;
+			List<Estimate> estimate = null;
 			boolean estimateCheck = true;
 			String SID = (String)session.getAttribute("SID");
 			String SLEVEL = (String)session.getAttribute("SLEVEL");
 			
 			if(SID == null) {
 				estimate = estimateservice.getEstimateAnotherInfoCheck(companyPhone, companyEmail); 
-				System.out.println(SLEVEL);
 				System.out.println("비회원 estimateCheck ->>>" + estimateCheck);
-				System.out.println(estimateCheck);
-			}else if(SLEVEL.equals("사업자")) {
+				
+			}else if(SID != null || SLEVEL.equals("사업자")) {
 				estimate = estimateservice.getEstimateInfoCheck(companyPhone, companyEmail); 
-				System.out.println(SLEVEL);
 				System.out.println("사업자 estimateCheck ->>>" + estimateCheck);
-				System.out.println(estimateCheck);
 			}
-			if(estimate != null) estimateCheck = false;
-			log.info("estimate", estimate);
-			log.info("SLEVEL", SLEVEL);
-			log.info("companyPhone", companyPhone);
-			log.info("companyEmail", companyEmail);
 			
-			if(estimateCheck) {
+			
+			System.out.println("etstestsetestestsets"+ estimate.size());
+			if(estimate.size() == 0) estimateCheck = false;
+			System.out.println("estimate >>>>>>" + estimate);
+			System.out.println(SLEVEL);
+			System.out.println(companyPhone);
+			System.out.println(companyEmail);
+			System.out.println("estimateCheck >>>>" + estimateCheck);
+			
+			if(estimateCheck == false) {
+				System.out.println("response estimateCheck >>>>" + estimateCheck);
 				response.setContentType("text/html; charset=UTF-8");
 				PrintWriter out = response.getWriter();
 				out.println("<script>alert('없는 데이터입니다. 다시 확인하여 입력해주세요.');</script>");
 				out.flush();
 				return "estimate/estimateLook";
+				
 			}else {
 				model.addAttribute("estimate", estimate);
-					log.info("estimate", estimate);
-				return "estimate/estimateLookList";
+				log.info("estimate", estimate);
+				System.out.println(estimate);
+				if(SID == null) return "estimate/estimateAnotherLookList";
+				return "estimate/estimateLookList";	
 			}
-			
+					
+					
 		}
 		/************************************************************/
 		
@@ -161,8 +167,7 @@ public class EstimateController {
 			
 			
 			model.addAttribute("title", "견적신청 조회");
-			model.addAttribute("estimateLookList");
-			log.info("estimateLookList", estimateLookList);
+			model.addAttribute("estimateLookList", estimateLookList);
 			
 			return "estimate/estimateLookList";
 		}
