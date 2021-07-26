@@ -360,6 +360,8 @@
 			INNER JOIN 
 				tb_release_info AS r
 			ON 
-				i.ware_admin_id = r.ware_admin_id				
+				i.release_order_code = r.release_order_code	
+			WHERE
+				invoice_code = #{invoiceCode}				
 	</select>
 </mapper>

@@ -7,8 +7,8 @@
 <th:block layout:fragment="pageTitle">
 <div class="page-header">
 	<ol class="breadcrumb">
-		<li class="breadcrumb-item">contract</li>
-		<li class="breadcrumb-item active">contractApproval</li>
+		<li class="breadcrumb-item">거래처</li>
+		<li class="breadcrumb-item active">계약관리</li>
 	</ol>
 
 	<ul class="app-actions">
@@ -32,45 +32,45 @@
 		<div class="row gutters">
 			<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 				<div class="table-container">
-					<div class="t-header">계약 및 	권한 승인 페이지</div>
+					<div class="t-header" id="Period">계약 및 	권한 승인 페이지 </div>
+						<select id="authority" name="authority">
+							<option value=""> :: 전체보기 :: </option>
+							<option value="승인요청">승인요청</option> 
+							<option value="승인">승인</option>
+							<option value="승인취소">승인취소</option>
+						</select>
 						<div class="table-responsive">
 							<table id="copy-print-csv" class="table custom-table">
 							<thead>
 								<tr>
 								  <th>최종계약코드</th>
-								  <!-- <th>계약단가표코드</th> -->
-								  <th>쇼핑몰사업자아이디</th>
+								  <th>거래처아이디</th>
 								  <th>계약이름</th>
 								  <th>계약시작일</th>
 								  <th>계약종료일</th>
-								  <th>계약창고종류</th>
-								  <th>구역개수</th>
-								  <!-- <th>품목이름</th>
-								  <th>계약수량</th>
-								  <th>계약금액</th> -->
+								  <th>구역</th>
+								  <th>품목이름</th>
+								  <th>수량</th>
+								  <th>계약금액</th>
 								  <th>신청일자</th>
-								 <!--  <th>등록담당자</th> -->
 								  <th>승인상태</th>
-								  <th>승인상태사유</th>
+								  <th>사유</th>
 								  <th>승인</th>
 								  <th>취소</th>
 								</tr>
 							</thead>
-							<tbody>
+							<tbody id="tableList">
 								<tr th:each="l: ${contractList}">
 									<td th:text="${l.contractFinalCode}" 			id="contractFinalCodeData"></td>
 									<td th:text="${l.contractFinalUser}" 			id="contractFinalUserData"></td>
-									<td th:text="${l.contractFinalPriceCode}"		id="contractFinalPriceCodeData" 	style="display: none;"></td>
 									<td th:text="${l.contractFinalPriceName}" 		id="contractFinalPriceNameData"></td>
 									<td th:text="${l.contractFinalStart}"	 		id="contractFinalStartData"></td>
 									<td th:text="${l.contractFinalEnd}" 			id="contractFinalEndData"></td>
-									<td th:text="${l.contractFinalWarehouseType}"	id="contractFinalWarehouseTypeData"></td>
 									<td th:text="${l.contractFinalZone}" 			id="contractFinalZoneData"></td>
-									<td th:text="${l.contractFinalProductName}" 	id="contractFinalProductNameData"	style="display: none;"></td>
-									<td th:text="${l.contractFinalQuantity}" 		id="contractFinalQuantityData"		style="display: none;"></td>
-									<td th:text="${l.contractFinalPay}" 			id="contractFinalPayData"			style="display: none;"></td>
+									<td th:text="${l.contractFinalProductName}" 	id="contractFinalProductNameData"></td>
+									<td th:text="${l.contractFinalQuantity}" 		id="contractFinalQuantityData"></td>
+									<td th:text="${l.contractFinalPay+'원'}" 		id="contractFinalPayData"></td>
 									<td th:text="${l.contractApprovalDate}" 		id="contractApprovalDateData"></td>
-									<td th:text="${l.contractFinalMember}" 			id="contractFinalMemberData"		style="display: none;"></td>
 									<td th:text="${l.contractState}" 				id="contractStateData"></td>
 									<td th:text="${l.contractStateMemo}" 			id="contractStateMemoData"></td>
 									<td>
@@ -88,7 +88,7 @@
 		</div>
 	</div>
 	<!-- 상세정보 및 승인 Modal 폼 시작 -->
-	<form th:action="@{/contrcatApproval}" method="post">
+	<form th:action="@{/contractApproval}" method="post">
 		<div class="modal fade bd-example-modal-lg1" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" style="display: none;" aria-hidden="true">
 			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
@@ -116,10 +116,6 @@
 							<input class="form-control" id="contractFinalEndDataModal" name="contractFinalEnd" readonly="readonly"/>
 						</div>
 						<div class="form-group">
-							<label for="contractFinalWarehouseTypeDataModal">계약창고종류</label>	
-							<input class="form-control" id="contractFinalWarehouseTypeDataModal" name="contractFinalWarehouseType" readonly="readonly"/>
-						</div>
-						<div class="form-group">
 							<label for="contractFinalZoneDataModal">구역개수</label>
 							<input class="form-control" id="contractFinalZoneDataModal" name="contractFinalZone" readonly="readonly"/>
 						</div>
@@ -143,10 +139,6 @@
 							<label for="contractApprovalDateDataModal">승인 요청일자</label>
 							<input class="form-control" id="contractApprovalDateModal" name="contractApprovalDate" readonly="readonly"/>
 						</div>
-						<div class="form-group">
-							<label for="contractFinalMemberDataModal">등록 담당자</label>
-							<input class="form-control" id="contractFinalMemberDataModal" name="contractFinalMember" readonly="readonly"/>
-						</div>
 					</div>
 					<div class="modal-footer">
 						<button class="btn btn-secondary" data-dismiss="modal">돌아가기</button>
@@ -159,7 +151,7 @@
 	<!-- 상세정보 및 승인 Modal 폼 종료 -->
 	
 	<!-- 상세정보 및 승인 취소 Modal 폼 시작 -->
-	<form th:action="@{/contrcatCancel}" method="post">
+	<form th:action="@{/contractCancel}" method="post">
 		<div class="modal fade bd-example-modal-lg2" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" style="display: none;" aria-hidden="true">
 			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
@@ -187,10 +179,6 @@
 							<input class="form-control" id="contractFinalEndDataModal2" name="contractFinalEnd" readonly="readonly"/>
 						</div>
 						<div class="form-group">
-							<label for="contractFinalWarehouseTypeDataModal2">계약창고종류</label>	
-							<input class="form-control" id="contractFinalWarehouseTypeDataModal2" name="contractFinalWarehouseType" readonly="readonly"/>
-						</div>
-						<div class="form-group">
 							<label for="contractFinalZoneDataModal2">구역개수</label>
 							<input class="form-control" id="contractFinalZoneDataModal2" name="contractFinalZone" readonly="readonly"/>
 						</div>
@@ -215,10 +203,6 @@
 							<input class="form-control" id="contractApprovalDateModal2" name="contractApprovalDate" readonly="readonly"/>
 						</div>
 						<div class="form-group">
-							<label for="contractFinalMemberDataModal2">등록 담당자</label>
-							<input class="form-control" id="contractFinalMemberDataModal2" name="contractFinalMember" readonly="readonly"/>
-						</div>
-						<div class="form-group">
 							<label for="contractStateMemoDataModal2">메모 및 승인 상태 사유</label>
 							<input class="form-control" id="contractStateMemoDataModal2" name=contractStateMemo required="required"/>
 						</div>
@@ -236,7 +220,7 @@
 </th:block>
 
 <th:block layout:fragment="customJs">
-	<script>
+	<script type="text/javascript" th:inline="javascript">
 		
 		<!-- 상세정보 및 승인 Modal 시작 -->
 		$('.Btn').each(function(){
@@ -245,14 +229,12 @@
 				var contractFinalPriceNameData		= $(this).parents('tr').children('#contractFinalPriceNameData').text();
 				var contractFinalStartData 			= $(this).parents('tr').children('#contractFinalStartData').text();
 				var contractFinalEndData 			= $(this).parents('tr').children('#contractFinalEndData').text();
-				var contractFinalWarehouseTypeData 	= $(this).parents('tr').children('#contractFinalWarehouseTypeData').text();
 				var contractFinalZoneData 			= $(this).parents('tr').children('#contractFinalZoneData').text();
 				var contractFinalProductNameData 	= $(this).parents('tr').children('#contractFinalProductNameData').text();
 				var contractFinalQuantityData 		= $(this).parents('tr').children('#contractFinalQuantityData').text();
 				var contractFinalPayData 			= $(this).parents('tr').children('#contractFinalPayData').text();
 				var contractFinalUserData 			= $(this).parents('tr').children('#contractFinalUserData').text();
 				var contractApprovalDateData 		= $(this).parents('tr').children('#contractApprovalDateData').text();
-				var contractFinalMemberData 		= $(this).parents('tr').children('#contractFinalMemberData').text();
 				var contractStateMemoData			= $(this).parents('tr').children('#contractStateMemoData').text();
 
 				
@@ -261,32 +243,122 @@
 				$('#contractFinalPriceNameDataModal').val(contractFinalPriceNameData);
 				$('#contractFinalStartDataModal').val(contractFinalStartData);
 				$('#contractFinalEndDataModal').val(contractFinalEndData);
-				$('#contractFinalWarehouseTypeDataModal').val(contractFinalWarehouseTypeData);
 				$('#contractFinalZoneDataModal').val(contractFinalZoneData);
 				$('#contractFinalProductNameDataModal').val(contractFinalProductNameData);
 				$('#contractFinalQuantityDataModal').val(contractFinalQuantityData);
 				$('#contractFinalPayDataModal').val(contractFinalPayData);
 				$('#contractFinalUserDataModal').val(contractFinalUserData);
 				$('#contractApprovalDateModal').val(contractApprovalDateData);
-				$('#contractFinalMemberDataModal').val(contractFinalMemberData);
 				
 				$('#contractFinalCodeDataModal2').val(contractFinalCodeData);
 				$('#contractFinalPriceNameDataModal2').val(contractFinalPriceNameData);
 				$('#contractFinalStartDataModal2').val(contractFinalStartData);
 				$('#contractFinalEndDataModal2').val(contractFinalEndData);
-				$('#contractFinalWarehouseTypeDataModal2').val(contractFinalWarehouseTypeData);
 				$('#contractFinalZoneDataModal2').val(contractFinalZoneData);
 				$('#contractFinalProductNameDataModal2').val(contractFinalProductNameData);
 				$('#contractFinalQuantityDataModal2').val(contractFinalQuantityData);
 				$('#contractFinalPayDataModal2').val(contractFinalPayData);
 				$('#contractFinalUserDataModal2').val(contractFinalUserData);
 				$('#contractApprovalDateModal2').val(contractApprovalDateData);
-				$('#contractFinalMemberDataModal2').val(contractFinalMemberData);
 				$('#contractStateMemoDataModal').val(contractStateMemoData);
 				
 			})
 		});
 		<!-- 상세정보 및 승인 Modal 종료 -->
+		
+		var selectStateValue = "";
+		
+		$('#authority').change(function(){
+			selectStateValue = $('#authority').val();
+			console.log(selectStateValue);
+			getData();
+			
+		});
+		
+		
+		function getData(){
+			var request = $.ajax({
+				  url: "/contractListDetail",
+				  method: "POST",
+				  data: { selectStateValue : selectStateValue },
+				  dataType: "Json",
+				});
+
+				request.done(function( data ) {
+					console.log(data);
+					
+					var html = '';
+					$.each(data, function(index, value){
+						html+= '<tr>';
+						html+= '<td id= "contractFinalCodeData">' + value.contractFinalCode + '</td>';
+						html+= '<td id= "contractFinalUserData">' + value.contractFinalUser + '</td>';
+						html+= '<td id= "contractFinalPriceNameData">' + value.contractFinalPriceName + '</td>';
+						html+= '<td id= "contractFinalStartData">' + value.contractFinalStart + '</td>';
+						html+= '<td id= "contractFinalEndData">' + value.contractFinalEnd + '</td>';
+						html+= '<td id= "contractFinalZoneData">' + value.contractFinalZone + '</td>';
+						html+= '<td id= "contractFinalProductNameData" >' + value.contractFinalProductName + '</td>';
+						html+= '<td id= "contractFinalQuantityData" >' + value.contractFinalQuantity + '</td>'; 
+						html+= '<td id= "contractFinalPayData" >' + value.contractFinalPay + '</td>'; 
+						html+= '<td id= "contractApprovalDateData">' + value.contractApprovalDate + '</td>';
+						html+= '<td id= "contractStateData">' + value.contractState + '</td>';
+						html+= '<td id= "contractStateMemoData">' + value.contractStateMemo + '</td>';
+						html+= '<td><a type="button" class="btn btn-primary Btn" data-toggle="modal" data-target=".bd-example-modal-lg1" id="updateModal" style="color: white;">승인</a></td>'
+						html+= '<td><a type="button" class="btn btn-primary Btn" data-toggle="modal" data-target=".bd-example-modal-lg2" id="cancelModal" style="color: white;">취소</a></td>'
+						html+= '</tr>';
+					});
+					
+					$('#tableList').html(html);
+						
+					
+				});
+					
+				request.fail(function( jqXHR, textStatus ) {
+					alert(textStatus);
+				});
+			};
+			
+			$(function(){
+				$(document).on('click', '.Btn', function(){
+					var contractFinalCodeData 			= $(this).parents('tr').children('#contractFinalCodeData').text();
+					var contractFinalPriceNameData		= $(this).parents('tr').children('#contractFinalPriceNameData').text();
+					var contractFinalStartData 			= $(this).parents('tr').children('#contractFinalStartData').text();
+					var contractFinalEndData 			= $(this).parents('tr').children('#contractFinalEndData').text();
+					var contractFinalZoneData 			= $(this).parents('tr').children('#contractFinalZoneData').text();
+					var contractFinalProductNameData 	= $(this).parents('tr').children('#contractFinalProductNameData').text();
+					var contractFinalQuantityData 		= $(this).parents('tr').children('#contractFinalQuantityData').text();
+					var contractFinalPayData 			= $(this).parents('tr').children('#contractFinalPayData').text();
+					var contractFinalUserData 			= $(this).parents('tr').children('#contractFinalUserData').text();
+					var contractApprovalDateData 		= $(this).parents('tr').children('#contractApprovalDateData').text();
+					var contractStateMemoData			= $(this).parents('tr').children('#contractStateMemoData').text();
+					
+					$('#contractFinalCodeDataModal').val(contractFinalCodeData);
+					$('#contractFinalPriceNameDataModal').val(contractFinalPriceNameData);
+					$('#contractFinalStartDataModal').val(contractFinalStartData);
+					$('#contractFinalEndDataModal').val(contractFinalEndData);
+					$('#contractFinalZoneDataModal').val(contractFinalZoneData);
+					$('#contractFinalProductNameDataModal').val(contractFinalProductNameData);
+					$('#contractFinalQuantityDataModal').val(contractFinalQuantityData);
+					$('#contractFinalPayDataModal').val(contractFinalPayData);
+					$('#contractFinalUserDataModal').val(contractFinalUserData);
+					$('#contractApprovalDateModal').val(contractApprovalDateData);
+					
+					$('#contractFinalCodeDataModal2').val(contractFinalCodeData);
+					$('#contractFinalPriceNameDataModal2').val(contractFinalPriceNameData);
+					$('#contractFinalStartDataModal2').val(contractFinalStartData);
+					$('#contractFinalEndDataModal2').val(contractFinalEndData);
+					$('#contractFinalZoneDataModal2').val(contractFinalZoneData);
+					$('#contractFinalProductNameDataModal2').val(contractFinalProductNameData);
+					$('#contractFinalQuantityDataModal2').val(contractFinalQuantityData);
+					$('#contractFinalPayDataModal2').val(contractFinalPayData);
+					$('#contractFinalUserDataModal2').val(contractFinalUserData);
+					$('#contractApprovalDateModal2').val(contractApprovalDateData);
+					$('#contractStateMemoDataModal').val(contractStateMemoData);
+				
+				})
+			});
+			
+
+
 	</script>
 </th:block>
 		

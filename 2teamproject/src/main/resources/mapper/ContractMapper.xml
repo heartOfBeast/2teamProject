@@ -14,7 +14,7 @@
 			, contractFinal.contract_final_zone					AS contractFinalZone
 			, contractFinal.contract_final_product_name			AS contractFinalProductName
 			, contractFinal.contract_final_quantity				AS contractFinalQuantity
-			, contractFinal.contract_final_pay					AS contractFinalPay
+			, FORMAT(contractFinal.contract_final_pay,0)		AS contractFinalPay
 			, shoppingmallUser.shoppingmall_user_id				AS contractFinalUser
 			, contractFinal.contract_final_reg_date				AS contractFinalRegDay
 			, memberId.member_id								AS contractFinalMember
@@ -79,14 +79,14 @@
 		UPDATE tb_contract_final
 		SET
 			contract_final_state				='승인',
-			contract_final_state_memo			='해당사항없음',
+			contract_final_state_memo			='해당없음',
 			contract_final_reg_date_approval	= NOW()
 		WHERE 
 			contract_final_code					= #{contractFinalCode}
 	</update>
 
 	<!-- 계약승인 취소 -->
-	<update id="contrcatCancel" parameterType="String">
+	<update id="contractCancel" parameterType="String">
 		UPDATE tb_contract_final
 		SET
 			contract_final_state				='승인취소',
@@ -95,6 +95,39 @@
 		WHERE 
 			contract_final_code					= #{contractFinalCode}
 	</update>
+	
+	<!-- 계약승인 검색기능  -->
+	<select id="contractListDetail" resultType="Contract" parameterType="String">
+		SELECT 
+			  contractFinal.contract_final_code					AS contractFinalCode
+			, contractFinal.unit_price_code						AS contractFinalPriceCode
+			, contractFinal.unit_price_final_name				AS contractFinalPriceName
+			, contractFinal.contract_final_start				AS contractFinalStart
+			, contractFinal.contract_final_end					AS contractFinalEnd
+			, contractFinal.contract_final_warehouse_type		AS contractFinalWarehouseType
+			, contractFinal.contract_final_zone					AS contractFinalZone
+			, contractFinal.contract_final_product_name			AS contractFinalProductName
+			, contractFinal.contract_final_quantity				AS contractFinalQuantity
+			, contractFinal.contract_final_pay					AS contractFinalPay
+			, shoppingmallUser.shoppingmall_user_id				AS contractFinalUser
+			, memberId.member_id								AS contractFinalMember
+			, contractFinal.contract_final_state				AS contractState
+			, contractFinal.contract_final_state_memo			AS contractStateMemo
+			, contractFinal.contract_final_reg_date_approval	AS contractApprovalDate
+		FROM 												
+			tb_contract_final 									AS contractFinal			
+		INNER JOIN 
+			tb_shoppingmall_user 								AS shoppingmallUser
+		ON
+			contractFinal.shoppingmall_user_id = shoppingmallUser.shoppingmall_user_id
+		INNER JOIN 
+			tb_member											AS memberId
+		ON
+			contractFinal.member_id = memberId.member_id
+		WHERE
+			contract_final_state = #{contractState}
+	</select>
+	
 	
 	<!-- 최종계약 일정  -->
 	<select id="CalendarList" resultType="Map" parameterType="String">
@@ -111,7 +144,5 @@
 		WHERE
 			contractFinal.contract_final_state = '승인';
 	</select>
-	
-	
 	
 </mapper>

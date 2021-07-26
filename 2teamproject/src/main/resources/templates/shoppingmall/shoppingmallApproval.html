@@ -7,8 +7,8 @@
 <th:block layout:fragment="pageTitle">
 <div class="page-header">
 	<ol class="breadcrumb">
-		<li class="breadcrumb-item">shoppingmall</li>
-		<li class="breadcrumb-item active">shoppingmallApproval</li>
+		<li class="breadcrumb-item">거래처</li>
+		<li class="breadcrumb-item active">거래처 권한관리</li>
 	</ol>
 
 	<ul class="app-actions">
@@ -33,24 +33,27 @@
 		<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 			<div class="table-container">
 				<div class="t-header">거래처 권한 승인</div>
+					<select id="authority" name="authority">
+						<option value=""> :: 전체보기 :: </option>
+						<option value="승인요청">승인요청</option> 
+						<option value="승인">승인</option>
+						<option value="승인취소">승인취소</option>
+					</select>
 					<div class="table-responsive">
 						<table id="copy-print-csv" class="table custom-table">
 						<thead>
 						<tr>
 							<th>아이디</th>
 							<th>거래처명</th>
-							<th>담당자명</th>
+							<th>대표이름</th>
 							<th>사업자번호</th>
-							<!-- <th>거래처이메일</th>
-							<th>거래처주소</th>
-							<th>거래처전화번호</th>
 							<th>거래처가입일</th>
 							<th>주거래은행</th>
-							<th>계좌번호</th> -->
+							<th>계좌번호</th>
 							<th>계정상태</th>
 							<th>추소사유</th>
 							<th>승인신청/처리일</th>
-							<th>상세정보/승인</th>
+							<th>승인</th>
 							<th>취소</th>
 						</tr>
 						</thead>
@@ -60,17 +63,14 @@
 								<td th:text="${l.shoppingmallName}"		id="shoppingmallNameData"></td>
 								<td th:text="${l.shoppingmallUserName}"	id="shoppingmallUserNameData"></td>
 								<td th:text="${l.shoppingmallNumber}"	id="shoppingmallNumberData"></td>
-								<td th:text="${l.shoppingmallEmail}"	id="shoppingmallEmailData"				style="display: none;"></td>
-								<td th:text="${l.shoppingmallAddr}"		id="shoppingmallAddrData"				style="display: none;"></td>
-								<td th:text="${l.shoppingmallPhone}"	id="shoppingmallPhoneData"				style="display: none;"></td>
-								<td th:text="${l.shoppingmallRegDay}"	id="shoppingmallRegDayData"				style="display: none;"></td>
-								<td th:text="${l.shoppingmallBank}"		id="shoppingmallBankData"				style="display: none;"></td>
-								<td th:text="${l.shoppingmallBankNum}"	id="shoppingmallBankNumData"			style="display: none;"></td>
+								<td th:text="${l.shoppingmallRegDay}"	id="shoppingmallRegDayData"></td>
+								<td th:text="${l.shoppingmallBank}"		id="shoppingmallBankData"></td>
+								<td th:text="${l.shoppingmallBankNum}"	id="shoppingmallBankNumData"></td>
 								<td th:text="${l.shoppingmallStatus}"	id="shoppingmallStatusData"></td>
 								<td th:text="${l.shoppingmallStatusCause}"	id="shoppingmallStatusCauseData"></td>
 								<td th:text="${l.shoppingmallUpdate}"	id="shoppingmallUpdateData"></td>
 								<td>
-									<a type="button" class="btn btn-primary Btn" data-toggle="modal" data-target=".bd-example-modal-lg1" id="updateModal" style="color: white;">정보/승인</a>
+									<a type="button" class="btn btn-primary Btn" data-toggle="modal" data-target=".bd-example-modal-lg1" id="updateModal" style="color: white;">승인</a>
 								</td>
 								<td>
 									<a type="button" class="btn btn-primary Btn" data-toggle="modal" data-target=".bd-example-modal-lg2" id="cancelModal" style="color: white;">취소</a>
@@ -111,18 +111,6 @@
 					<div class="form-group">
 						<label for="shoppingmallNumberModal">사업자번호</label>	
 						<input class="form-control" id="shoppingmallNumberModal" name="shoppingmallNumber" readonly="readonly"/>
-					</div>
-					<div class="form-group">
-						<label for="shoppingmallEmailModal">거래처이메일</label>	
-						<input class="form-control" id="shoppingmallEmailModal" name="shoppingmallEmail" readonly="readonly"/>
-					</div>
-					<div class="form-group">
-						<label for="shoppingmallAddrModal">거래처주소</label>	
-						<input class="form-control" id="shoppingmallAddrModal" name="shoppingmallAddr" readonly="readonly"/>
-					</div>
-					<div class="form-group">
-						<label for="shoppingmallPhoneModal">거래처전화번호</label>
-						<input class="form-control" id="shoppingmallPhoneModal" name="shoppingmallPhone" readonly="readonly"/>
 					</div>
 					<div class="form-group">
 						<label for="shoppingmallBankModal">주거래은행</label>
@@ -175,18 +163,6 @@
 						<input class="form-control" id="shoppingmallNumberModal2" name="shoppingmallNumber" readonly="readonly"/>
 					</div>
 					<div class="form-group">
-						<label for="shoppingmallEmailModal2">거래처이메일</label>	
-						<input class="form-control" id="shoppingmallEmailModal2" name="shoppingmallEmail" readonly="readonly"/>
-					</div>
-					<div class="form-group">
-						<label for="shoppingmallAddrModal2">거래처주소</label>	
-						<input class="form-control" id="shoppingmallAddrModal2" name="shoppingmallAddr" readonly="readonly"/>
-					</div>
-					<div class="form-group">
-						<label for="shoppingmallPhoneModal2">거래처전화번호</label>
-						<input class="form-control" id="shoppingmallPhoneModal2" name="shoppingmallPhone" readonly="readonly"/>
-					</div>
-					<div class="form-group">
 						<label for="shoppingmallBankModal2">주거래은행</label>
 						<input class="form-control" id="shoppingmallBankModal2" name="shoppingmallBank" readonly="readonly"/>
 					</div>
@@ -212,7 +188,7 @@
 </th:block>
 
 <th:block layout:fragment="customJs">
-	<script>
+	<script type="text/javascript" th:inline="javascript">
 		
 		<!-- 상세정보 및 승인 Modal 시작 -->
 		$('.Btn').each(function(){
@@ -221,9 +197,6 @@
 				var shoppingmallNameData 		= $(this).parents('tr').children('#shoppingmallNameData').text();
 				var shoppingmallUserNameData	= $(this).parents('tr').children('#shoppingmallUserNameData').text();
 				var shoppingmallNumberData 		= $(this).parents('tr').children('#shoppingmallNumberData').text();
-				var shoppingmallEmailData 		= $(this).parents('tr').children('#shoppingmallEmailData').text();
-				var shoppingmallAddrData 		= $(this).parents('tr').children('#shoppingmallAddrData').text();
-				var shoppingmallPhoneData 		= $(this).parents('tr').children('#shoppingmallPhoneData').text();
 				var shoppingmallRegDayData 		= $(this).parents('tr').children('#shoppingmallRegDayData').text();
 				var shoppingmallBankData 		= $(this).parents('tr').children('#shoppingmallBankData').text();
 				var shoppingmallBankNumData 	= $(this).parents('tr').children('#shoppingmallBankNumData').text();
@@ -234,9 +207,6 @@
 				$('#shoppingmallNameModal').val(shoppingmallNameData);
 				$('#shoppingmallUserNameModal').val(shoppingmallUserNameData);
 				$('#shoppingmallNumberModal').val(shoppingmallNumberData);
-				$('#shoppingmallEmailModal').val(shoppingmallEmailData);
-				$('#shoppingmallAddrModal').val(shoppingmallAddrData);
-				$('#shoppingmallPhoneModal').val(shoppingmallPhoneData);
 				$('#shoppingmallRegDayModal').val(shoppingmallRegDayData);
 				$('#shoppingmallBankModal').val(shoppingmallBankData);
 				$('#shoppingmallBankNumModal').val(shoppingmallBankNumData);
@@ -246,9 +216,6 @@
 				$('#shoppingmallNameModal2').val(shoppingmallNameData);
 				$('#shoppingmallUserNameModal2').val(shoppingmallUserNameData);
 				$('#shoppingmallNumberModal2').val(shoppingmallNumberData);
-				$('#shoppingmallEmailModal2').val(shoppingmallEmailData);
-				$('#shoppingmallAddrModal2').val(shoppingmallAddrData);
-				$('#shoppingmallPhoneModal2').val(shoppingmallPhoneData);
 				$('#shoppingmallRegDayModal2').val(shoppingmallRegDayData);
 				$('#shoppingmallBankModal2').val(shoppingmallBankData);
 				$('#shoppingmallBankNumModal2').val(shoppingmallBankNumData);
@@ -256,8 +223,6 @@
 			})
 		});
 		<!-- 상세정보 및 승인 Modal 종료 -->
-		
-		
 		
 		
 		

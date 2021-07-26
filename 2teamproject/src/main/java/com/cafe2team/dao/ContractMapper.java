@@ -17,8 +17,6 @@ public interface ContractMapper {
 	// 최종 계약 리스트 
 	public List<Contract> ContractList();
 	
-	/* public Contract ContractInfo(String contractFinalCode); */
-	
 	// 계약 신청 등록
 	public int ContractAdd(Contract contract);
 	
@@ -26,7 +24,10 @@ public interface ContractMapper {
 	public int contractApproval(Contract contract);
 
 	// 계약 승인 취소
-	public int contrcatCancel(Contract contract);
+	public int contractCancel(Contract contract);
+	
+	// 계약 검색기능
+	public List<Contract> contractListDetail(String getContractState);
 	
 	// 최종계약 캘린더
 	public List<Map<String, Object>> CalendarList();

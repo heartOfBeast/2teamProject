@@ -42,12 +42,14 @@ public class ContractService {
 	
 	
 	// 계약 신청 등록
+	
 	public int contractAdd(Contract contract) {
-		
-		int result = contractMapper.ContractAdd(contract);
-		
-		return result;
+	  
+	  int result = contractMapper.ContractAdd(contract);
+	  
+	  return result; 
 	}
+	 
 	
 	// 계약 승인
 	public int contractApproval(Contract contract) {
@@ -57,13 +59,18 @@ public class ContractService {
 		return result;
 	}
 	
-	
 	// 계약 승인 취소
-	public int contrcatCancel(Contract contract) {
+	public int contractCancel(Contract contract) {
 		
-		int result = contractMapper.contrcatCancel(contract);
+		int result = contractMapper.contractCancel(contract);
 		
 		return result;
+	}
+	
+	// 계약 검색기능
+	public List<Contract> contractListDetail(String getContractState){
+		
+		return contractMapper.contractListDetail(getContractState);
 	}
 	
 	

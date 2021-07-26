@@ -1,6 +1,8 @@
 package com.cafe2team.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.cafe2team.domain.CarManagement;
 import com.cafe2team.domain.Delivery;
@@ -121,15 +124,19 @@ public class ReleaseController {
 	}
 	
 	//운송장조회
-	@GetMapping("/wayBillSearch")
-	public String wayBillSearch(Model model) {
-		
-		List<Invoice> InvoiceList = releaseService.wayBillSearch();
-		
-		model.addAttribute("title", "운송장 조회");
-		model.addAttribute("InvoiceList", InvoiceList);
-		System.out.println(InvoiceList + "Controller");
-		
-		return "release/wayBillSearch";
-	}
+		@GetMapping("/wayBillSearch")
+		public String wayBillSearch(Model model
+								   ,@RequestParam(name="invoiceCode", required = false) String invoiceCode) {
+			
+			System.out.println(invoiceCode + "@@ 검색 결과");
+			
+			Map<String, Object> paramMap = new HashMap<String, Object>();
+			paramMap.put("invoiceCode", invoiceCode);
+			
+			List<Invoice> InvoiceList = releaseService.wayBillSearch(paramMap);
+			 model.addAttribute("title", "운송장 조회"); 
+			 model.addAttribute("InvoiceList", InvoiceList);
+			
+			return "release/wayBillSearch";
+		}
 }
