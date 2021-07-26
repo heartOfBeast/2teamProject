@@ -15,6 +15,9 @@ public interface VehicleMapper {
 	//등록
 	public int addVehicle(Vehicle vehicle);
 	
+	//수정화면
+	public List<Vehicle> getVehicleInfoByCode(String carCode);
+	
 	//수정
 	public int modifyVehicle(Vehicle vehicle);
 	
@@ -23,4 +26,7 @@ public interface VehicleMapper {
 	
 	//배차내역조회
 	public List<CarManagement> getCarManagementInfo(String releaseOrderCode);
+	
+	//차량번호중복체크
+	public int checkCarNumber(String carNumber);
 }

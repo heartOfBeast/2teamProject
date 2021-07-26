@@ -7,7 +7,7 @@
 	<th:block layout:fragment="pageTitle">
 		<div class="page-header">
 			<ol class="breadcrumb">
-				<li class="breadcrumb-item">Home</li>
+				<li class="breadcrumb-item">차량관리</li>
 				<li class="breadcrumb-item active">차량 등록</li>
 			</ol>
 		
@@ -76,7 +76,10 @@
 								<div class="form-group">
 									<input type="text" class="form-control" id="carNumCheck" name="carNumber" placeholder="차량번호를 입력해주세요." maxlength="8">
 								</div>
-									<div class="safeAddRadio">
+								<div class="form-group">
+									<button class="btn btn-primary btn-block active" type="button" id="checkNumber">차량번호 중복확인</button>
+								</div>	
+								<div class="safeAddRadio">
 									<span class="safeAddSpan">사용유무 : </span>
 									<div class="custom-control custom-radio custom-control-inline">
 										<input type="radio" id="carUse1" name=carUsingStatus class="custom-control-input" checked="checked" value="유">
@@ -100,6 +103,39 @@
 	</th:block>
 <th:block layout:fragment="customJs">
 	<script>
+		$('#checkNumber').click(function(){
+			var carNumber = $('#carNumCheck').val();
+			if(carNumber != null && carNumber != '' && carNumber != undefined){
+				$.ajax({
+					url : "/checkCarNumber",
+					method : 'post',
+					async : true,
+					dataType : "json",
+					data : {'carNumber':carNumber},
+					success: function(jdata){
+						if(jdata == 1){
+							alert('이미 등록된 차량번호입니다.');
+							$('#carNumCheck').focus();
+							$('#submitDone').attr('value','N');
+						}else if(jdata == 0){
+							var regCarNum = /^\d{3}[가-힣]\d{4}/.test($('#carNumCheck').val());
+							var regCarNum2 = /^\d{2}[가-힣]\d{4}/.test($('#carNumCheck').val());
+							if(!regCarNum && !regCarNum2){
+								alert('올바른 차량번호를 입력 후 중복확인을 해주세요.');
+								$('#carNumCheck').focus();
+								$('#submitDone').attr('value','N');
+							}else{
+								alert('등록 가능한 차량번호입니다.');
+								$('#submitDone').attr('value','Y');
+							}
+						}
+					}	
+				});
+			}else{
+				alert('차량번호를 입력해주세요.');
+				$('#carNumCheck').focus();
+			}
+		});
 		$('#submitDone').click(function(){
 			var addCarInfo = $('#addCarInfo');
 			var submitFlag = true;
@@ -115,7 +151,7 @@
 				$('#carStatusInfo').focus();
 				return submitFlag;
 			}else if(carUseYear == null || carUseYear == '' || carUseYear == undefined){
-				alert('차량사용 연식을 입력해주세요.');
+				alert('올바른 차량사용 연식을 입력해주세요.');
 				submitFlag = false;
 				$('#carUseYear').focus();
 				return submitFlag;
@@ -129,6 +165,17 @@
 				submitFlag = false;
 				$('#carNumCheck').focus();
 				return submitFlag;
+			}else if($('#submitDone').val() == null || $('#submitDone').val() == '' || $('#submitDone').val() == undefined){
+				alert('차량번호 중복검사를 완료해주세요.');
+				submitFlag = false;
+				$('#checkNumber').focus();
+				return submitFlag;
+			}else if($('#submitDone').val() == 'N'){
+				alert('등록되지 않은 차량번호를 입력해주세요.');
+				$('#submitDone').removeAttr('value');
+				submitFlag = false;
+				$('#carNumCheck').focus();
+				return submitFlag;
 			}
 			if(submitFlag){
 				$('#addCarInfo').submit(function(){
@@ -136,6 +183,7 @@
 				});
 			}
 		});
+		
 	</script>
 </th:block>	
 </html>

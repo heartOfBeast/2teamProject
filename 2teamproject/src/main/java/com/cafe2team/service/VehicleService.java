@@ -25,6 +25,11 @@ public class VehicleService {
 		return vehicleMapper.addVehicle(vehicle);
 	}
 	
+	public List<Vehicle> getVehicleInfoByCode(String carCode){
+		List<Vehicle> vehicle = vehicleMapper.getVehicleInfoByCode(carCode);
+		return vehicle;
+	}
+	
 	public int modifyVehicle(Vehicle vehicle) {
 		return vehicleMapper.modifyVehicle(vehicle);
 	}
@@ -37,4 +42,8 @@ public class VehicleService {
 		List<CarManagement> carManagement = vehicleMapper.getCarManagementInfo(releaseOrderCode);
 		return carManagement;
 	}
+	
+	public int checkCarNumber(String carNumber) {
+		return vehicleMapper.checkCarNumber(carNumber);
+	}	
 }
