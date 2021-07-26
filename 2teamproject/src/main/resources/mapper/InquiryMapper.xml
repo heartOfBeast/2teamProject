@@ -17,6 +17,17 @@
  		<result property="boardQnaRegDate" column="board_qna_reg_date"/>
   	</resultMap>
   	
+  	
+  	<!--조회수  -->
+  	<update id="addViews" parameterType="Inquiry">
+  		UPDATE tb_board
+			SET
+				board_qna_views=board_qna_views+1
+		
+			WHERE board_qna_code=#{boardQnaCode}
+  	
+  	</update>
+  	
   	<!--문의게시글 작성  -->
 	<insert id="writeInquiry" parameterType="Inquiry">
 		<selectKey keyProperty="boardQnaCode" keyColumn="board_qna_code" resultType="String" order="BEFORE">

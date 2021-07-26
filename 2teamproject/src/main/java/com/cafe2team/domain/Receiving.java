@@ -16,6 +16,7 @@ public class Receiving {
 	private String stockCode;
 	private String sectorColumnFinalCode;
 	private String stockAmount;
+	private String memberId;
 	
 	private WarehousingOrder warehousingOrder;
 	private Warehouse warehouse;
@@ -23,6 +24,7 @@ public class Receiving {
 	private WareAdmin wareAdmin;
 	private Product product;
 	private Stock stock;
+	private Member member;
 	public String getReceivingingCode() {
 		return receivingingCode;
 	}
@@ -143,6 +145,18 @@ public class Receiving {
 	public void setStockAmount(String stockAmount) {
 		this.stockAmount = stockAmount;
 	}
+	public String getMemberId() {
+		return memberId;
+	}
+	public void setMemberId(String memberId) {
+		this.memberId = memberId;
+	}
+	public Member getMember() {
+		return member;
+	}
+	public void setMember(Member member) {
+		this.member = member;
+	}
 	@Override
 	public String toString() {
 		return "Receiving [receivingingCode=" + receivingingCode + ", warehousingOrderCode=" + warehousingOrderCode
@@ -151,10 +165,11 @@ public class Receiving {
 				+ ", warehousingRealAmount=" + warehousingRealAmount + ", shoppingmallId=" + shoppingmallId
 				+ ", warehousingRegDate=" + warehousingRegDate + ", wareAdminId=" + wareAdminId + ", productCode="
 				+ productCode + ", stockCode=" + stockCode + ", sectorColumnFinalCode=" + sectorColumnFinalCode
-				+ ", stockAmount=" + stockAmount + ", warehousingOrder=" + warehousingOrder + ", warehouse=" + warehouse
-				+ ", shoppingmall=" + shoppingmall + ", wareAdmin=" + wareAdmin + ", product=" + product + ", stock="
-				+ stock + "]";
+				+ ", stockAmount=" + stockAmount + ", memberId=" + memberId + ", warehousingOrder=" + warehousingOrder
+				+ ", warehouse=" + warehouse + ", shoppingmall=" + shoppingmall + ", wareAdmin=" + wareAdmin
+				+ ", product=" + product + ", stock=" + stock + ", member=" + member + "]";
 	}
+	
 	
 
 }

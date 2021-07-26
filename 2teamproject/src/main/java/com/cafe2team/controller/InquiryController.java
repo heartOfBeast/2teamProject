@@ -79,11 +79,11 @@ public class InquiryController {
 								@RequestParam(value = "boardQnaCode", required = false)String boardQnaCode) {
 		//문의게시판 댓글조회
 		List<Reply> inquiryReply = replyService.getInquiryReply(boardQnaCode);
-		
+		int hitNum = inquiryService.addHit(boardQnaCode);
 		model.addAttribute("title", "게시글 조회");
 		model.addAttribute("readInquiry", inquiryService.readInquiry(boardQnaCode));
 		model.addAttribute("inquiryReply", inquiryReply);
-		
+		model.addAttribute("hitNum", hitNum);
 		return "inquiry/readInquiry";
 	}
 	

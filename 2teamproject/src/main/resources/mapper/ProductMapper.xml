@@ -37,20 +37,20 @@
 	<!--쇼핑몰 사업자 창고별 재고조회 -->
 	<select id="getProductAmountPerWarehouse" resultType="Product">
 		SELECT 
-			product_name				AS productName,
-			sector_stock_amount			AS sectorStockAmount,
-			sector_stock_status_code	AS sectorStockStatusCode,
-			warehouse_name				AS warehouseName
+			p.product_name						AS productName,
+			ss.stock_amount					AS stockAmount,
+			ss.stock_code						AS sectorStockStatusCode,
+			warehouse_name						AS warehouseName
 		FROM
 			tb_product AS p
 			INNER JOIN
-			tb_sector_stock_status AS sss
+			tb_stock_status AS ss
 			ON
-			p.product_code = sss.product_code
+			p.product_code = ss.product_code
 			INNER JOIN
 			tb_warehouse_sector_column_final AS wscf
 			ON
-			sss.sector_column_final_code = wscf.sector_column_final_code
+			ss.sector_column_final_code = wscf.sector_column_final_code
 			INNER JOIN
 			tb_warehouse AS w
 			ON

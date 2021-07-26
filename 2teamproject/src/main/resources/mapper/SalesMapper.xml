@@ -26,11 +26,16 @@
 			cf.contract_final_quantity			AS contractFinalQuantity,
 			cf.contract_final_pay				AS contractFinalPay,
 			cf.shoppingmall_user_id				AS contractFinalUser,
+			su.shoppingmall_user_name			AS contractFinalUserName,
 			cf.contract_final_warehouse_type	AS contractFinalWarehouseType,
 			cf.contract_final_state				AS contractState,
 			cf.contract_final_state_memo		AS contractStateMemo
 		FROM
 			tb_contract_final AS cf
+			INNER JOIN
+			tb_shoppingmall_user AS su
+			ON
+			cf.shoppingmall_user_id = su.shoppingmall_user_id
 		WHERE
 			cf.contract_final_state = '승인'
 	</select>
