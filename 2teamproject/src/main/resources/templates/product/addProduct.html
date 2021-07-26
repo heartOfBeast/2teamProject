@@ -59,7 +59,7 @@
 									</select>
 								</div>
 								<div class="form-group">
-									<input type="text" class="form-control" id="productAddCategory" name="productAddCategory" placeholder="추가카테고리" required="required">
+									<input type="text" class="form-control" id="productAddCategory" name="productAddCategory" placeholder="추가카테고리">
 								</div>
 								<div class="form-group">
 									<input type="text" class="form-control" id="productName" name="productName" placeholder="상품명" required="required">
@@ -94,7 +94,7 @@
 									</div>
 								</div>
 								<div class="form-group">
-									<textarea class="form-control" id="productDetail" name="productDetail" placeholder="productDetail" maxlength="140" rows="4" style="resize: none;"></textarea>
+									<textarea class="form-control" id="productDetail" name="productDetail" placeholder="상세설명" maxlength="140" rows="4" style="resize: none;"></textarea>
 								</div>
 							</div>
 						</div>
@@ -134,7 +134,7 @@
 						html += '</option>';
 					}
 				}else{
-					html = '<option value=""> :: 이건 뭐지? :: </option>';
+					html = '<option value=""> :: 선택된 결과가 없습니다 :: </option>';
 				}
 				console.log(html);
 				itemMiddleCategory.html(html);
@@ -166,7 +166,7 @@
 						html += '</option>';
 					}
 				}else{
-					html = '<option value=""> :: 이건 뭐지? :: </option>';
+					html = '<option value=""> :: 선택된 결과가 없습니다 :: </option>';
 				}
 				itemSmallCategory.html(html);
 			}); 

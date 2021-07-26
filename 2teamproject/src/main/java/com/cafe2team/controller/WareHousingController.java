@@ -104,9 +104,11 @@ public class WareHousingController {
 	//입고지시서 목록
 	@GetMapping("/receivingOrder")
 	public String receivingOrder(Model model) {
+		List<Shoppingmall> ShoppingmallUserName = warehousingOrderService.getShoppingmallUserName();
 		List<WarehousingOrder> WarehousingOrderList = warehousingOrderService.getWarehousingOrderList();
 		model.addAttribute("title", "입고지시서 목록");
 		model.addAttribute("WarehousingOrderList", WarehousingOrderList);
+		//model.addAttribute("ShoppingmallUserName", ShoppingmallUserName);
 		return "warehousing/receivingOrder";
 	}
 	//입고현황 - 관리자

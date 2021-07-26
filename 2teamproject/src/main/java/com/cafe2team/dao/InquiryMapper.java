@@ -18,4 +18,6 @@ public interface InquiryMapper {
 	//문의게시판 게시글 목록
 	public List<Inquiry> getInquiryList();
 
+	//문의게시판 조회수
+	public int addViews(String boardQnaCode);
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.cafe2team.domain.Receiving;
+import com.cafe2team.domain.Shoppingmall;
 import com.cafe2team.domain.WareSector;
 import com.cafe2team.domain.WarehousingOrder;
 
@@ -37,5 +38,8 @@ public interface WarehousingOrderMapper {
 	public int changeWarehousingStatusFromModal(String warehousingOrderCode);
 	//재고테이블에 재고 추가 혹은 재고수량 수정
 	public int insertOrUpdateStock(Receiving receiving);
+	
+	//입고지시서에서 검색조건 중 쇼핑몰명
+	public List<Shoppingmall> getShoppingmallUserName();
 
 }

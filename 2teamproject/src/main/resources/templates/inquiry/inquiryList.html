@@ -56,9 +56,7 @@
 									<td>
 										<input type="checkbox" class="checkOne" style="position: relative; top: 1.5px;" th:value="${l.boardQnaCode}">
 									</td>
-									<td>
-										<a th:href="@{/readInquiry}" th:text="${l.boardQnaCode}"></a>
-									</td>
+									<td th:text="${l.boardQnaCode}"></td>
 									<td>
 										<a th:href="@{/readInquiry(boardQnaCode=${l.boardQnaCode})}" th:value="${l.boardQnaCode}" th:text="${l.boardQnaSubject}"></a>
 									</td>

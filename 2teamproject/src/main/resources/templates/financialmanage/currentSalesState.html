@@ -40,7 +40,7 @@
 						<div class="card-title">#월간 매출 현황</div>
 					</div>
 					<div class="card-body">
-						<div id="basic-column-graph-monthlySales" class="primary-graph"></div>
+						<div id="basic-column-graph-datalables2" class="primary-graph"></div>
 					</div>
 				</div>
 			</div>
@@ -65,7 +65,8 @@
 							<th>종료일</th>
 							<th>수량</th>
 							<th>금액</th>
-							<th>쇼핑몰</th>
+							<th>쇼핑몰아이디</th>
+							<th>쇼핑몰명</th>
 							<th>보관유형</th>
 							<th>계약상태</th>
 							<th>메모</th>
@@ -85,6 +86,7 @@
 							<td th:text="${l.contractFinalQuantity}"></td>
 							<td th:text="${l.contractFinalPay}"></td>
 							<td th:text="${l.contractFinalUser}"></td>
+							<td th:text="${l.contractFinalUserName}"></td>
 							<td th:text="${l.contractFinalWarehouseType}"></td>
 							<td th:text="${l.contractState}"></td>
 							<td th:text="${l.contractStateMemo}"></td>
@@ -177,5 +179,173 @@
 		</div>
 	</form>			
 </th:block>
+<th:block layout:fragment="customJs">
+	<script th:inline="javascript">
+	var options = null;
+			/*******************************그래프양식(?)******************************************/
+	window.onload = function(){
 		
+		options = {
+				chart: {
+					height: 350,
+					type: 'bar',
+				},
+				plotOptions: {
+					bar: {
+						dataLabels: {
+							position: 'top', // top, center, bottom
+						},
+					}
+				},
+				dataLabels: {
+					enabled: true,
+					formatter: function (val) {
+						return val + "%";
+					},
+					offsetY: -20,
+					style: {
+						fontSize: '12px',
+						colors: ["#2e323c"]
+					}
+				},
+				series: [
+//					{
+//						name: '',
+//						data: []
+//					},
+//					{
+//						name: '',
+//						data: []
+//					}
+				],
+				xaxis: {
+					categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+					position: 'top',
+					labels: {
+						offsetY: -18,
+					},
+					axisBorder: {
+						show: false
+					},
+					axisTicks: {
+						show: false
+					},
+					crosshairs: {
+						fill: {
+							type: 'gradient',
+							gradient: {
+								colorFrom: '#225de4',
+								colorTo: '#81a3f0',
+								stops: [0, 100],
+								opacityFrom: 0.4,
+								opacityTo: 0.5,
+							}
+						}
+					},
+					tooltip: {
+						enabled: true,
+						offsetY: -35,
+					}
+				},
+				fill: {
+					gradient: {
+						shade: 'light',
+						type: "horizontal",
+						shadeIntensity: 0.25,
+						gradientToColors: undefined,
+						inverseColors: true,
+						opacityFrom: 1,
+						opacityTo: 1,
+						stops: [50, 0, 100, 100]
+					},
+				},
+				yaxis: {
+					axisBorder: {
+						show: false
+					},
+					axisTicks: {
+						show: false,
+					},
+					labels: {
+						show: false,
+						formatter: function (val) {
+							return val + "%";
+						}
+					}
+				},
+				title: {
+					text: '월간매출현황',
+					floating: true,
+					offsetY: 320,
+					align: 'center',
+					style: {
+						color: '#2e323c'
+					}
+				},
+				colors: ['#1646b3', '#194eca', '#225de4', '#4274e8', '#628cec', '#81a3f0'],
+			}
+			var chart = new ApexCharts(
+				document.querySelector("#basic-column-graph-datalables2"),
+				options
+			);
+			chart.render();
+			}
+	/****************************************************************************************************/
+		
+		/*<![CDATA[*/
+		var result =/*[[${salesList}]]*/;
+		/*]]>*/
+ 	
+		var resultSales =[];
+		var dupleSales =[];
+			for(var i=0; i<result.length; i++){
+				resultSales[i] = result[i].contractFinalUser;
+				if (dupleSales.indexOf(resultSales[i]) === -1) dupleSales.push(resultSales[i]);
+				
+			}
+			
+		var SeriesData= [];
+		
+		// data가 12달의 금액이 들어가는 배열이기때문에 배열의 길이를 12개로 초기화시킴
+		for(var i=0; i<dupleSales.length; i++){
+			SeriesData[i] = {name : dupleSales[i], data:[] };
+			SeriesData[i].data = new Array(12);
+		}
+		
+		
+		for(var i=0; i<result.length; i++){
+			for(var j=0; j<SeriesData.length; j++){
+					
+				var resultCateName = result[i].expenseCate;
+				var seriesCateName = SeriesData[j].name;
+				if(resultCateName == seriesCateName){
+					 var date = new Date(result[i].expenseDate);
+					 var m = date.getMonth();
+
+					 if(SeriesData[j].data[m] === undefined){
+						 SeriesData[j].data[m] = 0;
+					 }
+					 SeriesData[j].data[m] += parseInt(result[i].expensePayment);
+				}
+			}
+		}
+		
+		for(var i = 0; i < SeriesData.length; i++){
+			for(var j = 0; j < SeriesData[i].data.length; j++){
+				if(SeriesData[i].data[j] === undefined){
+					SeriesData[i].data[j] = 0;
+				}
+			}
+		}
+
+
+		
+
+
+
+
+		
+		
+	</script>
+</th:block>
 </html>
