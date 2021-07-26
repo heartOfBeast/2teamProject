@@ -13,7 +13,7 @@ public interface SafetyCheckMapper {
 	public List<SafetyCheck> getSafetyCheck();
 	
 	//수정화면 뿌리기
-	public SafetyCheck getSafetyCheckById(String facilityCode);
+	/* public SafetyCheck getSafetyCheckById(String facilityCode); */
 	
 	//안전점검 등록
 	public int addSafetyCheck(SafetyCheck safetyCheck);

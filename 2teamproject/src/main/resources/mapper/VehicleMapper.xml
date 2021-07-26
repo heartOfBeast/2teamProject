@@ -67,6 +67,24 @@
 		, NOW());
 	</insert>
 	
+	<select id="getVehicleInfoByCode" resultMap="vehicleResultMap" resultType="Vehicle" parameterType="String" fetchSize="1000">
+		SELECT 
+			car_code
+			, car_kind
+			, car_status
+			, car_status_detail
+			, car_using_year
+			, car_num
+			, car_using_status
+			, ware_admin_id
+			, car_reg_date
+			, car_update_date
+		FROM 
+			tb_car
+		WHERE
+			car_code= #{carCode};
+	</select>
+	
 	<update id="modifyVehicle" parameterType="Vehicle">
 		UPDATE tb_car
 		SET
@@ -103,5 +121,14 @@
 			tb_car_management
 		WHERE	
 			release_order_car = #{releaseOrderCode}	
+	</select>
+	
+	<select id="checkCarNumber" resultType="int" parameterType="String">
+		SELECT 
+			COUNT(*)
+		FROM 
+			tb_car 
+		WHERE 
+			car_num = #{carNumber}
 	</select>
 </mapper>
