@@ -67,10 +67,8 @@
 											<td th:text="${l.memberAccountStatus}"
 												class="dataAccountStatus"></td>
 											<td th:text="${l.memberIncentive}" class="dataIncentive"></td>
-											<td><a href="#mymodal" type="button"
-												onclick="getModify();" class="btn btn-primary modifyBtn"
-												data-toggle="modal" data-target=".bd-example-modal-lg"
-												id="viewModal">수정</a></td>
+											<td><a class="btn btn-primary float-right" id="modifyBtn" 
+												th:href="@{/adminUpdate(memberId = ${l.memberId})}">수정</a></td>
 									</tr>
 
 									<tr th:unless="${#lists.size(memberList) > 0}"
@@ -90,70 +88,6 @@
 		</div>
 	</th:block>
 
-	<form th:action="@{/myPageModal}" method="post">
-		<div class="modal fade bd-example-modal-lg" tabindex="-1"
-			role="dialog" aria-labelledby="myLargeModalLabel"
-			style="display: none;" aria-hidden="true">
-			<div class="modal-dialog modal-lg">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="myLargeModalLabel">수정하기</h5>
-						<button type="button" class="close" data-dismiss="modal"
-							aria-label="Close">
-							<span aria-hidden="true">×</span>
-						</button>
-					</div>
-					<div class="modal-body">
-						<input type="hidden" class="form-control" name="memberId"
-							id="memberId">
-						<div class="form-group">
-							<label for="phone">핸드폰 번호</label> <input type="text"
-								class="form-control" name="memberPhone" id="memberPhone"
-								placeholder="Enter PhoneNumber">
-						</div>
-						<div class="form-group">
-							<label for="email">이메일</label> <input type="text"
-								class="form-control" name="memberEmail" id="memberEmail"
-								placeholder="Enter email">
-						</div>
-						<div class="form-group"
-							th:if="${session.SLEVEL != null && session.SLEVEL=='총관리자'}">
-							<label for="authority">권한</label> <select class="form-control"
-								name="memberLevelcode" id="memberAuthority">
-								<option value="2">물류센터 창고관리자</option>
-								<option value="3">물류센터 창고 구역관리자</option>
-								<option value="4">물류센터 일반직원</option>
-								<option value="5">물류센터 배송기사</option>
-								<option value="6">쇼핑몰사업자</option>
-							</select>
-						</div>
-						<div class="form-group"
-							th:if="${session.SLEVEL != null && session.SLEVEL=='총관리자'}">
-							<label for="activation">활성화 여부</label> <input type="text"
-								class="form-control" name="memberAccountStatus"
-								id="memberActivation" placeholder="Enter activation">
-						</div>
-						<div class="form-group"
-							th:if="${session.SLEVEL != null && session.SLEVEL=='총관리자'}">
-							<label for="incentive">인센티브</label> <select class="form-control"
-								name="memberIncentive" id="memberIncentive">
-								<option value="A">A</option>
-								<option value="B">B</option>
-								<option value="C">C</option>
-								<option value="D">D</option>
-								<option value="E">E</option>
-								<option value="F">F</option>
-							</select>
-						</div>
-					</div>
-					<div class="modal-footer">
-						<button class="btn btn-secondary" data-dismiss="modal">Close</button>
-						<button type="submit" name="submit" class="btn btn-primary">Save</button>
-					</div>
-				</div>
-			</div>
-		</div>
-	</form>
 
 
 	<th:block layout:fragment="customJs">
@@ -162,31 +96,6 @@
 		<script src="js/jquery.min.js"></script>
 		<script type="text/javascript" th:inline="javascript">
 	
-		$('.modifyBtn').each(function(){
-			$(this).click(function(){
-				var dataId 				= $(this).parents('tr').children('.dataId').text();
-				var dataName 			= $(this).parents('tr').children('.dataName').text();
-				var dataLevel 			= $(this).parents('tr').children('.dataLevel').text();
-				var dataAddress 		= $(this).parents('tr').children('.dataAddress').text();
-				var dataEmail 			= $(this).parents('tr').children('.dataEmail').text();
-				var dataPhone 			= $(this).parents('tr').children('.dataPhone').text();
-				var dataRegDate 		= $(this).parents('tr').children('.dataRegDate').text();
-				var dataAccountStatus 	= $(this).parents('tr').children('.dataAccountStatus').text();
-				var dataIncentive 		= $(this).parents('tr').children('.dataIncentive').text();
-				
-				
-				var dataLevelSeleted = $('#memberAuthority option:contains(' + dataLevel + ')').val();
-				var dataIncentiveSeleted = $('#memberIncentive option:contains(' + dataIncentive + ')').val();
-				
-				
-				$('#memberId').val(dataId);
-				$('#memberPhone').val(dataPhone);
-				$('#memberEmail').val(dataEmail);
-				$('#memberAuthority').val(dataLevelSeleted);
-				$('#memberActivation').val(dataAccountStatus);
-				$('#memberIncentive').val(dataIncentiveSeleted);
-			})
-		});
 		
 		
 		$(function(){
@@ -303,9 +212,10 @@
 					html+= '<td class= "dataRegDate">' + value.memberRegDate + '</td>';
 					html+= '<td class= "dataAccountStatus">' + value.memberAccountStatus + '</td>';
 					html+= '<td class= "dataIncentive">' + value.memberIncentive + '</td>';
-					html+= '<td><a style="color: white;" type="button" class="btn btn-primary modifyBtn" data-toggle="modal" data-target=".bd-example-modal-lg" id="viewModal">수정</a></td>'
+					html+= '<td><a class="btn btn-primary float-right" type="button" id="modifyBtn" style="color: white;" href="/adminUpdate?memberId='+ value.memberId + '">수정</a></td>'
 					html+= '</tr>';
 				});
+				
 				
 				$('#tableList').html(html);
 					
@@ -317,34 +227,17 @@
 			});
 		}
 	
-	$(function(){
-		$(document).on('click', '.modifyBtn', function(){
-			var dataId 				= $(this).parents('tr').children('.dataId').text();
-			var dataName 			= $(this).parents('tr').children('.dataName').text();
-			var dataLevel 			= $(this).parents('tr').children('.dataLevel').text();
-			var dataAddress 		= $(this).parents('tr').children('.dataAddress').text();
-			var dataEmail 			= $(this).parents('tr').children('.dataEmail').text();
-			var dataPhone 			= $(this).parents('tr').children('.dataPhone').text();
-			var dataRegDate 		= $(this).parents('tr').children('.dataRegDate').text();
-			var dataAccountStatus 	= $(this).parents('tr').children('.dataAccountStatus').text();
-			var dataIncentive 		= $(this).parents('tr').children('.dataIncentive').text();
-			
-			
-			var dataLevelSeleted = $('#memberAuthority option:contains(' + dataLevel + ')').val();
-			var dataIncentiveSeleted = $('#memberIncentive option:contains(' + dataIncentive + ')').val();
-			
-			
-			$('#memberId').val(dataId);
-			$('#memberPhone').val(dataPhone);
-			$('#memberEmail').val(dataEmail);
-			$('#memberAuthority').val(dataLevelSeleted);
-			$('#memberActivation').val(dataAccountStatus);
-			$('#memberIncentive').val(dataIncentiveSeleted);
 		
-		})
-	})
-	
-	
+	$(function(){
+			$(document).on('click', '#modifyBtn', function(){
+				console.log(this);
+				
+				location.href = "/adminUpdate";
+			
+				
+			})
+		
+		});
 	
 	
 	

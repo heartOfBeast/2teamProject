@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,7 +30,14 @@ public class SampleController {
 	
 	// 샘플 출고 요청 리스트
 	@GetMapping("/sample")
-	public String sample(Model model) {
+	public String sample(Model model, HttpServletRequest request) {
+		
+	HttpSession session = request.getSession();
+	
+	session.setAttribute("SID", "sh001");
+	String id = (String) session.getAttribute("SID");
+	
+	
 		
 	List<Sample> sampleList = sampleService.getSampleList();
 		

@@ -391,6 +391,24 @@ public class MemberController {
 		
 	}
 	
+	@GetMapping("/adminUpdate")
+	public String adminUpdate(Model model, @RequestParam(value = "memberId") String memberId) {
+		
+		Member member = memberService.getMemberInfoById(memberId);
+		
+		model.addAttribute("member", member);
+	
+		return "member/adminUpdate";
+	}
+	
+	@PostMapping("/adminUpdate")
+	public String adminUpdate(Member member) {
+		
+		memberService.updateMember(member);
+		
+		return "redirect:/memberList";
+	}
+	
 }
 
 
