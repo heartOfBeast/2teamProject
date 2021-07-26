@@ -1,0 +1,22 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="@{layout/default}">
+
+		
+	<div class="card-body" th:fragment="searchFragment">
+		<form th:action="@{/wayBillSearch}" method="get">
+			<div class="row gutters">
+				<font style="vertical-align: inherit;">　　운송장번호:</font>
+				<div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
+					<div class="form-group">
+						<input type="text" class="form-control" id="invoiceCode" name="invoiceCode"
+							placeholder="운송장번호를 입력해주세요." >
+					</div>
+				</div>
+				<button class="btn btn-primary btn-sm" type="submit"
+					style="margin-bottom: 16px;">검색</button>
+			</div>
+		</form>
+	</div>
+</html>

@@ -1,6 +1,7 @@
 package com.cafe2team.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -40,5 +41,6 @@ public interface ReleaseMapper {
 	//출고리스트조회
 	public List<ReleaseInfo> getReleaseList();
 	
-	public List<Invoice> wayBillSearch();
+	// 운송장 조회
+	public List<Invoice> wayBillSearch(Map<String, Object> paramMap);
 }

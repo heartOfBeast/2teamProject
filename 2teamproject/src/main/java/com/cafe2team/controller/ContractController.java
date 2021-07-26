@@ -1,6 +1,11 @@
 package com.cafe2team.controller;
 
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,7 +15,9 @@ import org.json.simple.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -112,9 +119,39 @@ public class ContractController {
 	
 	// 계약신청 추가Modal
 	@PostMapping("/contractAdd")
-	public String contractAdd(Contract contract) {
+	public String contractAdd(Contract contract){
+
+		String start = contract.getContractFinalStart();
+		String name = contract.getPriceName();
+		System.out.println(start +"계약 시작 날짜");
+		System.out.println(name +"계약 이름");
+		System.out.println(contract);
 		
-		contractService.contractAdd(contract);
+		String[] namestr = name.split("_");
+		for(int i =0; i <namestr.length; i++) {
+			System.out.println(namestr[i] +"문자열 잘라서");
+		}
+		String numstr = namestr[2].replaceAll("[^0-9]",""); // 숫자만 추출
+		System.out.println(name + " ==> " + numstr);
+		
+		int strnum = Integer.parseInt(numstr); // 숫자 정수화
+		System.out.println(strnum + "기간 정수화 시킨거");
+		
+		DateFormat dateFormat = new SimpleDateFormat("yyy-MM-dd");
+		try {
+			Date date = dateFormat.parse(start);
+			
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(date);
+			cal.add(Calendar.DATE,strnum);
+			
+			System.out.println(dateFormat.format(cal.getTime())); // 시작날짜에 계약 기간 더해서 종료일 계산
+			contract.setContractFinalEnd(dateFormat.format(cal.getTime()));
+			contractService.contractAdd(contract);
+			
+		} catch(ParseException e) {
+			e.printStackTrace();
+		}
 		
 		return "redirect:/priceList";
 		
@@ -126,7 +163,7 @@ public class ContractController {
 	public String contractApproval(Model model) {
 		
 		List<Contract> contractList = contractService.ContractList();
-
+		
 		model.addAttribute("title", "계약 관리");
 		model.addAttribute("contractList", contractList);
 		
@@ -134,7 +171,7 @@ public class ContractController {
 	}
 	
 	// 계약 관리 승인
-	@PostMapping("/contrcatApproval")
+	@PostMapping("/contractApproval")
 	public String contractApproval(Contract contract) {
 		
 		contractService.contractApproval(contract);
@@ -143,12 +180,26 @@ public class ContractController {
 	}
 	
 	// 계약 관리 승인 취소
-	@PostMapping("/contrcatCancel")
-	public String contrcatCancel(Contract contract) {
+	@PostMapping("/contractCancel")
+	public String contractCancel(Contract contract) {
 		
-		contractService.contrcatCancel(contract);
+		contractService.contractCancel(contract);
 		
 		return "redirect:/contractApproval";
+	}
+	
+	//계약 검색기능
+	@RequestMapping("/contractListDetail")
+	@ResponseBody
+	public List<Contract> contractListDetail(@RequestParam Map<String, Object> param
+		  								    ,@ModelAttribute("Contract") Contract contract){
+		
+		String selectStateValue = (String)param.get("selectStateValue");
+		
+		List<Contract> data = contractService.contractListDetail(selectStateValue);
+		
+		
+		return data;
 	}
 	
 	/******************************** 계약 종료 ********************************/
