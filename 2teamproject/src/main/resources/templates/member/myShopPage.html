@@ -94,5 +94,34 @@
 </form>
 						
 </th:block>
+
+<th:block layout:fragment="customJs">
+
+	<script>
+	    $(function(){
+	    	$("#alert-success").hide();
+	    	$("#alert-danger").hide();
+	    	
+	    	$("input").keyup(function(){
+	    		var pwd1 = $("#password").val();
+	    		var pwd2 = $("#passwordCheck").val();
+	    		
+	    		if(pwd1 != "" || pwd2 != ""){
+	    			if(pwd1 == pwd2){
+	    				$("#alert-success").show();
+	    				$("#alert-danger").hide();
+	    				$("#signUp").removeAttr("disabled");
+	    			}else{
+	    				$("#alert-success").hide();
+	    				$("#alert-danger").show();
+	    				$("#signUp").Attr("disabled","disabled" );
+	    			}
+	    		}
+	    	});
+	    });
+	
+	</script>
+
+</th:block>
 		
 </html>
