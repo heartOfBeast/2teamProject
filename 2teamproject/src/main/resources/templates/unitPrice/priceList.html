@@ -47,7 +47,6 @@
 						<th>구역 개수</th>
 						<th>계약 기간</th>
 						<th>사용 요금</th>
-						<!-- <th>등록 날짜</th> -->
 						<th>수정</th>
 						<th>계약신청</th>
 					</tr>
@@ -65,7 +64,7 @@
 						<td th:text="${l.priceNumber}"		id="priceNumberData" ></td>
 						<td th:text="${l.priceZone}"		id="priceZoneData"></td>
 						<td th:text="${l.priceDay}" 		id="priceDayData"></td>
-						<td th:text="${l.pricePrice}"		id="priceData"></td>
+						<td th:text="${l.pricePrice+'원'}"		id="priceData"></td>
 						<td th:text="${l.unitPriceUpdate}"	id="unitPriceUpdateData" style="display: none;"></td>
 						<td>
 							<a type="button" class="btn btn-primary updateBtn" data-toggle="modal" data-target=".bd-example-modal-lg" id="updateModal" style="color: white;">수정</a>
@@ -242,8 +241,7 @@
 			})
 		});
 		
-		
-		
+	
 	</script>
 </th:block>
 </html>

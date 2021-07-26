@@ -18,21 +18,21 @@
 	<!-- 요금안내 조회 -->
 	<select id="getPriceList" resultType="Price" fetchSize="1000">
 		SELECT 
-			  Price.unit_price_code				AS priceCode
-			, Price.unit_price_name				as priceName
-			, Price.unit_price_warehouse_type	AS wareHouseType
-			, Price.unit_price_contract_type	AS contractType
-			, Price.unit_price_contract_weight	AS priceWeight
-			, Price.unit_price_contract_number	AS priceNumber
-			, Price.unit_price_contract_zone	AS priceZone
-			, Price.unit_price_contract_day		AS priceDay
-			, Price.unit_Price_Contract_Price	AS pricePrice
-			, Member.member_id					AS unitPriceId
-			, Price.unit_price_reg_date			AS unitPriceRegDate
+			  Price.unit_price_code							AS priceCode
+			, Price.unit_price_name							AS priceName
+			, Price.unit_price_warehouse_type				AS wareHouseType
+			, Price.unit_price_contract_type				AS contractType
+			, Price.unit_price_contract_weight				AS priceWeight
+			, Price.unit_price_contract_number				AS priceNumber
+			, Price.unit_price_contract_zone				AS priceZone
+			, Price.unit_price_contract_day					AS priceDay
+			, FORMAT(Price.unit_price_contract_price,0) 	AS pricePrice
+			, Member.member_id								AS unitPriceId
+			, Price.unit_price_reg_date						AS unitPriceRegDate
 		FROM 
-			tb_contract_unit_price				AS Price
+			tb_contract_unit_price							AS Price
 		INNER JOIN 
-			tb_member 							AS Member
+			tb_member 										AS Member
 		ON 
 			Price.member_id = Member.member_id;		
 	</select>
@@ -114,6 +114,7 @@
 			unit_price_code 			=  #{priceCode};
 	</update>
 	
+	<!-- 요금표 삭제 -->
 	<delete id="priceRemove" parameterType="String">
 		DELETE 
 		FROM 
