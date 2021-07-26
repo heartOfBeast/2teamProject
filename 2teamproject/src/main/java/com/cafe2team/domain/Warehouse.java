@@ -11,6 +11,8 @@ public class Warehouse {
 	private String warehouseDetail;
 	private String warehouseRegDate;
 	private String wareAdminId;
+	private String warehouseLat;
+	private String warehouseLon;
 	
 	private String sectorCode;
 	private String sectorName;
@@ -19,6 +21,7 @@ public class Warehouse {
 	private String wareSectorAdminId;
 	private String sectorUsing;
 	private String sectorPCode;
+	
 	
 	public String getSectorCode() {
 		return sectorCode;
@@ -122,15 +125,29 @@ public class Warehouse {
 	public void setSectorPCode(String sectorPCode) {
 		this.sectorPCode = sectorPCode;
 	}
+
+	public String getWarehouseLat() {
+		return warehouseLat;
+	}
+	public void setWarehouseLat(String warehouseLat) {
+		this.warehouseLat = warehouseLat;
+	}
+	public String getWarehouseLon() {
+		return warehouseLon;
+	}
+	public void setWarehouseLon(String warehouseLon) {
+		this.warehouseLon = warehouseLon;
+	}
 	@Override
 	public String toString() {
 		return "Warehouse [warehouseCode=" + warehouseCode + ", warehouseName=" + warehouseName + ", warehouseAddr="
 				+ warehouseAddr + ", warehouseCate=" + warehouseCate + ", warehouseArea=" + warehouseArea
 				+ ", warehousePhone=" + warehousePhone + ", warehouseRegNumber=" + warehouseRegNumber
 				+ ", warehouseDetail=" + warehouseDetail + ", warehouseRegDate=" + warehouseRegDate + ", wareAdminId="
-				+ wareAdminId + ", sectorCode=" + sectorCode + ", sectorName=" + sectorName + ", sectorAvailble="
-				+ sectorAvailble + ", sectorRegDate=" + sectorRegDate + ", wareSectorAdminId=" + wareSectorAdminId
-				+ ", sectorUsing=" + sectorUsing + ", sectorPCode=" + sectorPCode + "]";
+				+ wareAdminId + ", warehouseLat=" + warehouseLat + ", warehouseLon=" + warehouseLon + ", sectorCode="
+				+ sectorCode + ", sectorName=" + sectorName + ", sectorAvailble=" + sectorAvailble + ", sectorRegDate="
+				+ sectorRegDate + ", wareSectorAdminId=" + wareSectorAdminId + ", sectorUsing=" + sectorUsing
+				+ ", sectorPCode=" + sectorPCode + "]";
 	}
 
 	

@@ -19,7 +19,7 @@
 			<li class="header-menu">MENU</li>
 			
 			<!-- 창고메뉴 -->
-			<li class="sidebar-dropdown" th:if="${session.SLEVEL =='총관리자' or session.SLEVEL =='창고관리자' }">
+			<li class="sidebar-dropdown">
 				<a href="#">
 					<i class="icon-devices_other"></i>
 					<span class="menu-text">#창고(병윤)</span>
@@ -27,10 +27,13 @@
 				<div class="sidebar-submenu">
 					<ul>
 						<li>
-							<a th:href="@{/addWarehouse}">창고등록(병윤)</a>
+							<a th:href="@{/warehouse}">창고현황(병윤)</a>
 						</li>
 						<li>
-							<a th:href="@{/warehouseList}">창고조회(병윤)</a>
+							<a th:if="${session.SLEVEL =='총관리자' or session.SLEVEL =='창고관리자' }" th:href="@{/addWarehouse}">창고등록(병윤)</a>
+						</li>
+						<li>
+							<a th:if="${session.SLEVEL =='총관리자' or session.SLEVEL =='창고관리자' }" th:href="@{/warehouseList}">창고조회(병윤)</a>
 						</li>
 					</ul>
 				</div>

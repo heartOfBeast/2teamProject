@@ -13,6 +13,8 @@
 		<result property="warehouseRegNumber"		column="warehouse_reg_number"/>
 		<result property="warehouseDetail"			column="warehouse_detail"/>
 		<result property="warehouseRegDate"			column="warehouse_reg_date"/>
+		<result property="warehouseLat"				column="warehouse_lat"/>
+		<result property="warehouseLon"				column="warehouse_lon"/>
 	</resultMap>
 		
   	<resultMap type="warehouseSector" id="warehouseSectorResultMap">
@@ -135,6 +137,16 @@
 		tb_warehouse
 	ORDER BY
 		binary(warehouse_addr);
+	</select>
+	
+	<select id="getWarehouseLocation" resultType="Warehouse" fetchSize="1000" resultMap="warehouseResultMap">
+	SELECT 
+		warehouse_name,
+		warehouse_addr,
+		warehouse_lat,
+		warehouse_lon
+	FROM 
+		tb_warehouse;
 	</select>
 	
 	
