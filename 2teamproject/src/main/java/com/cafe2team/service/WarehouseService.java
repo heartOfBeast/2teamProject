@@ -58,4 +58,11 @@ public class WarehouseService {
 			int result = warehouseMapper.addWarehouseSector(warehouse);
 			return result;
 		}
+		
+		//창고위치
+		public List<Warehouse> getWarehouseLocation() {
+			List<Warehouse> getWarehouseLocation = warehouseMapper.getWarehouseLocation();
+			return getWarehouseLocation;
+		}
+		
 }

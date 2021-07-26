@@ -46,7 +46,6 @@
 				</select>
 				<div class="table-responsive">
 					<div id="basicExample_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
-					
 					<table id="copy-print-csv-KO" class="table custom-table">
 						<thead>
 						<tr>
@@ -157,8 +156,12 @@
 </th:block>
 
 <th:block layout:fragment="customJs">
-<script type="text/javascript" th:inline="javascript">
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=cb83fa3281ae2832bdd855af7e467813" ></script>
 
+<script type="text/javascript" th:inline="javascript">
+	//<![CDATA[
+	var test = [[${warehouseList}]];
+	//]]>
 
 	$(document).ready(function(){
 		$('#notSorting').removeClass('sorting');
@@ -190,10 +193,9 @@
 			$('#wareDetail').val(dataDetail);
 		})
 	})
+
 /********************************************* select 제이쿼리 이용 중복 제거 *********************************************/
-	//<![CDATA[
-	var test = [[${warehouseList}]];
-	//]]>
+
 	var warehouseName = [];
 	var warehouseAddr = [];
 	var warehouseCate = [];
@@ -239,6 +241,8 @@
 	$('#name').html(htmlName); 
 	$('#addr').html(htmlAddr); 
 	$('#cate').html(htmlCate); 
+	
+
 /********************************************* ajax Address 필터 *********************************************/	
 	
 /* 	var selectNameValue = "";

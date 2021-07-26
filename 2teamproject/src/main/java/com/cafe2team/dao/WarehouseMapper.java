@@ -26,4 +26,5 @@ public interface WarehouseMapper {
 	//창고구역등록(admin003,id004,사용가능)
 	public int addWarehouseSector(Warehouse warehouse);
 	
+	public List<Warehouse> getWarehouseLocation();
 }

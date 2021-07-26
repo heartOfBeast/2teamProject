@@ -154,5 +154,22 @@ public class WarehouseController {
 		return "warehouse/addWarehouse";
 	}
 	
+	@PostMapping("/getWarehouseLocation")
+	@ResponseBody
+	public List<Warehouse> getWarehouseLocation(Model model) {
+		List<Warehouse> getWarehouseLocation = warehouseservice.getWarehouseLocation();
+		
+		return getWarehouseLocation;
+	}
+
+	@GetMapping("/warehouse")
+	public String getWarehouse(Model model) {
+		
+		List<Warehouse> getWarehouse = warehouseservice.getWarehouseList();
+		model.addAttribute("title", "창고현황");
+		model.addAttribute("getWarehouse", getWarehouse);
+		
+		return "warehouse/warehouse";
+	}
 
 }
