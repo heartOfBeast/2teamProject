@@ -77,7 +77,9 @@
 			warehouse_reg_number,
 			warehouse_detail,
 			warehouse_reg_date,
-			ware_admin_id
+			ware_admin_id,
+			warehouse_lat,
+			warehouse_lon
 			)
 	VALUES (
 			#{warehouseCode},
@@ -89,7 +91,10 @@
 			#{warehouseRegNumber},
 			#{warehouseDetail},
 			CURDATE(),
-			#{wareAdminId});
+			#{wareAdminId},
+			#{warehouseLat},
+			#{warehouseLon}
+			);
 	</insert>
 	
 	<insert id="addWarehouseSector">
@@ -125,7 +130,7 @@
 	SELECT 
 		warehouse_code,
 		warehouse_name,
-		warehouse_addr,
+		SUBSTRING_INDEX(warehouse_addr, ' ', 3) AS warehouse_addr,
 		warehouse_cate,
 		warehouse_area,
 		warehouse_phone,
@@ -137,12 +142,15 @@
 		tb_warehouse
 	ORDER BY
 		binary(warehouse_addr);
+
 	</select>
 	
 	<select id="getWarehouseLocation" resultType="Warehouse" fetchSize="1000" resultMap="warehouseResultMap">
 	SELECT 
 		warehouse_name,
 		warehouse_addr,
+		warehouse_phone,
+		warehouse_cate,
 		warehouse_lat,
 		warehouse_lon
 	FROM 
@@ -154,7 +162,7 @@
 	SELECT 
 		warehouse_code,
 		warehouse_name,
-		warehouse_addr,
+		SUBSTRING_INDEX(warehouse_addr, ' ', 3) AS warehouse_addr,
 		warehouse_cate,
 		warehouse_area,
 		warehouse_phone,
@@ -166,7 +174,7 @@
 		tb_warehouse
 	WHERE
 	<if test="warehouse_addr !=null and warehouse_addr != '' ">
-		warehouse_addr = #{warehouse_addr}
+		SUBSTRING_INDEX(warehouse_addr, ' ', 3) = #{warehouse_addr}
 	</if>
 	<if test="(warehouse_addr !=null and warehouse_addr != '') and (warehouse_name !=null and warehouse_name != '' )">
 	AND
@@ -185,11 +193,10 @@
 	</select>
 	
 	<select id="getWarehouseListDetailAddr" resultType="Warehouse" fetchSize="1000" resultMap="warehouseResultMap">
-	
-	SELECT
+	SELECT 
 		warehouse_code,
 		warehouse_name,
-		warehouse_addr,
+		SUBSTRING_INDEX(warehouse_addr, ' ', 3) AS warehouse_addr,
 		warehouse_cate,
 		warehouse_area,
 		warehouse_phone,
@@ -200,7 +207,7 @@
 	FROM
 		tb_warehouse
 	WHERE
-		warehouse_addr = #{warehouse_addr}
+		SUBSTRING_INDEX(warehouse_addr, ' ', 3) = #{warehouse_addr}
 	ORDER BY
 		binary(warehouse_addr);
 	</select>
@@ -210,7 +217,7 @@
 	SELECT
 		warehouse_code,
 		warehouse_name,
-		warehouse_addr,
+		SUBSTRING_INDEX(warehouse_addr, ' ', 3) as warehouse_addr,
 		warehouse_cate,
 		warehouse_area,
 		warehouse_phone,
@@ -222,7 +229,7 @@
 		tb_warehouse
 	WHERE
 	<if test="warehouse_addr !=null and warehouse_addr != '' ">
-		warehouse_addr = #{warehouse_addr}
+		SUBSTRING_INDEX(warehouse_addr, ' ', 3) = #{warehouse_addr}
 	</if>
 	<if test="(warehouse_addr !=null and warehouse_addr != '') and (warehouse_name !=null and warehouse_name != '' )">
 	AND

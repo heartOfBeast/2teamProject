@@ -27,8 +27,24 @@
 </div>
 		
 </th:block>
-
 <th:block layout:fragment="container">
+   <style>
+    .wrap {position: absolute;left: 0;bottom: 40px;width: 288px;height: 132px;margin-left: -144px;text-align: left;overflow: hidden;font-size: 12px;font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;line-height: 1.5;}
+    .wrap * {padding: 0;margin: 0;}
+    .wrap .info {width: 286px;height: 120px;border-radius: 5px;border-bottom: 2px solid #ccc;border-right: 1px solid #ccc;overflow: hidden;background: #fff;}
+    .wrap .info:nth-child(1) {border: 0;box-shadow: 0px 1px 2px #888;}
+    .info .title {padding: 5px 0 0 10px;height: 30px;background: #eee;border-bottom: 1px solid #ddd;font-size: 18px;font-weight: bold;}
+    .info .close {position: absolute;top: 10px;right: 10px;color: #888;width: 17px;height: 17px;background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/overlay_close.png');}
+    .info .close:hover {cursor: pointer;}
+    .info .body {position: relative;overflow: hidden;}
+    .info .desc {position: relative;margin: 13px 0 0 90px;height: 75px;}
+    .desc .ellipsis {overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
+    .desc .jibun {font-size: 11px;color: #888;margin-top: -2px;}
+    .info .img {position: absolute;top: 6px;left: 5px;width: 73px;height: 71px;border: 1px solid #ddd;color: #888;overflow: hidden;}
+    .info:after {content: '';position: absolute;margin-left: -12px;left: 50%;bottom: 0;width: 22px;height: 12px;background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
+    .info .link {color: #5085BB;}
+</style>
+
 <div class="main-container">
 	<div class="row gutters">
 		<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
@@ -37,7 +53,7 @@
 					<div class="card-title">전국창고현황</div>
 				</div>
 				<div class="card-body">
-					<div id="map" style="width:1600px;height:650px;"></div>
+					<div id="map" style="width:1200px;height:650px;"></div>
 				</div>
 			</div>
 		</div>
@@ -53,92 +69,93 @@
 /********************************************* map test *********************************************/
 	var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
 	mapOption = { 
-	    center: new kakao.maps.LatLng(36.35111, 127.38500), // 지도의 중심좌표
+	    center: new kakao.maps.LatLng(36.35111, 127.68500), // 지도의 중심좌표
 	    level: 13// 지도의 확대 레벨
 	};
 
 	var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 	var positions = [];
+	
 	$.ajax({
-	url: "/getWarehouseLocation",
-	method: "POST",
-	dataType: "json",
-	success: function(data){
- 	console.log(data);
-		
-		for (var i = 0; i < data.length; i++){
-			positions.push({
-				title: data[i].warehouseName,
-				address: data[i].warehouseAddr,
-				latlng: new kakao.maps.LatLng(data[i].warehouseLat, data[i].warehouseLon),
-			});
+		url: "/getWarehouseLocation",
+		method: "POST",
+		dataType: "json",
+		async: false,
+		success: function(data){
+			
+			for (var i = 0; i < data.length; i++){
+				positions.push({
+					title: data[i].warehouseName,
+					address: data[i].warehouseAddr,
+					phone: data[i].warehousePhone,
+					cate: data[i].warehouseCate,
+					latlng: new kakao.maps.LatLng(data[i].warehouseLat, data[i].warehouseLon),
+				});
+			}
+			console.log(data);
+			for(var i = 0; i < positions.length; i++){
+				var locations = positions[i];
+				displayMarker(locations);
+			}
+		},
+		error: function(request, status, error){
+			console.log('error');
 		}
-	},
-	error: function(request, status, error){
-		console.log('error');
-	},
-	async: false
 	});
-	    
-	var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"; 
-	for (var i = 0; i < positions.length; i ++) {
-	    // 마커 이미지의 이미지 크기 입니다
-	    var imageSize = new kakao.maps.Size(24, 35); 
-	    // 마커 이미지를 생성합니다    
-	    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
-	    // 마커를 생성합니다
-	    var marker = new kakao.maps.Marker({
-	        map: map, // 마커를 표시할 지도
-	        position: positions[i].latlng, // 마커를 표시할 위치
-	        title : positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
-	        image : markerImage // 마커 이미지 
-	    });
-   
- 	    kakao.maps.event.addListener(marker, 'click', function() {
-  	        alert('test');
-  	    });
-
- 		}
 	
-	
-	
-/* for (var i = 0; i < positions.length; i ++) {
-    // 마커 생성
-    var marker = new kakao.maps.Marker({
-        map: map, // 마커를 표시할 지도
-        position: positions[i].latlng // 마커의 위치
-    });
-    
-    kakao.maps.event.addListener(marker, 'click', function() {
-        alert('test');
-    });
-    
-    // 마커에 표시할 인포윈도우를 생성합니다 
-    var infowindow = new kakao.maps.InfoWindow({
-        content: positions[i].content // 인포윈도우에 표시할 내용
-    });
-
-    // 마커에 mouseover 이벤트와 mouseout 이벤트를 등록합니다
-    // 이벤트 리스너로는 클로저를 만들어 등록합니다 
-    // for문에서 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
-    kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow));
-    kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
-	}
+	function displayMarker(locations) { 
 		
-	
-	// 인포윈도우를 표시하는 클로저를 만드는 함수입니다 
-	function makeOverListener(map, marker, infowindow) {
-	    return function() {
-	        infowindow.open(map, marker);
+	    var marker = new kakao.maps.Marker({
+	        map: map,
+	        position: locations.latlng
+	    });
+	    
+	    var addContent = 	'    <div class="info">' + 
+					        '        <div class="title">' + 
+					        			locations.title +  
+					        '        </div>' + 
+					        '        <div class="body">' + 
+					        '            <div class="img">' +
+					        '                <img src="https://cfile181.uf.daum.net/image/250649365602043421936D" width="73" height="70">' +
+					        '           </div>' + 
+					        '           <div class="desc">' + 
+					        '                <div class="ellipsis">' + locations.cate + '창고' + '</div>' +
+					        '                <div class="jibun ellipsis">' + locations.address + '</div>' +
+					        '                <div class="jibun ellipsis">' + locations.phone + '</div>' + 
+					        '                <div><a href="https://www.nlic.go.kr/nlic/marketWareSearch.action" target="_blank" class="link">홈페이지</a></div>' + 
+					        '            </div>' + 
+					        '        </div>' + 
+					        '    </div>';
+	    
+        var overlay = new kakao.maps.CustomOverlay({
+						   map: map,
+						   position: marker.getPosition() 
+					 });
+	    
+	    var content = document.createElement('div');
+	    content.className = 'wrap';
+	    
+	    $(content).html(addContent);
+	    
+	    var titleObj = $(content).find('div .title');
+	    
+	    var closeBtn = document.createElement('button');
+	    closeBtn.className = 'close';
+	    closeBtn.onclick = function () {
+	        overlay.setMap(null);
 	    };
+	    
+	    $(titleObj).append(closeBtn);
+	    
+	    overlay.setContent(content);
+
+	    kakao.maps.event.addListener(marker, 'click', function() {
+	        overlay.setMap(map);
+	    });
+	    
+	    $(content).find('button').click();
 	}
 	
-	// 인포윈도우를 닫는 클로저를 만드는 함수입니다 
-	function makeOutListener(infowindow) {
-	    return function() {
-	        infowindow.close();
-	    };
-	} */
 </script>
 </th:block>
 
