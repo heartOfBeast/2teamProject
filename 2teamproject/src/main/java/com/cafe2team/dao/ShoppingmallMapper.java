@@ -2,6 +2,7 @@ package com.cafe2team.dao;
 
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -20,6 +21,9 @@ public interface ShoppingmallMapper {
 	
 	// 쇼핑몰 사업자 권한 승인을 위한 조회 
 	public Shoppingmall shoppingmallInfo(String shoppingmallId);
+	
+	// 쇼핑몰 권한 승인 검색
+	public List<Shoppingmall> shoppingmallStatus(Map<String, Object> paramMap);
 	 
 	// 쇼핑몰 사업자 권한 승인
 	public int shoppingmallApproval(Shoppingmall shoppingmall);

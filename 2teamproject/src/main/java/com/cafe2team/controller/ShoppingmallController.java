@@ -1,7 +1,12 @@
 package com.cafe2team.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,21 +31,26 @@ public class ShoppingmallController {
 	}
 	
 	
-/******************************* 거래처 등록 시작 *******************************/
+/******************************* 거래처 등록 시작 
+ * @throws IOException *******************************/
 	
 	
 	
 	// 거래처 사업자 번호 확인
 	@GetMapping("/shoppingmallAdd")
-	public String shoppingmallAdd(@RequestParam(name = "shoppingmallId", required = false) String shoppingmallId
-								  ,HttpSession session
-								  ,Model model) {
+	public String shoppingmallAdd(Model model
+								 ,HttpSession session
+								 ,HttpServletResponse response
+								 ,@RequestParam(name = "shoppingmallId", required = false) String shoppingmallId
+								  
+								  ) throws IOException {
 		
 		Shoppingmall shoppingmall = shoppingmallService.shoppingmallInfo(shoppingmallId);	
 		
 		String SID = (String)session.getAttribute("SID");
 		String SNAME = (String)session.getAttribute("SNAME");
 		String SLEVEL = (String)session.getAttribute("SLEVEL");
+		String STATUS = (String)shoppingmall.getShoppingmallStatus();
 		String SPW = (String)shoppingmall.getShoppingmallPw();
 		String SADDR = (String)shoppingmall.getShoppingmallAddr();
 		String SEMAILL = (String)shoppingmall.getShoppingmallEmail();
@@ -50,14 +60,26 @@ public class ShoppingmallController {
 		System.out.println(SID);
 		System.out.println(SNAME);
 		System.out.println(SLEVEL);
+		System.out.println(STATUS);
 		System.out.println(SPW);
 		System.out.println(SADDR);
 		System.out.println(SEMAILL);
 		System.out.println(SPHONE);
 		System.out.println(ACCOUNT);
 		
+		if(SID == null || STATUS.equals("승인")){
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.println("<script>alert('이미 등록된 거래처입니다. \\n  \"메인\" 페이지로 전환됩니다.');</script>");
+			out.flush();
+			return "main/main";
+			
+		}else {
+			model.addAttribute("title", "거래처등록");
+			model.addAttribute("shoppingmall", shoppingmall);
+			
+		}
 		
-		System.out.println(SID);
 		
 		model.addAttribute("title", "거래처등록");
 		model.addAttribute("shoppingmall", shoppingmall);
@@ -94,11 +116,23 @@ public class ShoppingmallController {
 	
 	  // 거래처 권한 관리 리스트
 	  @GetMapping("/shoppingmallApproval") 
-	  public String Approval(Model model) {
+	  public String Approval(Model model
+			  				 ,@RequestParam(name="shoppingmallStatus", required = false) String shoppingmallStatus) {
 	  
+		  System.out.println(shoppingmallStatus + "@@ 검색 결과");
+
+		  Map<String, Object> paramMap = new HashMap<String, Object>();
+		  paramMap.put("shoppingmallStatus", shoppingmallStatus);
+		  
 		  List<Shoppingmall> shoppingmallList = shoppingmallService.shoppingmallList();
+		  List<Shoppingmall> ShoppingmallStatus = shoppingmallService.shoppingmallStatus(paramMap);
 		  model.addAttribute("title", "계약 및 권한 승인 페이지");
-		  model.addAttribute("shoppingmallList", shoppingmallList);
+		  if(shoppingmallStatus == null) {
+			  model.addAttribute("shoppingmallList", shoppingmallList);
+		  }else if(shoppingmallStatus != null) {
+			  model.addAttribute("shoppingmallList", ShoppingmallStatus);
+		  }
+		  
 		  
 		  return "shoppingmall/shoppingmallApproval"; 
 	  }

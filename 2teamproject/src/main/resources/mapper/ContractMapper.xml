@@ -97,7 +97,7 @@
 	</update>
 	
 	<!-- 계약승인 검색기능  -->
-	<select id="contractListDetail" resultType="Contract" parameterType="String">
+	<select id="contractState" resultType="Contract">
 		SELECT 
 			  contractFinal.contract_final_code					AS contractFinalCode
 			, contractFinal.unit_price_code						AS contractFinalPriceCode

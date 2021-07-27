@@ -1,6 +1,9 @@
 package com.cafe2team.controller;
 
 
+import java.awt.Color;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -10,20 +13,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cafe2team.domain.Contract;
 import com.cafe2team.domain.Price;
+import com.cafe2team.domain.Shoppingmall;
 import com.cafe2team.service.ContractService;
+import com.cafe2team.service.ShoppingmallService;
 import com.cafe2team.service.UnitPriceService;
 
 @Controller
@@ -31,11 +37,13 @@ public class ContractController {
 		
 	private final UnitPriceService unitPriceService;
 	private final ContractService contractService;
+	private final ShoppingmallService shoppingmallService;
 	
 	
-	public ContractController(UnitPriceService unitPriceService, ContractService contractService) {
+	public ContractController(UnitPriceService unitPriceService, ContractService contractService, ShoppingmallService shoppingmallService) {
 		this.unitPriceService = unitPriceService;
 		this.contractService = contractService;
+		this.shoppingmallService = shoppingmallService;
 	}
 	
 	/******************************** 요금안내 시작 ********************************/
@@ -102,7 +110,8 @@ public class ContractController {
 	
 	
 	
-	/******************************** 계약 시작  ********************************/
+	/******************************** 계약 시작  
+	 * @throws IOException ********************************/
 	
 	// 계약 신청 추가
 	@GetMapping("/contractAdd")
@@ -116,6 +125,8 @@ public class ContractController {
 		
 		return "contract/contractAdd";
 	}
+		
+		
 	
 	// 계약신청 추가Modal
 	@PostMapping("/contractAdd")
@@ -160,12 +171,23 @@ public class ContractController {
 	
 	// 계약관리 리스트
 	@GetMapping("/contractApproval")
-	public String contractApproval(Model model) {
+	public String contractApproval(Model model
+								  ,@RequestParam(name="contractState", required = false) String contractState) {
+		
+		System.out.println(contractState + "@@ 검색 결과");
+		
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("contractState", contractState);
 		
 		List<Contract> contractList = contractService.ContractList();
+		List<Contract> ContractState = contractService.contractState(paramMap);
 		
 		model.addAttribute("title", "계약 관리");
-		model.addAttribute("contractList", contractList);
+		if(contractState == null) {
+			model.addAttribute("contractList", contractList);
+		}else if(contractState != null) {
+			model.addAttribute("contractList", ContractState);
+		}
 		
 		return "contract/contractApproval";
 	}
@@ -188,19 +210,21 @@ public class ContractController {
 		return "redirect:/contractApproval";
 	}
 	
-	//계약 검색기능
-	@RequestMapping("/contractListDetail")
-	@ResponseBody
-	public List<Contract> contractListDetail(@RequestParam Map<String, Object> param
-		  								    ,@ModelAttribute("Contract") Contract contract){
-		
-		String selectStateValue = (String)param.get("selectStateValue");
-		
-		List<Contract> data = contractService.contractListDetail(selectStateValue);
-		
-		
-		return data;
-	}
+	/*
+	 * //계약 검색기능
+	 * 
+	 * @RequestMapping("/contractListDetail")
+	 * 
+	 * @ResponseBody public List<Contract> contractListDetail(@RequestParam
+	 * Map<String, Object> param ,@ModelAttribute("Contract") Contract contract){
+	 * 
+	 * String selectStateValue = (String)param.get("selectStateValue");
+	 * 
+	 * List<Contract> data = contractService.contractListDetail(selectStateValue);
+	 * 
+	 * 
+	 * return data; }
+	 */
 	
 	/******************************** 계약 종료 ********************************/
 	
@@ -213,6 +237,7 @@ public class ContractController {
 		return "contract/calendar";
 	}
 	
+	// 계약 스케줄관리
 	@PostMapping("/calendar")
 	@ResponseBody
 	public List<Map<String, Object>> CalendarList() {
@@ -221,11 +246,18 @@ public class ContractController {
 		JSONObject jsonObj = new JSONObject();
 		JSONArray jsonArr = new JSONArray();
 		HashMap<String, Object> hash = new HashMap<String, Object>();		
+		Color color = null;
 		
-		for(int i=0; i < list.size(); i++) {			
+		for(int i=0; i < list.size(); i++) {
+			color = new Color((int) (Math.random() * 256), (int) (Math.random() * 256), (int) (Math.random() * 256));
 			hash.put("title", list.get(i).get("contractFinalUserName")); //제목
 			hash.put("start", list.get(i).get("contractFinalStart")); //시작일자
 			hash.put("end", list.get(i).get("contractFinalEnd")); //종료일자
+			hash.put("backgroundColor", "rgb("+color.getBlue()+","+color.getGreen()+","+color.getRed()+")"); //종료일자
+			
+			//Integer.toHexString(color.getRGB());
+			System.out.println(color.getRGB());
+
 			
 			jsonObj = new JSONObject(hash); //중괄호 {key:value , key:value, key:value}
 			jsonArr.add(jsonObj); // 대괄호 안에 넣어주기[{key:value , key:value, key:value},{key:value , key:value, key:value}]
