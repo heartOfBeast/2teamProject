@@ -1,0 +1,18 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="@{layout/default}">
+
+		
+	<div class="card-body" th:fragment="searchFragment">
+		<form th:action="@{/contractApproval}" method="get">
+			<select id="contractState" name="contractState">
+				<option  value=""> :: 선택해주세요 :: </option>
+				<option  value="승인요청">승인요청</option>
+				<option  value="승인">승인</option>
+				<option  value="승인취소">승인취소</option>
+			</select>
+			<button type="submit" >검색</button>
+		</form>
+	</div>
+</html>

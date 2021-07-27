@@ -27,7 +27,7 @@ public interface ContractMapper {
 	public int contractCancel(Contract contract);
 	
 	// 계약 검색기능
-	public List<Contract> contractListDetail(String getContractState);
+	public List<Contract> contractState(Map<String, Object> paramMap);
 	
 	// 최종계약 캘린더
 	public List<Map<String, Object>> CalendarList();

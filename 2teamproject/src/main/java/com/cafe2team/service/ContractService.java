@@ -68,9 +68,9 @@ public class ContractService {
 	}
 	
 	// 계약 검색기능
-	public List<Contract> contractListDetail(String getContractState){
+	public List<Contract> contractState(Map<String, Object> paramMap){
 		
-		return contractMapper.contractListDetail(getContractState);
+		return contractMapper.contractState(paramMap);
 	}
 	
 	

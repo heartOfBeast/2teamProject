@@ -96,7 +96,6 @@
 	
 	<!-- 요금안내 수정 -->
 	<update id="priceUpdate" parameterType="Price">
-	
 		UPDATE 
 			tb_contract_unit_price
 		SET

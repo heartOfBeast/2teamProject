@@ -70,6 +70,30 @@
 			shoppingmall_user_id = #{shoppingmallId};
 	</select>
 	
+	<!-- 쇼핑몰 권한 승인 검색  -->
+	<select id="shoppingmallStatus" resultType="Shoppingmall">
+		SELECT 
+			  shoppingmall_user_id				AS shoppingmallId
+			, shoppingmall_user_pw				AS shoppingmallPw
+			, shoppingmall_user_name			AS shoppingmallUserName
+			, shoppingmall_name					AS shoppingmallName
+			, shoppingmall_level_code			AS shoppingmallLevel
+			, shoppingmall_user_address			AS shoppingmallAddr
+			, shoppingmall_user_email			AS shoppingmallEmail
+			, shoppingmall_user_phone			AS shoppingmallPhone
+			, shoppingmall_user_iden_num		AS shoppingmallNumber
+			, shoppingmall_user_reg_date		AS shoppingmallRegDay
+			, shoppingmall_bank					AS shoppingmallBank
+			, shoppingmall_bank_number			AS shoppingmallBankNum
+			, shoppingmall_user_status			AS shoppingmallStatus
+			, shoppingmall_user_cause  			AS shoppingmallStatusCause
+			, shoppingmall_user_update			AS shoppingmallUpdate
+		FROM 
+			tb_shoppingmall_user
+		WHERE
+			shoppingmall_user_status = #{shoppingmallStatus};
+	</select>
+	
 	<!-- 거래처 권한 승인 -->
 	<update id="shoppingmallApproval" parameterType="String">
 		UPDATE tb_shoppingmall_user

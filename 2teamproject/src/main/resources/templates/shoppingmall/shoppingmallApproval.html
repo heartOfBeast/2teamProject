@@ -32,13 +32,7 @@
 	<div class="row gutters">
 		<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 			<div class="table-container">
-				<div class="t-header">거래처 권한 승인</div>
-					<select id="authority" name="authority">
-						<option value=""> :: 전체보기 :: </option>
-						<option value="승인요청">승인요청</option> 
-						<option value="승인">승인</option>
-						<option value="승인취소">승인취소</option>
-					</select>
+				<div th:include="shoppingmall/Search :: searchFragment"></div>
 					<div class="table-responsive">
 						<table id="copy-print-csv" class="table custom-table">
 						<thead>
@@ -47,28 +41,28 @@
 							<th>거래처명</th>
 							<th>대표이름</th>
 							<th>사업자번호</th>
-							<th>거래처가입일</th>
+							<th>가입일</th>
 							<th>주거래은행</th>
 							<th>계좌번호</th>
 							<th>계정상태</th>
-							<th>추소사유</th>
-							<th>승인신청/처리일</th>
+							<th>상태 상세정보</th>
+							<th>계정 상태 날짜</th>
 							<th>승인</th>
 							<th>취소</th>
 						</tr>
 						</thead>
 						<tbody>
 							<tr th:each="l: ${shoppingmallList}">
-								<td th:text="${l.shoppingmallId}" 		id="shoppingmallIdData"	></td>
-								<td th:text="${l.shoppingmallName}"		id="shoppingmallNameData"></td>
-								<td th:text="${l.shoppingmallUserName}"	id="shoppingmallUserNameData"></td>
-								<td th:text="${l.shoppingmallNumber}"	id="shoppingmallNumberData"></td>
-								<td th:text="${l.shoppingmallRegDay}"	id="shoppingmallRegDayData"></td>
-								<td th:text="${l.shoppingmallBank}"		id="shoppingmallBankData"></td>
-								<td th:text="${l.shoppingmallBankNum}"	id="shoppingmallBankNumData"></td>
-								<td th:text="${l.shoppingmallStatus}"	id="shoppingmallStatusData"></td>
+								<td th:text="${l.shoppingmallId}" 			id="shoppingmallIdData"	></td>
+								<td th:text="${l.shoppingmallName}"			id="shoppingmallNameData"></td>
+								<td th:text="${l.shoppingmallUserName}"		id="shoppingmallUserNameData"></td>
+								<td th:text="${l.shoppingmallNumber}"		id="shoppingmallNumberData"></td>
+								<td th:text="${l.shoppingmallRegDay}"		id="shoppingmallRegDayData"></td>
+								<td th:text="${l.shoppingmallBank}"			id="shoppingmallBankData"></td>
+								<td th:text="${l.shoppingmallBankNum}"		id="shoppingmallBankNumData"></td>
+								<td th:text="${l.shoppingmallStatus}"		id="shoppingmallStatusData"></td>
 								<td th:text="${l.shoppingmallStatusCause}"	id="shoppingmallStatusCauseData"></td>
-								<td th:text="${l.shoppingmallUpdate}"	id="shoppingmallUpdateData"></td>
+								<td th:text="${l.shoppingmallUpdate}"		id="shoppingmallUpdateData"></td>
 								<td>
 									<a type="button" class="btn btn-primary Btn" data-toggle="modal" data-target=".bd-example-modal-lg1" id="updateModal" style="color: white;">승인</a>
 								</td>
