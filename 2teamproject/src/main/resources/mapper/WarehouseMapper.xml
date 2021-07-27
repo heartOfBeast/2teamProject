@@ -130,7 +130,7 @@
 	SELECT 
 		warehouse_code,
 		warehouse_name,
-		SUBSTRING_INDEX(warehouse_addr, ' ', 3) AS warehouse_addr,
+		warehouse_addr,
 		warehouse_cate,
 		warehouse_area,
 		warehouse_phone,
@@ -162,7 +162,7 @@
 	SELECT 
 		warehouse_code,
 		warehouse_name,
-		SUBSTRING_INDEX(warehouse_addr, ' ', 3) AS warehouse_addr,
+		warehouse_addr,
 		warehouse_cate,
 		warehouse_area,
 		warehouse_phone,
@@ -174,7 +174,7 @@
 		tb_warehouse
 	WHERE
 	<if test="warehouse_addr !=null and warehouse_addr != '' ">
-		SUBSTRING_INDEX(warehouse_addr, ' ', 3) = #{warehouse_addr}
+		SUBSTRING_INDEX(warehouse_addr, ' ', 2) = #{warehouse_addr}
 	</if>
 	<if test="(warehouse_addr !=null and warehouse_addr != '') and (warehouse_name !=null and warehouse_name != '' )">
 	AND
@@ -196,7 +196,7 @@
 	SELECT 
 		warehouse_code,
 		warehouse_name,
-		SUBSTRING_INDEX(warehouse_addr, ' ', 3) AS warehouse_addr,
+		warehouse_addr,
 		warehouse_cate,
 		warehouse_area,
 		warehouse_phone,
@@ -207,7 +207,7 @@
 	FROM
 		tb_warehouse
 	WHERE
-		SUBSTRING_INDEX(warehouse_addr, ' ', 3) = #{warehouse_addr}
+		SUBSTRING_INDEX(warehouse_addr, ' ', 2) = #{warehouse_addr}
 	ORDER BY
 		binary(warehouse_addr);
 	</select>
@@ -217,7 +217,7 @@
 	SELECT
 		warehouse_code,
 		warehouse_name,
-		SUBSTRING_INDEX(warehouse_addr, ' ', 3) as warehouse_addr,
+		warehouse_addr,
 		warehouse_cate,
 		warehouse_area,
 		warehouse_phone,
@@ -229,7 +229,7 @@
 		tb_warehouse
 	WHERE
 	<if test="warehouse_addr !=null and warehouse_addr != '' ">
-		SUBSTRING_INDEX(warehouse_addr, ' ', 3) = #{warehouse_addr}
+		SUBSTRING_INDEX(warehouse_addr, ' ', 2) = #{warehouse_addr}
 	</if>
 	<if test="(warehouse_addr !=null and warehouse_addr != '') and (warehouse_name !=null and warehouse_name != '' )">
 	AND
