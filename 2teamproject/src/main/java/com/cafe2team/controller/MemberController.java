@@ -308,11 +308,14 @@ public class MemberController {
 				session.setAttribute("SID", shop.getShoppingmallId());
 				session.setAttribute("SLEVEL", shop.getShoppingmallLevel());
 				session.setAttribute("SNAME", shop.getShoppingmallName());
+				session.setAttribute("STATUS", shop.getShoppingmallStatus());
 				
 				String sidcehck = shop.getShoppingmallId();
+				String status = shop.getShoppingmallStatus();
 				
-				log.info("========================={}" 
-						+ sidcehck);
+				
+				log.info("========================={}" + sidcehck);
+				log.info("========================={}" + status);
 				
 				return "redirect:/main";
 
@@ -408,6 +411,36 @@ public class MemberController {
 		
 		return "redirect:/memberList";
 	}
+	
+	@PostMapping("/shopMemberDelete")
+	@ResponseBody
+	public int shopMemberDelete(	@RequestParam(value = "password") String password,
+									@RequestParam(value = "shopMemberId") String shopMemberId,
+									@RequestParam(value = "shopDeleteCheck") boolean shopDeleteCheck,
+									HttpSession session) {
+		
+		String checkId = (String) session.getAttribute("SID");
+		
+		if(shopDeleteCheck = true && shopMemberId != "" && password != "" && shopMemberId.equals(checkId) ) {
+			
+			log.info("================{}",checkId);
+			log.info(password);
+			
+			int shopWithdrawal = memberService.shopMemberDelete(password);
+			
+			session.invalidate();
+			
+			return shopWithdrawal;
+			
+		}else {
+			
+			
+			return 0;
+		}
+
+	}
+	
+	
 	
 }
 

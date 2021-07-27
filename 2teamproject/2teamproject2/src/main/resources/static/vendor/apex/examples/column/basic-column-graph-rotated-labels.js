@@ -89,9 +89,9 @@ var options = {
   },
 }
 
-var chart = new ApexCharts(
-  document.querySelector("#basic-column-graph-rotated-labels"),
-  options
-);
-
-chart.render();
+//var chart = new ApexCharts(
+//  document.querySelector("#basic-column-graph-rotated-labels"),
+//  options
+//);
+//
+//chart.render();

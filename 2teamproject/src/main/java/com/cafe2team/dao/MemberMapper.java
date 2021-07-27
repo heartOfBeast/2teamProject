@@ -62,6 +62,8 @@ public interface MemberMapper {
 	//Admin 아이디 찾기
 	public Member getAdminAjaxId(String adminMemberEmail);
 	
+	//거래처 회원탈퇴
+	public int shopMemberDelete(String shopMemberPassword);
 	
 	
 }
