@@ -85,7 +85,8 @@ var options = {
 		floating: true,
 		offsetY: 320,
 		align: 'center',
-		style: {
+		style: {chart.render();
+
 			color: '#2e323c'
 		}
 	},

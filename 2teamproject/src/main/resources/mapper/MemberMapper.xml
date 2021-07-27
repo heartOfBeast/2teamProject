@@ -373,5 +373,14 @@
 		</if>
 		
 	</select>
+	
+	<delete id="shopMemberDelete" parameterType="String">
+	DELETE 
+	FROM 
+		tb_shoppingmall_user 
+	WHERE 
+		shoppingmall_user_pw=#{shoppingmallPw};
+	
+	</delete>
 
 </mapper>

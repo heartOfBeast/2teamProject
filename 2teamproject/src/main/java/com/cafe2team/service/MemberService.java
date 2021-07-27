@@ -153,6 +153,11 @@ public class MemberService {
 		return member;
 	}
 	
+	public int shopMemberDelete(String shopMemberPassword) {
+		
+		return memberMapper.shopMemberDelete(shopMemberPassword);
+	}
+	
 
 	
 }
