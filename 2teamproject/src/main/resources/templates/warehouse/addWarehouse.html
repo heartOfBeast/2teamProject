@@ -41,7 +41,7 @@
 					<div class="card m-0">
 						<div class="card-header">
 							<div class="card-title">창고등록</div>
-							<div class="card-sub-title">창고명과 소재지를 입력해주세요.</div>
+							<div class="card-sub-title">창고의 정보들을 입력해주세요.</div>
 						</div>
 						<div class="card-body">
 							<div class="form-group">
@@ -51,10 +51,14 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label for="warehouseAddr">상세주소</label>
-								<input type="text" class="form-control" id="api_address" name="warehouseAddr" placeholder="주소" required="required"/>
-								<input type="button" onclick="api_execDaumPostcode()" value="주소 검색" />
-								<div id="map" style="width:300px;height:300px;margin-top:10px;display:none"></div>
+								<label for="warehouseAddr">소재지</label>
+								<div class="input-group">
+									<input type="text" class="form-control" id="api_address" name="warehouseAddr" placeholder="주소검색버을 눌러주세요." readonly required="required"/>
+										<div class="input-group-append">
+											<input type="button" class="btn btn-primary" onclick="api_execDaumPostcode()" value="주소 검색" />
+										</div>
+								</div>
+								<div id="map" style="width:600px;height:300px;margin-top:10px;display:none"></div>
 							</div>
 							<div class="form-group" >
 								<input type="text" class="hidden-col" id="api_address_lat" name="warehouseLat" placeholder="위도" required="required"/>
