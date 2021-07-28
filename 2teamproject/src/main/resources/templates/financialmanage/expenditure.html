@@ -323,55 +323,58 @@
 		  document.querySelector("#basic-column-stack-graph-fullheight2"),
 		  options
 		);
-		chart2.render();
+	chart2.render();
 	}//fn onload end
 	
 	/*******************************************그래프 데이터처리 *****************************************************************/
 		/*<![CDATA[*/
 		var result =/*[[${expenditureList}]]*/;
 		/*]]>*/
- 	
-		var resultExpenCate =[];
-		var dupleExpenCate =[];
-			for(var i=0; i<result.length; i++){
-				resultExpenCate[i] = result[i].expenseCate;
-				if (dupleExpenCate.indexOf(resultExpenCate[i]) === -1) dupleExpenCate.push(resultExpenCate[i]);
+ 		var expenGraph = function(result){
+			var resultExpenCate =[];
+			var dupleExpenCate =[];
+				for(var i=0; i<result.length; i++){
+					resultExpenCate[i] = result[i].expenseCate;
+					if (dupleExpenCate.indexOf(resultExpenCate[i]) === -1) dupleExpenCate.push(resultExpenCate[i]);
+					
+				}
 				
+			var SeriesData= [];
+			
+			// data가 12달의 금액이 들어가는 배열이기때문에 배열의 길이를 12개로 초기화시킴
+			for(var i=0; i<dupleExpenCate.length; i++){
+				SeriesData[i] = {name : dupleExpenCate[i], data:[] };
+				SeriesData[i].data = new Array(12);
 			}
 			
-		var SeriesData= [];
-		
-		// data가 12달의 금액이 들어가는 배열이기때문에 배열의 길이를 12개로 초기화시킴
-		for(var i=0; i<dupleExpenCate.length; i++){
-			SeriesData[i] = {name : dupleExpenCate[i], data:[] };
-			SeriesData[i].data = new Array(12);
-		}
-		
-		
-		for(var i=0; i<result.length; i++){
-			for(var j=0; j<SeriesData.length; j++){
-					
-				var resultCateName = result[i].expenseCate;
-				var seriesCateName = SeriesData[j].name;
-				if(resultCateName == seriesCateName){
-					 var date = new Date(result[i].expenseDate);
-					 var m = date.getMonth();
-
-					 if(SeriesData[j].data[m] === undefined){
-						 SeriesData[j].data[m] = 0;
-					 }
-					 SeriesData[j].data[m] += parseInt(result[i].expensePayment);
+			
+			for(var i=0; i<result.length; i++){
+				for(var j=0; j<SeriesData.length; j++){
+						
+					var resultCateName = result[i].expenseCate;
+					var seriesCateName = SeriesData[j].name;
+					if(resultCateName == seriesCateName){
+						 var date = new Date(result[i].expenseDate);
+						 var m = date.getMonth();
+	
+						 if(SeriesData[j].data[m] === undefined){
+							 SeriesData[j].data[m] = 0;
+						 }
+						 SeriesData[j].data[m] += parseInt(result[i].expensePayment);
+					}
 				}
 			}
-		}
-		
-		for(var i = 0; i < SeriesData.length; i++){
-			for(var j = 0; j < SeriesData[i].data.length; j++){
-				if(SeriesData[i].data[j] === undefined){
-					SeriesData[i].data[j] = 0;
+			
+			for(var i = 0; i < SeriesData.length; i++){
+				for(var j = 0; j < SeriesData[i].data.length; j++){
+					if(SeriesData[i].data[j] === undefined){
+						SeriesData[i].data[j] = 0;
+					}
 				}
 			}
+			return SeriesData;
 		}
+ 		var SeriesData = expenGraph(result);
 		/***********************************************삭제처리 **************************************************/
 		$(function(){
 			$('#expenseAll').click(function(){
@@ -455,16 +458,22 @@
 					html += '</tr>'
 					
 				});
+
 				$('#expenseData').append(html);
 				fn_modifyDetail();	
 				setSelectedYearToDG();
 				
-// 				options.series = SeriesData;
+				//그래프 처리 사작
+				var SeriesData= [];
+				SeriesData = expenGraph(res);//그래프에 들어갈 데이터를 처리하는 함수 호출
+				options.series = SeriesData;
+				$("#basic-column-stack-graph-fullheight2").children().remove();
 				var chart2 = new ApexCharts(
 					  document.querySelector("#basic-column-stack-graph-fullheight2"),
 					  options
 					);
 				chart2.render();
+				//그래프 처리 끝
 				
 				}//success end
 			})	

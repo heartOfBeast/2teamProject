@@ -9,7 +9,6 @@ public class Notice {
 		private String memberid;
 		private String noticeRegdate;
 		private String noticeViews;
-		private String noticeTemp;
 		public String getNoticeCode() {
 			return noticeCode;
 		}
@@ -46,19 +45,14 @@ public class Notice {
 		public void setNoticeViews(String noticeViews) {
 			this.noticeViews = noticeViews;
 		}
-		public String getNoticeTemp() {
-			return noticeTemp;
-		}
-		public void setNoticeTemp(String noticeTemp) {
-			this.noticeTemp = noticeTemp;
-		}
 		@Override
 		public String toString() {
 			return "Notice [noticeCode=" + noticeCode + ", noticeSubject=" + noticeSubject + ", noticeContent="
 					+ noticeContent + ", memberid=" + memberid + ", noticeRegdate=" + noticeRegdate + ", noticeViews="
-					+ noticeViews + ", noticeTemp=" + noticeTemp + "]";
+					+ noticeViews + "]";
 		}
 	
+		
 		
 	
 }
