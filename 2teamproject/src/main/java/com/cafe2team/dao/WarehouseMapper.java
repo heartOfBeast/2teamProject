@@ -23,8 +23,11 @@ public interface WarehouseMapper {
 	public List<Warehouse> getWarehouseList();
 	//창고등록
 	public int addWarehouse(Warehouse warehouse);
-	//창고구역등록(admin003,id004,사용가능)
+	//창고구역등록
 	public int addWarehouseSector(Warehouse warehouse);
+	
+	//창고최종위치등록
+	public int addWarehouseFinalSector(Warehouse warehouse);
 	
 	public List<Warehouse> getWarehouseLocation();
 }

@@ -59,6 +59,12 @@ public class WarehouseService {
 			return result;
 		}
 		
+		//창고최종위치등록
+		public int addWarehouseFinalSector(Warehouse warehouse) {
+			int result = warehouseMapper.addWarehouseFinalSector(warehouse);
+			return result;
+		}
+		
 		//창고위치
 		public List<Warehouse> getWarehouseLocation() {
 			List<Warehouse> getWarehouseLocation = warehouseMapper.getWarehouseLocation();

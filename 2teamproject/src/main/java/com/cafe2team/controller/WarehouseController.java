@@ -30,19 +30,6 @@ public class WarehouseController {
 		this.warehouseservice = warehouseservice;
 	}
 
-	@PostMapping("/warehouseCheck")
-	@ResponseBody
-	public boolean warehouseCheck(@RequestParam(name = "warehouseCode", required = false) String warehouseCode) {
-		boolean codeCheck = true;
-
-		Warehouse warehouse = warehouseservice.getWarehouseInfoByCode(warehouseCode);
-
-		if (warehouse != null)
-			codeCheck = false;
-
-		return codeCheck;
-	}
-
 	/************************************************************
 	 * 창고정보수정 모달
 	 ************************************************************/
@@ -54,6 +41,7 @@ public class WarehouseController {
 
 		return "redirect:/warehouseList";
 	}
+	
 	//창고상세정보 주소
 	@PostMapping("/warehouseListDetailAddr")
 	@ResponseBody
@@ -66,6 +54,7 @@ public class WarehouseController {
 		log.info("warehouseList", warehouseList);
 		return warehouseList;
 	}
+	
 	//창고상세정보 창고이름
 	@PostMapping("/warehouseListDetailName")
 	@ResponseBody
@@ -80,8 +69,8 @@ public class WarehouseController {
 		log.info("warehouseList", warehouseList);
 		return warehouseList;
 	}
+	
 	//창고상세정보 창고종류
-
 	@PostMapping("/warehouseListDetailCate")
 	@ResponseBody
 	public List<Warehouse> warehouseListDetailCate(@RequestParam Map<String, Object> param, Model model){
@@ -98,9 +87,7 @@ public class WarehouseController {
 		return warehouseList;
 	}
 	
-	/************************************************************
-	 * 창고조회
-	 ************************************************************/
+	 //창고조회
 	@GetMapping("/warehouseList")
 	public String getWarehouseList(Model model) {
 
@@ -111,10 +98,7 @@ public class WarehouseController {
 		return "warehouse/warehouseList";
 	}
 
-	/************************************************************
-	 * 창고등록
-	 * @throws IOException 
-	 ************************************************************/
+	//창고등록
 	@PostMapping("/addWarehouse")
 	public String addWarehouse(Warehouse warehouse
 								,HttpSession session
@@ -131,6 +115,8 @@ public class WarehouseController {
 			warehouse.setWareSectorAdminId(SID);
 			warehouseservice.addWarehouse(warehouse);
 			warehouseservice.addWarehouseSector(warehouse);
+			warehouse.setWareSectorAdminId(SID);
+			warehouseservice.addWarehouseFinalSector(warehouse);
 			reAttr.addAttribute("wareAdminId", SID);
 			log.info("warehouse", warehouse);
 		}
