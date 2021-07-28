@@ -9,7 +9,6 @@
 		<result property="memberid"		column="member_id"/>
 		<result property="noticeRegdate"		column="notice_reg_date"/>
 		<result property="noticeViews"		column="notice_views"/>
-		<result property="noticeTemp"		column="notice_temp"/>
 
 	</resultMap>
 	
@@ -21,8 +20,7 @@
 		notice_content,
 		member_id,
 		notice_reg_date,
-		notice_views,
-		notice_temp
+		notice_views
 	FROM
 		tb_notice;
 	</select>
