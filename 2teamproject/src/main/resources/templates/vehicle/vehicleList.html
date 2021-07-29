@@ -121,7 +121,7 @@
 							</div>
 							<label for="carNumCheckModal">번호판</label>
 							<div class="form-group">
-								<input type="text" class="form-control" id="carNumCheckModal" name="carNumber" placeholder="차량번호를 입력해주세요." maxlength="8">
+								<input type="text" class="form-control" id="carNumCheckModal" name="carNumber" placeholder="차량번호를 입력해주세요." maxlength="8" readonly="readonly" style="background-color: white;">
 							</div>
 							<div class="form-group">
 							<label for="carUsingStatusModal">사용유무</label>	
@@ -177,7 +177,8 @@
 	</th:block>
 <th:block layout:fragment="customJs">
 	<script>
-		
+	
+	/********수정처리 유효성********/
 		$('#submitDone').click(function(){
 			var modifyCarInfo = $('#modifyCarInfo');
 			var submitFlag = true;
@@ -203,6 +204,7 @@
 			}
 		});
 		
+		/********삭제처리********/
 		$(function(){
 			$('#checkAll').click(function(){
 				if($('#checkAll').prop('checked')){
@@ -249,10 +251,10 @@
 			}
 		}
 		
+		/********배차내역********/
 		$('.getInfoBtn').each(function(){
 			$(this).click(function(){
 				var releaseOrderCode = $(this).parents('tr').children('#carCodeData').text();
-				console.log(releaseOrderCode);
 				if(releaseOrderCode != null){
 					$.ajax({
 						url : "/getCarmanagementInfo",
@@ -262,9 +264,6 @@
 						data : {'releaseOrderCode':releaseOrderCode},
 						success: function(data){
 							if(data != null && data != '' && data != undefined){
-								console.log(true);
-								console.log(data[0].driveManageCode);
-								console.log(data);
 								for(var i=0; i<data.length; i++){
 									var carManagementData = 	
 												'<tr>' +
@@ -280,7 +279,6 @@
 									$('#tbodyModal').children('tr').remove();
 								});
 							}else{
-								console.log(false);
 								var carManagementData = 	
 											'<tr>' +
 											'<td colspan="5" style="text-align: center;">' + '데이터가 없습니다.' + '</td>' +
@@ -297,10 +295,10 @@
 			})
 		})
 		
+		/********수정화면********/
 		$('.modifyBtn').each(function(){
 			$(this).click(function(){
 				var carCode = $(this).parents('tr').children('#carCodeData').text();
-				console.log(carCode);
 				if(carCode != null){
 					$.ajax({
 						url : "/modifyVehicle",

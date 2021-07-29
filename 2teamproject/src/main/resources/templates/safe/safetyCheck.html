@@ -137,6 +137,7 @@
 </th:block>
 <th:block layout:fragment="customJs">
 	<script>
+	/********삭제처리********/
 			$(function(){
 				$('#checkAll').click(function(){
 					if($('#checkAll').prop('checked')){
@@ -180,9 +181,10 @@
 					}
 				}
 			}
+	
 			$('.modifyBtn').each(function(){
 				$(this).click(function(){
-					var facilityCheckData = $(this).parents('tr').children('#facilityCheckData').text();
+					/* var facilityCheckData = $(this).parents('tr').children('#facilityCheckData').text();
 					var facilityFiresafetyData = $(this).parents('tr').children('#facilityFiresafetyData').text();
 					var facilityLogisticsData = $(this).parents('tr').children('#facilityLogisticsData').text();
 					var facilityMainEquipemntData = $(this).parents('tr').children('#facilityMainEquipemntData').text();
@@ -198,7 +200,30 @@
 					$('#logisticsInspection').val(logisticsDataSelected);
 					$('#equipmentInspection').val(equipemntDataSelected);
 					$('#facilityCode').val(facilityCodeData);
-					$('#wareHouseCodeModal').val(warehouseCodeData);
+					$('#wareHouseCodeModal').val(warehouseCodeData); */
+					
+					var facilityCode = $(this).parents('tr').children('#facilityCodeData').text();
+					if(facilityCode != null){
+						$.ajax({
+							url : "/modifySafetyCheck",
+							method : 'get',
+							async : true,
+							dataType : "json",
+							data : {'facilityCode':facilityCode},
+							success: function(data){
+								if(data != null && data != '' && data != undefined){
+									$('#facilityCode').val(data[0].facilityCode);
+									$('#wareHouseCodeModal').val(data[0].warehouseCode);
+									$('#fireInspection').val(data[0].facilityFiresafety);
+									$('#logisticsInspection').val(data[0].facilityLogistics);
+									$('#equipmentInspection').val(data[0].facilityMainEquipemnt);
+									$('#facilityCheckModal').val(data[0].facilityCheck);
+								}else{
+									alert('오류발생');
+								}
+							}
+						})
+					}
 				})
 			})
 			$('#modifySafetyCheck').submit(function(){
