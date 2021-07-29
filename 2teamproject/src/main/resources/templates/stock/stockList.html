@@ -330,7 +330,7 @@
 		}); 
 		
 		request.done(function( data ) {
-			console.log(data);
+//			console.log(data);
 			var html = '';
 			/************중복제거 시작 ***************/		
 			var dataMCate = []
@@ -339,7 +339,7 @@
 			});
 			dataMCate = [...new Set(dataMCate)];
 			/************중복제거 끝 ***************/			
-			console.log(dataMCate);
+//			console.log(dataMCate);
 			if(data != undefined && data != '' && data.length > 0){
 				html += '<option value=""> :: 중분류 선택 :: </option>';
 				for(var i=0; i < dataMCate.length; i++){
@@ -351,7 +351,7 @@
 				}else{
 					html = '<option value=""> :: 재 선 택 :: </option>';
 				}
-				console.log(html);
+//				console.log(html);
 				middleCategory.html(html);
 				$('#stockData').children().remove();
 				
@@ -431,7 +431,7 @@ var smallCategory = $('#smallCategory');
 			}); 
 		
 		request.done(function( data ) {
-			console.log(data);
+//			console.log(data);
 //			alert('test');
 			var html = '';
 			/************중복제거 시작 ***************/			
@@ -452,7 +452,7 @@ var smallCategory = $('#smallCategory');
 				}else{
 					html = '<option value=""> :: 이건 재선택 :: </option>';
 				}
-				console.log(html);
+//				console.log(html);
 				smallCategory.html(html);
 			
 				$('#stockData').children().remove();
@@ -530,7 +530,7 @@ var smallCategory = $('#smallCategory');
 		
 		request.done(function( data ) {
 //			alert('test');
-			console.log(data);
+//			console.log(data);
 			
 				$('#stockData').children().remove();
 				
@@ -715,7 +715,7 @@ var smallCategory = $('#smallCategory');
 	var spmOptions = null;
 		spmOptions = {
 			chart: {
-				width: 300,
+				width: 320,
 				type: 'pie',
 			},
 			labels: [],
