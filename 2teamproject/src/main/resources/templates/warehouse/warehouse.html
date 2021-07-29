@@ -64,6 +64,7 @@
 <th:block layout:fragment="customJs">
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=cb83fa3281ae2832bdd855af7e467813" ></script>
 
+
 <script type="text/javascript" th:inline="javascript">
 
 /********************************************* map test *********************************************/
@@ -92,7 +93,7 @@
 					latlng: new kakao.maps.LatLng(data[i].warehouseLat, data[i].warehouseLon),
 				});
 			}
-			console.log(data);
+//			console.log(data);
 			for(var i = 0; i < positions.length; i++){
 				var locations = positions[i];
 				displayMarker(locations);

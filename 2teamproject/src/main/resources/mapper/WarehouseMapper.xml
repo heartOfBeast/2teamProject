@@ -28,6 +28,15 @@
 			<result property="sectorPCode"			column="sector_product_code" />
 	</resultMap>
 	
+  	<resultMap type="warehouseFinalSector" id="warehouseFinalSectorResultMap">
+			<result property="finalSectorCode"			column="sector_column_final_code" />
+			<result property="finalSectorWareCode"		column="warehouse_code" />
+			<result property="finalSectorSectorCode"	column="sector_code" />
+			<result property="finalSectorMemberId"		column="member_id" />
+			<result property="finalSectorRegDate"		column="sector_column_final_reg_date" />
+			<result property="finalSectorRegId"			column="ware_admin_id" />
+	</resultMap>
+	
 	<update id="warehouseUpdateModal" parameterType="Warehouse">
 		UPDATE tb_warehouse
 		SET
@@ -123,6 +132,33 @@
 			 NOW(),
 			 #{wareSectorAdminId},
 			 '사용가능'
+			);
+	</insert>
+	
+	<insert id="addWarehouseFinalSector">
+		<selectKey keyColumn="sector_column_final_code,sector_code,warehouse_code" keyProperty="finalSectorCode,finalSectorWareCode,finalSectorSectorCode" resultType="MAP" order="BEFORE"><!-- 
+			SELECT CAST(CONCAT('w','',(SELECT LPAD(COUNT(*),3,'0')FROM tb_warehouse),'_','s001','_','001','_','001') AS CHAR) AS sector_column_final_code, CAST(CONCAT('w','',(SELECT LPAD(COUNT(*),3,'0')FROM tb_warehouse),'_','s001') AS CHAR) AS sector_code, CAST(CONCAT('w','',(SELECT LPAD(COUNT(*),3,'0')FROM tb_warehouse)) AS CHAR) AS warehouse_code;
+		 -->
+		 SELECT CAST(CONCAT('w','',(SELECT LPAD(COUNT(*),3,'0')FROM tb_warehouse),'_','s001','_','001','_','001') AS CHAR) AS sector_column_final_code, CAST(CONCAT('w','',(SELECT LPAD(COUNT(*),3,'0')FROM tb_warehouse),'_','s001') AS CHAR) AS sector_code, CAST(CONCAT('w','',(SELECT LPAD(COUNT(*),3,'0')FROM tb_warehouse)) AS CHAR) AS warehouse_code;
+		 </selectKey>
+
+	INSERT INTO 
+		tb_warehouse_sector_column_final
+			(
+			sector_column_final_code,
+			warehouse_code,
+			sector_code,
+			member_id,
+			sector_column_final_reg_date,
+			ware_admin_id
+			)
+	VALUES (
+			#{finalSectorCode},
+			#{finalSectorSectorCode},
+			#{finalSectorWareCode},
+			 'id002',
+			 NOW(),
+			 'admin001'
 			);
 	</insert>
 	

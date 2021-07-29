@@ -58,7 +58,7 @@
 											<input type="button" class="btn btn-primary" onclick="api_execDaumPostcode()" value="주소 검색" />
 										</div>
 								</div>
-								<div id="map" style="width:600px;height:300px;margin-top:10px;display:none"></div>
+								<div id="map" style="width:450px;height:300px;margin-top:10px;display:none"></div>
 							</div>
 							<div class="form-group" >
 								<input type="text" class="hidden-col" id="api_address_lat" name="warehouseLat" placeholder="위도" required="required"/>
@@ -142,8 +142,8 @@
 						    
 						   var lon = coords[Object.keys(coords)[0]];
 						   var lat = coords[Object.keys(coords)[1]];
- 							console.log("============위도" + lat);
-							console.log("============경도" + lon);
+// 							console.log("============위도" + lat);
+//							console.log("============경도" + lon);
 							$('#api_address').val(addr);
 							$('#api_address_lat').val(lat);
 							$('#api_address_lon').val(lon);
