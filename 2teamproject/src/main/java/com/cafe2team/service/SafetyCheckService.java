@@ -27,11 +27,12 @@ public class SafetyCheckService {
 		return safetyCheck;
 	}
 	
-	/*
-	 * public SafetyCheck getSafetyCheckById(String facilityCode) {
-	 * 
-	 * return safetyCheckMapper.getSafetyCheckById(facilityCode); }
-	 */
+	
+	  public List<SafetyCheck> getSafetyCheckById(String facilityCode) {
+	  
+	  return safetyCheckMapper.getSafetyCheckById(facilityCode); 
+	  }
+	 
 	
 	public int addSafetyCheck(SafetyCheck safetyCheck) {
 		return safetyCheckMapper.addSafetyCheck(safetyCheck);

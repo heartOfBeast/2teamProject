@@ -260,7 +260,7 @@
 	</insert>
 	
 	<update id="releaseStock" parameterType="ReleaseInfo">
-		UPDATE tb_stock_status_backup
+		UPDATE tb_stock_status
 		SET
 			stock_amount= stock_amount - #{releaseRealAmount}
 			,release_order_quantity= #{releaseRealAmount}

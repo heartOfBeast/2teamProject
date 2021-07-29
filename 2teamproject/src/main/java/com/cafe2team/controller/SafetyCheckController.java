@@ -78,18 +78,13 @@ public class SafetyCheckController {
 	}
 	
 	//수정화면
-	/*
-	 * @GetMapping("/modifySafetyCheck") public String modifySafetyCheck(Model
-	 * model, @RequestParam(name = "facilityCode" ,required = false)String
-	 * facilityCode) { log.info("=============================");
-	 * log.info("facilityCode : {}", facilityCode);
-	 * log.info("============================="); SafetyCheck safetyCheck =
-	 * safetyCheckService.getSafetyCheckById(facilityCode); List<Warehouse>
-	 * warehouse = safetyCheckService.getWareHouseInfo();
-	 * model.addAttribute("title", "안전점검수정"); model.addAttribute("safetyCheck",
-	 * safetyCheck); model.addAttribute("warehouse", warehouse); return
-	 * "safe/modifySafetyCheck"; }
-	 */
+	
+	@GetMapping("/modifySafetyCheck") 
+	@ResponseBody
+	public List<SafetyCheck> modifySafetyCheck(@RequestParam(name = "facilityCode" ,required = false)String facilityCode){
+		List<SafetyCheck> safetyCheck = safetyCheckService.getSafetyCheckById(facilityCode); 
+		return safetyCheck; 
+	}
 	
 	
 	//수정실행
