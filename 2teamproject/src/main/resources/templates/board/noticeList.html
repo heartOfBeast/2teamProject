@@ -7,7 +7,7 @@
 <div class="page-header">
 	<ol class="breadcrumb">
 		<li class="breadcrumb-item">고객센터</li>
-		<li class="breadcrumb-item active">공지사항</li>
+		<li class="breadcrumb-item active">공지사항 게시판</li>
 	</ol>
 
 	<ul class="app-actions">
@@ -24,27 +24,29 @@
 		</li>
 	</ul>
 </div>
+</th:block>
+
 
 <th:block layout:fragment="container">
+	<!-- Main container start -->
 	<div class="main-container">
-	<!-- Row start -->
+	
+					<!-- Row start -->
 					<div class="row gutters">
 						<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-
-							<div class="card">
-								<div class="card-body">
-									<div class="table-responsive">
-										<table class="table table-bordered table-sm">
+							<div class="table-container">
+								<div class="t-header">문의게시판</div>			
+								<div class="table-responsive">
+									<table id="basicExample" class="table custom-table m-0">
 											<thead>
 												<tr>
 													<th>
 													<input type="checkbox" id="checkAll" style="position: relative; top: 1.5px;">
 													</th>
-													<th class="noticeCode">공지사항코드</th>
+													<th class="noticeCode">번  호</th>
 													<th class="noticeSubject">제  목</th>
-													<th class="noticeContent">내  용</th>
 													<th class="noticeWriter">작성자</th>
-													<th class="noticeRegdate">작성날짜</th>
+													<th class="noticeRegdate">등록일</th>
 													<th class="noticeViews">조회수</th>
 												</tr>
 											</thead>
@@ -55,28 +57,26 @@
 													</td>
 													<td th:text="${l.noticeCode}"></td>
 													<td>
-														<a th:href="@{/readInquiry(boardQnaCode=${l.boardQnaCode})}" th:value="${l.boardQnaCode}" th:text="${l.boardQnaSubject}"></a>
+														<a th:href="@{/noticeRead(noticeCode=${l.noticeCode})}" th:value="${l.noticeCode}" th:text="${l.noticeSubject}"></a>
 													</td>
-													<td th:text="${l.boardQnaWriter}"></td>
-													<td th:text="${l.boardQnaViews}"></td>
-													<td th:text="${l.boardQnaRegDate}"></td>
+													<td th:text="${l.memberid}"></td>
+													<td th:text="${l.noticeRegdate}"></td>
+													<td th:text="${l.noticeViews}"></td>
 												</tr>
 											</tbody>
 										</table>
-								 <span>
-									 <a th:href="@{/noticeInsert}" class="btn btn-primary float-right">글쓰기</a>
-								 </span>
+										<div class="writeNoticeBtn custom-btn-group">
+											<button type="button" class="btn btn-primary" th:onclick="@{location.href='noticeInsert'}">글쓰기</button>
+			    						</div>
 									</div>
-								</div>
-							</div>
-
+									<!-- 공지사항 게시판 리스트 끝 -->
 						</div>
 					</div>
-					<!-- Row end -->
-			
-
+				</div>
+				<!-- Row end -->
 	</div>
+	<!-- Main container end -->
 </th:block>
 
-		
+	
 </html>

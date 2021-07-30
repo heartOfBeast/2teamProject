@@ -1,0 +1,163 @@
+<!doctype html>
+<html
+	xmlns:th="http://www.thymeleaf.org"
+ 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="@{layout/default}">
+<title th:text="${title}"></title>
+
+<th:block layout:fragment="pageTitle">
+<div class="page-header">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item">고객관리</li>
+		<li class="breadcrumb-item active">공지사항 게시판</li>
+	</ol>
+
+	<ul class="app-actions">
+		<li>
+			<a href="#" id="reportrange">
+				<span class="range-text"></span>
+				<i class="icon-chevron-down"></i>	
+			</a>
+		</li>
+		<li>
+			<a href="#">
+				<i class="icon-export"></i>
+			</a>
+		</li>
+	</ul>
+</div>
+</th:block>
+
+<th:block layout:fragment="container">
+	<!-- Main container start -->
+	<div class="main-container">
+
+		<!-- Row start -->
+		<div class="row gutters justify-content-center">
+			<div class="col-xl-5 col-lg-5 col-md-6 col-sm-6 col-12">
+
+					<div class="card m-0">
+						<div class="card-header">
+							<div class="card-sub-title">공지사항 게시판</div>
+							
+						</div>
+						<div class="card-body">
+							<div class="form-group">
+								<label for="noticeCode" class="col-form-label">번호</label>
+								<input type="text" id="noticeCode" th:value="${noticeRead.noticeCode}" readonly class="form-control">
+							</div>
+							<div class="form-group">
+								<label for="noticeSubject" class="col-form-label">제목</label>
+								<input type="text" id="noticeSubject" th:value="${noticeRead.noticeSubject}" readonly class="form-control">
+							</div>
+							<div class="form-group">
+								<label for="memberid" class="col-form-label">작성자</label>
+								<input type="text" id="memberid" th:value="${noticeRead.memberid}" readonly class="form-control">
+							</div>
+							<div class="form-group">
+								<label for="noticeContent" class="col-form-label">내용</label>
+							 	<textarea id="noticeContent" readonly class="form-control" th:text="${noticeRead.noticeContent}" rows="20" ></textarea>
+								
+							</div>
+							
+						</div>
+					</div>
+							<button type="button" id="deleteNoticeBtn" class="btn btn-primary float-right" style="margin: 5px;">삭제</button>
+							<a th:href="@{/modifyNotice(noticeCode=${noticeRead.noticeCode})}" class="btn btn-primary float-right"style="margin: 5px;">수정</a>
+
+				<!--댓글목록 -->
+				<div class="media comments" th:each="l:${noticeReply}">
+					<div class="media-body">
+						<h5 class="mt-0 media-heading" th:text="${l.memberId}"><span class="date"></span></h5>
+						<p th:text="${l.replyCommentContent}"></p>
+						<div class="comments-footer clearfix">
+							<ul>
+								<li>
+									<button id="writeReReply" class="btn btn-outline-primary float-right">답글</button>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<!--댓글 목록  -->
+					<!-- 댓글작성 -->
+					<div class="clearfix comments-form">
+						<div class="form-group">
+							<label class="control-label"><b>댓글달기</b></label>
+							<textarea id="replyContent" class="form-control textarea" rows="3" placeholder="내용을 적어주세요"></textarea>
+						</div>
+						<div class="form-group clearfix">
+							<button id="insertBtn" class="btn btn-primary float-right">댓글달기</button>
+						</div>
+					</div>
+				<!-- 댓글작성 -->
+				
+	
+			</div>
+		</div>
+		<!-- Row end -->
+
+	</div>
+	<!-- Main container end -->
+
+		
+</th:block>
+<th:block layout:fragment="customJs">
+	<script>
+		$(function(){
+			$('#insertBtn').click(function(){
+ 				var replyContent = $('#replyContent').val();
+ 				var noticeCode = $('#noticeCode').val();
+ 				if(replyContent==null||replyContent==''||replyContent==undefined){
+					alert('내용을 입력해주세요') 					
+ 				}else{
+ 					
+	 				var request = $.ajax({
+	 					  url: "/noticeReadInfo",
+	 					  method: "GET",
+	 					  data: { 'replyContent' : replyContent,
+	 							  'noticeCode' : noticeCode
+	 							},
+	 					  dataType: "text"
+	 					});
+	 					 
+	 					request.done(function( data ) {
+	 						
+							alert('성공');
+							location.reload();
+	 					});
+	 					 
+	 					request.fail(function( jqXHR, textStatus ) {
+	 					  alert( "Request failed: " + textStatus );
+	 					});
+ 				}	
+			});
+
+		});
+
+		$('#deleteInquiryBtn').click(function(){
+			var noticeCode = $('#noticeCode').val();
+			var chk = confirm('정말 삭제하시겠습니까?');
+			if(chk){
+				$.ajax({
+					url : "/deleteNotice",
+					method : 'post',
+					async : true,
+					dataType : "json",
+					data : {noticeCode : noticeCode},
+					success: function(jdata){
+						if(jdata != 1){
+							alert('오류 : 삭제 실패');
+						}else{
+							alert('삭제 되었습니다.');
+							location.replace("noticeList");
+						}
+					}
+		    	});
+			}else{
+				return false;
+			}
+		})
+	</script>
+</th:block>
+</html>
