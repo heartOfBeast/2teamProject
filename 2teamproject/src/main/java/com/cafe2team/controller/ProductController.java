@@ -1,6 +1,7 @@
 	package com.cafe2team.controller;
 
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -121,10 +122,22 @@ public class ProductController {
 
 	// 상풍목록
 	@GetMapping("/productList")
-	public String productList(Model model) {
+	public String productList(Model model
+								,@RequestParam(name="searchKey", required = false) String searchKey
+								,@RequestParam(name="searchValue", required = false) String searchValue) {
+
+		log.info("========================================");
+		log.info("화면에서 입력받은 값(회원목록) searchKey: {}", searchKey);
+		log.info("화면에서 입력받은 값(회원목록) searchValue: {}", searchValue);
+		log.info("========================================");
+		
 
 		
-		List<Product> productList = productService.getProductList();
+		//map을 활용해서 검색 키워드 정리
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("searchKey", searchKey);
+		paramMap.put("searchValue", searchValue);
+		List<Product> productList = productService.getProductList(paramMap);
 		//대분류가져오기
 		List<Item> BigCategory = productService.getItemBigCategoryInfo();
 

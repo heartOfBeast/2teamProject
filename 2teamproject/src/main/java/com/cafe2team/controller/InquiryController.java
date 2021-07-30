@@ -1,6 +1,8 @@
 package com.cafe2team.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -115,8 +117,13 @@ public class InquiryController {
 	
 	//문의게시판 목록
 	@GetMapping("/inquiryList")
-	public String inquiryList(Model model) {
-		List<Inquiry> inquiryList = inquiryService.getInquiryList();
+	public String inquiryList(Model model
+							 ,@RequestParam(name="searchKey", required = false) String searchKey
+							 ,@RequestParam(name="searchValue", required = false) String searchValue) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("searchKey", searchKey);
+		paramMap.put("searchValue", searchValue);
+		List<Inquiry> inquiryList = inquiryService.getInquiryList(paramMap);
 		model.addAttribute("title", "문의게시판");
 		model.addAttribute("inquiryList", inquiryList);
 		

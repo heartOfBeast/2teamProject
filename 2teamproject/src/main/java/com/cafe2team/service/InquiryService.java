@@ -1,6 +1,7 @@
 package com.cafe2team.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,8 +49,8 @@ public class InquiryService {
 	}
 	
 	//문의게시판 게시글 목록
-	public List<Inquiry> getInquiryList(){
-		List<Inquiry> getInquiryList = inquiryMapper.getInquiryList();
+	public List<Inquiry> getInquiryList(Map<String, Object> paramMap){
+		List<Inquiry> getInquiryList = inquiryMapper.getInquiryList(paramMap);
 		return getInquiryList;
 	}
 }
