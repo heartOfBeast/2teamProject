@@ -47,30 +47,30 @@ textarea {
 						<div class="card-body">
 							<div class="form-group">
 								<label for="boardQnaSubject" class="col-form-label">제목</label>
-								<input type="text" id="boardQnaSubject" class="form-control">
+								<input type="text" id="boardQnaSubject" name="boardQnaSubject" class="form-control">
 							</div>
 							<div class="form-group">
 								<label for="boardQnaWriter" class="col-form-label">작성자</label>
-								<input type="text" id="boardQnaWriter" class="form-control">
+								<input type="text" id="boardQnaWriter" name="boardQnaWriter" class="form-control">
 							</div>
 							<div class="form-group">
 								<label for="boardQnaContent" class="col-form-label">내용</label>
-							 	<textarea id="boardQnaContent" class="form-control" rows="20" maxlength="500"></textarea>
+							 	<textarea id="boardQnaContent" name="boardQnaContent" class="form-control" rows="20" maxlength="500"></textarea>
 							</div>
 							<div class="form-group">
 								<label for="boardQnaPassword" class="col-form-label">비밀번호</label>
 								<label>
-									<input type="checkbox" id="boardCheckPassword" value="Y" style="margin: 0px 0px 0px 10px">비밀번호 사용
+									<input type="checkbox" id="boardCheckPassword" name="boardCheckPassword" value="1" style="margin: 0px 0px 0px 10px">비밀번호 사용
 								</label>
-							 	<input type="password" id="boardQnaPassword" class="form-control">
+							 	<input type="password" id="boardQnaPassword" name="boardQnaPassword" class="form-control">
 							</div>
 							<div class="form-group">
 								<label for="boardNonmemberPhone" class="col-form-label">연락처</label>
-								<input type="text" id="boardNonmemberPhone" class="form-control">
+								<input type="text" id="boardNonmemberPhone" name="boardNonmemberPhone" class="form-control">
 							</div>
 							<div class="form-group">
 								<label for="boardNonmemberEmail" class="col-form-label">이메일주소</label>
-								<input type="text" id="boardNonmemberEmail" class="form-control">
+								<input type="text" id="boardNonmemberEmail" name="boardNonmemberEmail" class="form-control">
 							</div>
 						</div>
 					</div>
@@ -99,6 +99,8 @@ textarea {
  				var boardQnaContent = $('#boardQnaContent').val()
 				var boardCheckPassword = $('#boardCheckPassword');
 				var boardQnaPassword = $('#boardQnaPassword').val();
+				var boardNonmemberPhone = $('#boardNonmemberPhone').val();
+				var boardNonmemberEmail = $('#boardNonmemberEmail').val();
  				var submitFlag = true;
 				
 				
@@ -107,23 +109,33 @@ textarea {
 					submitFlag = false;
 					$(this).focus();
 					return submitFlag;
-				}else if(boardQnaWriter ==null||boardQnaWriter==undefined||boardQnaWriter==''.toString()){
+				}else if(boardQnaWriter ==null||boardQnaWriter==undefined||boardQnaWriter==''){
 					alert('작성자를 입력해주세요');
 					submitFlag = false;
 					$(this).focus();
 					return submitFlag;
-				}else if(boardQnaContent ==null||boardQnaContent==undefined||boardQnaContent==''.toString()){
+				}else if(boardQnaContent ==null||boardQnaContent==undefined||boardQnaContent==''){
 					alert('내용을 입력해주세요');
 					submitFlag = false;
 					$(this).focus();
 					return submitFlag;
 				}else if(boardCheckPassword.is(':checked')){
-					if(boardQnaPassword ==null||boardQnaPassword==undefined||boardQnaPassword==''.toString()){
+					if(boardQnaPassword ==null||boardQnaPassword==undefined||boardQnaPassword==''){
 						alert('비밀번호를 입력해주세요');
 						submitFlag = false;
 						$(this).focus();
 						return submitFlag;
 					}
+				}else if(boardNonmemberPhone == null||boardNonmemberPhone==undefined||boardNonmemberPhone==''){
+					alert('연락처를 입력해주세요')
+					submitFlag = false;
+					$(this).focus();
+					return submitFlag;
+				}else if(boardNonmemberEmail == null||boardNonmemberEmail==undefined||boardNonmemberEmail==''){
+					alert('이메일을 입력해주세요')
+					submitFlag = false;
+					$(this).focus();
+					return submitFlag;
 				}
 				
 				

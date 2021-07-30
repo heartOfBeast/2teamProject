@@ -46,7 +46,7 @@ public class WarehousingOrderController {
 	
 	//수정 후 입고(단품)
 	@PostMapping("/receivingFromModal")
-	public String receivingFromModal(Receiving receiving,String warehousingOrderCode,
+	public String receivingFromModal(Receiving receiving,String warehousingOrderCode,String sectorColumnFinalCode,
 									HttpSession session,
 									RedirectAttributes reAttr
 									) {
@@ -55,7 +55,7 @@ public class WarehousingOrderController {
 		if(sessionId !=null/*||wareAdminId !=null*/) {
 			receiving.setWareAdminId(sessionId);
 			warehousingOrderService.receivingFromModal(receiving);
-			warehousingOrderService.changeWarehousingStatusFromModal(warehousingOrderCode);
+			warehousingOrderService.changeWarehousingStatusFromModal(warehousingOrderCode, sectorColumnFinalCode);
 			warehousingOrderService.insertOrUpdateStock(receiving);
 			reAttr.addAttribute("wareAdminId", sessionId);
 			//reAttr.addAttribute("wareAdminId", wareAdminId);

@@ -127,9 +127,10 @@
 			wscf.warehouse_code=#{warehouseCode}
 	</select>
 	<!--모달 통해 입고 후 입고상태 변환  -->
-	<update id="changeWarehousingStatusFromModal">
+	<update id="changeWarehousingStatusFromModal" parameterType="warehousingOrder">
 		UPDATE tb_request_order
 			SET
+				sector_column_final_code = #{sectorColumnFinalCode},
 				warehousing_order_status = '입고완료'
 			WHERE
 				tb_request_order.warehousing_order_code =#{warehousingOrderCode}

@@ -14,6 +14,21 @@ public class InquiryService {
 	@Autowired
 	private InquiryMapper inquiryMapper;
 	
+	//게시글 삭제
+	public int deleteInquiry(String boardQnaCode) {
+		return inquiryMapper.deleteInquiry(boardQnaCode);
+	}
+	
+	//게시글 수정
+	public int modifyInquiry(Inquiry inquiry) {
+		return inquiryMapper.modifyInquiry(inquiry);
+	}
+	
+	//수정 위한 정보 가져오기
+	public Inquiry getInquiryInfo(String boardQnaCode) {
+		return inquiryMapper.getBoardInfoByCode(boardQnaCode);
+	}
+	
 	//게시글 조회수
 	public int addHit(String boardQnaCode) {
 		int result = inquiryMapper.addViews(boardQnaCode);

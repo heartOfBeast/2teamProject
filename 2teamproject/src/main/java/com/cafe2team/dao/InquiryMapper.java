@@ -10,6 +10,13 @@ import com.cafe2team.domain.Inquiry;
 public interface InquiryMapper {
 
 	
+	//문의글 삭제
+	public int deleteInquiry(String boardQnaCode);
+	//문의글 수정
+	public int modifyInquiry(Inquiry inquiry);
+	
+	//문의글 수정 위한 코드값 가져오기
+	public Inquiry getBoardInfoByCode(String boardQnaCode);
 	//문의글 작성
 	public int writeInquiry(Inquiry inquiry);
 	//문의게시판 게시글 조회
