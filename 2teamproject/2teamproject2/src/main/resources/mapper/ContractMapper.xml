@@ -70,6 +70,17 @@
 			, #{contractFinalMemo} )
 	</insert>
 	
-	
+	<!-- 계약 월별 창고종류 조회부분 -->
+	<select id="barGraph" resultType="Contract">
+		SELECT 
+			  count(case when contract_final_warehouse_type = '일반창고' then 1 end) AS '일반' 
+			, count(case when contract_final_warehouse_type = '냉장창고' then 1 end) AS '냉장' 
+			, count(case when contract_final_warehouse_type = '냉동창고' then 1 end) AS '냉동' 
+			, DATE_FORMAT(e.contract_final_reg_date_approval,'%m') as MONTH 
+		FROM 
+			tb_contract_final as e
+		where YEAR(e.contract_final_reg_date_approval) = 2021
+		group by MONTH;
+	</select>
 	
 </mapper>

@@ -32,7 +32,7 @@
 			<div class="col-xl-8 col-lg-6 col-md-6 col-sm-12 col-12">
 				<div class="card">
 					<div class="card-header">
-						<div th:include="contract/Search :: searchYear"></div>
+						<div class="card-title">창고종류 월별계약</div>
 					</div>
 					<div class="card-body pt-0">
 						<div id="visitors2" class="visitors2" style="min-height: auto;"></div>
@@ -87,6 +87,7 @@
 		<div class="row gutters">
 			<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 				<div class="table-container">
+					<div th:include="contract/Search :: searchFragment"></div>
 					<div class="table-responsive">
 						<table id="copy-print-csv" class="table custom-table">
 							<thead>
@@ -314,18 +315,6 @@
 
 <th:block layout:fragment="customJs">
 	<script type="text/javascript" th:inline="javascript">
-
-		$(function(){
-			$('#contractApprovalDate').change(function(){
-				$('#searchYear').submit();
-			})
-		});
-	
-		$(function(){
-			$('#contractState').change(function(){
-				$('#searchState').submit();
-			})
-		});
 		/* 상세정보 및 승인 Modal 시작  */
 		$('.Btn').each(function(){
 			$(this).click(function(){
@@ -368,7 +357,7 @@
 				$('#contractFinalQuantityDataModal2').val(contractFinalQuantityData);
 				$('#contractFinalPayDataModal2').val(contractFinalPayData);
 				$('#contractFinalUserDataModal2').val(contractFinalUserData);
-				$('#contractApprovalDateModal2').val(contractApprovalDateData);
+				$('#contractApprovalDateModal2').val( 	Data);
 				$('#contractFinalMemberDataModal2').val(contractFinalMemberData);
 				$('#contractStateMemoDataModal').val(contractStateMemoData);
 				
@@ -408,6 +397,7 @@
 				if(resultCateName == seriesCateName){
 					 var date = new Date(result[i].contractApprovalDate);
 					 var m = date.getMonth();
+					 console.log(m+"%%%%%%%%%%%");
 
 					 if(SeriesData[j].data[m] === undefined){
 						 SeriesData[j].data[m] = 0;
@@ -545,6 +535,8 @@
 						
 				donutChart.render();		
 	
+
+		
 	</script>
 	
 </th:block>

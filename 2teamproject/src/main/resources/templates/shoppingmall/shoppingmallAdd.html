@@ -32,26 +32,25 @@
 	<div class="main-container">
 		<div class="row justify-content-center gutters">
 			<div class="col-xl-10 col-lg-10 col-md-12 col-sm-12 col-12">
-				<form id="businessNumForm" th:action="@{/shoppingmallAdd}">
 					<div class="card m-0">
 						<div class="card-header">
 								<div class="card-title">사업자 인증하기</div>
 							<ul class="text-muted custom">
 								<li>* 계약을 진행하기 위해서는 사업자 권한을 승인 받아야됩니다.</li>
 								<li>* 사업자 등록증을 보유한 판매자만 사업자인증을 진행할 수 있습니다.</li>
+								<li>* test 사업자 번호 : 4022180224 <- 교육원 사업자 번호</li>
 							</ul>
 						</div>
 						<div class="card-body">
 							<div class="row gutters">
 								<h4> 사업자번호등록</h4>
 								<div class="form-group">
-									<input type="number" name='businessNum'/>
+									<input type="number" id="businessNum" name='businessNum'/>
 								</div>
-								<button class="btn btn-primary btn-sm" type="submit" id="businessNumbtn" style="margin-bottom: 16px;">확인</button>	
+								<button class="btn btn-primary btn-sm" type="button" id="businessNumbtn" style="margin-bottom: 16px;">확인</button>	
 							</div>
 						</div>
 					</div>
-				</form>
 			</div>
 		</div>
 		<br/>
@@ -132,7 +131,7 @@
 															</font>
 														</label>
 														<div class="col-sm-6">
-															<input type="text" class="form-control" id="shoppingmallBankNum" name="shoppingmallBankNum" placeholder="계좌번호">
+															<input type="text" class="form-control" id="shoppingmallBankNum" name="shoppingmallBankNum" placeholder="계좌번호" required="required">
 														</div>
 													</div>
 													
@@ -144,7 +143,7 @@
 													<input type="hidden" class="form-control" id="memberStatus" name="shoppingmallStatus" th:value="${shoppingmall.shoppingmallStatus}">
 													
 													
-													<button th:if="${shoppingmall.shoppingmallLevel == '6'}" type="submit" onclick="alert('쇼핑묠 회원가입 요청을 완료했습니다. \n요청 승인을 기다려주세요.')" id="shoppingmallAddBtn" name="submit" class="btn btn-primary float-right" >
+													<button th:if="${shoppingmall.shoppingmallLevel == '6' && shoppingmallshoppingmallStatus != '승인'}" type="submit" onclick="alert('쇼핑묠 회원가입 요청을 완료했습니다. \n요청 승인을 기다려주세요.')" id="shoppingmallAddBtn" name="submit" class="btn btn-primary float-right" >
 														<font style="vertical-align: inherit;">
 															<font style="vertical-align: inherit;">거래처 등록 버튼</font>
 														</font>
@@ -200,7 +199,40 @@
 		       this.value = licenseNum(_val) ;
 		};
 		
-		
+        $(function(){
+           
+            $('#businessNumbtn').click(function(){
+            	var formData = {"b_no":[$('#businessNum').val()]};
+            	console.log(formData);
+                $.ajax({
+                    url:'https://api.odcloud.kr/api/nts-businessman/v1/status?serviceKey=WsCSntZG98blHm9vBFK3aSz14B5O1yIByEmdx254C95iUIa25YYN52ZVNrb9QIwRop%2Buk0jt2ZktNh8g0F0%2FUQ%3D%3D', 
+                    async:true,// false 일 경우 동기 요청으로 변경
+                    type:'POST', // GET, PUT
+                    dataType : "json",
+                    contentType: 'application/json; charset=UTF-8',
+                    data: JSON.stringify(formData),// 전송할 데이터
+                    success:function(result) {
+                        var data = result.data;
+                        console.table(result.data);
+                        console.log(JSON.stringify(data[0].tax_type))
+                        
+                        if(JSON.stringify(data[0].tax_type) == '"국세청에 등록되지 않은 사업자등록번호입니다."'){
+                            alert(data[0].tax_type);
+                        }else{
+                        	 alert(data[0].tax_type+ "로 인증이 완료되었습니다. \n아래의 추가 정보를 입력 후 버튼을 눌러주세요.");
+                        }
+                    },// 요청 완료 시
+                    error:function(jqXHR) {
+
+                    }// 요청 실패.
+                });
+                
+
+            });
+            
+        });
+
+    
 		
 	</script>
 

@@ -3,7 +3,6 @@ package com.cafe2team.controller;
 
 import java.awt.Color;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -13,8 +12,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -27,7 +24,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cafe2team.domain.Contract;
 import com.cafe2team.domain.Price;
-import com.cafe2team.domain.Shoppingmall;
 import com.cafe2team.service.ContractService;
 import com.cafe2team.service.ShoppingmallService;
 import com.cafe2team.service.UnitPriceService;
@@ -120,7 +116,6 @@ public class ContractController {
 		Price price = unitPriceService.priceInfo(priceCode);
 		
 		model.addAttribute("price", price);
-		model.addAttribute("contractList", contractService.ContractList());
 		
 		
 		return "contract/contractAdd";
@@ -172,22 +167,23 @@ public class ContractController {
 	// 계약관리 리스트
 	@GetMapping("/contractApproval")
 	public String contractApproval(Model model
-								  ,@RequestParam(name="contractState", required = false) String contractState) {
+								  ,Contract contract
+								  ,@RequestParam(name="contractApprovalDate", required = false) String contractApprovalDate) {
 		
-		System.out.println(contractState + "@@ 검색 결과");
 		
-		Map<String, Object> paramMap = new HashMap<String, Object>();
-		paramMap.put("contractState", contractState);
+		System.out.println(contractApprovalDate + "$$ 검색 결과");
 		
-		List<Contract> contractList = contractService.ContractList();
-		List<Contract> ContractState = contractService.contractState(paramMap);
+		String a = contract.getContractApprovalDate();
+		System.out.println(a);
+		// 년도 조회
+		Map<String, Object> paramYear = new HashMap<String, Object>();
+		paramYear.put("contractApprovalDate", contractApprovalDate);
+		List<Contract> contractList = contractService.ContractList(paramYear);
+		List<Contract> barGraph = contractService.barGraph();
 		
-		model.addAttribute("title", "계약 관리");
-		if(contractState == null) {
+			model.addAttribute("title", "계약 관리");
 			model.addAttribute("contractList", contractList);
-		}else if(contractState != null) {
-			model.addAttribute("contractList", ContractState);
-		}
+			model.addAttribute("barGraph", barGraph);
 		
 		return "contract/contractApproval";
 	}
@@ -210,24 +206,8 @@ public class ContractController {
 		return "redirect:/contractApproval";
 	}
 	
-	/*
-	 * //계약 검색기능
-	 * 
-	 * @RequestMapping("/contractListDetail")
-	 * 
-	 * @ResponseBody public List<Contract> contractListDetail(@RequestParam
-	 * Map<String, Object> param ,@ModelAttribute("Contract") Contract contract){
-	 * 
-	 * String selectStateValue = (String)param.get("selectStateValue");
-	 * 
-	 * List<Contract> data = contractService.contractListDetail(selectStateValue);
-	 * 
-	 * 
-	 * return data; }
-	 */
 	
 	/******************************** 계약 종료 ********************************/
-	
 	
 	
 	// 스케줄 관리 페이지

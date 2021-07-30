@@ -66,6 +66,7 @@ public class ShoppingmallService {
 		return result;
 	}
 	
+	// 거래처 권한 취소
 	public int shoppingmallCancel(Shoppingmall shoppingmall) {
 		
 		int result = shoppingmallMapper.shoppingmallCancel(shoppingmall);

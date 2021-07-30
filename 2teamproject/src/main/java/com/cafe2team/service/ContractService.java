@@ -25,9 +25,9 @@ public class ContractService {
 	}
 	
 	// 최종 계약 리스트 
-	public List<Contract> ContractList(){
+	public List<Contract> ContractList(Map<String, Object> paramYear){
 		
-		List<Contract> contractList = contractMapper.ContractList();
+		List<Contract> contractList = contractMapper.ContractList(paramYear);
 		
 		return contractList;
 	}
@@ -67,21 +67,16 @@ public class ContractService {
 		return result;
 	}
 	
-	// 계약 검색기능
-	public List<Contract> contractState(Map<String, Object> paramMap){
-		
-		return contractMapper.contractState(paramMap);
-	}
 	
+	// 계약 창고종류 월별계약 그래프
+	public List<Contract> barGraph(){
+		
+		return contractMapper.barGraph();
+	}
 	
 	// 최종계약 캘린더
 	public List<Map<String, Object>>CalendarList(){
 	
 		return contractMapper.CalendarList();
 	};
-
-
-	
-	
-	
 }
