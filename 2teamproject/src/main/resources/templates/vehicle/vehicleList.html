@@ -32,6 +32,7 @@
 				<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 					<div class="table-container">
 						<div class="t-header">차량목록 조회</div>
+						<div th:include="vehicle/carSearch :: searchFragment"></div>
 						<div class="table-responsive">
 							<table id="copy-print-csv" class="table custom-table">
 								<thead>
@@ -321,6 +322,13 @@
 						}
 					})
 				}
+			})
+		})
+		
+		/********차량 종류별 검색********/
+		$(function(){
+			$('#searchKind').change(function(){
+				$('#searchCarKind').submit();
 			})
 		})
 	</script>

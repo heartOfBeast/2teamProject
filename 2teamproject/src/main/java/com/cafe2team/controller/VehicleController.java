@@ -1,6 +1,8 @@
 package com.cafe2team.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -34,8 +36,10 @@ public class VehicleController {
 	}
 	//차량조회화면
 	@GetMapping("/vehicleList")
-	public String vehicleList(Model model) {
-		List<Vehicle> vehicle = vehicleService.getVehicleInfo();
+	public String vehicleList(Model model, @RequestParam(name="carKind", required = false)String carKind) {
+		Map<String, Object> carKindParam = new HashMap<String, Object>();
+		carKindParam.put("carKind", carKind);
+		List<Vehicle> vehicle = vehicleService.getVehicleInfo(carKindParam);
 		model.addAttribute("title", "차량목록 조회");
 		model.addAttribute("vehicle", vehicle);
 		return "vehicle/vehicleList";
@@ -105,4 +109,5 @@ public class VehicleController {
 		return result;
 		
 	}
+	
 }

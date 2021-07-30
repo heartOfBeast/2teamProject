@@ -1,6 +1,7 @@
 package com.cafe2team.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -10,7 +11,7 @@ import com.cafe2team.domain.Vehicle;
 @Mapper
 public interface VehicleMapper {
 	//전체조회
-	public List<Vehicle> getVehicleInfo();
+	public List<Vehicle> getVehicleInfo(Map<String, Object> carKindParam);
 	
 	//등록
 	public int addVehicle(Vehicle vehicle);
