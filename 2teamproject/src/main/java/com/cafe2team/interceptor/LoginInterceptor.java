@@ -51,8 +51,7 @@ public class LoginInterceptor implements HandlerInterceptor{
 					requestUri.indexOf("safetyCheck") > -1 ||
 					requestUri.indexOf("vehicleAdd") > -1 ||
 					requestUri.indexOf("estimateAnother") > -1 ||
-					requestUri.indexOf("estimatePermit") > -1 ||
-					requestUri.indexOf("memberWithdrawal") > -1
+					requestUri.indexOf("estimatePermit") > -1 
 					) {
 					
 					
