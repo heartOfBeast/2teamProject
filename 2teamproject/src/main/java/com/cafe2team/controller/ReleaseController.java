@@ -44,7 +44,7 @@ public class ReleaseController {
 	public String releaseOrder(Model model) {
 		
 		List<Release> release = releaseService.gerReleaseOrder();
-		List<Vehicle> vehicle = vehicleService.getVehicleInfo();
+		List<Vehicle> vehicle = vehicleService.getVehicleInfo(null);
 		List<Delivery> delivery = releaseService.getDeliveryInfo();
 		/* List<CarManagement> carManagement = releaseService.getDriveManagement(); */
 		model.addAttribute("title", "출고 리스트");

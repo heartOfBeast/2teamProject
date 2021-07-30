@@ -13,12 +13,6 @@
 		
 			<ul class="app-actions">
 				<li>
-					<a href="#" id="reportrange">
-						<span class="range-text"></span>
-						<i class="icon-chevron-down"></i>	
-					</a>
-				</li>
-				<li>
 					<a href="#">
 						<i class="icon-export"></i>
 					</a>
@@ -32,6 +26,7 @@
 				<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 					<div class="table-container">
 						<div class="t-header">안전점검 내역조회</div>
+						<div th:include="safe/safetySearch :: searchFragment"></div>
 						<div class="table-responsive">
 							<table id="copy-print-csv" class="table custom-table">
 								<thead>
@@ -182,26 +177,9 @@
 				}
 			}
 	
+			/********수정화면********/
 			$('.modifyBtn').each(function(){
 				$(this).click(function(){
-					/* var facilityCheckData = $(this).parents('tr').children('#facilityCheckData').text();
-					var facilityFiresafetyData = $(this).parents('tr').children('#facilityFiresafetyData').text();
-					var facilityLogisticsData = $(this).parents('tr').children('#facilityLogisticsData').text();
-					var facilityMainEquipemntData = $(this).parents('tr').children('#facilityMainEquipemntData').text();
-					var facilityCodeData = $(this).parents('tr').children('#facilityCodeData').text();
-					var warehouseCodeData = $(this).parents('tr').children('#warehouseCodeData').text();
-					
-					var firesafetySelected = $('#fireInspection option:contains(' + facilityFiresafetyData + ')').val();
-					var logisticsDataSelected = $('#logisticsInspection option:contains(' + facilityLogisticsData + ')').val();
-					var equipemntDataSelected = $('#equipmentInspection option:contains(' + facilityMainEquipemntData + ')').val();
-					
-					$('#facilityCheckModal').val(facilityCheckData);
-					$('#fireInspection').val(firesafetySelected);
-					$('#logisticsInspection').val(logisticsDataSelected);
-					$('#equipmentInspection').val(equipemntDataSelected);
-					$('#facilityCode').val(facilityCodeData);
-					$('#wareHouseCodeModal').val(warehouseCodeData); */
-					
 					var facilityCode = $(this).parents('tr').children('#facilityCodeData').text();
 					if(facilityCode != null){
 						$.ajax({
@@ -229,6 +207,39 @@
 			$('#modifySafetyCheck').submit(function(){
 				alert('수정이 완료되었습니다.')
 			})
+			
+			
+			$(function() {
+				var start = moment().subtract(29, 'days');
+				var end = moment();
+				function cb(start, end) {
+					$('#firstDate').html('(검색');
+					$('#secondDate').html('일자를 선택하세요)');
+				}
+				function cb2(start, end) {
+					$('#firstDate').html(start.format('YYYY-MM-DD'));
+					$('#firstDate').val($('#firstDate').text());
+					$('#midDate').html('~');
+					$('#secondDate').html(end.format('YYYY-MM-DD'));
+					$('#secondDate').val($('#secondDate').text());
+				}
+				$('#reportrangeCustom').daterangepicker({
+					
+					opens: 'left',
+					startDate: start,
+					endDate: end,
+					ranges: {
+						'Today': [moment(), moment()],
+						'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+						'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+						'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+						'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+					}
+				}, cb2);
+				cb(start, end);
+			});
+			
+			
 	</script>
 </th:block>
 </html>

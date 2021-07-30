@@ -10,7 +10,7 @@ import com.cafe2team.domain.Warehouse;
 @Mapper
 public interface SafetyCheckMapper {
 	//조회
-	public List<SafetyCheck> getSafetyCheck();
+	public List<SafetyCheck> getSafetyCheck(Map<String, Object> warehouseCodeParam);
 	
 	//수정화면 뿌리기
 	public List<SafetyCheck> getSafetyCheckById(String facilityCode);
