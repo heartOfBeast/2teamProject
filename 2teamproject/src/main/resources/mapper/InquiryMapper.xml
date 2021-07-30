@@ -18,6 +18,62 @@
   	</resultMap>
   	
   	
+  	<!--게시글 삭제  -->
+  	<delete id="deleteInquiry" parameterType="String">
+  		DELETE FROM 
+  			tb_board 
+  		WHERE 
+  			board_qna_code=#{boardQnaCode}
+  	</delete>
+  	
+  	<!--게시글 수정  -->
+  	<update id="modifyInquiry" parameterType="Inquiry">
+	  	UPDATE tb_board
+		<trim prefix="SET" prefixOverrides=",">
+			<if test="boardQnaSubject !=null and boardQnaSubject !=''.toString()" >
+				,board_qna_subject=#{boardQnaSubject}
+			</if>
+			<if test="boardQnaContent !=null and boardQnaContent !=''.toString()" >
+				,board_qna_content=#{boardQnaContent}
+			</if>
+			<if test="boardQnaWriter !=null and boardQnaWriter !=''.toString()" >
+				,board_qna_writer=#{boardQnaWriter}
+			</if>
+			<if test="boardNonmemberPhone !=null and boardNonmemberPhone !=''.toString()" >
+				,board_nonmember_phone=#{boardNonmemberPhone}
+			</if>
+			<if test="boardNonmemberEmail !=null and boardNonmemberEmail !=''.toString()" >
+				,board_nonmember_email=#{boardNonmemberEmail}
+			</if>
+			<if test="boardQnaPassword !=null and boardQnaPassword !=''.toString()" >
+				,board_qna_password=#{boardQnaPassword}
+			</if>
+		</trim>
+
+		
+		
+			WHERE board_qna_code=#{boardQnaCode}
+  	</update>
+  	
+  	<!-- 수정위한 정보 찾기 -->
+  	<select id="getBoardInfoByCode" parameterType="String" resultMap="inquiryResultMap">
+	  	SELECT 
+			board_qna_code, 
+			board_qna_subject, 
+			board_qna_content, 
+			board_qna_writer, 
+			board_nonmember_phone, 
+			board_nonmember_email, 
+			board_qna_reg_date, 
+			board_qna_views, 
+			board_check_password, 
+			board_qna_password, 
+			board_qna_temp
+		FROM 
+			tb_board AS b
+		WHERE
+			b.board_qna_code = #{boardQnaCode}
+  	</select>
   	<!--조회수  -->
   	<update id="addViews" parameterType="Inquiry">
   		UPDATE tb_board

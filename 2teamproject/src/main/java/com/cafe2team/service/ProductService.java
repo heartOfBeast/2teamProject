@@ -67,8 +67,8 @@ public class ProductService {
 	}
 	
 	//쇼핑몰 사업자 창고별 재고조회
-	public List<Product> getProductAmountPerWarehouse(){
-		List<Product> getProductAmountPerWarehouse = productMapper.getProductAmountPerWarehouse();
+	public List<Product> getProductAmountPerWarehouse(Product product){
+		List<Product> getProductAmountPerWarehouse = productMapper.getProductAmountPerWarehouse(product);
 		return getProductAmountPerWarehouse;
 	}
 	

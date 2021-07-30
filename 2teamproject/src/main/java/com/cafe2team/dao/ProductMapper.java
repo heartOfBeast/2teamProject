@@ -15,7 +15,7 @@ public interface ProductMapper {
 	public int deleteProductByCode(String productCode);
 	
 	//쇼핑몰 사업자 창고별 재고보기
-	public List<Product> getProductAmountPerWarehouse();
+	public List<Product> getProductAmountPerWarehouse(Product product);
 	
 	//상품수정
 	public int modifyProduct(Product product);

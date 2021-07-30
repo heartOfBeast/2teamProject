@@ -30,6 +30,32 @@ public class InquiryController {
 		this.replyService = replyService;
 	}
 
+	//문의글 삭제
+	@PostMapping("deleteInquiry")
+	@ResponseBody
+	public int deleteInquiry(@RequestParam(value = "boardQnaCode")String boardQnaCode) {
+		int result = 1;
+		inquiryService.deleteInquiry(boardQnaCode);
+		return result;
+	}
+	
+	//문의글 수정
+	@PostMapping("modifyInquiry")
+	public String modifyInquiry(Inquiry inquiry) {
+		inquiryService.modifyInquiry(inquiry);
+		return "redirect:/inquiryList";
+	}
+	
+	//문의글 수정
+	@GetMapping("modifyInquiry")
+	public String modifyInquiry(Model model,
+								@RequestParam(name = "boardQnaCode", required = false)String boardQnaCode) {
+		Inquiry inquiry = inquiryService.getInquiryInfo(boardQnaCode);
+		model.addAttribute("title", "문의글 수정하기");
+		model.addAttribute("inquiry", inquiry);
+		return "inquiry/modifyInquiry";
+	}
+	
 	
 	//문의게시판 글쓰기
 	@PostMapping("/writeInquiry")

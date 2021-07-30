@@ -19,6 +19,9 @@ public class Product {
 	
 	private Shoppingmall shoppingmall;
 	private Item item;
+	private WareSector wareSector;
+	private Stock stock;
+	private Warehouse warehouse;
 	public String getProductCode() {
 		return productCode;
 	}
@@ -103,6 +106,24 @@ public class Product {
 	public void setItem(Item item) {
 		this.item = item;
 	}
+	public WareSector getWareSector() {
+		return wareSector;
+	}
+	public void setWareSector(WareSector wareSector) {
+		this.wareSector = wareSector;
+	}
+	public Stock getStock() {
+		return stock;
+	}
+	public void setStock(Stock stock) {
+		this.stock = stock;
+	}
+	public Warehouse getWarehouse() {
+		return warehouse;
+	}
+	public void setWarehouse(Warehouse warehouse) {
+		this.warehouse = warehouse;
+	}
 	@Override
 	public String toString() {
 		return "Product [productCode=" + productCode + ", productFreezeCoolCondition=" + productFreezeCoolCondition
@@ -111,8 +132,10 @@ public class Product {
 				+ productWeightUnit + ", productDateOfManufacture=" + productDateOfManufacture
 				+ ", productExpirationDate=" + productExpirationDate + ", shoppingmallUserId=" + shoppingmallUserId
 				+ ", productRegDate=" + productRegDate + ", productDetail=" + productDetail + ", shoppingmall="
-				+ shoppingmall + ", item=" + item + "]";
+				+ shoppingmall + ", item=" + item + ", wareSector=" + wareSector + ", stock=" + stock + ", warehouse="
+				+ warehouse + "]";
 	}
+	
 	
 	
 }

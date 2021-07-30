@@ -1,4 +1,4 @@
-package com.cafe2team.controller;
+	package com.cafe2team.controller;
 
 
 import java.util.List;
@@ -19,7 +19,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cafe2team.domain.Item;
 import com.cafe2team.domain.Product;
+import com.cafe2team.domain.Warehouse;
 import com.cafe2team.service.ProductService;
+import com.cafe2team.service.WarehouseService;
 
 @Controller
 public class ProductController {
@@ -27,12 +29,15 @@ public class ProductController {
 	private static final Logger log = LoggerFactory.getLogger(ProductController.class);
 
 	private final ProductService productService;
+	private final WarehouseService warehouseService;
 
 	// @Autowired
-	public ProductController(ProductService productService) {
+	public ProductController(ProductService productService, WarehouseService warehouseService) {
 		this.productService = productService;
-
+		this.warehouseService = warehouseService;
 	}
+
+	
 
 
 	
@@ -43,15 +48,20 @@ public class ProductController {
 									HttpSession session,
 									RedirectAttributes reAttr,
 									HttpServletResponse response) {
-		String shoppingmallId = (String) session.getAttribute("SID");
-		if(shoppingmallId !=null) {
-			product.setShoppingmallUserId(shoppingmallId);
-			reAttr.addAttribute("shoppingmallUserId", shoppingmallId);
+		String shoppingmallUserId = (String) session.getAttribute("SID");
+		System.out.println(shoppingmallUserId);
+		if(shoppingmallUserId !=null) {
+			
+			product.setShoppingmallUserId(shoppingmallUserId);
+			List<Warehouse> warehouseList = warehouseService.getWarehouseList();
+			List<Product> warehouseProductAmount = productService.getProductAmountPerWarehouse(product);
+			model.addAttribute("warehouseList", warehouseList);
+
+			model.addAttribute("title", "창고별물량");
+//			model.addAttribute("shoppingmalUserlId", shoppingmallId);
+			model.addAttribute("warehouseProductAmount", warehouseProductAmount);
+			reAttr.addAttribute("shoppingmallUserId", shoppingmallUserId);
 		}
-		List<Product> warehouseProductAmount = productService.getProductAmountPerWarehouse();
-		model.addAttribute("title", "창고별물량");
-		model.addAttribute("shoppingmallId", shoppingmallId);
-		model.addAttribute("warehouseProductAmount", warehouseProductAmount);
 
 		return "product/warehouseProduct";
 	}
@@ -69,6 +79,19 @@ public class ProductController {
 		}
 		return result;
 	}
+	
+	/*
+	 * //상품명 중복검사
+	 * 
+	 * @PostMapping("/CheckProductName")
+	 * 
+	 * @ResponseBody public boolean CheckProductName(@RequestParam(name =
+	 * "productName", required = false) String productName) { boolean
+	 * productNameCheck = true; log.info("CheckProductName productName ::::{}",
+	 * productName); //ㅔ개옃 중복일 경우 false }
+	 */
+	
+	
 	
 	// 상품수정
 	@PostMapping("/modifyProduct")
