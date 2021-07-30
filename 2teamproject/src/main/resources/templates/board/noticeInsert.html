@@ -1,0 +1,109 @@
+<!doctype html>
+<html
+	xmlns:th="http://www.thymeleaf.org"
+ 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="@{layout/default}">
+<title th:text="${title}"></title>
+
+<th:block layout:fragment="pageTitle">
+<div class="page-header">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item">고객관리</li>
+		<li class="breadcrumb-item active">공지사항 게시판</li>
+	</ol>
+
+	<ul class="app-actions">
+		<li>
+			<a href="#" id="reportrange">
+				<span class="range-text"></span>
+				<i class="icon-chevron-down"></i>	
+			</a>
+		</li>
+		<li>
+			<a href="#">
+				<i class="icon-export"></i>
+			</a>
+		</li>
+	</ul>
+</div>
+</th:block>
+<style>
+textarea {
+	resize: none;
+}
+</style>
+<th:block layout:fragment="container">
+	<!-- Main container start -->
+	<div class="main-container">
+
+		<!-- Row start -->
+		<div class="row gutters justify-content-center">
+			<div class="col-xl-5 col-lg-5 col-md-6 col-sm-6 col-12">
+				<form id="insertNoticeForm" th:action="@{/noticeInsert}" th:method="POST">
+					<div class="card m-0">
+						<div class="card-header">
+							<div class="card-sub-title">공지글 작성하기</div>	
+						</div>
+						<div class="card-body">
+							<div class="form-group">
+								<label for="noticeSubject" class="col-form-label">제목</label>
+								<input type="text" id="noticeSubject" name="noticeSubject" class="form-control">
+							</div>
+							<div class="form-group">
+								<label for=memberid class="col-form-label">작성자</label>
+								<input type="text" id="memberid" name="memberid" class="form-control">
+							</div>
+							<div class="form-group">
+								<label for="noticeContent" class="col-form-label">내용</label>
+							 	<textarea id="noticeContent" name="noticeContent" class="form-control" rows="20" maxlength="500"></textarea>
+							</div>
+						</div>
+					</div>
+							<button type="button" id="cancleBtn" class="btn btn-primary float-right" style="margin: 5px;">취소</button>
+							<button type="submit" id="writeBtn" class="btn btn-primary float-right" style="margin: 5px;">등록</button>
+				</form>
+
+				
+				
+	
+			</div>
+		</div>
+		<!-- Row end -->
+
+	</div>
+	<!-- Main container end -->
+
+</th:block>
+<th:block layout:fragment="customJs">
+	<script>
+		$(function(){
+			$('#writeBtn').click(function(){
+				var insertNoticeForm = $('#insertNoticeForm');
+ 				var noticeSubject = $('#noticeSubject').val()
+ 				var memberid = $('#memberid').val()
+ 				var noticeContent = $('#noticeContent').val()
+ 				var submitFlag = true;
+				
+				
+				if(noticeSubject == null||noticeSubject ==undefined||noticeSubject==''){
+					alert('제목을 입력해주세요');
+					submitFlag = false;
+					$(this).focus();
+					return submitFlag;
+				}else if(memberid ==null||memberid==undefined||memberid==''){
+					alert('작성자를 입력해주세요');
+					submitFlag = false;
+					$(this).focus();
+					return submitFlag;
+				}else if(noticeContent ==null||noticeContent==undefined||noticeContent==''){
+					alert('내용을 입력해주세요');
+					submitFlag = false;
+					$(this).focus();
+					return submitFlag;
+				}
+			});
+				if(submitFlag) insertNoticeForm.submit();
+		});
+	</script>
+</th:block> 		
+</html>
