@@ -77,6 +77,18 @@ public class ReleaseController {
 		}
 		return "redirect:/releaseOrder";
 	}
+
+	//배차수정(출고승인X)
+	@PostMapping("/modifyDriveManagementNotRelease")
+	public String modifyDriveManagementNotRelease(CarManagement carManagement, HttpSession session){
+		String addAdminID = (String) session.getAttribute("SID");
+		if(addAdminID != null) {
+			carManagement.setWareAdminId(addAdminID);
+			releaseService.modifyDriveManagementNotRelease(carManagement);
+			log.info("carManagement : {}", carManagement);
+		}
+		return "redirect:/releaseOrder";
+	}
 	
 	//운송장등록
 	@PostMapping("/addInvoice")
@@ -124,19 +136,19 @@ public class ReleaseController {
 	}
 	
 	//운송장조회
-		@GetMapping("/wayBillSearch")
-		public String wayBillSearch(Model model
-								   ,@RequestParam(name="invoiceCode", required = false) String invoiceCode) {
-			
-			System.out.println(invoiceCode + "@@ 검색 결과");
-			
-			Map<String, Object> paramMap = new HashMap<String, Object>();
-			paramMap.put("invoiceCode", invoiceCode);
-			
-			List<Invoice> InvoiceList = releaseService.wayBillSearch(paramMap);
-			 model.addAttribute("title", "운송장 조회"); 
-			 model.addAttribute("InvoiceList", InvoiceList);
-			
-			return "release/wayBillSearch";
-		}
+	@GetMapping("/wayBillSearch")
+	public String wayBillSearch(Model model
+							   ,@RequestParam(name="invoiceCode", required = false) String invoiceCode) {
+		
+		System.out.println(invoiceCode + "@@ 검색 결과");
+		
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("invoiceCode", invoiceCode);
+		
+		List<Invoice> InvoiceList = releaseService.wayBillSearch(paramMap);
+		 model.addAttribute("title", "운송장 조회"); 
+		 model.addAttribute("InvoiceList", InvoiceList);
+		
+		return "release/wayBillSearch";
+	}
 }

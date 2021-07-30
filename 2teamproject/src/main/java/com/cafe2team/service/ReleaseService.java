@@ -45,6 +45,10 @@ public class ReleaseService {
 	public int modifyDriveManagement(CarManagement carManagement) {
 		return releaseMapper.modifyDriveManagement(carManagement);
 	}
+
+	public int modifyDriveManagementNotRelease(CarManagement carManagement) {
+		return releaseMapper.modifyDriveManagementNotRelease(carManagement);
+	}
 	
 	public int addInvoice(Invoice invoice) {
 		return releaseMapper.addInvoice(invoice);

@@ -27,6 +27,9 @@ public interface ReleaseMapper {
 	
 	//배차수정
 	public int modifyDriveManagement(CarManagement carManagement);
+
+	//배차수정(출고승인x)
+	public int modifyDriveManagementNotRelease(CarManagement carManagement);
 	
 	//운송장등록
 	public int addInvoice(Invoice invoice);
