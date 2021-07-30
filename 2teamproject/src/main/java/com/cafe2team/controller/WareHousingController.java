@@ -76,7 +76,7 @@ public class WareHousingController {
 		Shoppingmall shopmemberList = memberService.getsShopById(memberId);
 		List<Warehouse> warehouseList = warehouseService.getWarehouseList();		
 		List<Product> productList = productService.getProductList(paramMap);
-		List<Contract> contractList = contractService.ContractList();
+		List<Contract> contractList = contractService.ContractList(null);
 		
 		model.addAttribute("memberList", memberList);
 		model.addAttribute("productList", productList);
