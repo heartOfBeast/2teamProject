@@ -7,7 +7,7 @@
 	<th:block layout:fragment="pageTitle">
 		<div class="page-header">
 			<ol class="breadcrumb">
-				<li class="breadcrumb-item">Home</li>
+				<li class="breadcrumb-item">출고관리</li>
 				<li class="breadcrumb-item active">출고 지시서</li>
 			</ol>
 		
@@ -88,7 +88,8 @@
 									  <td style="display: none;" th:text="${r.releaseInfo.realReleaseCode}" id="releaseCodeData"></td>
 									  <td>
 									  	<a th:if="${r.carManagement.driveManageCode == null}" type="button" class="btn btn-primary modifyBtn" data-toggle="modal" data-target=".bd-example-modal-lg" id="viewModal" style="color: white;">배차등록</a>
-									  	<a th:if="${r.carManagement.driveManageCode != null}" type="button" class="btn btn-primary modifyBtn" data-toggle="modal" data-target=".bd-example-modal-lg2" id="viewModal" style="color: yellow;">배차수정</a>
+									  	<a th:if="${r.carManagement.driveManageCode != null && r.releaseInfo.realReleaseCode == null}" type="button" class="btn btn-primary modifyBtn" data-toggle="modal" data-target=".bd-example-modal-lg2_1" id="viewModal" style="color: yellow;">배차수정</a>
+									  	<a th:if="${r.carManagement.driveManageCode != null && r.releaseInfo.realReleaseCode != null}" type="button" class="btn btn-primary modifyBtn" data-toggle="modal" data-target=".bd-example-modal-lg2" id="viewModal" style="color: yellow;">배차수정</a>
 								  	  </td>
 								  	  <td>
 								  	  	<a th:if="${r.carManagement.driveManageCode != null && r.invoice.invoiceCode == null}" type="button" class="btn btn-primary modifyBtn" data-toggle="modal" data-target=".bd-example-modal-lg3" id="viewModal" style="color: white;">운송장등록</a>
@@ -200,6 +201,58 @@
 							<label for="carUsingDate">차량사용날짜</label>
 							<div class="form-group">
 								<input type="date" class="form-control" id="carUsingDateModal" name="driveUsingDate" required="required">
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button class="btn btn-secondary" data-dismiss="modal">취소</button>
+							<button type="submit" name="submit"  class="btn btn-primary" >수정</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+		
+		<!-- 배차수정form(출고승인X) -->
+		<form th:action="@{/modifyDriveManagementNotRelease}" method="post" id="modityNotReleaseDriveForm">
+			<div class="modal fade bd-example-modal-lg2_1" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" style="display: none;" aria-hidden="true">
+				<div class="modal-dialog modal-lg">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="myLargeModalLabel">배차수정</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">×</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<label for="driveManageCodeModalNot">배차관리코드</label>
+							<div class="form-group">
+								<input type="text" class="form-control" id="driveManageCodeModalNot" name="driveManageCode" readonly="readonly" style="background-color: white;">
+							</div>
+							<label for="orderCodeModalForCarNot">출고지시서코드</label>
+							<div class="form-group">
+								<input type="text" class="form-control" id="orderCodeModalForCarNot" name="releaseOrderCode" readonly="readonly" style="background-color: white;">
+							</div>
+							<label for="releaseWarehouseCodeModalForCarNot">출고창고코드</label>
+							<div class="form-group">
+								<input type="text" class="form-control" id="releaseWarehouseCodeModalForCarNot" name="" readonly="readonly" style="background-color: white;">
+							</div>
+							<div class="form-group">
+								<label for="">배송기사</label>	
+								<select class="form-control"  name="deliveryMemberId" required="required"  id="deliveryMemberIdModalNot"> 
+									<option value="">배송기사를 선택해주세요.</option>
+								    <option th:each="d : ${delivery}" th:value="${d.deliveryMemberId}" th:text="|${d.deliveryMemberName}(담당창고코드: ${d.warehouseCode})|"></option>
+								</select>
+							</div>
+							<div class="form-group">
+								<label for="">차량선택</label>	
+								<select class="form-control" id="releaseOrderCarModalNot" name="releaseOrderCar" required="required">
+									<option value="">차량을 선택해주세요.</option>
+								    <option th:each="v : ${vehicle}" th:value="${v.carCode}" th:text="|${v.carKind}(${v.carNumber})|" th:if="${v.carStatus == '정상'}"></option>
+								</select>
+							</div>
+							<label for="carUsingDate">차량사용날짜</label>
+							<div class="form-group">
+								<input type="date" class="form-control" id="carUsingDateModalNot" name="driveUsingDate" required="required">
 							</div>
 						</div>
 						<div class="modal-footer">
@@ -360,10 +413,12 @@
 			$(this).click(function(){
 				var orderCodeData = $(this).parents('tr').children('#orderCodeData').text();
 				var releaseWarehouseCodeData = $(this).parents('tr').children('#releaseWarehouseCodeData').text();
+				
 				var deliveryMemberIdData = $(this).parents('tr').children('#deliveryMemberIdData').text();
 				var releaseOrderCarData = $(this).parents('tr').children('#releaseOrderCarData').text();
 				var driveUsingDateData = $(this).parents('tr').children('#driveUsingDateData').text();
 				var driveManageCodeData = $(this).parents('tr').children('#driveManageCodeData').text();
+				
 				var recipientNameData = $(this).parents('tr').children('#recipientNameData').text();
 				var recipientAddressData = $(this).parents('tr').children('#recipientAddressData').text();
 				var recipientPhoneData = $(this).parents('tr').children('#recipientPhoneData').text();
@@ -388,6 +443,13 @@
 				$('#releaseOrderCarModal').val(releaseOrderCarData);
 				$('#carUsingDateModal').val(driveUsingDateData);
 				$('#driveManageCodeModal').val(driveManageCodeData);
+
+				$('#deliveryMemberIdModalNot').val(deliveryMemberIdData);
+				$('#orderCodeModalForCarNot').val(orderCodeData);
+				$('#releaseWarehouseCodeModalForCarNot').val(releaseWarehouseCodeData);
+				$('#releaseOrderCarModalNot').val(releaseOrderCarData);
+				$('#carUsingDateModalNot').val(driveUsingDateData);
+				$('#driveManageCodeModalNot').val(driveManageCodeData);
 				
 				$('#driveManageCodeInvoice').val(driveManageCodeData);
 				$('#orderCodeInvoice').val(orderCodeData);
@@ -417,10 +479,13 @@
 		
 		$('#addDriveForm').submit(function(){
 			alert('배차가 등록되었습니다.');
-		})
+		});
 		$('#modityDriveForm').submit(function(){
 			alert('수정이 완료되었습니다.');
-		})
+		});
+		$('#modityNotReleaseDriveForm').submit(function(){
+			alert('수정이 완료되었습니다.');
+		});
 		$('#addInvoiceForm').submit(function(){
 			alert('운송장이 등록되었습니다.');
 		});
@@ -461,3 +526,4 @@
 	</script>
 </th:block>
 </html>
+	

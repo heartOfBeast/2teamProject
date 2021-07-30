@@ -7,7 +7,7 @@
 	<th:block layout:fragment="pageTitle">
 		<div class="page-header">
 			<ol class="breadcrumb">
-				<li class="breadcrumb-item">Home</li>
+				<li class="breadcrumb-item">출고관리</li>
 				<li class="breadcrumb-item active">출고 리스트</li>
 			</ol>
 		
@@ -142,7 +142,7 @@
 	
 	<th:block layout:fragment="customJs">
 		<script>
-		/********수정화면********/
+		/*******배송정보********/
 			$('.modifyBtn').each(function(){
 				$(this).click(function(){
 					var deliveryMemberInfoData = $(this).parents('tr').children('#deliveryMemberInfoData').text();

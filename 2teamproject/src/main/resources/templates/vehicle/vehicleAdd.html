@@ -103,6 +103,7 @@
 	</th:block>
 <th:block layout:fragment="customJs">
 	<script>
+		/****차량 번호판 중복검사****/
 		$('#checkNumber').click(function(){
 			var carNumber = $('#carNumCheck').val();
 			if(carNumber != null && carNumber != '' && carNumber != undefined){
@@ -136,6 +137,13 @@
 				$('#carNumCheck').focus();
 			}
 		});
+		
+		/****차량 번호판 입력값 변경 감지****/
+		$('#carNumCheck').change(function(){
+			$('#submitDone').removeAttr('value');
+		});
+		
+		/****차량 번호판 중복검사 및 유효성 검사****/
 		$('#submitDone').click(function(){
 			var addCarInfo = $('#addCarInfo');
 			var submitFlag = true;
@@ -155,7 +163,7 @@
 				submitFlag = false;
 				$('#carUseYear').focus();
 				return submitFlag;
-			}else if($('#carNumCheck').val() == null || $('#carNumCheck').val() == '' || $('#carNumCheck').val() == undefined){
+			}else if($('#carNumCheck').val() == null || $('#carNumCheck').val() == '' || $('#carNumCheck').val() == undefined ){
 				alert('차량번호를 입력해주세요.');
 				submitFlag = false;
 				$('#carNumCheck').focus();
