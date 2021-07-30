@@ -69,12 +69,13 @@ public class WareHousingController {
 	//입고요청시 뿌려주는 리스트
 	@GetMapping("/receivingRequest")
 	public String receivingRequest(@RequestParam(value = "memberId", required = false) String memberId
-									,Model model) {
-		
+			,@RequestParam(name="searchKey", required = false) String searchKey
+			,@RequestParam(name="searchValue", required = false) String searchValue,Model model) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
 		Member memberList = memberService.getMemberInfoById(memberId);
 		Shoppingmall shopmemberList = memberService.getsShopById(memberId);
 		List<Warehouse> warehouseList = warehouseService.getWarehouseList();		
-		List<Product> productList = productService.getProductList();
+		List<Product> productList = productService.getProductList(paramMap);
 		List<Contract> contractList = contractService.ContractList();
 		
 		model.addAttribute("memberList", memberList);

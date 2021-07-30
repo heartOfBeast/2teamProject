@@ -146,6 +146,11 @@
 			b.board_qna_temp
 		FROM
 			tb_board AS b
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="searchKey != null and searchKey != ''.toString()">
+				${searchKey} LIKE CONCAT('%', #{searchValue} ,'%');
+			</if>
+		</trim>
   	</select>
  
  </mapper>
