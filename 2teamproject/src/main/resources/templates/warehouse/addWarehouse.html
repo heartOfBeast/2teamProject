@@ -29,6 +29,10 @@
 
 <th:block layout:fragment="container">
 
+<style>
+	.hidden-col {display: none;}
+</style>
+
 	<!-- Main container start -->
 <div class="main-container">
 	<div class="row gutters justify-content-center">
@@ -37,7 +41,7 @@
 					<div class="card m-0">
 						<div class="card-header">
 							<div class="card-title">창고등록</div>
-							<div class="card-sub-title">창고명과 소재지를 입력해주세요.</div>
+							<div class="card-sub-title">창고의 정보들을 입력해주세요.</div>
 						</div>
 						<div class="card-body">
 							<div class="form-group">
@@ -47,8 +51,20 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label for="address">소재지</label>
-								<input type="text" class="form-control" id="address" name="warehouseAddr" placeholder="등록하실 창고의 소재지를 입력해주세요." required="required"/>
+								<label for="warehouseAddr">소재지</label>
+								<div class="input-group">
+									<input type="text" class="form-control" id="api_address" name="warehouseAddr" placeholder="주소검색버을 눌러주세요." readonly required="required"/>
+										<div class="input-group-append">
+											<input type="button" class="btn btn-primary" onclick="api_execDaumPostcode()" value="주소 검색" />
+										</div>
+								</div>
+								<div id="map" style="width:450px;height:300px;margin-top:10px;display:none"></div>
+							</div>
+							<div class="form-group" >
+								<input type="text" class="hidden-col" id="api_address_lat" name="warehouseLat" placeholder="위도" required="required"/>
+							</div>
+							<div class="form-group">
+								<input type="text" class="hidden-col" id="api_address_lon" name="warehouseLon" placeholder="경도" required="required"/>
 							</div>
 							<div class="form-group">
 									<label for="category">종류</label>
@@ -88,17 +104,77 @@
 				<!-- Main container end -->
 
 <th:block layout:fragment="customJs">
+	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=cb83fa3281ae2832bdd855af7e467813&libraries=services"></script>
 	<script>
+	    var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+	        mapOption = {
+	            center: new daum.maps.LatLng(37.537187, 127.005476), // 지도의 중심좌표
+	            level: 5 // 지도의 확대 레벨
+	        };
+	
+	    //지도를 미리 생성
+	    var map = new daum.maps.Map(mapContainer, mapOption);
+	    //주소-좌표 변환 객체를 생성
+	    var geocoder = new daum.maps.services.Geocoder();
+	    //마커를 미리 생성
+	    var marker = new daum.maps.Marker({
+	        position: new daum.maps.LatLng(37.537187, 127.005476),
+	        map: map
+	    });
+	
+	
+	    function api_execDaumPostcode() {
+	        new daum.Postcode({
+	            oncomplete: function(data) {
+	                var addr = data.address; // 최종 주소 변수
+	
+	                // 주소 정보를 해당 필드에 넣는다.
+	                document.getElementById("api_address").value = addr;
+	                // 주소로 상세 정보를 검색
+	                geocoder.addressSearch(data.address, function(results, status) {
+	                    // 정상적으로 검색이 완료됐으면
+	                    if (status === daum.maps.services.Status.OK) {
+	
+	                        var result = results[0]; //첫번째 결과의 값을 활용
+	                        // 해당 주소에 대한 좌표를 받아서
+	                        coords = new daum.maps.LatLng(result.y, result.x);
+						    
+						   var lon = coords[Object.keys(coords)[0]];
+						   var lat = coords[Object.keys(coords)[1]];
+// 							console.log("============위도" + lat);
+//							console.log("============경도" + lon);
+							$('#api_address').val(addr);
+							$('#api_address_lat').val(lat);
+							$('#api_address_lon').val(lon);
+
+
+	                        // 지도를 보여준다.
+	                        mapContainer.style.display = "block";
+	                        map.relayout();
+	                        // 지도 중심을 변경한다.
+	                        map.setCenter(coords);
+	                        // 마커를 결과값으로 받은 위치로 옮긴다.
+	                        marker.setPosition(coords)
+	                    }
+	                });
+	            }
+	        }).open();
+	        
+	    }
+	    
 			$('#submitDone').click(function(){
 				var addWarehouseForm = $('#addWarehouseForm');
 				var submitFlag = true;				
 				var name = $('#name').val();
-				var address = $('#address').val();
+				var address = $('#api_address').val();
 				var category = $('#category').val();
 				var area = $('#area').val();
 				var phone = $('#phone');
 				var regPhone = /^[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}/.test(phone.val());
 				var regNumber = $('#regNumber').val();
+				
+
 				
 				/************************************창고명 입력여부 검사 ************************************/
 				if(name == null || name == '' || name == undefined){

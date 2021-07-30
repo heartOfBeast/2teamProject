@@ -14,8 +14,9 @@
 			, contractFinal.contract_final_zone					AS contractFinalZone
 			, contractFinal.contract_final_product_name			AS contractFinalProductName
 			, contractFinal.contract_final_quantity				AS contractFinalQuantity
-			, contractFinal.contract_final_pay					AS contractFinalPay
+			, FORMAT(contractFinal.contract_final_pay,0)		AS contractFinalPay
 			, shoppingmallUser.shoppingmall_user_id				AS contractFinalUser
+			, shoppingmallUser.shoppingmall_name				AS contractFinalName
 			, contractFinal.contract_final_reg_date				AS contractFinalRegDay
 			, memberId.member_id								AS contractFinalMember
 			, contractFinal.contract_final_state				AS contractState
@@ -30,7 +31,13 @@
 		INNER JOIN 
 			tb_member											AS memberId
 		ON
-			contractFinal.member_id = memberId.member_id;
+			contractFinal.member_id = memberId.member_id
+		<trim prefix="WHERE" prefixOverrides="AND |OR">
+			<if test="contractApprovalDate != null">
+				contractFinal.contract_final_reg_date_approval LIKE CONCAT('%', #{contractApprovalDate}, '%');
+			</if>
+		</trim>
+			
 	</select>
 	
 	<!-- 계약 등록  -->
@@ -79,14 +86,14 @@
 		UPDATE tb_contract_final
 		SET
 			contract_final_state				='승인',
-			contract_final_state_memo			='해당사항없음',
+			contract_final_state_memo			='해당없음',
 			contract_final_reg_date_approval	= NOW()
 		WHERE 
 			contract_final_code					= #{contractFinalCode}
 	</update>
 
 	<!-- 계약승인 취소 -->
-	<update id="contrcatCancel" parameterType="String">
+	<update id="contractCancel" parameterType="String">
 		UPDATE tb_contract_final
 		SET
 			contract_final_state				='승인취소',
@@ -95,6 +102,19 @@
 		WHERE 
 			contract_final_code					= #{contractFinalCode}
 	</update>
+	
+	<!-- bar그래프 -->
+	<select id="barGraph" resultType="Contract">
+		SELECT 
+			  count(case when contract_final_warehouse_type = '일반창고' then 1 end) as 'barGraph1' 
+			, count(case when contract_final_warehouse_type = '냉장창고' then 1 end) as 'barGraph2' 
+			, count(case when contract_final_warehouse_type = '냉동창고' then 1 end) AS 'barGraph3' 
+			, DATE_FORMAT(e.contract_final_reg_date_approval,'%m') as MONTH 
+		FROM 
+			tb_contract_final as e
+		where YEAR(e.contract_final_reg_date_approval) = 2021
+		group by MONTH;
+	</select>
 	
 	<!-- 최종계약 일정  -->
 	<select id="CalendarList" resultType="Map" parameterType="String">
@@ -111,7 +131,5 @@
 		WHERE
 			contractFinal.contract_final_state = '승인';
 	</select>
-	
-	
 	
 </mapper>

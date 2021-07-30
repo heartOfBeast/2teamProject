@@ -87,7 +87,7 @@
 
 
 	<select id="gerReleaseOrder" resultType="Release" fetchSize="1000" resultMap="ReleaseResultMap">
-	SELECT 
+		SELECT 
 			r.release_order_code
 			, r.release_code
 			, r.warehouse_code
@@ -172,7 +172,25 @@
 	</insert>
 	
 	<update id="modifyDriveManagement" parameterType="CarManagement">
-		UPDATE tb_car_management
+		UPDATE 
+			tb_car_management AS c
+			INNER JOIN 
+			tb_release_info AS r
+			on
+			c.release_order_code = r.release_order_code
+		SET
+			c.delivery_member_id = #{deliveryMemberId}
+			, c.release_order_car = #{releaseOrderCar}
+			, c.drive_using_date = #{driveUsingDate}
+			, c.drive_update_date=NOW()
+			, c.ware_admin_id= #{wareAdminId}
+			, r.release_real_date = #{driveUsingDate}
+		WHERE 
+			drive_manage_code = #{driveManageCode};	
+	</update>
+
+	<update id="modifyDriveManagementNotRelease" parameterType="CarManagement">
+		UPDATE tb_car_management 		
 		SET
 			delivery_member_id = #{deliveryMemberId}
 			, release_order_car = #{releaseOrderCar}
@@ -180,7 +198,7 @@
 			, drive_update_date=NOW()
 			, ware_admin_id= #{wareAdminId}
 		WHERE 
-			drive_manage_code = #{driveManageCode};
+			drive_manage_code = #{driveManageCode};	
 	</update>
 	
 	<!-- <select id="getDriveManagement" resultType="CarManagement" fetchSize="1000">
@@ -260,7 +278,7 @@
 	</insert>
 	
 	<update id="releaseStock" parameterType="ReleaseInfo">
-		UPDATE tb_stock_status_backup
+		UPDATE tb_stock_status
 		SET
 			stock_amount= stock_amount - #{releaseRealAmount}
 			,release_order_quantity= #{releaseRealAmount}
@@ -360,6 +378,8 @@
 			INNER JOIN 
 				tb_release_info AS r
 			ON 
-				i.ware_admin_id = r.ware_admin_id				
+				i.release_order_code = r.release_order_code	
+			WHERE
+				invoice_code = #{invoiceCode}				
 	</select>
 </mapper>

@@ -36,10 +36,10 @@
 			<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 				<div class="card">
 					<div class="card-header">
-						<div class="card-title">Basic Column Graph With Datatables</div>
+						<div class="card-title">입고 현황(월별)</div>
 					</div>
 					<div class="card-body">
-						<div id="basic-column-graph-datalables" class="primary-graph"></div>
+						<div id="receivingGraph" class="primary-graph" th:fragment="receivingInfo"></div>
 					</div>
 				</div>
 				<div class="table-container">
@@ -48,9 +48,6 @@
 						<table id="copy-print-csv" class="table custom-table">
 							<thead>
 								<tr>
-									<th>
-										<input type="checkbox" id="checkAll" style="position: relative; top: 1.5px;">
-									</th>
 									<th>입고코드</th>
 									<th class="hidden-col">입고주문서코드</th>
 									<th>입고창고</th>
@@ -62,15 +59,12 @@
 							</thead>
 							<tbody>
 								<tr th:if="${#lists.size(receivingStatusListForWarehouse)}>0" th:each="l:${receivingStatusListForWarehouse}">
-									<td>
-										<input type="checkbox" id="receivingingCode" class="checkOne" style="position: relative; top: 1.5px;" th:value="${l.receivingingCode}">
-									</td>
 									<td class="hidden-col" th:text="${l.warehousingOrderCode}"></td>
 									<td th:text="${l.receivingingCode}"></td>
 									<td th:text="${l.warehouse.warehouseName}"></td>
 									<td th:text="${l.product.productName}"></td>
 									<td th:text="${l.shoppingmall.shoppingmallName}"></td>
-									<td th:text="${l.warehousingRealDate}"></td>
+									<td th:text="${l.warehousingRealDate}" class = "realDate"></td>
 									<td th:text="${l.wareAdminId}"></td>
 								</tr>
 							</tbody>
@@ -83,7 +77,11 @@
 	</div>
 </th:block>
 
-<th:block layout:fragment="customJs"></th:block>
+<th:block layout:fragment="customJs">
+
+	<script type="text/javascript" th:inline="javascript" src="js/receivingInfo.js"></script>
+	
+</th:block>
 
 		
 </html>

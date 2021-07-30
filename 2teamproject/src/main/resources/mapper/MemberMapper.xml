@@ -177,6 +177,39 @@
 		 </trim>
 </update>
 
+<update id="updateShopMember" parameterType="Shoppingmall">
+UPDATE tb_shoppingmall_user
+	<trim prefix="SET" prefixOverrides=",">
+	<if test="shoppingmallPw != null and shoppingmallPw != ''.toString()">
+		shoppingmall_user_pw=#{shoppingmallPw}
+	</if>
+	<if test="shoppingmallName != null and shoppingmallName != ''.toString()">
+		shoppingmall_name=#{shoppingmallName},
+	</if>
+	<if test="shoppingmallAddr != null and shoppingmallAddr != ''.toString()">
+		shoppingmall_user_address=#{shoppingmallAddr},
+	</if>
+	<if test="shoppingmallEmail != null and shoppingmallEmail != ''.toString()">
+		shoppingmall_user_email=#{shoppingmallEmail},
+	</if>
+	<if test="shoppingmallPhone != null and shoppingmallPhone != ''.toString()">
+		shoppingmall_user_phone=#{shoppingmallPhone},
+	</if>
+	<if test="shoppingmallNumber != null and shoppingmallNumber != ''.toString()">
+		shoppingmall_user_iden_num=#{shoppingmallNumber},
+	</if>
+	<if test="shoppingmallBank != null and shoppingmallBank != ''.toString()">
+	shoppingmall_bank=#{shoppingmallBank},
+	</if>
+	<if test="shoppingmallBankNum != null and shoppingmallBankNum != ''.toString()">
+	shoppingmall_bank_number=#{shoppingmallBankNum},
+	</if>
+		shoppingmall_user_update=NOW()
+	WHERE 
+		shoppingmall_user_id=#{shoppingmallId};
+	</trim>
+</update>
+
 
 
 <delete id="deleteMember" parameterType="String">
@@ -373,5 +406,14 @@
 		</if>
 		
 	</select>
+	
+	<delete id="shopMemberDelete" parameterType="String">
+	DELETE 
+	FROM 
+		tb_shoppingmall_user 
+	WHERE 
+		shoppingmall_user_pw=#{shoppingmallPw};
+	
+	</delete>
 
 </mapper>

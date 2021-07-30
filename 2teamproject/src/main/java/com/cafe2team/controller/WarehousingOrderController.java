@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -45,11 +46,20 @@ public class WarehousingOrderController {
 	
 	//수정 후 입고(단품)
 	@PostMapping("/receivingFromModal")
-	public String receivingFromModal(Receiving receiving,String warehousingOrderCode) {
-		
-		warehousingOrderService.receivingFromModal(receiving);
-		warehousingOrderService.changeWarehousingStatusFromModal(warehousingOrderCode);
-		warehousingOrderService.insertOrUpdateStock(receiving);
+	public String receivingFromModal(Receiving receiving,String warehousingOrderCode,String sectorColumnFinalCode,
+									HttpSession session,
+									RedirectAttributes reAttr
+									) {
+		String sessionId = (String) session.getAttribute("SID");
+		//String wareAdminId = (String) session.getAttribute("SID");
+		if(sessionId !=null/*||wareAdminId !=null*/) {
+			receiving.setWareAdminId(sessionId);
+			warehousingOrderService.receivingFromModal(receiving);
+			warehousingOrderService.changeWarehousingStatusFromModal(warehousingOrderCode, sectorColumnFinalCode);
+			warehousingOrderService.insertOrUpdateStock(receiving);
+			reAttr.addAttribute("wareAdminId", sessionId);
+			//reAttr.addAttribute("wareAdminId", wareAdminId);
+		}
 		return "redirect:/receivingOrder";
 		
 	}
@@ -57,14 +67,25 @@ public class WarehousingOrderController {
 	//입고확정
 	@PostMapping("/confirmWarehousing")
 	@ResponseBody
-	public Map<String,Object> entering(@RequestParam(value = "confirmWarehousingDataArr[]")List<String> confirmWarehousingDataArr) {
+	public Map<String,Object> entering(@RequestParam(value = "confirmWarehousingDataArr[]")List<String> confirmWarehousingDataArr
+										,HttpSession session
+										,RedirectAttributes reAttr
+										,HttpServletResponse response
+										,Receiving receiving) {
 		Map<String,Object> paramMap = new HashMap<String, Object>();
-		
+		String sessionId = (String) session.getAttribute("SID");
+		//String wareAdminId = (String)session.getAttribute("SID");
 		String changeWarehousingOrderStatus = warehousingOrderService.changeWarehousingStatus(confirmWarehousingDataArr)+"";
-		int addReceiving = warehousingOrderService.addReceiving(confirmWarehousingDataArr);
-		
-		paramMap.put("changeWarehousingOrderStatus", changeWarehousingOrderStatus);
-		paramMap.put("addReceiving", addReceiving);
+		if(sessionId != null) {
+			int addReceiving = warehousingOrderService.addReceiving(confirmWarehousingDataArr);
+			
+			log.info(" 회원 아이디 sessionId : {}",  sessionId);
+			paramMap.put("changeWarehousingOrderStatus", changeWarehousingOrderStatus);
+			paramMap.put("addReceiving", addReceiving);
+			receiving.setWareAdminId(sessionId);
+			reAttr.addAttribute("wareAdminId", sessionId);
+			//reAttr.addAttribute("wareAdminId", wareAdminId);
+		}
 		
 		return paramMap;
 	}

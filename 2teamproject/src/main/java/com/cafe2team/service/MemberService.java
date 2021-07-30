@@ -84,6 +84,11 @@ public class MemberService {
 		return memberUpdate;
 	}
 	
+	public int updateShopMember(Shoppingmall shoppingmall) {
+		
+		return memberMapper.updateShopMember(shoppingmall);
+	}
+	
 	//승인대기테이블에서 tbMember 으로 이동
 	public int adminIntotbMember(String approvalAdminId) {
 		
@@ -151,6 +156,11 @@ public class MemberService {
 		Member member =  memberMapper.getAdminAjaxId(adminEmail);
 		
 		return member;
+	}
+	
+	public int shopMemberDelete(String shopMemberPassword) {
+		
+		return memberMapper.shopMemberDelete(shopMemberPassword);
 	}
 	
 

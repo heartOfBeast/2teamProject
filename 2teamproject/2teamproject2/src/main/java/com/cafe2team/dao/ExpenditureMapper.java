@@ -11,7 +11,7 @@ public interface ExpenditureMapper {
 
 	 public List<Expenditure> getExpenditureList();
 	 
-	 public int expenditureinsert(Expenditure expenditure);
+	 public int expenditureInsert(Expenditure expenditure);
 	 
 	 public int expenditureDeleteByCode(String paramList);
 

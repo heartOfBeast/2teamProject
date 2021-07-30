@@ -43,6 +43,8 @@ public interface MemberMapper {
 	//멤버 업데이트
 	public int updateMember(Member member);
 	
+	public int updateShopMember(Shoppingmall shoppingmall);
+	
 	//거래처 등록
 	public int memberShopInsert(Shoppingmall shoppingMall);
 	
@@ -62,6 +64,8 @@ public interface MemberMapper {
 	//Admin 아이디 찾기
 	public Member getAdminAjaxId(String adminMemberEmail);
 	
+	//거래처 회원탈퇴
+	public int shopMemberDelete(String shopMemberPassword);
 	
 	
 }

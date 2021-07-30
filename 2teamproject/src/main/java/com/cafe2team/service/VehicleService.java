@@ -1,6 +1,7 @@
 package com.cafe2team.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,13 +17,18 @@ public class VehicleService {
 	@Autowired
 	private VehicleMapper vehicleMapper;
 	
-	public List<Vehicle> getVehicleInfo(){
-		List<Vehicle> vehicle = vehicleMapper.getVehicleInfo();
+	public List<Vehicle> getVehicleInfo(Map<String, Object> carKindParam){
+		List<Vehicle> vehicle = vehicleMapper.getVehicleInfo(carKindParam);
 		return vehicle; 		
 	}
 	
 	public int addVehicle(Vehicle vehicle) {
 		return vehicleMapper.addVehicle(vehicle);
+	}
+	
+	public List<Vehicle> getVehicleInfoByCode(String carCode){
+		List<Vehicle> vehicle = vehicleMapper.getVehicleInfoByCode(carCode);
+		return vehicle;
 	}
 	
 	public int modifyVehicle(Vehicle vehicle) {
@@ -37,4 +43,8 @@ public class VehicleService {
 		List<CarManagement> carManagement = vehicleMapper.getCarManagementInfo(releaseOrderCode);
 		return carManagement;
 	}
+	
+	public int checkCarNumber(String carNumber) {
+		return vehicleMapper.checkCarNumber(carNumber);
+	}	
 }

@@ -11,6 +11,8 @@ public class Warehouse {
 	private String warehouseDetail;
 	private String warehouseRegDate;
 	private String wareAdminId;
+	private String warehouseLat;
+	private String warehouseLon;
 	
 	private String sectorCode;
 	private String sectorName;
@@ -19,6 +21,14 @@ public class Warehouse {
 	private String wareSectorAdminId;
 	private String sectorUsing;
 	private String sectorPCode;
+	
+	private String finalSectorCode;
+	private String finalSectorWareCode;
+	private String finalSectorSectorCode;
+	private String finalSectorMemberId;
+	private String finalSectorRegDate;
+	private String finalSectorRegId;
+	
 	
 	public String getSectorCode() {
 		return sectorCode;
@@ -122,16 +132,69 @@ public class Warehouse {
 	public void setSectorPCode(String sectorPCode) {
 		this.sectorPCode = sectorPCode;
 	}
+
+	public String getWarehouseLat() {
+		return warehouseLat;
+	}
+	public void setWarehouseLat(String warehouseLat) {
+		this.warehouseLat = warehouseLat;
+	}
+	public String getWarehouseLon() {
+		return warehouseLon;
+	}
+	public void setWarehouseLon(String warehouseLon) {
+		this.warehouseLon = warehouseLon;
+	}
+	public String getFinalSectorRegId() {
+		return finalSectorRegId;
+	}
+	public void setFinalSectorRegId(String finalSectorRegId) {
+		this.finalSectorRegId = finalSectorRegId;
+	}
+	public String getFinalSectorCode() {
+		return finalSectorCode;
+	}
+	public void setFinalSectorCode(String finalSectorCode) {
+		this.finalSectorCode = finalSectorCode;
+	}
+	public String getFinalSectorWareCode() {
+		return finalSectorWareCode;
+	}
+	public void setFinalSectorWareCode(String finalSectorWareCode) {
+		this.finalSectorWareCode = finalSectorWareCode;
+	}
+	public String getFinalSectorSectorCode() {
+		return finalSectorSectorCode;
+	}
+	public void setFinalSectorSectorCode(String finalSectorSectorCode) {
+		this.finalSectorSectorCode = finalSectorSectorCode;
+	}
+	public String getFinalSectorMemberId() {
+		return finalSectorMemberId;
+	}
+	public void setFinalSectorMemberId(String finalSectorMemberId) {
+		this.finalSectorMemberId = finalSectorMemberId;
+	}
+	public String getFinalSectorRegDate() {
+		return finalSectorRegDate;
+	}
+	public void setFinalSectorRegDate(String finalSectorRegDate) {
+		this.finalSectorRegDate = finalSectorRegDate;
+	}
 	@Override
 	public String toString() {
 		return "Warehouse [warehouseCode=" + warehouseCode + ", warehouseName=" + warehouseName + ", warehouseAddr="
 				+ warehouseAddr + ", warehouseCate=" + warehouseCate + ", warehouseArea=" + warehouseArea
 				+ ", warehousePhone=" + warehousePhone + ", warehouseRegNumber=" + warehouseRegNumber
 				+ ", warehouseDetail=" + warehouseDetail + ", warehouseRegDate=" + warehouseRegDate + ", wareAdminId="
-				+ wareAdminId + ", sectorCode=" + sectorCode + ", sectorName=" + sectorName + ", sectorAvailble="
-				+ sectorAvailble + ", sectorRegDate=" + sectorRegDate + ", wareSectorAdminId=" + wareSectorAdminId
-				+ ", sectorUsing=" + sectorUsing + ", sectorPCode=" + sectorPCode + "]";
+				+ wareAdminId + ", warehouseLat=" + warehouseLat + ", warehouseLon=" + warehouseLon + ", sectorCode="
+				+ sectorCode + ", sectorName=" + sectorName + ", sectorAvailble=" + sectorAvailble + ", sectorRegDate="
+				+ sectorRegDate + ", wareSectorAdminId=" + wareSectorAdminId + ", sectorUsing=" + sectorUsing
+				+ ", sectorPCode=" + sectorPCode + ", finalSectorCode=" + finalSectorCode + ", finalSectorWareCode="
+				+ finalSectorWareCode + ", finalSectorSectorCode=" + finalSectorSectorCode + ", finalSectorMemberId="
+				+ finalSectorMemberId + ", finalSectorRegDate=" + finalSectorRegDate + ", finalSectorRegId="
+				+ finalSectorRegId + "]";
 	}
 
-	
+
 }

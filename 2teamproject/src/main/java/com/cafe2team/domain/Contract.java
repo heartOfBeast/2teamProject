@@ -23,7 +23,10 @@ public class Contract {
 	private String contractState;
 	private String contractStateMemo;
 	private String contractApprovalDate;
-	
+	private String barGraph1;
+	private String barGraph2;
+	private String barGraph3;
+	private String MONTH;
 	public String getContractFinalCode() {
 		return contractFinalCode;
 	}
@@ -156,7 +159,30 @@ public class Contract {
 	public void setContractApprovalDate(String contractApprovalDate) {
 		this.contractApprovalDate = contractApprovalDate;
 	}
-	
+	public String getBarGraph1() {
+		return barGraph1;
+	}
+	public void setBarGraph1(String barGraph1) {
+		this.barGraph1 = barGraph1;
+	}
+	public String getBarGraph2() {
+		return barGraph2;
+	}
+	public void setBarGraph2(String barGraph2) {
+		this.barGraph2 = barGraph2;
+	}
+	public String getBarGraph3() {
+		return barGraph3;
+	}
+	public void setBarGraph3(String barGraph3) {
+		this.barGraph3 = barGraph3;
+	}
+	public String getMONTH() {
+		return MONTH;
+	}
+	public void setMONTH(String mONTH) {
+		MONTH = mONTH;
+	}
 	@Override
 	public String toString() {
 		return "Contract [contractFinalCode=" + contractFinalCode + ", contractFinalPriceCode=" + contractFinalPriceCode
@@ -169,8 +195,12 @@ public class Contract {
 				+ contractFinalRegDay + ", contractFinalMember=" + contractFinalMember + ", priceCode=" + priceCode
 				+ ", priceName=" + priceName + ", wareHouseType=" + wareHouseType + ", priceZone=" + priceZone
 				+ ", pricePrice=" + pricePrice + ", contractState=" + contractState + ", contractStateMemo="
-				+ contractStateMemo + ", contractApprovalDate=" + contractApprovalDate + "]";
+				+ contractStateMemo + ", contractApprovalDate=" + contractApprovalDate + ", barGraph1=" + barGraph1
+				+ ", barGraph2=" + barGraph2 + ", barGraph3=" + barGraph3 + ", MONTH=" + MONTH + "]";
 	}
+	
+	
+	
 	
 	
 	

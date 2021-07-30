@@ -46,7 +46,6 @@
 				</select>
 				<div class="table-responsive">
 					<div id="basicExample_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
-					
 					<table id="copy-print-csv-KO" class="table custom-table">
 						<thead>
 						<tr>
@@ -157,8 +156,11 @@
 </th:block>
 
 <th:block layout:fragment="customJs">
-<script type="text/javascript" th:inline="javascript">
 
+<script type="text/javascript" th:inline="javascript">
+	//<![CDATA[
+	var test = [[${warehouseList}]];
+	//]]>
 
 	$(document).ready(function(){
 		$('#notSorting').removeClass('sorting');
@@ -190,10 +192,9 @@
 			$('#wareDetail').val(dataDetail);
 		})
 	})
+
 /********************************************* select 제이쿼리 이용 중복 제거 *********************************************/
-	//<![CDATA[
-	var test = [[${warehouseList}]];
-	//]]>
+
 	var warehouseName = [];
 	var warehouseAddr = [];
 	var warehouseCate = [];
@@ -202,7 +203,10 @@
 		warehouseName.push(test[i].warehouseName);
 	}
 	for(var i = 0; i < test.length; i++){
-		warehouseAddr.push(test[i].warehouseAddr);
+		var split = test[i].warehouseAddr.split(" ")
+//		console.log(split);
+		warehouseAddr.push(split[0] + " " + split[1]);		
+//		warehouseAddr.push(test[i].warehouseAddr);
 	}
 	for(var i = 0; i < test.length; i++){
 		warehouseCate.push(test[i].warehouseCate);
@@ -216,19 +220,19 @@
 	var htmlAddr = "";
 	var htmlCate = "";
 
-	htmlName += '<option disabled="disabled" selected="selected">:: 창고명 선택 ::</option>';
 	htmlAddr += '<option disabled="disabled" selected="selected">:: 소재지 선택 ::</option>';
+	htmlName += '<option disabled="disabled" selected="selected">:: 창고명 선택 ::</option>';
 	htmlCate += '<option disabled="disabled" selected="selected">:: 종류 선택 ::</option>';
 	
-	for(var i = 0; i < nameUnique.length; i++){
-		htmlName += '<option>';
-		htmlName += nameUnique[i];
-		htmlName += '</option>';
-	}
 	for(var i = 0; i < addrUnique.length; i++){
 		htmlAddr += '<option>';
 		htmlAddr += addrUnique[i];
 		htmlAddr += '</option>';
+	}
+	for(var i = 0; i < nameUnique.length; i++){
+		htmlName += '<option>';
+		htmlName += nameUnique[i];
+		htmlName += '</option>';
 	}
 	for(var i = 0; i < cateUnique.length; i++){
 		htmlCate += '<option>';
@@ -239,13 +243,24 @@
 	$('#name').html(htmlName); 
 	$('#addr').html(htmlAddr); 
 	$('#cate').html(htmlCate); 
+	
+
 /********************************************* ajax Address 필터 *********************************************/	
 	
 /* 	var selectNameValue = "";
 	var selectAddrValue = "";
 	var selectCateValue = ""; */
 	
+	
+	
 	$('#addr').change(function(){
+/*		var str = $('#addr').val();
+		var split = str.split(" ");
+		console.log(split[0]);
+		console.log(split[1]);
+		var addrVal = split[0] + " " + split[1];
+		console.log(addrVal); */
+		
 		var request = $.ajax({
 			url: "/warehouseListDetailAddr",
 			method: "POST",

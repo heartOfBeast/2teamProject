@@ -1,7 +1,7 @@
 package com.cafe2team.dao;
 
 import java.util.List;
-
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -15,7 +15,7 @@ public interface ProductMapper {
 	public int deleteProductByCode(String productCode);
 	
 	//쇼핑몰 사업자 창고별 재고보기
-	public List<Product> getProductAmountPerWarehouse();
+	public List<Product> getProductAmountPerWarehouse(Product product);
 	
 	//상품수정
 	public int modifyProduct(Product product);
@@ -26,7 +26,7 @@ public interface ProductMapper {
 	//상품등록 위해 품목 대분류 가져오기
 	public List<Item> getItemBigCategoryInfo();
 	//상품목록
-	public List<Product> getProductList();
+	public List<Product> getProductList(Map<String, Object> paramMap);
 	
 	public List<Item> getItemMiddleCategoryInfo(String itemBigCategory);
 	public List<Item> getItemSmallCategoryInfo(String itemMiddleCategory);

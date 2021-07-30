@@ -7,7 +7,7 @@
 	<th:block layout:fragment="pageTitle">
 		<div class="page-header">
 			<ol class="breadcrumb">
-				<li class="breadcrumb-item">Home</li>
+				<li class="breadcrumb-item">차량관리</li>
 				<li class="breadcrumb-item active">차량목록 조회</li>
 			</ol>
 		
@@ -32,6 +32,7 @@
 				<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 					<div class="table-container">
 						<div class="t-header">차량목록 조회</div>
+						<div th:include="vehicle/carSearch :: searchFragment"></div>
 						<div class="table-responsive">
 							<table id="copy-print-csv" class="table custom-table">
 								<thead>
@@ -39,7 +40,7 @@
 						 		 	  <th>
 								  		<input type="checkbox" id="checkAll" style="position: relative; top: 1.5px;">
 									  </th>
-									  <th style="display: none;">차량코드</th>
+									  <th style="display: none;">차량코드</th> 	
 									  <th>차량종류</th>
 									  <th>차량상태</th>
 									  <th>차량상태 상세설명</th>
@@ -72,7 +73,7 @@
 									  	<a type="button" class="btn btn-primary getInfoBtn" data-toggle="modal" data-target=".bd-example-modal-lg2"  style="color: white;">상세보기</a>
 									  </td>
 									  <td>
-									  	<a type="button" class="btn btn-primary modifyBtn" data-toggle="modal" data-target=".bd-example-modal-lg" id="viewModal" style="color: white;">수정</a>
+									  	<a type="button" class="btn btn-primary modifyBtn" data-toggle="modal" data-target=".bd-example-modal-lg" style="color: white;">수정</a>
 								  	  </td>
 									</tr>
 								</tbody>
@@ -121,7 +122,7 @@
 							</div>
 							<label for="carNumCheckModal">번호판</label>
 							<div class="form-group">
-								<input type="text" class="form-control" id="carNumCheckModal" name="carNumber" placeholder="차량번호를 입력해주세요." maxlength="8">
+								<input type="text" class="form-control" id="carNumCheckModal" name="carNumber" placeholder="차량번호를 입력해주세요." maxlength="8" readonly="readonly" style="background-color: white;">
 							</div>
 							<div class="form-group">
 							<label for="carUsingStatusModal">사용유무</label>	
@@ -177,30 +178,8 @@
 	</th:block>
 <th:block layout:fragment="customJs">
 	<script>
-		$('.modifyBtn').each(function(){
-			$(this).click(function(){
-				var carCodeData = $(this).parents('tr').children('#carCodeData').text();
-				var carKindData = $(this).parents('tr').children('#carKindData').text();
-				var carStatusData = $(this).parents('tr').children('#carStatusData').text();
-				var carStatusDetailData = $(this).parents('tr').children('#carStatusDetailData').text();
-				var carUsingYearData = $(this).parents('tr').children('#carUsingYearData').text();
-				var carNumberData = $(this).parents('tr').children('#carNumberData').text();
-				var carUsingStatusData = $(this).parents('tr').children('#carUsingStatusData').text();
-				
-				var carKindSelected = $('#carKindModal option:contains(' + carKindData + ')').val();
-				var carStatusSelected = $('#carStatusModal option:contains(' + carStatusData + ')').val();
-				var carUsingStatusSelected = $('#carUsingStatusModal option:contains(' + carUsingStatusData + ')').val();
-				
-				$('#carCodeModal').val(carCodeData);
-				$('#carKindModal').val(carKindSelected);
-				$('#carStatusModal').val(carStatusSelected);
-				$('#carStatusInfoModal').val(carStatusDetailData);
-				$('#carUseYearModal').val(carUsingYearData);
-				$('#carNumCheckModal').val(carNumberData);
-				$('#carUsingStatusModal').val(carUsingStatusSelected);
-			})
-		})
-		
+	
+	/********수정처리 유효성********/
 		$('#submitDone').click(function(){
 			var modifyCarInfo = $('#modifyCarInfo');
 			var submitFlag = true;
@@ -226,6 +205,7 @@
 			}
 		});
 		
+		/********삭제처리********/
 		$(function(){
 			$('#checkAll').click(function(){
 				if($('#checkAll').prop('checked')){
@@ -234,7 +214,8 @@
 					$('.checkOne').prop('checked', false);
 				}
 			})
-		})
+		});
+		
 		function deleteDate(){
 			var dataArr = new Array();
 			var list = $('.checkOne');
@@ -271,10 +252,10 @@
 			}
 		}
 		
+		/********배차내역********/
 		$('.getInfoBtn').each(function(){
 			$(this).click(function(){
 				var releaseOrderCode = $(this).parents('tr').children('#carCodeData').text();
-				console.log(releaseOrderCode);
 				if(releaseOrderCode != null){
 					$.ajax({
 						url : "/getCarmanagementInfo",
@@ -284,9 +265,6 @@
 						data : {'releaseOrderCode':releaseOrderCode},
 						success: function(data){
 							if(data != null && data != '' && data != undefined){
-								console.log(true);
-								console.log(data[0].driveManageCode);
-								console.log(data);
 								for(var i=0; i<data.length; i++){
 									var carManagementData = 	
 												'<tr>' +
@@ -302,7 +280,6 @@
 									$('#tbodyModal').children('tr').remove();
 								});
 							}else{
-								console.log(false);
 								var carManagementData = 	
 											'<tr>' +
 											'<td colspan="5" style="text-align: center;">' + '데이터가 없습니다.' + '</td>' +
@@ -318,7 +295,42 @@
 				}
 			})
 		})
-			
+		
+		/********수정화면********/
+		$('.modifyBtn').each(function(){
+			$(this).click(function(){
+				var carCode = $(this).parents('tr').children('#carCodeData').text();
+				if(carCode != null){
+					$.ajax({
+						url : "/modifyVehicle",
+						method : 'get',
+						async : true,
+						dataType : "json",
+						data : {'carCode':carCode},
+						success: function(data){
+							if(data != null && data != '' && data != undefined){
+								$('#carCodeModal').val(data[0].carCode);
+								$('#carKindModal').val(data[0].carKind);
+								$('#carStatusModal').val(data[0].carStatus);
+								$('#carStatusInfoModal').text(data[0].carStatusDetail);
+								$('#carUseYearModal').val(data[0].carUsingYear);
+								$('#carNumCheckModal').val(data[0].carNumber);
+								$('#carUsingStatusModal').val(data[0].carUsingStatus);
+							}else{
+								alert('오류발생');
+							}
+						}
+					})
+				}
+			})
+		})
+		
+		/********차량 종류별 검색********/
+		$(function(){
+			$('#searchKind').change(function(){
+				$('#searchCarKind').submit();
+			})
+		})
 	</script>
 </th:block>		
 </html>

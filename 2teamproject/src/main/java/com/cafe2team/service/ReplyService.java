@@ -24,5 +24,16 @@ public class ReplyService {
 		int result = replyMapper.addReply(reply);
 		return result;
 	}
+	
+	//공지 댓글조회
+	public List<Reply> getNoticeReply(String noticeCode) {
+		return replyMapper.readNoticeReply(noticeCode);
+	}
+	
+	//공지 댓글작성
+	public int addNoticeReply(Reply reply) {
+		int result = replyMapper.addNoticeReply(reply);
+		return result;
+	}
 
 }

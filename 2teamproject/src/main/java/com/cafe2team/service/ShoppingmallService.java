@@ -1,6 +1,7 @@
 package com.cafe2team.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,6 +48,14 @@ public class ShoppingmallService {
 	  return result;
 	  
 	}
+	
+	// 쇼핑몰 권한상태 검색
+	public List<Shoppingmall> shoppingmallStatus(Map<String, Object> paramMap) {
+		
+		
+		return shoppingmallMapper.shoppingmallStatus(paramMap);
+	}
+	
 	 
 	
 	// 쇼핑몰 사업자 권한 승인
@@ -57,6 +66,7 @@ public class ShoppingmallService {
 		return result;
 	}
 	
+	// 거래처 권한 취소
 	public int shoppingmallCancel(Shoppingmall shoppingmall) {
 		
 		int result = shoppingmallMapper.shoppingmallCancel(shoppingmall);

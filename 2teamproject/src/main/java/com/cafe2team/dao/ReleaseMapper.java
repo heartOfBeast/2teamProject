@@ -1,6 +1,7 @@
 package com.cafe2team.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -26,6 +27,9 @@ public interface ReleaseMapper {
 	
 	//배차수정
 	public int modifyDriveManagement(CarManagement carManagement);
+
+	//배차수정(출고승인x)
+	public int modifyDriveManagementNotRelease(CarManagement carManagement);
 	
 	//운송장등록
 	public int addInvoice(Invoice invoice);
@@ -40,5 +44,6 @@ public interface ReleaseMapper {
 	//출고리스트조회
 	public List<ReleaseInfo> getReleaseList();
 	
-	public List<Invoice> wayBillSearch();
+	// 운송장 조회
+	public List<Invoice> wayBillSearch(Map<String, Object> paramMap);
 }

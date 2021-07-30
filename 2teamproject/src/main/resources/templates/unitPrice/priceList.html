@@ -30,12 +30,12 @@
 <th:block layout:fragment="container">
 	<div class="table-container">
 		<div class="table-responsive">
-			<button type="button" class="btn btn-primary float-right" onclick="deleteDate();">삭제</button>
-			<button type="button" class="btn btn-primary float-right" onclick="location.href='priceAdd'">등록</button>
+			<button th:if="${session.SID == null or session.SLEVEL == '총관리자'}" type="button" class="btn btn-primary float-right" onclick="deleteDate();">삭제</button>
+			<button th:if="${session.SID == null or session.SLEVEL == '총관리자'}" type="button" class="btn btn-primary float-right" onclick="location.href='priceAdd'">등록</button>
 			<table class="table custom-table m-0">
 				<thead>
 					<tr>
-						<th>
+						<th th:if="${session.SID == null or session.SLEVEL == '총관리자'}">
 					  		<input type="checkbox" id="priceCheck" style="position: relative; top: 1.5px;">
 					    </th>
 						<!-- <th>계약 코드</th> -->
@@ -47,14 +47,13 @@
 						<th>구역 개수</th>
 						<th>계약 기간</th>
 						<th>사용 요금</th>
-						<!-- <th>등록 날짜</th> -->
-						<th>수정</th>
-						<th>계약신청</th>
+						<th th:if="${session.SID == null or session.SLEVEL == '총관리자'}">수정</th>
+						<th th:if="${session.SID == null or session.SLEVEL == '총관리자' or session.STATUS == '승인'}">계약신청</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr th:each="l: ${priceList}">
-						<td>
+						<td th:if="${session.SID == null or session.SLEVEL == '총관리자'}">
 				  	  		<input type="checkbox" class="checkOne" style="position: relative; top: 1.5px;" th:value="${l.priceCode}" >
 					    </td>
 						<td th:text="${l.priceCode}" 		id="priceCodeData" 		style="display: none;"></td>
@@ -65,12 +64,12 @@
 						<td th:text="${l.priceNumber}"		id="priceNumberData" ></td>
 						<td th:text="${l.priceZone}"		id="priceZoneData"></td>
 						<td th:text="${l.priceDay}" 		id="priceDayData"></td>
-						<td th:text="${l.pricePrice}"		id="priceData"></td>
+						<td th:text="${l.pricePrice+'원'}"	id="priceData"></td>
 						<td th:text="${l.unitPriceUpdate}"	id="unitPriceUpdateData" style="display: none;"></td>
-						<td>
+						<td th:if="${session.SID == null or session.SLEVEL == '총관리자'}">
 							<a type="button" class="btn btn-primary updateBtn" data-toggle="modal" data-target=".bd-example-modal-lg" id="updateModal" style="color: white;">수정</a>
 						</td>
-						<td>
+						<td th:if="${session.SID == null or session.SLEVEL == '총관리자' or session.STATUS == '승인'}">
 							<a class="btn btn-primary float-right" th:href="@{/contractAdd(priceCode=${l.priceCode})}" >계약신청</a>
 						</td>
 					</tr>
@@ -242,8 +241,7 @@
 			})
 		});
 		
-		
-		
+	
 	</script>
 </th:block>
 </html>

@@ -59,7 +59,7 @@
 									</select>
 								</div>
 								<div class="form-group">
-									<input type="text" class="form-control" id="productAddCategory" name="productAddCategory" placeholder="추가카테고리" required="required">
+									<input type="text" class="form-control" id="productAddCategory" name="productAddCategory" placeholder="추가카테고리">
 								</div>
 								<div class="form-group">
 									<input type="text" class="form-control" id="productName" name="productName" placeholder="상품명" required="required">
@@ -94,7 +94,10 @@
 									</div>
 								</div>
 								<div class="form-group">
-									<textarea class="form-control" id="productDetail" name="productDetail" placeholder="productDetail" maxlength="140" rows="4" style="resize: none;"></textarea>
+									<textarea class="form-control" id="productDetail" name="productDetail" placeholder="상세설명" maxlength="140" rows="4" style="resize: none;"></textarea>
+									<div class="form-text text-muted">
+										<p id="characterLeftAddProduct" class="help-block">140 characters left</p>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -134,7 +137,7 @@
 						html += '</option>';
 					}
 				}else{
-					html = '<option value=""> :: 이건 뭐지? :: </option>';
+					html = '<option value=""> :: 선택된 결과가 없습니다 :: </option>';
 				}
 				console.log(html);
 				itemMiddleCategory.html(html);
@@ -166,7 +169,7 @@
 						html += '</option>';
 					}
 				}else{
-					html = '<option value=""> :: 이건 뭐지? :: </option>';
+					html = '<option value=""> :: 선택된 결과가 없습니다 :: </option>';
 				}
 				itemSmallCategory.html(html);
 			}); 
@@ -244,6 +247,26 @@
 			});
 				if(submitFlag) productForm.submit();
 		});
+		
+		$(function() {
+			$('#characterLeftAddProduct').text('140 characters left');
+			$('#productDetail').keydown(function () {
+				var max = 140;
+				var len = $(this).val().length;
+				if (len >= max) {
+					$('#characterLeftAddProduct').text('You have reached the limit');
+					$('#characterLeftAddProduct').addClass('red');
+					$('#addProductBtn').addClass('disabled');            
+				} 
+				else {
+					var ch = max - len;
+					$('#characterLeftAddProduct').text(ch + ' characters left');
+					$('#addProductBtn').removeClass('disabled');
+					$('#characterLeftAddProduct').removeClass('red');            
+				}
+			});
+		});	
+		
 	</script>
 </th:block> 
 

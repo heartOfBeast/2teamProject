@@ -36,27 +36,28 @@
 			INNER JOIN 
 			tb_warehouse AS w
 			ON 
-			s.warehouse_code = w.warehouse_code;
+			s.warehouse_code = w.warehouse_code
+		<trim prefix="WHERE" prefixOverrides="OR">
+			<if test="warehouseCode != null and firstDate == ''.toString()">
+				s.warehouse_code LIKE CONCAT('%', #{warehouseCode} ,'%')
+			</if>
+			<if test="warehouseCode == null and firstDate != ''.toString()">
+				s.facility_reg_date BETWEEN #{firstDate} AND #{secondDate}
+			</if>
+		</trim>	
 	</select>
 	
-		<select id="getSafetyCheckById" parameterType="String" resultMap="SafetyCheckResultMap">
+	<select id="getSafetyCheckById" parameterType="String" resultMap="SafetyCheckResultMap" resultType="SafetyCheck" fetchSize="1000">
 		SELECT 
 			  s.facility_code
 			, s.warehouse_code
-			, w.warehouse_name
 			, s.facility_firesafety
 			, s.facility_logistics
 			, s.facility_main_equipemnt
-			, s.ware_admin_id
 			, s.facility_reg_date
-			, s.facility_update_date
 			, s.facility_check
 		FROM 
 			tb_safety_facility AS s
-			INNER JOIN 
-			tb_warehouse AS w
-			ON 
-			s.warehouse_code = w.warehouse_code
 		WHERE
 			s.facility_code = #{facilityCode};
 	</select>
@@ -69,7 +70,7 @@
 			,facility_logistics = #{facilityLogistics}
 			,facility_main_equipemnt = #{facilityMainEquipemnt}
 			, ware_admin_id = #{wareAdminId}
-			, facility_update_date = CURDATE()
+			, facility_update_date = now()
 			,facility_check = #{facilityCheck}
 		WHERE 
 			facility_code=#{facilityCode};

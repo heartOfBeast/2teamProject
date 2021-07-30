@@ -13,6 +13,8 @@
 		<result property="warehouseRegNumber"		column="warehouse_reg_number"/>
 		<result property="warehouseDetail"			column="warehouse_detail"/>
 		<result property="warehouseRegDate"			column="warehouse_reg_date"/>
+		<result property="warehouseLat"				column="warehouse_lat"/>
+		<result property="warehouseLon"				column="warehouse_lon"/>
 	</resultMap>
 		
   	<resultMap type="warehouseSector" id="warehouseSectorResultMap">
@@ -24,6 +26,15 @@
 			<result property="wareSectorAdminId"	column="ware_admin_id" />
 			<result property="sectorUsing"			column="sector_using" />
 			<result property="sectorPCode"			column="sector_product_code" />
+	</resultMap>
+	
+  	<resultMap type="warehouseFinalSector" id="warehouseFinalSectorResultMap">
+			<result property="finalSectorCode"			column="sector_column_final_code" />
+			<result property="finalSectorWareCode"		column="warehouse_code" />
+			<result property="finalSectorSectorCode"	column="sector_code" />
+			<result property="finalSectorMemberId"		column="member_id" />
+			<result property="finalSectorRegDate"		column="sector_column_final_reg_date" />
+			<result property="finalSectorRegId"			column="ware_admin_id" />
 	</resultMap>
 	
 	<update id="warehouseUpdateModal" parameterType="Warehouse">
@@ -75,7 +86,9 @@
 			warehouse_reg_number,
 			warehouse_detail,
 			warehouse_reg_date,
-			ware_admin_id
+			ware_admin_id,
+			warehouse_lat,
+			warehouse_lon
 			)
 	VALUES (
 			#{warehouseCode},
@@ -87,7 +100,10 @@
 			#{warehouseRegNumber},
 			#{warehouseDetail},
 			CURDATE(),
-			#{wareAdminId});
+			#{wareAdminId},
+			#{warehouseLat},
+			#{warehouseLon}
+			);
 	</insert>
 	
 	<insert id="addWarehouseSector">
@@ -119,6 +135,33 @@
 			);
 	</insert>
 	
+	<insert id="addWarehouseFinalSector">
+		<selectKey keyColumn="sector_column_final_code,sector_code,warehouse_code" keyProperty="finalSectorCode,finalSectorWareCode,finalSectorSectorCode" resultType="MAP" order="BEFORE"><!-- 
+			SELECT CAST(CONCAT('w','',(SELECT LPAD(COUNT(*),3,'0')FROM tb_warehouse),'_','s001','_','001','_','001') AS CHAR) AS sector_column_final_code, CAST(CONCAT('w','',(SELECT LPAD(COUNT(*),3,'0')FROM tb_warehouse),'_','s001') AS CHAR) AS sector_code, CAST(CONCAT('w','',(SELECT LPAD(COUNT(*),3,'0')FROM tb_warehouse)) AS CHAR) AS warehouse_code;
+		 -->
+		 SELECT CAST(CONCAT('w','',(SELECT LPAD(COUNT(*),3,'0')FROM tb_warehouse),'_','s001','_','001','_','001') AS CHAR) AS sector_column_final_code, CAST(CONCAT('w','',(SELECT LPAD(COUNT(*),3,'0')FROM tb_warehouse),'_','s001') AS CHAR) AS sector_code, CAST(CONCAT('w','',(SELECT LPAD(COUNT(*),3,'0')FROM tb_warehouse)) AS CHAR) AS warehouse_code;
+		 </selectKey>
+
+	INSERT INTO 
+		tb_warehouse_sector_column_final
+			(
+			sector_column_final_code,
+			warehouse_code,
+			sector_code,
+			member_id,
+			sector_column_final_reg_date,
+			ware_admin_id
+			)
+	VALUES (
+			#{finalSectorCode},
+			#{finalSectorSectorCode},
+			#{finalSectorWareCode},
+			 'id002',
+			 NOW(),
+			 'admin001'
+			);
+	</insert>
+	
 	<select id="getWarehouseList" resultType="Warehouse" fetchSize="1000" resultMap="warehouseResultMap">
 	SELECT 
 		warehouse_code,
@@ -135,6 +178,19 @@
 		tb_warehouse
 	ORDER BY
 		binary(warehouse_addr);
+
+	</select>
+	
+	<select id="getWarehouseLocation" resultType="Warehouse" fetchSize="1000" resultMap="warehouseResultMap">
+	SELECT 
+		warehouse_name,
+		warehouse_addr,
+		warehouse_phone,
+		warehouse_cate,
+		warehouse_lat,
+		warehouse_lon
+	FROM 
+		tb_warehouse;
 	</select>
 	
 	
@@ -154,7 +210,7 @@
 		tb_warehouse
 	WHERE
 	<if test="warehouse_addr !=null and warehouse_addr != '' ">
-		warehouse_addr = #{warehouse_addr}
+		SUBSTRING_INDEX(warehouse_addr, ' ', 2) = #{warehouse_addr}
 	</if>
 	<if test="(warehouse_addr !=null and warehouse_addr != '') and (warehouse_name !=null and warehouse_name != '' )">
 	AND
@@ -173,8 +229,7 @@
 	</select>
 	
 	<select id="getWarehouseListDetailAddr" resultType="Warehouse" fetchSize="1000" resultMap="warehouseResultMap">
-	
-	SELECT
+	SELECT 
 		warehouse_code,
 		warehouse_name,
 		warehouse_addr,
@@ -188,7 +243,7 @@
 	FROM
 		tb_warehouse
 	WHERE
-		warehouse_addr = #{warehouse_addr}
+		SUBSTRING_INDEX(warehouse_addr, ' ', 2) = #{warehouse_addr}
 	ORDER BY
 		binary(warehouse_addr);
 	</select>
@@ -210,7 +265,7 @@
 		tb_warehouse
 	WHERE
 	<if test="warehouse_addr !=null and warehouse_addr != '' ">
-		warehouse_addr = #{warehouse_addr}
+		SUBSTRING_INDEX(warehouse_addr, ' ', 2) = #{warehouse_addr}
 	</if>
 	<if test="(warehouse_addr !=null and warehouse_addr != '') and (warehouse_name !=null and warehouse_name != '' )">
 	AND

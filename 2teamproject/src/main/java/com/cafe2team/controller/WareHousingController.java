@@ -69,13 +69,14 @@ public class WareHousingController {
 	//입고요청시 뿌려주는 리스트
 	@GetMapping("/receivingRequest")
 	public String receivingRequest(@RequestParam(value = "memberId", required = false) String memberId
-									,Model model) {
-		
+			,@RequestParam(name="searchKey", required = false) String searchKey
+			,@RequestParam(name="searchValue", required = false) String searchValue,Model model) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
 		Member memberList = memberService.getMemberInfoById(memberId);
 		Shoppingmall shopmemberList = memberService.getsShopById(memberId);
 		List<Warehouse> warehouseList = warehouseService.getWarehouseList();		
-		List<Product> productList = productService.getProductList();
-		List<Contract> contractList = contractService.ContractList();
+		List<Product> productList = productService.getProductList(paramMap);
+		List<Contract> contractList = contractService.ContractList(null);
 		
 		model.addAttribute("memberList", memberList);
 		model.addAttribute("productList", productList);
@@ -104,19 +105,28 @@ public class WareHousingController {
 	//입고지시서 목록
 	@GetMapping("/receivingOrder")
 	public String receivingOrder(Model model) {
+		List<Shoppingmall> ShoppingmallUserName = warehousingOrderService.getShoppingmallUserName();
 		List<WarehousingOrder> WarehousingOrderList = warehousingOrderService.getWarehousingOrderList();
 		model.addAttribute("title", "입고지시서 목록");
 		model.addAttribute("WarehousingOrderList", WarehousingOrderList);
+		//model.addAttribute("ShoppingmallUserName", ShoppingmallUserName);
 		return "warehousing/receivingOrder";
 	}
+	
 	//입고현황 - 관리자
 	@GetMapping("/receivingWarehouseStatus")
 	public String receivingWarehouseStatus(Model model) {
 		List<Receiving> receivingStatusForWarehouse = warehousingOrderService.getReceivingListForWarehouse();
+		
+		
+		
 		model.addAttribute("title", "입고현황-관리자전용");
 		model.addAttribute("receivingStatusListForWarehouse", receivingStatusForWarehouse);
+		
+		
 		return "warehousing/receivingWarehouseStatus";
 	}
+	
 	@GetMapping("/receivingShopStatus")
 	public String receivingShopStatus(Model model) {
 		
@@ -177,6 +187,8 @@ public class WareHousingController {
 		List<Request> requestInfo = new ArrayList<Request>();
 		
 		requestInfo.add(request);
+		
+		log.info("======================{}" + requestCode);
 		
 		model.addAttribute("requestCode", request);
 		

@@ -46,12 +46,20 @@ public class SafetyCheckController {
 	
 	//전체조회
 	@GetMapping("/safetyCheck")
-	public String safetyCheck(Model model) {
-		List<SafetyCheck> safetyCheck = safetyCheckService.getSafetyCheck();
+	public String safetyCheck(Model model ,@RequestParam(name="warehouseCode", required = false) String warehouseCode
+								,@RequestParam(name="firstDate", required = false) String firstDate , @RequestParam(name="secondDate", required = false) String secondDate) {
+		Map<String, Object> warehouseCodeParam = new HashMap<String, Object>();
+		warehouseCodeParam.put("warehouseCode", warehouseCode);
+		warehouseCodeParam.put("firstDate", firstDate);
+		warehouseCodeParam.put("secondDate", secondDate);
+		List<SafetyCheck> safetyCheck = safetyCheckService.getSafetyCheck(warehouseCodeParam);
 		List<Warehouse> warehouse = safetyCheckService.getWareHouseInfo();
 		model.addAttribute("title", "안전점검 내역조회");
 		model.addAttribute("safetyCheck", safetyCheck);
 		model.addAttribute("warehouse", warehouse);
+		System.out.println(firstDate);
+		System.out.println(secondDate);
+		System.out.println(warehouseCode);
 		return "safe/safetyCheck";
 	}
 	
@@ -78,18 +86,13 @@ public class SafetyCheckController {
 	}
 	
 	//수정화면
-	/*
-	 * @GetMapping("/modifySafetyCheck") public String modifySafetyCheck(Model
-	 * model, @RequestParam(name = "facilityCode" ,required = false)String
-	 * facilityCode) { log.info("=============================");
-	 * log.info("facilityCode : {}", facilityCode);
-	 * log.info("============================="); SafetyCheck safetyCheck =
-	 * safetyCheckService.getSafetyCheckById(facilityCode); List<Warehouse>
-	 * warehouse = safetyCheckService.getWareHouseInfo();
-	 * model.addAttribute("title", "안전점검수정"); model.addAttribute("safetyCheck",
-	 * safetyCheck); model.addAttribute("warehouse", warehouse); return
-	 * "safe/modifySafetyCheck"; }
-	 */
+	
+	@GetMapping("/modifySafetyCheck") 
+	@ResponseBody
+	public List<SafetyCheck> modifySafetyCheck(@RequestParam(name = "facilityCode" ,required = false)String facilityCode){
+		List<SafetyCheck> safetyCheck = safetyCheckService.getSafetyCheckById(facilityCode); 
+		return safetyCheck; 
+	}
 	
 	
 	//수정실행

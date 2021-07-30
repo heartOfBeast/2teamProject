@@ -1,6 +1,7 @@
 package com.cafe2team.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,6 +45,10 @@ public class ReleaseService {
 	public int modifyDriveManagement(CarManagement carManagement) {
 		return releaseMapper.modifyDriveManagement(carManagement);
 	}
+
+	public int modifyDriveManagementNotRelease(CarManagement carManagement) {
+		return releaseMapper.modifyDriveManagementNotRelease(carManagement);
+	}
 	
 	public int addInvoice(Invoice invoice) {
 		return releaseMapper.addInvoice(invoice);
@@ -66,8 +71,8 @@ public class ReleaseService {
 	}
 	
 	//운송장 조회
-	public List<Invoice> wayBillSearch(){
+	public List<Invoice> wayBillSearch(Map<String, Object> paramMap){
 		
-		return releaseMapper.wayBillSearch();
+		return releaseMapper.wayBillSearch(paramMap);
 	}
 }

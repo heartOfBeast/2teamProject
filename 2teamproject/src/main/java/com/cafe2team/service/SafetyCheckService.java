@@ -22,15 +22,17 @@ public class SafetyCheckService {
 	@Autowired
 	private SafetyCheckMapper safetyCheckMapper;
 	
-	public List<SafetyCheck> getSafetyCheck(){
-		List<SafetyCheck> safetyCheck = safetyCheckMapper.getSafetyCheck();
+	public List<SafetyCheck> getSafetyCheck(Map<String, Object> warehouseCodeParam){
+		List<SafetyCheck> safetyCheck = safetyCheckMapper.getSafetyCheck(warehouseCodeParam);
 		return safetyCheck;
 	}
 	
-	public SafetyCheck getSafetyCheckById(String facilityCode) {
-		
-		return safetyCheckMapper.getSafetyCheckById(facilityCode);
-	}
+	
+    public List<SafetyCheck> getSafetyCheckById(String facilityCode) {
+  
+    	return safetyCheckMapper.getSafetyCheckById(facilityCode); 
+    }
+	 
 	
 	public int addSafetyCheck(SafetyCheck safetyCheck) {
 		return safetyCheckMapper.addSafetyCheck(safetyCheck);

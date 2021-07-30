@@ -1,6 +1,8 @@
 package com.cafe2team.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -33,8 +36,10 @@ public class VehicleController {
 	}
 	//차량조회화면
 	@GetMapping("/vehicleList")
-	public String vehicleList(Model model) {
-		List<Vehicle> vehicle = vehicleService.getVehicleInfo();
+	public String vehicleList(Model model, @RequestParam(name="carKind", required = false)String carKind) {
+		Map<String, Object> carKindParam = new HashMap<String, Object>();
+		carKindParam.put("carKind", carKind);
+		List<Vehicle> vehicle = vehicleService.getVehicleInfo(carKindParam);
 		model.addAttribute("title", "차량목록 조회");
 		model.addAttribute("vehicle", vehicle);
 		return "vehicle/vehicleList";
@@ -59,6 +64,14 @@ public class VehicleController {
 		return "redirect:/vehicleList";
 	}
 	
+	//수정화면
+	@GetMapping("modifyVehicle")
+	@ResponseBody
+	public List<Vehicle> getVehicleInfoByCode(@RequestParam(name="carCode", required = false)String carCode){
+		List<Vehicle> vehicle = vehicleService.getVehicleInfoByCode(carCode);
+		return vehicle;
+	}
+	
 	//수정실행
 	@PostMapping("modifyVehicle")
 	public String modifyVehicle(Vehicle vehicle, HttpSession session) {
@@ -79,10 +92,22 @@ public class VehicleController {
 		return result;
 	}
 	
+	//배차내역 조회
 	@GetMapping("getCarmanagementInfo")
 	@ResponseBody
 	public List<CarManagement> getCarmanagementInfo(@RequestParam(name="releaseOrderCode", required = false)String releaseOrderCode) {
 		List<CarManagement> carManagement = vehicleService.getCarManagementInfo(releaseOrderCode);
 		return carManagement;
 	}
+	
+	//차량번호중복체크
+	@PostMapping("checkCarNumber")
+	@ResponseBody
+	public int checkCarNumber(@RequestParam(name="carNumber", required = false)String carNumber) {
+		int result = vehicleService.checkCarNumber(carNumber);
+		System.out.println(result);
+		return result;
+		
+	}
+	
 }

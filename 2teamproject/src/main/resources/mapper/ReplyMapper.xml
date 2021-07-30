@@ -58,5 +58,48 @@
 			board_qna_code=#{boardQnaCode}
 	
 	</select>
+	
+	<!--공지게시판 댓글 조회  -->
+	<select id="readNoticeReply" resultMap="replyResultMap">
+		SELECT 
+			reply_comment_code, 
+			notice_code, 
+			board_qna_code, 
+			onebyone_board_code, 
+			member_id, 
+			reply_comment_content, 
+			reply_comment_reg_date, 
+			reply_comment_update_date, 
+			reply_comment_delete_yesno, 
+			reply_omment_sequence
+		FROM 
+			tb_reply_comments
+		WHERE
+			notice_code=#{noticeCode}
+	</select>
+	
+	<!--문의게시판 댓글 달기  -->
+	<insert id="addNoticeReply" parameterType="Reply">
+		<selectKey keyProperty="replyCommentCode" keyColumn="reply_comment_code" resultType="String" order="BEFORE">
+			SELECT CONCAT('reply_comment',LPAD(CAST(SUBSTRING(MAX(tb_reply_comments.reply_comment_code),14,5) AS DECIMAL) +1, 5, 0)) FROM tb_reply_comments	
+		</selectKey>
+		
+		INSERT INTO tb_reply_comments
+			(reply_comment_code
+			,notice_code
+			,member_id
+			,reply_comment_content
+			,reply_comment_reg_date
+			)
+		VALUES
+			( 
+			  #{replyCommentCode}
+			, #{noticeCode}
+			, #{memberId}
+			, #{replyCommentContent}
+			, CURDATE()
+			)
+	</insert>
+
 
 </mapper>

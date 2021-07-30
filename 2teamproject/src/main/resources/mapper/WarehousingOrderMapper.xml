@@ -53,10 +53,38 @@
 		</association>
 	</resultMap>
 
+	<!--입고지시서에서 검색조건 중 쇼핑몰 아이디  -->
+	<select id="getShoppingmallUserName" resultType="Shoppingmall">
+		SELECT
+			distinct su.shoppingmall_user_name		AS shoppingmallName
+		FROM 
+			tb_request_order AS ro
+			INNER JOIN
+			tb_product AS p
+			ON
+			ro.product_code=p.product_code
+			INNER JOIN
+			tb_shoppingmall_user AS su
+			ON
+			p.shoppingmall_user_id = su.shoppingmall_user_id
+	</select>
 	<!-- 입고 후 재고 테이블 에 재고 추가 혹은 수정 -->
 	<insert id="insertOrUpdateStock" parameterType="Receiving">
 		<selectKey keyProperty="stockCode" keyColumn="stock_code" resultType="String" order="BEFORE">
-			SELECT CONCAT('stock_',LPAD(CAST(SUBSTRING(MAX(tb_stock_status_backup.stock_code),7,5) AS DECIMAL) +1, 5, 0)) FROM tb_stock_status_backup
+			SELECT
+				case
+			
+			      when
+						COUNT(1)=0 
+					then
+						'stock_00001'
+			   	when 
+						COUNT(1) IS NOT NULL 
+					then 
+			      	CONCAT('stock_',LPAD(CAST(SUBSTRING(MAX(tb_stock_status.stock_code),7,5) AS DECIMAL) +1, 5, 0))
+				end 
+			FROM 
+				tb_stock_status
 		</selectKey>
 		INSERT INTO tb_stock_status
 			(stock_code
@@ -99,9 +127,10 @@
 			wscf.warehouse_code=#{warehouseCode}
 	</select>
 	<!--모달 통해 입고 후 입고상태 변환  -->
-	<update id="changeWarehousingStatusFromModal">
+	<update id="changeWarehousingStatusFromModal" parameterType="warehousingOrder">
 		UPDATE tb_request_order
 			SET
+				sector_column_final_code = #{sectorColumnFinalCode},
 				warehousing_order_status = '입고완료'
 			WHERE
 				tb_request_order.warehousing_order_code =#{warehousingOrderCode}
@@ -109,7 +138,20 @@
 	<!--모달통해 입고  -->
 	<insert id="receivingFromModal" parameterType="Receiving">
 	<selectKey keyProperty="receivingingCode" keyColumn="receivinging_code" resultType="String" order="BEFORE" >
-		SELECT CONCAT('recev_',LPAD(CAST(SUBSTRING(MAX(tb_receiving_info.receivinging_code),7,6) AS DECIMAL) +1, 6, 0)) FROM tb_receiving_info
+		SELECT
+			case
+		
+		      when
+					COUNT(1)=0 
+				then
+					'recev_000001'
+		   	when 
+					COUNT(1) IS NOT NULL 
+				then 
+		      	CONCAT('recev_',LPAD(CAST(SUBSTRING(MAX(tb_receiving_info.receivinging_code),7,6) AS DECIMAL) +1, 6, 0))
+			end 
+		FROM 
+			tb_receiving_info
 	</selectKey>
 		INSERT INTO tb_receiving_info
 			(receivinging_code

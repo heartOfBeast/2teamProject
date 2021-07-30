@@ -5,22 +5,22 @@
 	<select id="getStockList" resultType="Stock">
 
 	SELECT
-		p.product_freeze_cool_condition				AS pCondition,
-		i.item_big_category							AS	bCate,
-		i.item_middle_category						AS	mCate,
-		i.item_small_category						AS sCate,
-		p.product_name								AS	productName,
-		w.warehouse_name							AS warehouseName,
-		ss.sector_column_final_code					AS finalSector,
-		su.shoppingmall_name						AS spmName,
-		ss.stock_amount								AS stockAmount,
-		ro.warehousing_order_amount					AS	wOrderAmount,
-		ro.warehousing_order_due_date				AS	wOrderDate,
-		ss.warehousing_real_amount					AS	wRealAmount,
-		ss.warehousing_real_date					AS	wRealDate,
-		ss.release_order_quantity					AS	rOrderAmount,
-		ss.release_real_amount						AS	rRealAmount,
-		ss.release_real_date						AS	rRealDate
+		p.product_freeze_cool_condition								AS pCondition,
+		i.item_big_category												AS bCate,
+		i.item_middle_category											AS mCate,
+		i.item_small_category											AS sCate,
+		p.product_name														AS productName,
+		w.warehouse_name													AS warehouseName,
+		ss.sector_column_final_code									AS finalSector,
+		su.shoppingmall_name												AS spmName,
+		ss.stock_amount													AS stockAmount,
+		ss.warehousing_order_amount									AS wOrderAmount,
+		ss.warehousing_order_due_date									AS wOrderDate,
+		ss.warehousing_real_amount										AS	wRealAmount,
+		ss.warehousing_real_date										AS	wRealDate,
+		ss.release_order_quantity										AS	rOrderAmount,
+		ss.release_real_amount											AS	rRealAmount,
+		ss.release_real_date												AS	rRealDate
 	FROM
 		tb_stock_status													AS ss
 	INNER JOIN
@@ -43,10 +43,7 @@
 		tb_item															AS i
 	ON
 		p.product_category = i.item_code
-	INNER JOIN
-		tb_request_order												AS ro
-	ON	
-		ss.product_code = ro.product_code;
+
 
 	</select>
 

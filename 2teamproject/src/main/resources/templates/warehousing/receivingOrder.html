@@ -35,6 +35,7 @@
 			<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 				<div class="table-container">
 					<div class="t-header">관리자 목록 조회</div>
+
 					<div class="table-responsive">
 						<table id="copy-print-csv" class="table custom-table">
 							<thead>
@@ -81,7 +82,11 @@
 									<td class="hidden-col" th:text="${l.item.itemMiddleCategory}" id="itemMiddleCategoryData"></td>
 									<td class="hidden-col" th:text="${l.item.itemSmallCategory}" id="itemSmallCategoryData"></td>
 									<td class="hidden-col" th:text="${l.warehousingOrderStatus}" id="warehousingOrderStatusData"></td>
-									<td class="hidden-col" th:text="${l.warehousingBarcode}" id="warehousingBacodeData"></td>
+									<td class="hidden-col" id="warehousingBacodeData">
+										<label th:if="${l.warehousingBarcode == null}" th:text="${'QR코드가 없습니다'}"></label>
+										<img th:unless="${l.warehousingBarcode == null}" th:src="${l.warehousingBarcode}" style="display: block;">	
+									
+									</td>
 									<td th:text="${l.shoppingmall.shoppingmallName}" id="shoppingmallNameData"></td>
 									<td th:text="${l.warehouse.warehouseName}" id="warehouseNameData"></td>
 									<td th:text="${l.sectorColumnFinalCode}" id="sectorColumnFinalCodeData"></td>
@@ -96,7 +101,7 @@
 							</tbody>
 			    		</table>
 			    		<button type="button" id="cancleBtn" class="btn btn-primary float-right">입고취소</button>
-			    		<button type="button" id="receivingBtn" class="btn btn-primary float-right">입고</button>
+			    		<!-- <button type="button" id="receivingBtn" class="btn btn-primary float-right">입고</button> -->
 			    		
 					</div>
 				</div>
@@ -104,7 +109,7 @@
 		</div>
 	</div>
 	<!--상세정보 모달  -->
-	<form id="receivingFrom" th:action="@{/warehousing/receivingFromModal}" method="post">
+	<form id="receivingForm" th:action="@{/warehousing/receivingFromModal}" method="post">
 		<div class="modal fade bd-example-modal-lg" id="modifyModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" style="display: none;" aria-hidden="true">
 			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
@@ -166,11 +171,8 @@
 							<input type="text" class="form-control" id="shoppingmallNameModal" name="shoppingmallName" readonly>
 						</div>
 						<div class="image-container">
-							<img style="width: 500px; height: 500px;" id="barcodeImageModal">
-						</div>
-						<div class="form-group">
-							<label for="warehousingBarcodeModal">바코드</label>
-							<input type="text" class="form-control" id="warehousingBarcodeModal" name="warehousingBarcode" readonly>
+							<label for="warehousingBarcodeModal" style="display: block;">QR코드</label>
+							<img style="width: 500px; height: 500px;" id="warehousingBarcodeModal">
 						</div>
 						<div class="form-group">
 							<label for="warehousingOrderDueDateModal">입고예정일</label>
@@ -199,7 +201,7 @@
 					</div>
 					<div class="modal-footer">
 						<!-- <button type="submit" id="modifyBtn" class="btn btn-secondary" >수정</button> -->
-						<button type="submit" name="submit" class="btn btn-secondary" >입고</button>
+						<button id="modalSubmit" type="submit" name="submit" class="btn btn-secondary" >입고</button>
 						<button class="btn btn-secondary" data-dismiss="modal" >닫기</button>
 					</div>
 				</div>
@@ -251,7 +253,7 @@
 				$('#warehousingOrderAmountModal').val(warehousingOrderAmountData);
 				$('#warehousingOrderDueDateModal').val(warehousingOrderDueDateData);
 				$('#warehousingOrderStatusModal').val(warehousingOrderStatusData);
-				$('#barcodeImageModal').attr('src', barcodeImg);
+				$('#warehousingBarcodeModal').attr('src', barcodeImg);
 
 				
 			})
@@ -370,7 +372,33 @@
 				
 			}
 		});
-		
+		$(function(){
+			$('#modalSubmit').click(function(){
+				var warehousingRealAmountModal = $('#warehousingRealAmountModal').val();
+				var warehousingRealDateModal = $('#warehousingRealDateModal').val();
+				var sectorColumnFinalCodeModal =$('#sectorColumnFinalCodeModal').val();
+				var receivingForm = $('#receivingForm');
+				var submitFlag = true;
+				
+				if(sectorColumnFinalCodeModal == null || sectorColumnFinalCodeModal== undefined || sectorColumnFinalCodeModal==''){
+					alert('보관할 위치를 선택해 주세요');
+					submitFlag = false;
+					$(this).focus();
+					return submitFlag;
+				}else if(warehousingRealDateModal == null ||warehousingRealDateModal==undefined||warehousingRealDateModal==''){
+					alert('실제 입고일을 선택해 주세요');
+					submitFlag = false;
+					$(this).focus();
+					return submitFlag;
+				}else if(warehousingRealAmountModal == null ||warehousingRealAmountModal==undefined||warehousingRealAmountModal==''){
+					alert('실제 입고할 수량을 선택해 주세요');
+					submitFlag = false;
+					$(this).focus();
+					return submitFlag;
+				}
+			});
+			if(submitFlag) productForm.submit();
+		});
 
 		
 	</script>

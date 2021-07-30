@@ -1,6 +1,6 @@
-package com.cafe2team.controller;
+	package com.cafe2team.controller;
 
-import java.util.ArrayList;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,7 +10,6 @@ import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +20,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cafe2team.domain.Item;
 import com.cafe2team.domain.Product;
+import com.cafe2team.domain.Warehouse;
 import com.cafe2team.service.ProductService;
+import com.cafe2team.service.WarehouseService;
 
 @Controller
 public class ProductController {
@@ -29,12 +30,15 @@ public class ProductController {
 	private static final Logger log = LoggerFactory.getLogger(ProductController.class);
 
 	private final ProductService productService;
+	private final WarehouseService warehouseService;
 
 	// @Autowired
-	public ProductController(ProductService productService) {
+	public ProductController(ProductService productService, WarehouseService warehouseService) {
 		this.productService = productService;
-
+		this.warehouseService = warehouseService;
 	}
+
+	
 
 
 	
@@ -45,15 +49,20 @@ public class ProductController {
 									HttpSession session,
 									RedirectAttributes reAttr,
 									HttpServletResponse response) {
-		String shoppingmallId = (String) session.getAttribute("SID");
-		if(shoppingmallId !=null) {
-			product.setShoppingmallUserId(shoppingmallId);
-			reAttr.addAttribute("shoppingmallUserId", shoppingmallId);
+		String shoppingmallUserId = (String) session.getAttribute("SID");
+		System.out.println(shoppingmallUserId);
+		if(shoppingmallUserId !=null) {
+			
+			product.setShoppingmallUserId(shoppingmallUserId);
+			List<Warehouse> warehouseList = warehouseService.getWarehouseList();
+			List<Product> warehouseProductAmount = productService.getProductAmountPerWarehouse(product);
+			model.addAttribute("warehouseList", warehouseList);
+
+			model.addAttribute("title", "창고별물량");
+//			model.addAttribute("shoppingmalUserlId", shoppingmallId);
+			model.addAttribute("warehouseProductAmount", warehouseProductAmount);
+			reAttr.addAttribute("shoppingmallUserId", shoppingmallUserId);
 		}
-		List<Product> warehouseProductAmount = productService.getProductAmountPerWarehouse();
-		model.addAttribute("title", "창고별물량");
-		model.addAttribute("shoppingmallId", shoppingmallId);
-		model.addAttribute("warehouseProductAmount", warehouseProductAmount);
 
 		return "product/warehouseProduct";
 	}
@@ -71,6 +80,19 @@ public class ProductController {
 		}
 		return result;
 	}
+	
+	/*
+	 * //상품명 중복검사
+	 * 
+	 * @PostMapping("/CheckProductName")
+	 * 
+	 * @ResponseBody public boolean CheckProductName(@RequestParam(name =
+	 * "productName", required = false) String productName) { boolean
+	 * productNameCheck = true; log.info("CheckProductName productName ::::{}",
+	 * productName); //ㅔ개옃 중복일 경우 false }
+	 */
+	
+	
 	
 	// 상품수정
 	@PostMapping("/modifyProduct")
@@ -100,10 +122,22 @@ public class ProductController {
 
 	// 상풍목록
 	@GetMapping("/productList")
-	public String productList(Model model) {
+	public String productList(Model model
+								,@RequestParam(name="searchKey", required = false) String searchKey
+								,@RequestParam(name="searchValue", required = false) String searchValue) {
+
+		log.info("========================================");
+		log.info("화면에서 입력받은 값(회원목록) searchKey: {}", searchKey);
+		log.info("화면에서 입력받은 값(회원목록) searchValue: {}", searchValue);
+		log.info("========================================");
+		
 
 		
-		List<Product> productList = productService.getProductList();
+		//map을 활용해서 검색 키워드 정리
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("searchKey", searchKey);
+		paramMap.put("searchValue", searchValue);
+		List<Product> productList = productService.getProductList(paramMap);
 		//대분류가져오기
 		List<Item> BigCategory = productService.getItemBigCategoryInfo();
 
