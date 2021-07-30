@@ -1,0 +1,17 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="@{layout/default}">
+
+		
+	<div class="card-body" th:fragment="searchFragment">
+		<form th:action="@{/vehicleList}" method="get" id="searchCarKind">
+			<select id="searchKind" name="carKind" class="form-control" style="width: 200px; display: inline;">
+				<option  value="">차량종류를 선택해주세요.</option>
+				<option  value="">전체 보기</option>
+				<option  value="냉동 탑차">냉동 탑차</option>
+				<option  value="일반 탑차">일반 탑차</option>
+			</select>
+		</form>
+	</div>
+</html>
