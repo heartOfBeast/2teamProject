@@ -27,8 +27,8 @@ public class ExpenditureService {
  		return expenditureList;
  	 }
  	 
- 	 public int expenditureinsert(Expenditure expenditure) {
- 		 int result = expenditureMapper.expenditureinsert(expenditure);
+ 	 public int expenditureInsert(Expenditure expenditure) {
+ 		 int result = expenditureMapper.expenditureInsert(expenditure);
  		 
  		 return result;
  	 }

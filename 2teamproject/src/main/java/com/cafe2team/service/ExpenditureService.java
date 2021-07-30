@@ -27,8 +27,8 @@ public class ExpenditureService {
  		return expenditureList;
  	 }
  	 
- 	 public int expenditureinsert(Expenditure expenditure) {
- 		 int result = expenditureMapper.expenditureinsert(expenditure);
+ 	 public int expenditureInsert(Expenditure expenditure) {
+ 		 int result = expenditureMapper.expenditureInsert(expenditure);
  		 
  		 return result;
  	 }
@@ -83,9 +83,15 @@ public class ExpenditureService {
 			}
 			//당월 순이익
 			if(expe !="0" || cont !="0") {
-				total += Integer.parseInt(cont);
-				total -= Integer.parseInt(expe);
-				expenditure.setTotalaggregate(total);
+				try {
+					total += Integer.parseInt(cont);
+					total -= Integer.parseInt(expe);
+					expenditure.setTotalaggregate(total);					
+				}catch (NumberFormatException e) {
+					
+				}catch (Exception e) {
+					
+				}
 			}
 			
 			expenditure.setMonth(month);
@@ -95,18 +101,24 @@ public class ExpenditureService {
 				if(month.equals("01")) {
 					expenditure.setFluctuation(0);
 				}else{
-					Integer preTotalaggregate = calculated.get(i-1).getTotalaggregate();
-					Integer nowTotalaggregate =	calculated.get(i).getTotalaggregate();
-					if(preTotalaggregate == null)preTotalaggregate = 0;
-					if(nowTotalaggregate == null)nowTotalaggregate = 0;
-					System.out.println("---------------------------");
-					System.out.println(month);
-					System.out.println(preTotalaggregate);
-					System.out.println(nowTotalaggregate);
-					System.out.println("---------------------------");
-					double increPercent =Math.round((preTotalaggregate-nowTotalaggregate) / nowTotalaggregate * 100);
-					
-					expenditure.setFluctuation(increPercent);
+					try {
+						Integer preTotalaggregate = calculated.get(i-1).getTotalaggregate();
+						Integer nowTotalaggregate =	calculated.get(i).getTotalaggregate();
+						if(preTotalaggregate == null)preTotalaggregate = 0;
+						if(nowTotalaggregate == null)nowTotalaggregate = 0;
+						System.out.println("---------------------------");
+						System.out.println(month);
+						System.out.println(preTotalaggregate);
+						System.out.println(nowTotalaggregate);
+						System.out.println("---------------------------");
+						double increPercent =Math.round((preTotalaggregate-nowTotalaggregate) / nowTotalaggregate * 100);
+						
+						expenditure.setFluctuation(increPercent);
+					}catch (NumberFormatException e) {
+						
+					}catch (Exception e) {
+						
+					}
 				}
 			}
 			
