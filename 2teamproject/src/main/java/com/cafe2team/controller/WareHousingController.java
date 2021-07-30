@@ -111,14 +111,21 @@ public class WareHousingController {
 		//model.addAttribute("ShoppingmallUserName", ShoppingmallUserName);
 		return "warehousing/receivingOrder";
 	}
+	
 	//입고현황 - 관리자
 	@GetMapping("/receivingWarehouseStatus")
 	public String receivingWarehouseStatus(Model model) {
 		List<Receiving> receivingStatusForWarehouse = warehousingOrderService.getReceivingListForWarehouse();
+		
+		
+		
 		model.addAttribute("title", "입고현황-관리자전용");
 		model.addAttribute("receivingStatusListForWarehouse", receivingStatusForWarehouse);
+		
+		
 		return "warehousing/receivingWarehouseStatus";
 	}
+	
 	@GetMapping("/receivingShopStatus")
 	public String receivingShopStatus(Model model) {
 		
@@ -179,6 +186,8 @@ public class WareHousingController {
 		List<Request> requestInfo = new ArrayList<Request>();
 		
 		requestInfo.add(request);
+		
+		log.info("======================{}" + requestCode);
 		
 		model.addAttribute("requestCode", request);
 		
