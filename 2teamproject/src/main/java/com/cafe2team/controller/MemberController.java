@@ -119,6 +119,14 @@ public class MemberController {
 		return "member/myShopPage";
 	}
 	
+	@PostMapping("/myShopPage")
+	public String myShopPage(Shoppingmall shoppingmall) {
+		
+		memberService.updateShopMember(shoppingmall);
+		
+		return "redirect:/main";
+	}
+	
 	@PostMapping("/myPage")
 	public String myPage(Member member) {
 		
