@@ -33,7 +33,7 @@ public class SampleService {
 		return sampleMapper.sampleUpdate(pushArr);
 	}
 	 
-	
+	// 출고지시서 작성
 	public int sampleInsert(List<String> pushArr) {
 		
 		return sampleMapper.sampleInsert(pushArr);
