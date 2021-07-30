@@ -27,7 +27,7 @@ public class FinancialManageController {
 	@GetMapping("/currentSalesState")
 	public String currentSalesState(Model model) {
 		model.addAttribute("title", "정산내역조회");
-		return "financialmanage/currentSalesState";
+		return "financialManage/currentSalesState";
 	}
 	
 	//창고 총정산내용 조회
@@ -42,7 +42,7 @@ public class FinancialManageController {
 		model.addAttribute("sales", sales);
 		model.addAttribute("result", calculated);
 		
-		return "financialmanage/calculate";
+		return "financialManage/calculate";
 	}
 	
 	@GetMapping("/expenditure")
@@ -50,20 +50,20 @@ public class FinancialManageController {
 		List<Expenditure> expenditureList = expenditureSerivce.getExpenditureList();
 		model.addAttribute("title", "지출내역조회");
 		model.addAttribute("expenditureList",expenditureList);
-		return "financialmanage/expenditure";
+		return "financialManage/expenditure";
 	}	
 	
 	
-	@GetMapping("/expenditureinsert")
-	public String expenditureinsert(Model model) {
+	@GetMapping("/expenditureInsert")
+	public String expenditureInsert(Model model) {
 		model.addAttribute("title", "지출내역등록");
-		return "financialmanage/expenditureinsert";
+		return "financialManage/expenditureInsert";
 	}	
 	
-	@PostMapping("/expenditureinsert")
-	public String expenditureinsert(Expenditure expenditure) {
+	@PostMapping("/expenditureInsert")
+	public String expenditureInsert(Expenditure expenditure) {
 		
-		expenditureSerivce.expenditureinsert(expenditure);
+		expenditureSerivce.expenditureInsert(expenditure);
 		log.info("expenditure", expenditure);
 		
 		return "redirect:/expenditure";

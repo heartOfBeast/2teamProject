@@ -67,16 +67,16 @@ public class FinancialManageController {
 	
 	
 	//지출등록
-	@GetMapping("/expenditureinsert")
-	public String expenditureinsert(Model model) {
+	@GetMapping("/expenditureInsert")
+	public String expenditureInsert(Model model) {
 		model.addAttribute("title", "지출내역등록");
-		return "financialmanage/expenditureinsert";
+		return "financialmanage/expenditureInsert";
 	}	
 	
-	@PostMapping("/expenditureinsert")
-	public String expenditureinsert(Expenditure expenditure) {
+	@PostMapping("/expenditureInsert")
+	public String expenditureInsert(Expenditure expenditure) {
 		
-		expenditureSerivce.expenditureinsert(expenditure);
+		expenditureSerivce.expenditureInsert(expenditure);
 		log.info("expenditure", expenditure);
 		
 		return "redirect:/expenditure";
