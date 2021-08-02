@@ -16,6 +16,7 @@
 		<result property="requestStatus" 								column="request_status"/>
 	
 		<association property="wareHouse" javaType="Warehouse">
+			<result property="warehouseCode" 							column="warehouse_code" />
 			<result property="warehouseName" 							column="warehouse_name"/>
 			<result property="warehouseAddr" 							column="warehouse_addr"/>
 		</association>
@@ -105,8 +106,8 @@
 			tb_request;
 	</select>
 	
-	<select id="getRequestList" parameterType="map" resultMap="requestMap">
-		SELECT
+	<select id="receivingRequestWaiting" resultType="Request" resultMap="requestMap">
+			SELECT
 			r.warehousing_request_code
 			,r.shoppingmall_user_id
 			,r.product_code
@@ -125,12 +126,23 @@
 			tb_warehouse AS w
 			ON
 			r.warehouse_code = w.warehouse_code
-	<trim prefix="WHERE" prefixOverrides="AND |OR"> 
-		<if test = "requsetCode != null and requsetCode != ''.toString()" >
-			r.warehousing_request_code = #{requsetCode};
-		</if>
-	</trim>
+		<choose>
+			<when test="warehouseCode != null and warehouseCode != ''.toString() and firstDate == ''.toString()">
+				WHERE w.warehouse_code LIKE CONCAT('%', #{warehouseCode} ,'%')
+			</when>
+			<when test="firstDate != null and firstDate != ''.toString() and warehouseCode == ''.toString()">
+				WHERE r.warehousing_request_reg_date BETWEEN #{firstDate} AND #{secondDate}
+			</when>
+			<when test="warehouseCode != null and warehouseCode != ''.toString() and firstDate != null and firstDate != ''.toString()">
+				WHERE w.warehouse_code LIKE CONCAT('%', #{warehouseCode} ,'%') AND r.warehousing_request_reg_date BETWEEN #{firstDate} AND #{secondDate}
+			</when>
+			<otherwise>
+				;
+			</otherwise>
+		</choose>
+	
 	</select>
+	
 	
 	<select	id = "getRequestCode" parameterType="String" resultMap="requestMap">
 	SELECT 
@@ -189,44 +201,20 @@
 		</foreach>
 	</insert>
 	
-<!-- 	<select id="wareHouseListDetail" parameterType="map" resultMap="requestMap"> -->
-<!-- 		SELECT -->
-<!-- 			r.warehousing_request_code -->
-<!-- 			,r.shoppingmall_user_id -->
-<!-- 			,r.product_code -->
-<!-- 			,r.product_name -->
-<!-- 			,w.warehouse_name -->
-<!-- 			,r.warehouse_code -->
-<!-- 			,r.request_shopname -->
-<!-- 			,r.request_status -->
-<!-- 			,r.barcode_file -->
-<!-- 			,r.warehousing_request_reg_date -->
-<!-- 			,r.ware_admin_id -->
-<!-- 			,r.warehousing_request_amount -->
-<!-- 		FROM -->
-<!-- 			tb_request AS r -->
-<!-- 			INNER join -->
-<!-- 			tb_warehouse AS w -->
-<!-- 			ON -->
-<!-- 			r.warehouse_code = w.warehouse_code -->
-<!-- 	<trim prefix="WHERE" prefixOverrides="AND |OR">  -->
-<!-- 		<if test = "requsetCode != null and requsetCode != ''.toString()" > -->
-<!-- 			w.warehouse_name = #{warehouseName}; -->
-<!-- 		</if> -->
-<!-- 	</trim> -->
-<!-- 	</select> -->
 
-<delete id="cancleReuqestWareHouse" parameterType="java.util.List">
+	<delete id="cancleReuqestWareHouse" parameterType="java.util.List">
+		
+		DELETE 
+		FROM 
+			tb_request 
+		WHERE 
+			warehousing_request_code in 
+		<foreach collection="list" item="deleteCode" open="(" close=")" separator=",">
+			#{deleteCode}
+		</foreach>
 	
-	DELETE 
-	FROM 
-		tb_request 
-	WHERE 
-		warehousing_request_code in 
-	<foreach collection="list" item="deleteCode" open="(" close=")" separator=",">
-		#{deleteCode}
-	</foreach>
-
-</delete>
+	</delete>
 	
+	
+		
 </mapper>

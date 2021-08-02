@@ -16,6 +16,7 @@ public interface WarehousingMapper {
 	//코드 가져오기
 	public List<Product> getProductCode(String productCode);
 	
+	//입고요청
 	public int addRequest(Request request);
 	
 	//상품코드 증가
@@ -23,9 +24,7 @@ public interface WarehousingMapper {
 	
 	//상품 QR등록
 	public int addGoodsQR(Request request);
-	
-	public List<Request> getRequestList(Map<String,Object> paramMap);
-	
+		
 	public Request getRequestCode(String requestCode);
 	
 	public List<Contract> getContractList();
@@ -37,5 +36,7 @@ public interface WarehousingMapper {
 	
 	//입고요청 취소
 	public int cancleReuqestWareHouse(List<String> paramList);
+	
+	public List<Request> receivingRequestWaiting(Map<String, Object> warehouseCodeParam);
 	
 }
