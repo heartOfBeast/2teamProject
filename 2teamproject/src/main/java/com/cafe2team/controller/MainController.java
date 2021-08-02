@@ -43,7 +43,7 @@ public class MainController {
 	public String main(Model model) {
 		
 		List<Receiving> receivingStatusForWarehouse = warehousingOrderService.getReceivingListForWarehouse();
-		List<ReleaseInfo> releaseInfo = releaseService.getReleaseList();
+		List<ReleaseInfo> releaseInfo = releaseService.getReleaseList(null);
 		List<Stock> stockList = stockService.getStockList();
 
 		model.addAttribute("stockList", stockList);

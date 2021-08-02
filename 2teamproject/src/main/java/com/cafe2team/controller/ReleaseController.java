@@ -41,9 +41,13 @@ public class ReleaseController {
 	
 	//출고지시서 조회
 	@GetMapping("/releaseOrder")
-	public String releaseOrder(Model model) {
-		
-		List<Release> release = releaseService.gerReleaseOrder();
+	public String releaseOrder(Model model, 
+								@RequestParam(name="firstDate", required = false)String firstDate
+								,@RequestParam(name="secondDate", required = false)String secondDate) {
+		Map<String, Object> releaseParam = new HashMap<String, Object>();
+		releaseParam.put("firstDate", firstDate);
+		releaseParam.put("secondDate", secondDate);
+		List<Release> release = releaseService.getReleaseOrder(releaseParam);
 		List<Vehicle> vehicle = vehicleService.getVehicleInfo(null);
 		List<Delivery> delivery = releaseService.getDeliveryInfo();
 		/* List<CarManagement> carManagement = releaseService.getDriveManagement(); */
@@ -128,8 +132,13 @@ public class ReleaseController {
 	
 	//출고리스트조회
 	@GetMapping("/realReleaseList")
-	public String realReleaseList(Model model) {
-		List<ReleaseInfo> releaseInfo = releaseService.getReleaseList();
+	public String realReleaseList(Model model, 
+								@RequestParam(name="firstDate", required = false)String firstDate
+								,@RequestParam(name="secondDate", required = false)String secondDate) {
+		Map<String, Object> listParam = new HashMap<String, Object>();
+		listParam.put("firstDate", firstDate);
+		listParam.put("secondDate", secondDate);
+		List<ReleaseInfo> releaseInfo = releaseService.getReleaseList(listParam);
 		model.addAttribute("title", "출고 리스트");
 		model.addAttribute("releaseInfo", releaseInfo);
 		return "release/realReleaseList";

@@ -14,7 +14,7 @@ import com.cafe2team.domain.ReleaseInfo;
 @Mapper
 public interface ReleaseMapper {
 	//출고지시서 조회
-	public List<Release> gerReleaseOrder();
+	public List<Release> getReleaseOrder(Map<String, Object> releaseParam);
 	
 	//배송기사 조회
 	public List<Delivery> getDeliveryInfo();
@@ -42,7 +42,7 @@ public interface ReleaseMapper {
 	public int releaseStock(ReleaseInfo releaseInfo);
 	
 	//출고리스트조회
-	public List<ReleaseInfo> getReleaseList();
+	public List<ReleaseInfo> getReleaseList(Map<String, Object> listParam);
 	
 	// 운송장 조회
 	public List<Invoice> wayBillSearch(Map<String, Object> paramMap);
