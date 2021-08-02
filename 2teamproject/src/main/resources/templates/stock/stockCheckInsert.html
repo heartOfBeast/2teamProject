@@ -11,7 +11,6 @@
 	</ol>
 
 	<ul class="app-actions">
-
 		<li>
 			<a href="#">
 				<i class="icon-export"></i>
@@ -30,67 +29,59 @@
 										<div class="card-title">실사결과 등록</div>
 										<div class="card-sub-title"></div>
 									</div>
-									<div class="card-body">
-										
-										
-										
-										<div class="form-group row gutters">
-											<label for="stockCodeIdProductName" class="col-sm-3 col-form-label text-right">재고코드</label>	
-											<select class="col-sm-6" id="stockCodeIdProductName" name="stockCodeIdProductName" required="required">
-												<option value="">재고코드(상품명)</option>
-											    <option th:each="s: ${stock}" th:value="${s.Stock.stockCode}" th:text="|${s.Stock.stockCode}(${s.Product.productName })|" ></option>
-											</select>
-										</div>
-										
-										<div class="form-group row gutters">
-											<label for="secFinalCode" class="col-sm-3 col-form-label text-right">상품최종위치</label>
-											<div class="col-sm-6">
-												<input type="text" class="form-control" id="secFinalCode"  readonly="readonly">
+								<div class="card-body">
+											<div class="form-group row gutters">
+												<label for="stockCodeIdProductName" class="col-sm-3 col-form-label text-right">재고코드</label>	
+												<select class="col-sm-6" id="stockCodeIdProductName" name="stockCodeIdProductName" required="required">
+													<option value="">재고코드(상품명)</option>
+												    <option th:each="s: ${stock}" th:value="${s.Stock.stockCode}" th:text="|${s.Stock.stockCode}(${s.Product.productName })|" ></option>
+												</select>
+											</div>										
+											<div class="form-group row gutters">
+												<label for="secFinalCode" class="col-sm-3 col-form-label text-right">상품최종위치</label>
+												<div class="col-sm-6">
+													<input type="text" class="form-control" id="secFinalCode"  readonly="readonly">
+												</div>
 											</div>
-										</div>
-							
-										<div class="form-group row gutters">
-											<label for="stockAmount" class="col-sm-3 col-form-label text-right">현재수량</label>
-											<div class="col-sm-6">
-												<input type="text" class="form-control" id="stockAmount" >
+											<div class="form-group row gutters">
+												<label for="stockAmount" class="col-sm-3 col-form-label text-right">현재수량</label>
+												<div class="col-sm-6">
+													<input type="text" class="form-control" id="stockAmount" readonly="readonly">
+												</div>
 											</div>
-										</div>
-										<div class="form-group row gutters">
-											<label for="CheckAmount" class="col-sm-3 col-form-label text-right">실사수량</label>
-											<div class="col-sm-6">
-												<input type="text" class="form-control" id="CheckAmount" >
+											<div class="form-group row gutters">
+												<label for="CheckAmount" class="col-sm-3 col-form-label text-right">실사수량</label>
+												<div class="col-sm-6">
+													<input type="text" class="form-control" id="CheckAmount" >
+												</div>
 											</div>
-										</div>
-										<div class="form-group row gutters">
-											<label for="checkAdmin" class="col-sm-3 col-form-label text-right">실사담당자</label>
-											<div class="col-sm-6">
-												<input type="text" class="form-control" id="checkAdmin" >
+											<div class="form-group row gutters">
+												<label for="checkAdmin" class="col-sm-3 col-form-label text-right">실사담당자</label>
+												<div class="col-sm-6">
+													<input type="text" class="form-control" id="checkAdmin" >
+												</div>
 											</div>
-										</div>
-										<div class="form-group row gutters">
-											<label for="checkDate" class="col-sm-3 col-form-label text-right">실사일자</label>
-											<div class="col-sm-6">
-												<input type="text" class="form-control" id="checkDate" >
+											<div class="form-group row gutters">
+												<label for="checkDate" class="col-sm-3 col-form-label text-right">실사일자</label>
+												<div class="col-sm-6 custom-date-input">
+													<input type="text" class="form-control datepicker-dropdowns" id="checkDate" placeholder="실사일자를 선택해주세요">
+												</div>
 											</div>
-										</div>
-										
-										
-										
 										<button type="button" id="submit" name="submit" class="btn btn-primary float-right">등록하기</button>
-
-									</div>
+								</div>
 								</div>
 							</form>
 						</div>
-					</div>
+			</div>
 </div>
 </th:block>
 <th:block layout:fragment="customJs">
 	<script>
 			var secFinalCode = $('#secFinalCode');
+			var stockAmount = $('#stockAmount');
 			var stockCodeIdProductName = document.getElementById('stockCodeIdProductName');
 			var CodeIdProductName ="";
-			var a1;
+			
 			stockCodeIdProductName.addEventListener('change', function(){
 				CodeIdProductName =stockCodeIdProductName.value;
 				getData();
@@ -104,23 +95,16 @@
 						stockCode : CodeIdProductName
 					},
 					success : function(res){
-
 						var finalCode = res[0].stock.finalSector;
-						$("#secFinalCode").val(finalCode);			
+						var realStockAmount = res[0].stock.stockAmount;
+						$("#secFinalCode").val(finalCode);
+						$("#stockAmount").val(realStockAmount);
+						
 					}
 					
 				})
 			}
 			
-			$(function(){
-				$('#addProductBtn').click(function(){
-					var productForm = $('#addProductForm');
-	 				var submitFlag = true;
-	 				var finalCode = $("#secFinalCode").val();
-	 				
 		
-			
-	</script>
-		
-		
+	</script>	
 </html>
