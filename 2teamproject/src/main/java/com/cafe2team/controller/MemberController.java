@@ -52,9 +52,20 @@ public class MemberController {
 
 	//회원 리스트 조회
 	@GetMapping("/memberList")
-	public String memberList(Model model) {
+	public String memberList(Model model,
+			@RequestParam(name="levelCode", required = false) String levelCode,
+			@RequestParam(name="firstDate", required = false) String firstDate , 
+			@RequestParam(name="secondDate", required = false) String secondDate) {
+		
+	Map<String, Object> paramMap = new HashMap<String, Object>();
 	
-	model.addAttribute("memberList", memberService.getMemberList());
+	paramMap.put("levelCode", levelCode);
+	paramMap.put("firstDate", firstDate);
+	paramMap.put("secondDate", secondDate);	
+	
+	model.addAttribute("memberList", memberService.getMemberList(paramMap));
+	model.addAttribute("memberLevelCode", memberService.getMemberLevelCode());
+	
 	
 	return "member/memberList";
 	}
@@ -205,9 +216,10 @@ public class MemberController {
 	public boolean adminMemberIdCheck(@RequestParam(name = "adminApprovalId", required = false) String adminApprovalId) {
 		boolean idCheck = true;
 		
-		AdminApproval adminApproval = memberService.getApprovalById(adminApprovalId);
+		Member member = memberService.getMemberInfoById(adminApprovalId);
 		
-		if(adminApproval != null) idCheck= false;
+		
+		if(member !=null) idCheck= false;
 		
 		return idCheck;
 	}
@@ -233,10 +245,14 @@ public class MemberController {
 		return "signup/adminsignup";
 	}
 	
-	@PostMapping("/adminSignUp")
+	@PostMapping("/adminsignup")
 	public String adminSignUp(AdminApproval adminApproval) {
 		
+		log.info("=======================================admin컨트롤러 실행");
+		
 		memberService.adminSignUp(adminApproval);
+		
+		System.out.println(adminApproval);
 		
 		return "redirect:/";
 	}
@@ -357,20 +373,20 @@ public class MemberController {
 		return "member/memberWithdrawal";
 	}
 	
-	@RequestMapping("/memberListDetail")
-	public @ResponseBody List<Member> memberListDetail(
-			@RequestParam Map<String,Object> param,
-			@ModelAttribute("Member") Member member){
-
-		String selectLevelValue = (String)param.get("selectLevelValue");
-		
-		List<Member> data = memberService.getMemberListDetail(selectLevelValue);
-		
-		log.info("=============================== {} ", data);
-		
-		return data;
-		
-	}
+//	@RequestMapping("/memberListDetail")
+//	public @ResponseBody List<Member> memberListDetail(
+//			@RequestParam Map<String,Object> param,
+//			@ModelAttribute("Member") Member member){
+//
+//		String selectLevelValue = (String)param.get("selectLevelValue");
+//		
+//		List<Member> data = memberService.getMemberListDetail(selectLevelValue);
+//		
+//		log.info("=============================== {} ", data);
+//		
+//		return data;
+//		
+//	}
 	
 	@GetMapping("/findId")
 	public String findId() {

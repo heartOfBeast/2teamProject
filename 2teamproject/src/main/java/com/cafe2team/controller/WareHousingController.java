@@ -1,10 +1,13 @@
 package com.cafe2team.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -31,6 +34,7 @@ import com.cafe2team.domain.WarehousingOrder;
 import com.cafe2team.service.ContractService;
 import com.cafe2team.service.MemberService;
 import com.cafe2team.service.ProductService;
+import com.cafe2team.service.SafetyCheckService;
 import com.cafe2team.service.WarehouseService;
 import com.cafe2team.service.WarehousingOrderService;
 import com.cafe2team.service.WarehousingService;
@@ -50,12 +54,14 @@ public class WareHousingController {
 	private final WarehousingOrderService warehousingOrderService;
 	private final WarehousingMapper warehosingMapper;
 	private final ContractService contractService;
+	private final SafetyCheckService safetyCheckService;
+
 	
 	@Autowired
 	public WareHousingController(ProductService productService, MemberService memberService,
 			WarehousingService warehousingService, WarehouseService warehouseService, 
 			WarehousingOrderService warehousingOrderService,
-			WarehousingMapper warehosingMapper, ContractService contractService) {
+			WarehousingMapper warehosingMapper, ContractService contractService, SafetyCheckService safetyCheckService) {
 		
 		this.productService = productService;
 		this.memberService = memberService;
@@ -64,27 +70,52 @@ public class WareHousingController {
 		this.warehousingOrderService = warehousingOrderService;
 		this.warehosingMapper = warehosingMapper;
 		this.contractService = contractService;
+		this.safetyCheckService = safetyCheckService;
 	}
 	
 	//입고요청시 뿌려주는 리스트
 	@GetMapping("/receivingRequest")
 	public String receivingRequest(@RequestParam(value = "memberId", required = false) String memberId
 			,@RequestParam(name="searchKey", required = false) String searchKey
-			,@RequestParam(name="searchValue", required = false) String searchValue,Model model) {
+			,@RequestParam(name="searchValue", required = false) String searchValue,
+			Model model
+			,HttpSession session
+			,HttpServletResponse response) throws IOException {
+		
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		Member memberList = memberService.getMemberInfoById(memberId);
+		
 		Shoppingmall shopmemberList = memberService.getsShopById(memberId);
 		List<Warehouse> warehouseList = warehouseService.getWarehouseList();		
 		List<Product> productList = productService.getProductList(paramMap);
 		List<Contract> contractList = contractService.ContractList(null);
 		
-		model.addAttribute("memberList", memberList);
-		model.addAttribute("productList", productList);
-		model.addAttribute("shopmemberList", shopmemberList);
-		model.addAttribute("warehouseList", warehouseList);
-		model.addAttribute("contractList", contractList);
+		String SID = (String)session.getAttribute("SID");
+		String SLEVEL = (String)session.getAttribute("SLEVEL");
+
+
 		
-		return "warehousing/receivingRequest";
+		if(SID == null || !SLEVEL.equals("사업자")){
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			model.addAttribute("title", "입고신청");
+			out.println("<script>alert('기존 쇼핑몰 사업자 회원만 등록이 가능합니다. \\n  \"메인\" 페이지로 전환됩니다.');</script>");
+			out.flush();
+			return "main/main";
+			
+		}else {
+			model.addAttribute("title", "입고신청");
+			model.addAttribute("memberList", memberList);
+			model.addAttribute("productList", productList);
+			model.addAttribute("shopmemberList", shopmemberList);
+			model.addAttribute("warehouseList", warehouseList);
+			model.addAttribute("contractList", contractList);
+			
+			return "warehousing/receivingRequest";
+		}
+		
+		
+		
 	}
 	
 	//상품코드구하는 AJAX 처리
@@ -165,14 +196,25 @@ public class WareHousingController {
 	
 	//입고리스트
 	@GetMapping("/receivingRequestWaiting")
-	public String receivingRequestWaiting(Model model) {
+	public String receivingRequestWaiting(Model model,
+			@RequestParam(name="warehouseCode", required = false) String warehouseCode,
+			@RequestParam(name="firstDate", required = false) String firstDate , 
+			@RequestParam(name="secondDate", required = false) String secondDate) {
 		model.addAttribute("title", "입고리스트");
 		
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		
-		List<Request> requestList = warehosingMapper.getRequestList(paramMap);
+		paramMap.put("warehouseCode", warehouseCode);
+		paramMap.put("firstDate", firstDate);
+		paramMap.put("secondDate", secondDate);
 		
-		model.addAttribute("requestList", requestList);
+		
+		List<Request> request = warehousingService.receivingRequestWaiting(paramMap);
+		List<Warehouse> warehouse = safetyCheckService.getWareHouseInfo();
+		
+		
+		model.addAttribute("request", request);
+		model.addAttribute("warehouse", warehouse);
 		
 		return "warehousing/receivingRequestWaiting";
 	}
