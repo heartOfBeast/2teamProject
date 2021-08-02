@@ -23,8 +23,8 @@ public class ReleaseService {
 	@Autowired
 	private ReleaseMapper releaseMapper;
 	
-	public List<Release> gerReleaseOrder(){
-		List<Release> release = releaseMapper.gerReleaseOrder();
+	public List<Release> getReleaseOrder(Map<String, Object> releaseParam){
+		List<Release> release = releaseMapper.getReleaseOrder(releaseParam);
 		return release;
 	}
 	
@@ -65,8 +65,8 @@ public class ReleaseService {
 		return releaseMapper.releaseStock(releaseInfo);
 	}
 	
-	public List<ReleaseInfo> getReleaseList(){
-		List<ReleaseInfo> releaseInfo = releaseMapper.getReleaseList();
+	public List<ReleaseInfo> getReleaseList(Map<String, Object> listParam){
+		List<ReleaseInfo> releaseInfo = releaseMapper.getReleaseList(listParam);
 		return releaseInfo;
 	}
 	

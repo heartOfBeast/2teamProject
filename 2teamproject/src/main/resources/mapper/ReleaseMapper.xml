@@ -86,7 +86,7 @@
 	</resultMap>
 
 
-	<select id="gerReleaseOrder" resultType="Release" fetchSize="1000" resultMap="ReleaseResultMap">
+	<select id="getReleaseOrder" resultType="Release" fetchSize="1000" resultMap="ReleaseResultMap">
 		SELECT 
 			r.release_order_code
 			, r.release_code
@@ -130,7 +130,12 @@
 			LEFT JOIN 
 			tb_release AS ra
 			on
-			r.release_code = ra.release_request_code;
+			r.release_code = ra.release_request_code
+		<trim prefix="WHERE" prefixOverrides="OR ">
+			<if test="firstDate != null and firstDate != ''.toString()">
+				r.release_order_reg_date BETWEEN #{firstDate} AND #{secondDate}
+			</if>
+		</trim>	
 	</select>
 	
 	<select id="getDeliveryInfo" resultType="Delivery" fetchSize="1000">
@@ -338,10 +343,15 @@
 			LEFT JOIN 
 			tb_release_order AS rr
 			on
-			r.release_order_code = rr.release_order_code;
+			r.release_order_code = rr.release_order_code
+		<trim prefix="WHERE" prefixOverrides="OR ">
+			<if test="firstDate != null and firstDate != ''.toString()">
+				r.release_real_date BETWEEN #{firstDate} AND #{secondDate}
+			</if>
+		</trim>		
 	</select>
 	
-	<!-- 운송장 조히 -->
+	<!-- 운송장 조회 -->
 	<select id="wayBillSearch" resultType="Invoice">
 		SELECT 
 			  i.invoice_code					AS invoiceCode
