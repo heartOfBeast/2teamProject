@@ -168,6 +168,10 @@ public class MemberService {
 		return memberMapper.getMemberLevelCode();
 	}
 	
+	public int adminApprovalStatusUpdate(String approvalAdminId) {
+		return memberMapper.adminApprovalStatusUpdate(approvalAdminId);
+	}
+	
 
 	
 }

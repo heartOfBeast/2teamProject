@@ -71,5 +71,7 @@ public interface MemberMapper {
 	//Search 위한 회원 레벨 코드,이름 조회
 	public List<Member>getMemberLevelCode();
 	
+	public int adminApprovalStatusUpdate(String approvalAdminId);
+	
 	
 }
