@@ -27,7 +27,6 @@ public class SafetyCheckService {
 		return safetyCheck;
 	}
 	
-	
     public List<SafetyCheck> getSafetyCheckById(String facilityCode) {
   
     	return safetyCheckMapper.getSafetyCheckById(facilityCode); 
@@ -49,6 +48,14 @@ public class SafetyCheckService {
 	
 	public int modifySafeCheck(SafetyCheck safetyCheck) {
 		return safetyCheckMapper.modifySafeCheck(safetyCheck);
+	}
+	
+	public List<SafetyCheck> getFollowUp(String facilityCode){
+		return safetyCheckMapper.getFollowUp(facilityCode);
+	}
+	
+	public int modifyFollowUp(SafetyCheck safetyCheck) {
+		return safetyCheckMapper.modifyFollowUp(safetyCheck);
 	}
 }
 

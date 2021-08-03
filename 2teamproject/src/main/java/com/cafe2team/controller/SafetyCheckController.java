@@ -110,4 +110,24 @@ public class SafetyCheckController {
 		result = safetyCheckService.deleteSafetyCheck(paramList);
 		return result;
 	}
+	
+	//후속조치화면
+	@GetMapping("/getFollowUp")
+	@ResponseBody
+	public List<SafetyCheck> getFollowUp(@RequestParam(name = "facilityCode" ,required = false)String facilityCode){
+		List<SafetyCheck> safetyCheck = safetyCheckService.getFollowUp(facilityCode);
+		return safetyCheck;
+	}
+	
+	//후속조치처리
+	@PostMapping("/modifyFollowUp")
+	public String modifyFollowUp(SafetyCheck safetyCheck, HttpSession session) {
+		String addAdminID = (String) session.getAttribute("SID");
+		if(addAdminID != null) {
+			safetyCheck.setWareAdminId(addAdminID);
+			safetyCheckService.modifyFollowUp(safetyCheck);
+			log.info("safetyCheck : {}", safetyCheck);
+		}
+		return "redirect:/safetyCheck";
+	}
 }
