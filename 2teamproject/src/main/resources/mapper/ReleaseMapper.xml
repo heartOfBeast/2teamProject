@@ -550,6 +550,11 @@
 			c.delivery_member_id = d.delivery_member_id
 		WHERE 
 			r.release_real_code IS NULL
+		<trim prefix="AND" prefixOverrides="OR ">
+			<if test="firstDate != null and firstDate != ''.toString()">
+				c.drive_reg_date BETWEEN #{firstDate} AND #{secondDate}
+			</if>
+		</trim>		
 	</select>
 	
 	<!-- 배차취소 -->

@@ -206,8 +206,13 @@ public class ReleaseController {
 	
 	//배차목록화면
 	@GetMapping("/carManagementList")
-	public String carManagementList(Model model) {
-		List<CarManagement> carManagement = releaseService.carManagementList();
+	public String carManagementList(Model model,
+									@RequestParam(name="firstDate", required = false)String firstDate
+									,@RequestParam(name="secondDate", required = false)String secondDate) {
+		Map<String, Object> listParam = new HashMap<String, Object>();
+		listParam.put("firstDate", firstDate);
+		listParam.put("secondDate", secondDate);
+		List<CarManagement> carManagement = releaseService.carManagementList(listParam);
 		model.addAttribute("title", "배차목록");
 		model.addAttribute("carManagement", carManagement);
 		return "release/carManagementList";

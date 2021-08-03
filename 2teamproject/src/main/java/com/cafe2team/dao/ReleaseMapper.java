@@ -60,7 +60,7 @@ public interface ReleaseMapper {
 	public List<Invoice> wayBillSearch(Map<String, Object> paramMap);
 	
 	//배차목록
-	public List<CarManagement> carManagementList();
+	public List<CarManagement> carManagementList(Map<String, Object> listParam);
 	
 	//운송장삭제
 	public int deleteInvoice(String releaseOrderCode);
