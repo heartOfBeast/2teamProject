@@ -44,6 +44,7 @@
 									  <th>등록일</th>
 									  <th>수정일</th>
 									  <th>이상사유</th>
+									  <th>후속조치</th>
 									  <th>수정</th>
 									</tr>
 								</thead>
@@ -62,6 +63,11 @@
 									  <td th:text="${s.facilityRegDate}"></td>
 									  <td th:text="${s.facilityUpdateDate}"></td>
 									  <td th:text="${s.facilityCheck}" id="facilityCheckData"></td>
+									  <td>
+									  	<a class="btn btn-primary followUpDoneBtn" style="color: white; width: 90px;" th:if="${s.followUpAction == 'Y'}" >조치불필요</a>
+									  	<a type="button" class="btn btn-primary followUpBtn" style="color: white; width: 90px; background-color: red; border-color: red;" 
+									  	   th:if="${s.followUpAction == 'N'}" data-toggle="modal" data-target=".bd-example-modal-lg2">조치필요</a>
+									  </td>
 									  <td>
 									  	<a type="button" class="btn btn-primary modifyBtn" data-toggle="modal" data-target=".bd-example-modal-lg" id="viewModal" style="color: white;">수정</a>
 								  	  </td>
@@ -124,6 +130,32 @@
 				<div class="modal-footer">
 					<button class="btn btn-secondary" data-dismiss="modal">취소</button>
 					<button type="submit" name="submit"  class="btn btn-primary">수정</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>		
+
+<form th:action="@{/modifyFollowUp}" method="post" id="modifyFollowUp">
+	<div class="modal fade bd-example-modal-lg2" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" style="display: none;" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="myLargeModalLabel">후속조치기록</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<input type="hidden" class="form-control" name="facilityCode" id="facilityCodeModal">
+					<div class="form-group">
+						<label for="followUpModal">이상사유</label>
+						<textarea class="form-control" id="followUpModal" placeholder="이상여부를 작성해주세요." maxlength="140" rows="4" name="facilityCheck" required="required"></textarea>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-secondary" data-dismiss="modal">취소</button>
+					<button type="submit" name="submit"  class="btn btn-primary">확인</button>
 				</div>
 			</div>
 		</div>
@@ -289,6 +321,39 @@
 					}
 				}
 			};
+			
+			/********후속조치화면********/
+			$('.followUpBtn').each(function(){
+				$(this).click(function(){
+					var facilityCode = $(this).parents('tr').children('#facilityCodeData').text();
+					if(facilityCode != null){
+						$.ajax({
+							url : "/getFollowUp",
+							method : 'get',
+							async : true,
+							dataType : "json",
+							data : {'facilityCode':facilityCode},
+							success: function(data){
+								if(data != null && data != '' && data != undefined){
+									$('#facilityCodeModal').val(data[0].facilityCode);
+									$('#followUpModal').val(data[0].facilityCheck);
+								}else{
+									alert('오류발생');
+								}
+							}
+						})
+					}
+				})
+			});
+			
+			$('#modifyFollowUp').submit(function(){
+				var chk = confirm('후속조치 처리를 완료하시겠습니까?');
+				if(chk){
+					alert('처리되었습니다.');
+				}else{
+					return false;
+				}
+			});
 	</script>
 </th:block>
 </html>

@@ -13,6 +13,7 @@
 		<result property="facilityRegDate" 			column="facility_reg_date"/>
 		<result property="facilityUpdateDate" 		column="facility_update_date"/>
 		<result property="facilityCheck" 			column="facility_check"/>
+		<result property="followUpAction" 			column="followup_action"/>
 		<association property="warehouse" javaType="Warehouse">
 			<id property="warehouseCode" 			column="warehouse_code" />
 			<result property="warehouseName" 		column="warehouse_name"/>
@@ -31,6 +32,7 @@
 			, s.facility_reg_date
 			, s.facility_update_date
 			, s.facility_check
+			, s.followup_action
 		FROM 
 			tb_safety_facility AS s
 			INNER JOIN 
@@ -93,6 +95,7 @@
 			, facility_reg_date
 			, facility_update_date
 			, facility_check
+			, followup_action
 		)VALUES (
 			sf_newSafetyCode()
 			, #{warehouseCode}
@@ -102,7 +105,8 @@
 			, #{wareAdminId}
 			, CURDATE()
 			, CURDATE()
-			, #{facilityCheck})
+			, #{facilityCheck}
+			, #{followUpAction})
 	</insert>
 	
 	<delete id="deleteSafetyCheckByCode" parameterType="java.util.List">
@@ -124,4 +128,25 @@
 		FROM 
 			tb_warehouse
 	</select>
+	
+	<select id="getFollowUp" resultType="SafetyCheck">
+		SELECT 
+			facility_code AS facilityCode
+			,facility_check AS facilityCheck
+		FROM 
+			tb_safety_facility
+		WHERE 
+			facility_code = #{facilityCode};
+	</select>
+	
+	<update id="modifyFollowUp" parameterType="SafetyCheck">
+		UPDATE tb_safety_facility
+		SET
+			ware_admin_id = #{wareAdminId}
+			,facility_update_date = now()
+			,facility_check = #{facilityCheck}
+			,followup_action = 'Y'
+		WHERE 
+			facility_code=#{facilityCode};
+	</update>
 </mapper> 
