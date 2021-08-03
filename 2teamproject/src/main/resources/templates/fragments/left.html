@@ -233,7 +233,7 @@
 							<a th:if="${session.SLEVEL == '게스트'}" th:href="@{/estimateAnother}">비회원 견적신청(병윤)</a>
 						</li>
 						<li>
-							<a th:href="@{/estimateLook}" th:if="${session.SLEVEL =='총관리자' or session.SLEVEL =='창고관리자' }">견적신청 조회(병윤)</a>
+							<a th:href="@{/estimateLook}">견적신청 조회(병윤)</a>
 						</li>
 						<li>
 							<a th:href="@{/estimatePermit}" th:if="${session.SLEVEL =='총관리자' or session.SLEVEL =='창고관리자' }">견적신청 검토(병윤)</a>
