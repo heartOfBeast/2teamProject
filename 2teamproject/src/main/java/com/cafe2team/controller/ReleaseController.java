@@ -203,4 +203,22 @@ public class ReleaseController {
 		
 		return "release/wayBillSearch";
 	}
+	
+	//배차목록화면
+	@GetMapping("/carManagementList")
+	public String carManagementList(Model model) {
+		List<CarManagement> carManagement = releaseService.carManagementList();
+		model.addAttribute("title", "배차목록");
+		model.addAttribute("carManagement", carManagement);
+		return "release/carManagementList";
+	}
+	
+	//배차취소
+	@GetMapping("/deleteCarmanagement")
+	@ResponseBody
+	public int deleteCarmanagement(@RequestParam(name="releaseOrderCode", required = false)String releaseOrderCode) {
+		int result = 0;
+		result= releaseService.deleteCarmanagement(releaseOrderCode);
+		return result;
+	}
 }

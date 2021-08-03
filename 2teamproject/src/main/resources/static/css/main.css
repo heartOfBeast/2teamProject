@@ -6325,3 +6325,9 @@ input::-webkit-inner-spin-button {
 #secondDate::placeholder{
 	color: #225de4;
 }
+
+#headerSpan{
+	color: gray;
+	font-size: 15px;
+	font-weight: 300;
+}

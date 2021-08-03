@@ -58,4 +58,13 @@ public interface ReleaseMapper {
 	
 	// 운송장 조회
 	public List<Invoice> wayBillSearch(Map<String, Object> paramMap);
+	
+	//배차목록
+	public List<CarManagement> carManagementList();
+	
+	//운송장삭제
+	public int deleteInvoice(String releaseOrderCode);
+	
+	//배차취소
+	public int deleteCarmanagement(String releaseOrderCode);
 }
