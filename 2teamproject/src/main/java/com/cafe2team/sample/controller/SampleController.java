@@ -35,6 +35,7 @@ public class SampleController {
 	HttpSession session = request.getSession();
 	
 	session.setAttribute("SID", "sh001");
+	session.setAttribute("SLEVEL", "사업자");
 	String id = (String) session.getAttribute("SID");
 	
 	
