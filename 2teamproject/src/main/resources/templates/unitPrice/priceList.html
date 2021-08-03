@@ -7,8 +7,8 @@
 <th:block layout:fragment="pageTitle">
 	<div class="page-header">
 	<ol class="breadcrumb">
-		<li class="breadcrumb-item">Shoppingmall</li>
-		<li class="breadcrumb-item active">PriceList</li>
+		<li class="breadcrumb-item">거래처</li>
+		<li class="breadcrumb-item active">요금안내 및 계약 신청</li>
 	</ol>
 
 	<ul class="app-actions">
@@ -31,8 +31,8 @@
 	<div class="table-container">
 		<div class="table-responsive">
 			<div th:include="unitPrice/Search :: wareHoushSearch"></div>	
-			<button th:if="${session.SID == null or session.SLEVEL == '총관리자'}" type="button" class="btn btn-primary float-right" onclick="deleteDate();">삭제</button>
-			<button th:if="${session.SID == null or session.SLEVEL == '총관리자'}" type="button" class="btn btn-primary float-right" onclick="location.href='priceAdd'">등록</button>
+			<button th:if="${session.SID == null or session.SLEVEL == '총관리자'}" type="button" class="btn btn-primary float-right" onclick="deleteDate();" style="width: 100px; display: inline;">삭제</button>
+			<button th:if="${session.SID == null or session.SLEVEL == '총관리자'}" type="button" class="btn btn-primary float-right" onclick="location.href='priceAdd'" style="width: 100px; display: inline;">등록</button>
 			<table class="table custom-table m-0">
 				<thead>
 					<tr>

@@ -13,6 +13,7 @@ public class Price {
 	private String unitPriceId;
 	private String unitPriceRegDate;
 	private String unitPriceUpdate;
+	private String SID;
 	
 	public String getPriceCode() {
 		return priceCode;
@@ -86,14 +87,23 @@ public class Price {
 	public void setUnitPriceUpdate(String unitPriceUpdate) {
 		this.unitPriceUpdate = unitPriceUpdate;
 	}
+	public String getSID() {
+		return SID;
+	}
+	public void setSID(String sID) {
+		SID = sID;
+	}
 	@Override
 	public String toString() {
 		return "Price [priceCode=" + priceCode + ", priceName=" + priceName + ", wareHouseType=" + wareHouseType
 				+ ", contractType=" + contractType + ", priceWeight=" + priceWeight + ", priceNumber=" + priceNumber
 				+ ", priceZone=" + priceZone + ", priceDay=" + priceDay + ", pricePrice=" + pricePrice
 				+ ", unitPriceId=" + unitPriceId + ", unitPriceRegDate=" + unitPriceRegDate + ", unitPriceUpdate="
-				+ unitPriceUpdate + "]";
+				+ unitPriceUpdate + ", SID=" + SID + "]";
 	}
+	
+	
+	
 	
 	
 	
