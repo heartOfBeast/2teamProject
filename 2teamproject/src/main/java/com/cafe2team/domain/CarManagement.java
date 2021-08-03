@@ -10,9 +10,25 @@ public class CarManagement {
 	private String driveRegDate;
 	private String wareAdminId;
 	
+	private Release release;
+	
+	private Product product;
+	
 	private ReleaseInfo releaseInfo;
 	
 	
+	public Release getRelease() {
+		return release;
+	}
+	public void setRelease(Release release) {
+		this.release = release;
+	}
+	public Product getProduct() {
+		return product;
+	}
+	public void setProduct(Product product) {
+		this.product = product;
+	}
 	public ReleaseInfo getReleaseInfo() {
 		return releaseInfo;
 	}
@@ -73,7 +89,8 @@ public class CarManagement {
 		return "CarManagement [driveManageCode=" + driveManageCode + ", releaseOrderCode=" + releaseOrderCode
 				+ ", deliveryMemberId=" + deliveryMemberId + ", releaseOrderCar=" + releaseOrderCar
 				+ ", dispatchReason=" + dispatchReason + ", driveUsingDate=" + driveUsingDate + ", driveRegDate="
-				+ driveRegDate + ", wareAdminId=" + wareAdminId + ", releaseInfo=" + releaseInfo + "]";
+				+ driveRegDate + ", wareAdminId=" + wareAdminId + ", release=" + release + ", product=" + product
+				+ ", releaseInfo=" + releaseInfo + "]";
 	}
 	
 }

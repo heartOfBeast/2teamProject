@@ -82,7 +82,6 @@ public class SafetyCheckController {
 	}
 	
 	//수정화면
-	
 	@GetMapping("/modifySafetyCheck") 
 	@ResponseBody
 	public List<SafetyCheck> modifySafetyCheck(@RequestParam(name = "facilityCode" ,required = false)String facilityCode){

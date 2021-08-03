@@ -33,14 +33,17 @@ public class ReleaseService {
 		return delivery;
 	}
 	
+	public List<Release> getOrderInfo(String releaseOrderCode){
+		return releaseMapper.getOrderInfo(releaseOrderCode);
+	}
+	
 	public int addDriveManagement(CarManagement carManagement) {
 		return releaseMapper.addDriveManagement(carManagement);
 	}
 	
-	/*
-	 * public List<CarManagement> getDriveManagement(){ List<CarManagement>
-	 * carManagement = releaseMapper.getDriveManagement(); return carManagement; }
-	 */
+	 public List<CarManagement> getDriveManagement(String driveManageCode){ 
+		 return releaseMapper.getDriveManagement(driveManageCode); 
+	 }
 	
 	public int modifyDriveManagement(CarManagement carManagement) {
 		return releaseMapper.modifyDriveManagement(carManagement);
@@ -50,12 +53,24 @@ public class ReleaseService {
 		return releaseMapper.modifyDriveManagementNotRelease(carManagement);
 	}
 	
+	public List<CarManagement> addInvoiceInfo(String driveManageCode){
+		return releaseMapper.addInvoiceInfo(driveManageCode);
+	}
+	
 	public int addInvoice(Invoice invoice) {
 		return releaseMapper.addInvoice(invoice);
 	}
 	
+	public List<Invoice> getInvoiceInfo(String invoiceCode){
+		return releaseMapper.getInvoiceInfo(invoiceCode);
+	}
+	
 	public int modifyInvoiceInfo(Invoice invoice) {
 		return releaseMapper.modifyInvoiceInfo(invoice);
+	}
+	
+	public List<Release> addReleaseInfo(String releaseOrderCode){
+		return releaseMapper.addReleaseInfo(releaseOrderCode);
 	}
 	
 	public int addRelease(ReleaseInfo releaseInfo) {

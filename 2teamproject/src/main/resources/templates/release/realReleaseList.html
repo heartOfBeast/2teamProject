@@ -28,7 +28,7 @@
 					<div class="card">
 						<div class="card-header">
 							<div class="card-title">
-							 출고현황(월별)
+							 출고현황<span id="releaseYear"></span>
 							</div>
 						</div>
 						<div class="card-body">
@@ -221,6 +221,16 @@
 				}
 			}
 		};
+		
+		/********그래프기간안내********/
+		$(function(){
+			var checkReleaseDate = new Array($('.releaseRealDate'));
+			if(checkReleaseDate[0].length > 0){
+				$('#releaseYear').text('(' + checkReleaseDate[0][0].innerText + ' ~ ' + checkReleaseDate[0][checkReleaseDate[0].length-1].innerText + ')');
+			}else{
+				$('#releaseYear').text('(월별 출고 현황이 없습니다.)');
+			}
+		});
 		</script>
 	</th:block>			
 </html>
