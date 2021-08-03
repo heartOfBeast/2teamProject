@@ -7,8 +7,8 @@
 <th:block layout:fragment="pageTitle">
 <div class="page-header">
 	<ol class="breadcrumb">
-		<li class="breadcrumb-item">6/20</li>
-		<li class="breadcrumb-item active">수정</li>
+		<li class="breadcrumb-item">상품관리</li>
+		<li class="breadcrumb-item active">창고별 상품관리</li>
 	</ol>
 
 	<ul class="app-actions">
@@ -34,9 +34,26 @@
 			<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 				<div class="table-container">
 					<div class="t-header">창고별 상품목록</div>
-					<select id="choiceWarehouse">
-						<option value=""></option>
-					</select>
+						
+					<form th:action="@{/warehouseProduct}" method="get" id="searchProductPerWarehouse">
+						<select id="searchKind" name="warehouseCode" class="form-control" style="width: 200px; display: inline;">
+							<option  value="">창고를 선택해주세요.</option>
+							<option  value="">전체 보기</option>
+							<option th:each="w : ${warehouseList}" th:value="${w.warehouseCode}" th:text="${w.warehouseName}"></option>
+						</select>
+						<div style="display: inline;">
+							<a href="#" id="reportrangeCustom">
+								<input class="btn btn-outline-primary btn-rounded" id="firstDate" th:name="firstDate" placeholder="검색 시작일" onkeyup="firstDateKey();" type="text" maxlength="10" autocomplete="off">
+								<span class="range-text" id="midDate" style="color: #225de4;">~</span>
+								<input class="btn btn-outline-primary btn-rounded" id="secondDate" th:name="secondDate" placeholder="검색 종료일" onkeyup="secondDateKey();" type="text" maxlength="10" autocomplete="off">
+								<i class="icon-chevron-down"></i>	
+							</a>
+						</div>
+						<button class="btn btn-outline-primary btn-rounded" type="submit">검색</button>
+						
+					</form>
+						
+					
 					<div class="table-responsive">
 						<table id="copy-print-csv" class="table custom-table">
 							<thead>
@@ -46,8 +63,8 @@
 									<th>보관유형</th>
 									<th>보관창고</th>
 									<th>입고일</th>
-									<th>수량</th>
-									<th>등록자</th>
+									<th>주소</th>
+									<th>연락처</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -70,5 +87,89 @@
 	<!-- Main container end -->
 
 </th:block>
+<th:block layout:fragment="customJs">
+	<script>
+	$(function() {
+			var start = moment().subtract(29, 'days');
+			var end = moment();
+			function cb2(start, end) {
+				$('#firstDate').html(start.format('YYYY-MM-DD'));
+				$('#firstDate').val($('#firstDate').text());
+				$('#secondDate').html(end.format('YYYY-MM-DD'));
+				$('#secondDate').val($('#secondDate').text());
+			}
+			$('#reportrangeCustom').daterangepicker({
+				
+				opens: 'left',
+				startDate: start,
+				endDate: end,
+				ranges: {
+					'Today': [moment(), moment()],
+					'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+					'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+					'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+					'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+				}
+			}, cb2);
+		});
 		
+		/********시작일********/
+		function firstDateKey(){
+			if(event.keyCode != 8){
+				if($('#firstDate').val().replace(/[0-9 \-]/g, "").length == 0){
+					var ymd = '';
+					var firstDateValue = $('#firstDate').val().replace(/[^0-9]/g,'');
+					var firstDateLength = firstDateValue.length;
+					if(firstDateLength < 4){
+						return 	;
+					}else if(firstDateLength < 6){
+						ymd += firstDateValue.substr(0, 4);
+						ymd += '-';
+						ymd += firstDateValue.substr(4);
+					}else{
+						ymd += firstDateValue.substr(0, 4);
+						ymd += '-';
+						ymd += firstDateValue.substr(4, 2);
+						ymd += '-';
+						ymd += firstDateValue.substr(6);
+					}
+					$('#firstDate').val(ymd);
+				}else{
+					alert('숫자 이외의 값은 입력하실 수 없습니다.');
+					$('#firstDate').val('');
+				}
+			}
+		};
+		
+		/********종료일********/
+		function secondDateKey(){
+			if(event.keyCode != 8){
+				if($('#secondDate').val().replace(/[0-9 \-]/g, "").length == 0){
+					var ymd = '';
+					var secondDateValue = $('#secondDate').val().replace(/[^0-9]/g,'');
+					var secondDateLength = secondDateValue.length;
+					if(secondDateLength < 4){
+						return 	;
+					}else if(secondDateLength < 6){
+						ymd += secondDateValue.substr(0, 4);
+						ymd += '-';
+						ymd += secondDateValue.substr(4);
+					}else{
+						ymd += secondDateValue.substr(0, 4);
+						ymd += '-';
+						ymd += secondDateValue.substr(4, 2);
+						ymd += '-';
+						ymd += secondDateValue.substr(6);
+					}
+					$('#secondDate').val(ymd);
+				}else{
+					alert('숫자 이외의 값은 입력하실 수 없습니다.');
+					$('#secondDate').val('');
+				}
+			}
+		};
+
+
+	</script>
+</th:block>
 </html>
