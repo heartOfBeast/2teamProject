@@ -4,15 +4,14 @@
 	layout:decorate="@{layout/default}">
 
 		
-	<div class="card-body" th:fragment="searchFragment">
-		<form th:action="@{/shoppingmallApproval}" method="get">
+	<div class="card-body" th:fragment="shoppingmallSearch">
+		<form th:action="@{/shoppingmallApproval}" id="searchStatus" method="get">
 			<select id="shoppingmallStatus" name="shoppingmallStatus">
 				<option  value=""> :: 선택해주세요 :: </option>
 				<option  value="승인요청">승인요청</option>
 				<option  value="승인">승인</option>
 				<option  value="취소">취소</option>
 			</select>
-			<button type="submit" >검색</button>
 		</form>
 	</div>
 </html>

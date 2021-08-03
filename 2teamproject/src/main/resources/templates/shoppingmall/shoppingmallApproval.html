@@ -32,7 +32,7 @@
 	<div class="row gutters">
 		<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 			<div class="table-container">
-				<div th:include="shoppingmall/Search :: searchFragment"></div>
+				<div th:include="shoppingmall/Search :: shoppingmallSearch"></div>
 					<div class="table-responsive">
 						<table id="copy-print-csv" class="table custom-table">
 						<thead>
@@ -182,6 +182,26 @@
 </th:block>
 
 <th:block layout:fragment="customJs">
+	<script>
+		/* 창고별 검색 */
+		$(function(){
+			$('#shoppingmallStatus').change(function(){
+				$('#searchStatus').submit();
+			})
+		});
+	
+	
+		/* 삭제(개별 / 전체)  */
+		$(function(){		
+			$('#priceCheck').click(function(){
+				if($('#priceCheck').prop('checked')){
+					$('.checkOne').prop('checked', true);
+				}else{
+					$('.checkOne').prop('checked', false);
+				}
+			})
+		});
+	</script>
 	<script type="text/javascript" th:inline="javascript">
 		
 		<!-- 상세정보 및 승인 Modal 시작 -->

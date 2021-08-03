@@ -1,6 +1,7 @@
 package com.cafe2team.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,11 +23,9 @@ public class UnitPriceService {
 	
 	
 	// 요금안내 조회
-	public List<Price> getPriceList(){
+	public List<Price> getPriceList(Map<String, Object> paramWareHouse){
 		
-		
-		List<Price> priceList = unitPriceMapper.getPriceList();
-		
+		List<Price> priceList = unitPriceMapper.getPriceList(paramWareHouse);
 		
 		return priceList;
 	}
