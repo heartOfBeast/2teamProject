@@ -496,7 +496,7 @@ public class MemberController {
 	@PostMapping("/findPw") 
 	@ResponseBody
 	 public Map<String, Object> findPw(@RequestParam(name="mail", required = false) String memberEmail,
-			  							@RequestParam(value = "check", required = false) String check ) throws MessagingException {
+			  							@RequestParam(name = "check", required = false) String check ) throws MessagingException {
 			  
 			  
 			  log.info("화면에서 받은 메일주소: " + memberEmail);
@@ -506,16 +506,17 @@ public class MemberController {
 			  String subject = "";
 			  String msg = "";
 			  
+			  Shoppingmall shop = memberService.getShopAjaxId(memberEmail);
+			  Member member = memberService.getAdminAjaxId(memberEmail);
 			  
-			 
-			  if(memberEmail != null && !memberEmail.equals("")) {
-				  if(check.equals("memberCheck")) {
+			  
+			  
+				  if(check.equals("memberCheck") && member != null) {
 					  
-					  Member member = memberService.getAdminAjaxId(memberEmail);
-					  //SimpleMailMessage message = new SimpleMailMessage();
+   					 //Member member = memberService.getAdminAjaxId(memberEmail);
+					 //SimpleMailMessage message = new SimpleMailMessage();
+					 //MimeMessage message = javaMailSender.createMimeMessage();
 					  
-					 // MimeMessage message = javaMailSender.createMimeMessage();
-
 					  
 					  subject = "물류센터 비밀번호 입니다.";
 					  msg += "<div align='center' style='border:1px solid black; font-family:verdana'>";
@@ -524,13 +525,13 @@ public class MemberController {
 					  msg += "<p>비밀번호 : ";
 					  msg += member.getMemberPw()+ "</p></div>";
 					  
-					  MimeMessage mimeMessage = javaMailSenderImpl.createMimeMessage();
+					    MimeMessage mimeMessage = javaMailSenderImpl.createMimeMessage();
 				        mimeMessage.setFrom(new InternetAddress(from));
 				        mimeMessage.addRecipient(RecipientType.TO, new InternetAddress(member.getMemberEmail()));
 				        mimeMessage.setSubject(subject);
 				        mimeMessage.setText(msg, "UTF-8", "html");
 
-				        //javaMailSenderImpl.send(mimeMessage);
+				      //javaMailSenderImpl.send(mimeMessage);
 				        
 					  Thread thread = new Thread(createRunnable(mimeMessage));
 					  thread.start();
@@ -539,15 +540,16 @@ public class MemberController {
 //					  message.setTo(memberEmail);
 //					  message.setSubject(subject);
 //					  message.setText(msg);
-//					  
+				  
 					  
 					 // javaMailSender.send(message);
 					  
 					  
 					  map.put("member", member);
 					  return map;
-				  }else {
-					  Shoppingmall shop = memberService.getShopAjaxId(memberEmail);
+				  }else if(check.equals("shopCheck") && shop != null) {
+					  
+					  //Shoppingmall shop = memberService.getShopAjaxId(memberEmail);
 					  
 //					  SimpleMailMessage message = new SimpleMailMessage();
 //					  
@@ -578,17 +580,14 @@ public class MemberController {
 					  
 					  map.put("shop", shop);
 					  return map;
+					  
+				  }else {
+					  map.put("msg", "이메일과 등록된 아이디가 일치하지 않습니다");
+					  return map;
 				  }
 				  
 				  
-			  }else{
-				  
-				  String var = "이메일과 등록된 아이디가 일치하지 않습니다";
-				  
-				  map.put("msg", String.valueOf(var));
-				  return map;	
-			  }
-		  
+//		  
 		  }
 		  
 			  
