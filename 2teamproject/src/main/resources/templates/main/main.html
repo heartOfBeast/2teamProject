@@ -64,7 +64,7 @@
 
 	<div class="row gutters">
 		<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-			<div class="card" th:unless="${session.SLEVEL == '게스트'}">
+			<div class="card" th:unless="${session.SLEVEL == '게스트' or session.SLEVEL == '사업자'}">
 				<div class="card-header">
 					<div class="card-title">입고현황(관리자)</div>
 				</div>
@@ -85,7 +85,7 @@
 	
 	<div class="row gutters">
 		<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-			<div class="card" th:unless="${session.SLEVEL == '게스트'}">
+			<div class="card" th:unless="${session.SLEVEL == '게스트' or session.SLEVEL == '사업자'}">
 				<div class="card-header">
 					<div class="card-title">출고현황(관리자)</div>
 				</div>
