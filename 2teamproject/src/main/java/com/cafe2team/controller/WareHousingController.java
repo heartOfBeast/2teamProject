@@ -135,32 +135,80 @@ public class WareHousingController {
 	
 	//입고지시서 목록
 	@GetMapping("/receivingOrder")
-	public String receivingOrder(Model model) {
+	public String receivingOrder(Model model,
+								@RequestParam(name="warehouseCode", required = false) String warehouseCode,
+								@RequestParam(name="firstDate", required = false) String firstDate , 
+								@RequestParam(name="secondDate", required = false) String secondDate) {
 		List<Shoppingmall> ShoppingmallUserName = warehousingOrderService.getShoppingmallUserName();
-		List<WarehousingOrder> WarehousingOrderList = warehousingOrderService.getWarehousingOrderList();
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		
+		paramMap.put("warehouseCode", warehouseCode);
+		paramMap.put("firstDate", firstDate);
+		paramMap.put("secondDate", secondDate);
+		List<Warehouse> warehouse = safetyCheckService.getWareHouseInfo();
+		List<WarehousingOrder> WarehousingOrderList = warehousingOrderService.getWarehousingOrderList(paramMap);
+
 		model.addAttribute("title", "입고지시서 목록");
 		model.addAttribute("WarehousingOrderList", WarehousingOrderList);
+		model.addAttribute("warehouse", warehouse);
 		//model.addAttribute("ShoppingmallUserName", ShoppingmallUserName);
 		return "warehousing/receivingOrder";
 	}
 	
 	//입고현황 - 관리자
 	@GetMapping("/receivingWarehouseStatus")
-	public String receivingWarehouseStatus(Model model) {
-		List<Receiving> receivingStatusForWarehouse = warehousingOrderService.getReceivingListForWarehouse();
+	public String receivingWarehouseStatus(Model model,
+											@RequestParam(name="warehouseCode", required = false) String warehouseCode,
+											@RequestParam(name="firstDate", required = false) String firstDate , 
+											@RequestParam(name="secondDate", required = false) String secondDate) {
 		
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		
+		paramMap.put("warehouseCode", warehouseCode);
+		paramMap.put("firstDate", firstDate);
+		paramMap.put("secondDate", secondDate);
+
+		List<Warehouse> warehouse = safetyCheckService.getWareHouseInfo();
+		List<Receiving> receivingStatusForWarehouse = warehousingOrderService.getReceivingListForWarehouse(paramMap);
+
 		
 		
 		model.addAttribute("title", "입고현황-관리자전용");
+		model.addAttribute("warehouse", warehouse);
 		model.addAttribute("receivingStatusListForWarehouse", receivingStatusForWarehouse);
-		
+
 		
 		return "warehousing/receivingWarehouseStatus";
 	}
-	
+	//입고현황 쇼핑몰사업자
 	@GetMapping("/receivingShopStatus")
-	public String receivingShopStatus(Model model) {
+	public String receivingShopStatus(Model model
+									,HttpSession session
+									,HttpServletResponse response
+									,RedirectAttributes reAttr
+									,Receiving receiving
+									,@RequestParam(name="warehouseCode", required = false) String warehouseCode
+									,@RequestParam(name="firstDate", required = false) String firstDate 
+									,@RequestParam(name="secondDate", required = false) String secondDate) {
+
+		String shoppingmallId = (String) session.getAttribute("SID");
+		Map<String, Object> paramMap = new HashMap<String, Object>();
 		
+		paramMap.put("warehouseCode", warehouseCode);
+		paramMap.put("firstDate", firstDate);
+		paramMap.put("secondDate", secondDate);
+		paramMap.put("shoppingmallId", shoppingmallId);
+
+		List<Warehouse> warehouse = safetyCheckService.getWareHouseInfo();
+		List<Receiving> receivingStatus = warehousingOrderService.receivingListForShop(paramMap);
+
+
+		if(shoppingmallId !=null) {
+			receiving.setShoppingmallId(shoppingmallId);
+			model.addAttribute("warehouse",warehouse);
+			model.addAttribute("receivingStatus",receivingStatus);
+			
+		}
 		return "warehousing/receivingShopStatus";
 	}
 	

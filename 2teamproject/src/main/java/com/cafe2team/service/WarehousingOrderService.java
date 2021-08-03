@@ -1,6 +1,7 @@
 package com.cafe2team.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,8 +22,8 @@ public class WarehousingOrderService {
 
 	
 	//입고지시서 목록
-	public List<WarehousingOrder> getWarehousingOrderList(){
-		List<WarehousingOrder> getWarehousingOrderList = warehousingOrderMapper.getWarehousingOrderList();
+	public List<WarehousingOrder> getWarehousingOrderList(Map<String,Object> paramMap){
+		List<WarehousingOrder> getWarehousingOrderList = warehousingOrderMapper.getWarehousingOrderList(paramMap);
 		return getWarehousingOrderList;
 	}
 	
@@ -32,8 +33,14 @@ public class WarehousingOrderService {
 	}
 	
 	//입고 현황 리스트
-	public List<Receiving> getReceivingListForWarehouse(){
-		return warehousingOrderMapper.getReceivingList();
+	public List<Receiving> getReceivingListForWarehouse(Map<String, Object> paramMap){
+		List<Receiving> getReceivingList = warehousingOrderMapper.getReceivingList(paramMap);
+		return getReceivingList;
+	}
+	//입고현황리스트-쇼핑몰
+	public List<Receiving> receivingListForShop(Map<String, Object> paramMap){
+		List<Receiving> receivingListForShop = warehousingOrderMapper.receivingListForShop(paramMap);
+		return receivingListForShop;
 	}
 	
 	//입고 확정후 입고지시서 상태 변환
