@@ -86,8 +86,8 @@
 	</resultMap>
 
 
-	<select id="gerReleaseOrder" resultType="Release" fetchSize="1000" resultMap="ReleaseResultMap">
-	SELECT 
+	<select id="getReleaseOrder" resultType="Release" fetchSize="1000" resultMap="ReleaseResultMap">
+		SELECT 
 			r.release_order_code
 			, r.release_code
 			, r.warehouse_code
@@ -130,7 +130,12 @@
 			LEFT JOIN 
 			tb_release AS ra
 			on
-			r.release_code = ra.release_request_code;
+			r.release_code = ra.release_request_code
+		<trim prefix="WHERE" prefixOverrides="OR ">
+			<if test="firstDate != null and firstDate != ''.toString()">
+				r.release_order_reg_date BETWEEN #{firstDate} AND #{secondDate}
+			</if>
+		</trim>	
 	</select>
 	
 	<select id="getDeliveryInfo" resultType="Delivery" fetchSize="1000">
@@ -172,7 +177,25 @@
 	</insert>
 	
 	<update id="modifyDriveManagement" parameterType="CarManagement">
-		UPDATE tb_car_management
+		UPDATE 
+			tb_car_management AS c
+			INNER JOIN 
+			tb_release_info AS r
+			on
+			c.release_order_code = r.release_order_code
+		SET
+			c.delivery_member_id = #{deliveryMemberId}
+			, c.release_order_car = #{releaseOrderCar}
+			, c.drive_using_date = #{driveUsingDate}
+			, c.drive_update_date=NOW()
+			, c.ware_admin_id= #{wareAdminId}
+			, r.release_real_date = #{driveUsingDate}
+		WHERE 
+			drive_manage_code = #{driveManageCode};	
+	</update>
+
+	<update id="modifyDriveManagementNotRelease" parameterType="CarManagement">
+		UPDATE tb_car_management 		
 		SET
 			delivery_member_id = #{deliveryMemberId}
 			, release_order_car = #{releaseOrderCar}
@@ -180,7 +203,7 @@
 			, drive_update_date=NOW()
 			, ware_admin_id= #{wareAdminId}
 		WHERE 
-			drive_manage_code = #{driveManageCode};
+			drive_manage_code = #{driveManageCode};	
 	</update>
 	
 	<!-- <select id="getDriveManagement" resultType="CarManagement" fetchSize="1000">
@@ -320,10 +343,15 @@
 			LEFT JOIN 
 			tb_release_order AS rr
 			on
-			r.release_order_code = rr.release_order_code;
+			r.release_order_code = rr.release_order_code
+		<trim prefix="WHERE" prefixOverrides="OR ">
+			<if test="firstDate != null and firstDate != ''.toString()">
+				r.release_real_date BETWEEN #{firstDate} AND #{secondDate}
+			</if>
+		</trim>		
 	</select>
 	
-	<!-- 운송장 조히 -->
+	<!-- 운송장 조회 -->
 	<select id="wayBillSearch" resultType="Invoice">
 		SELECT 
 			  i.invoice_code					AS invoiceCode

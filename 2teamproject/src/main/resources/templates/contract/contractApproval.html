@@ -32,10 +32,10 @@
 			<div class="col-xl-8 col-lg-6 col-md-6 col-sm-12 col-12">
 				<div class="card">
 					<div class="card-header">
-						<div class="card-title">창고종류 월별계약</div>
+						<div th:include="contract/Search :: searchYear"></div>
 					</div>
 					<div class="card-body pt-0">
-						<div id="visitors2" style="min-height: auto;"></div>
+						<div id="visitors2" class="visitors2" style="min-height: auto;"></div>
 						<div class="resize-triggers">
 							<div class="expand-trigger">
 								<div style="width: 961px; height: 316px;"></div>
@@ -45,27 +45,28 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12">
+			<div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12">	
 				<div class="card">
 					<div class="card-header">
 						<div class="card-title">승인 현황</div>
 					</div>
 					<div class="card-body">
-						<div id="customers2" style="min-height: 164.146px;"></div>
+						<div id="donutGraph" style="min-height: 164.146px;"></div>
 						<!-- Row starts -->
 						<div class="row gutters">
-							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6">
+							<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4">
 								<div class="info-stats3 shade-one-a">
-									<i class="icon-opacity"></i>
-									<h6>New</h6>
-									<h3>500</h3>
+									<div class="icon-opacity" style="color: #225de4">승인</div>
 								</div>
 							</div>
-							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6">
+							<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4">
 								<div class="info-stats3 shade-one-b">
-									<i class="icon-opacity"></i>
-									<h6>Returned</h6>
-									<h3>950</h3>
+									<div class="icon-opacity" style="color: #ff00ff">승인요청</div>
+								</div>
+							</div>
+							<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4">
+								<div class="info-stats3 shade-one-c">
+									<div class="icon-opacity" style="color: #ff0000">승인취소</div>
 								</div>
 							</div>
 						</div>
@@ -86,7 +87,6 @@
 		<div class="row gutters">
 			<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 				<div class="table-container">
-					<div th:include="contract/Search :: searchFragment"></div>
 					<div class="table-responsive">
 						<table id="copy-print-csv" class="table custom-table">
 							<thead>
@@ -94,6 +94,7 @@
 								 <th>계약코드</th>
 								 <th class="hidden-col">계약단가표코드</th>
 								 <th>쇼핑몰사업자아이디</th>
+								 <th class="hidden-col">쇼핑몰이름</th>
 								 <th>계약이름</th>
 								 <th>계약시작일</th>
 								 <th>계약종료일</th>
@@ -114,6 +115,7 @@
 								<tr th:each="l: ${contractList}">
 									<td th:text="${l.contractFinalCode}" 			id="contractFinalCodeData"></td>
 									<td th:text="${l.contractFinalUser}" 			id="contractFinalUserData"></td>
+									<td th:text="${l.contractFinalUserName}" 		id="contractFinalUserName"			class="hidden-col"></td>
 									<td th:text="${l.contractFinalPriceCode}"		id="contractFinalPriceCodeData" 	class="hidden-col"></td>
 									<td th:text="${l.contractFinalPriceName}" 		id="contractFinalPriceNameData"></td>
 									<td th:text="${l.contractFinalStart}"	 		id="contractFinalStartData"></td>
@@ -312,6 +314,18 @@
 
 <th:block layout:fragment="customJs">
 	<script type="text/javascript" th:inline="javascript">
+
+		$(function(){
+			$('#contractApprovalDate').change(function(){
+				$('#searchYear').submit();
+			})
+		});
+	
+		$(function(){
+			$('#contractState').change(function(){
+				$('#searchState').submit();
+			})
+		});
 		/* 상세정보 및 승인 Modal 시작  */
 		$('.Btn').each(function(){
 			$(this).click(function(){
@@ -360,111 +374,67 @@
 				
 			})
 		});
-		/* 상세정보 및 승인 Modal 종료  */
-		/* var selectStateValue = "";
 		
-		$('#authority').change(function(){
-			selectStateValue = $('#authority').val();
-			console.log(selectStateValue);
-			getData();
-			
-		});
-		
-		
-		function getData(){
-			var request = $.ajax({
-				  url: "/contractListDetail",
-				  method: "POST",
-				  data: { selectStateValue : selectStateValue },
-				  dataType: "Json",
-				});
-
-				request.done(function( data ) {
-					console.log(data);
-					
-					var html = '';
-					$.each(data, function(index, value){
-						html+= '<tr>';
-						html+= '<td id= "contractFinalCodeData">' + value.contractFinalCode + '</td>';
-						html+= '<td id= "contractFinalUserData">' + value.contractFinalUser + '</td>';
-						html+= '<td class="hidden-col" id= "contractFinalPriceCodeData">' + value.contractFinalPriceCode + '</td>'; 
-						html+= '<td id= "contractFinalPriceNameData">' + value.contractFinalPriceName + '</td>';
-						html+= '<td id= "contractFinalStartData">' + value.contractFinalStart + '</td>';
-						html+= '<td id= "contractFinalEndData">' + value.contractFinalEnd + '</td>';
-						html+= '<td id= "contractFinalWarehouseTypeData">' + value.contractFinalWarehouseType + '</td>'; 
-						html+= '<td id= "contractFinalZoneData">' + value.contractFinalZone + '</td>';
-						html+= '<td class="hidden-col" id= "contractFinalProductNameData" >' + contractFinalProductName + '</td>';
-						html+= '<td class="hidden-col" id= "contractFinalQuantityData" >' + value.contractFinalQuantity + '</td>'; 
-						html+= '<td class="hidden-col" id= "contractFinalPayData" >' + value.contractFinalPay + '</td>'; 
-						html+= '<td id= "contractApprovalDateData">' + value.contractApprovalDate + '</td>';
-						html+= '<td class="hidden-col" id= "contractFinalMemberData" >' + value.contractFinalMember + '</td>'; 
-						html+= '<td id= "contractStateData">' + value.contractState + '</td>';
-						html+= '<td id= "contractStateMemoData">' + value.contractStateMemo + '</td>';
-						html+= '<td><a type="button" class="btn btn-primary Btn" data-toggle="modal" data-target=".bd-example-modal-lg1" id="updateModal" style="color: white;">승인</a></td>'
-						html+= '<td><a type="button" class="btn btn-primary Btn" data-toggle="modal" data-target=".bd-example-modal-lg2" id="cancelModal" style="color: white;">취소</a></td>'
-						html+= '</tr>';
-					});
-					
-					$('#tableList').html(html);
-						
-					
-				});
-					
-				request.fail(function( jqXHR, textStatus ) {
-					alert(textStatus);
-				});
-			};
-			
-			$(function(){
-				$(document).on('click', '.Btn', function(){
-					var contractFinalCodeData 			= $(this).parents('tr').children('#contractFinalCodeData').text();
-					var contractFinalPriceNameData		= $(this).parents('tr').children('#contractFinalPriceNameData').text();
-					var contractFinalStartData 			= $(this).parents('tr').children('#contractFinalStartData').text();
-					var contractFinalEndData 			= $(this).parents('tr').children('#contractFinalEndData').text();
-					var contractFinalWarehouseTypeData 	= $(this).parents('tr').children('#contractFinalWarehouseTypeData').text();
-					var contractFinalZoneData 			= $(this).parents('tr').children('#contractFinalZoneData').text();
-					var contractFinalProductNameData 	= $(this).parents('tr').children('#contractFinalProductNameData').text();
-					var contractFinalQuantityData 		= $(this).parents('tr').children('#contractFinalQuantityData').text();
-					var contractFinalPayData 			= $(this).parents('tr').children('#contractFinalPayData').text();
-					var contractFinalUserData 			= $(this).parents('tr').children('#contractFinalUserData').text();
-					var contractApprovalDateData 		= $(this).parents('tr').children('#contractApprovalDateData').text();
-					var contractFinalMemberData 		= $(this).parents('tr').children('#contractFinalMemberData').text();
-					var contractStateMemoData			= $(this).parents('tr').children('#contractStateMemoData').text();
-					
-					$('#contractFinalCodeDataModal').val(contractFinalCodeData);
-					$('#contractFinalPriceNameDataModal').val(contractFinalPriceNameData);
-					$('#contractFinalStartDataModal').val(contractFinalStartData);
-					$('#contractFinalEndDataModal').val(contractFinalEndData);
-					$('#contractFinalWarehouseTypeDataModal').val(contractFinalWarehouseTypeData);
-					$('#contractFinalZoneDataModal').val(contractFinalZoneData);
-					$('#contractFinalProductNameDataModal').val(contractFinalProductNameData);
-					$('#contractFinalQuantityDataModal').val(contractFinalQuantityData);
-					$('#contractFinalPayDataModal').val(contractFinalPayData);
-					$('#contractFinalUserDataModal').val(contractFinalUserData);
-					$('#contractApprovalDateModal').val(contractApprovalDateData);
-					$('#contractFinalMemberDataModal').val(contractFinalMemberData);
-					
-					$('#contractFinalCodeDataModal2').val(contractFinalCodeData);
-					$('#contractFinalPriceNameDataModal2').val(contractFinalPriceNameData);
-					$('#contractFinalStartDataModal2').val(contractFinalStartData);
-					$('#contractFinalEndDataModal2').val(contractFinalEndData);
-					$('#contractFinalWarehouseTypeDataModal2').val(contractFinalWarehouseTypeData);
-					$('#contractFinalZoneDataModal2').val(contractFinalZoneData);
-					$('#contractFinalProductNameDataModal2').val(contractFinalProductNameData);
-					$('#contractFinalQuantityDataModal2').val(contractFinalQuantityData);
-					$('#contractFinalPayDataModal2').val(contractFinalPayData);
-					$('#contractFinalUserDataModal2').val(contractFinalUserData);
-					$('#contractApprovalDateModal2').val(contractApprovalDateData);
-					$('#contractFinalMemberDataModal2').val(contractFinalMemberData);
-					$('#contractStateMemoDataModal').val(contractStateMemoData);
-				
-				})
-			});
- */
 	</script>
 	
-	<!-- 창고종류 월별계약 막대 그래프 -->
+	
 	<script th:inline="javascript">
+	/*********************************************** 그래프 데이터 처리 ***********************************************/
+	//<![CDATA[
+	var result = [[${contractList}]];
+	//]]>			
+	var barGraph = function(result){
+		
+		var resultWarCate = [];
+		var dupletWarCate = [];
+			for(var i = 0; i < result.length; i++){
+				resultWarCate[i] = result[i].contractFinalWarehouseType;
+				if(dupletWarCate.indexOf(resultWarCate[i]) === -1) dupletWarCate.push(resultWarCate[i]);
+			}
+			
+		var SeriesData= [];
+		for(var i=0; i<dupletWarCate.length; i++){
+			SeriesData[i] = {name : dupletWarCate[i], data:[] };
+			SeriesData[i].data = new Array(12);
+		}
+		
+		
+		for(var i=0; i< result.length; i++){
+			for(var j=0; j<SeriesData.length; j++){
+					
+				var resultCateName = result[i].contractFinalWarehouseType;
+				var seriesCateName = SeriesData[j].name;
+				
+				if(resultCateName == seriesCateName){
+					 var date = new Date(result[i].contractApprovalDate);
+					 var m = date.getMonth();
+
+					 if(SeriesData[j].data[m] === undefined){
+						 SeriesData[j].data[m] = 0;
+					 }
+				 		if(result[i].contractFinalWarehouseType == '일반창고'){
+				 			SeriesData[j].data[m]++;
+				 		}else if(result[i].contractFinalWarehouseType == '냉장창고'){
+				 			SeriesData[j].data[m]++;
+				 		}else if(result[i].contractFinalWarehouseType == '냉동창고'){
+				 			SeriesData[j].data[m]++;
+				 		}
+				 			
+				}
+			}
+		}
+			
+		for(var i = 0; i < SeriesData.length; i++){
+			for(var j = 0; j < SeriesData[i].data.length; j++){
+				if(SeriesData[i].data[j] === undefined){
+					SeriesData[i].data[j] = 0;
+				}
+			}
+		}
+		return SeriesData;
+	}
+	var SeriesData = barGraph(result);
+	
 	/************************************************ 창고종류 월별 계약 막대 그래프 ************************************************/
 	var options = null;
 	window.onload = function(){
@@ -490,16 +460,18 @@
 				  dataLabels: {
 				    enabled: true
 				  },
-				  series: [{
-				    name: '일반창고',
-				    data: [44, 20 ,33, 44, 55, 11 ,22 ,33, 44, 22, 31, 12]
-				  },{
-				    name: '냉장창고',
-				    data: [13, 20 ,33, 44, 55, 11 ,22 ,33, 44, 22, 31, 12]
-				  },{
-				    name: '냉동창고',
-				    data: [13, 20 ,33, 44, 55, 11 ,22 ,33, 44, 22, 31, 12]
-				  }],
+				  series: [
+					 /*  {
+					    name: '',
+					    data: []
+					  },{
+					    name: '',
+					    data: []
+					  },{
+					    name: '',
+					    data: []
+					  } */
+				  ],
 				  xaxis: {
 				    type: 'month',
 				    categories: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
@@ -510,7 +482,7 @@
 				  fill: {
 				    opacity: 1
 				  },
-				  colors: ['#225de4', '#999999', '#888888'],
+				  colors: ['#ff00ff', '#ff0000', '#225de4'],
 				  tooltip: {
 				    y: {
 				      formatter: function(val) {
@@ -519,48 +491,61 @@
 				    }
 				  },
 				}
-				var chart = new ApexCharts(
+				options.series = SeriesData;
+				var chart2 = new ApexCharts(
 				  document.querySelector("#visitors2"),
 				  options
 				);
 		
-				chart.render();
+				chart2.render();
 	}
-	/************************************************ 계약 상태 현황 ************************************************/
-	options2 = {
-			  chart: {
-			    height: 290,
-			    type: 'donut',
-			  },
-			  labels: ['New', 'Returned'],
-			  legend: {
-			    show: false,
-			  },
-			  series: [600, 400],
-			  stroke: {
-			    width: 1,
-			  },
-			  colors: ['#225de4', '#999999'],
-			}
-			var chart = new ApexCharts(
-			  document.querySelector("#customers2"),
-			  options2
-			);
-			chart.render();
-	
-	/*********************************************** 그래프 데이터 처리 ***********************************************/
-	/*<![CDATA[*/
-		var result =/*[[${contractList}]]*/;
-		/*]]>*/
-
-		/* var resultWarCate = [];
-		var dupletWarCate = [];
-			for(var i = 0; i < result.length; i++){
-				resultWarCate[i] = result[i].
-			}  */
+	/************************************************ 계약 상태 현황 도넛 그래프 ************************************************/
+	var donutOptions = null;
+		donutOptions = {
+				  chart: {
+				    height: 345,
+				    type: 'donut',
+				  },
+				  labels: [],
+				  legend: {
+				    show: false,
+				  },
+				  series: [],
+				  stroke: {
+				    width: 1,
+				  },
+				  colors: ['#225de4', '#ff00ff','#ff0000'],
+				}
 		
-	</script>
+				var donutChart = new ApexCharts(
+					document.querySelector("#donutGraph"),
+					donutOptions
+				);
+			
+		/* ************************************* 계약 상태 현황 도넛 데이터 ************************************* */	
+				var dataState = [];
+				var stateSet = null;
+				var stateCount = {};
+				
+					for(i = 0; i < result.length; i++){
+						dataState.push(result[i].contractState);
+						
+						if(stateCount[result[i].contractState] == undefined){
+							stateCount[result[i].contractState] = 1;
+						}else{
+							stateCount[result[i].contractState] += 1;
+						}
+					}
+					stateSet = [...new Set(dataState)];
+					
+					stateSet.forEach(function(e){
+						donutOptions.labels.push(e);
+						donutOptions.series.push(stateCount[e]);
+					})
+						
+				donutChart.render();		
 	
+	</script>
 	
 </th:block>
 </html>

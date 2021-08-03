@@ -27,10 +27,11 @@
 	</resultMap>
 	
 	
-	<!-- 재고실사 등록을 위한 물품최종위치 조회-->
+	<!-- 재고실사등록을 위해 재고코드를 입력시 최종위치, 현재 재고수량 자동생성 -->
 	<select id="getSectorFinalCode" resultType="StockCheck" fetchSize="700" resultMap="stockCheckResultMap">
 		SELECT 
-			sector_column_final_code			
+			sector_column_final_code,
+			stock_amount			
 		from 
 			tb_stock_status
 		where 

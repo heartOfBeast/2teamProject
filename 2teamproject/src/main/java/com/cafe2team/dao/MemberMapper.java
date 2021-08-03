@@ -1,6 +1,7 @@
 package com.cafe2team.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -13,7 +14,7 @@ import com.cafe2team.domain.WareAdmin;
 public interface MemberMapper {
 	
 	//회원조회
-	public List<Member> getMemberList(); 
+	public List<Member> getMemberList(Map<String, Object> memberCodeParam); 
 	
 	//거래처만 조회
 	public List<Member> getShoppingmallList();
@@ -43,6 +44,8 @@ public interface MemberMapper {
 	//멤버 업데이트
 	public int updateMember(Member member);
 	
+	public int updateShopMember(Shoppingmall shoppingmall);
+	
 	//거래처 등록
 	public int memberShopInsert(Shoppingmall shoppingMall);
 	
@@ -64,6 +67,9 @@ public interface MemberMapper {
 	
 	//거래처 회원탈퇴
 	public int shopMemberDelete(String shopMemberPassword);
+	
+	//Search 위한 회원 레벨 코드,이름 조회
+	public List<Member>getMemberLevelCode();
 	
 	
 }

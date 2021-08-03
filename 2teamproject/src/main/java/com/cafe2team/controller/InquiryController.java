@@ -1,6 +1,8 @@
 package com.cafe2team.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -30,6 +32,32 @@ public class InquiryController {
 		this.replyService = replyService;
 	}
 
+	//문의글 삭제
+	@PostMapping("deleteInquiry")
+	@ResponseBody
+	public int deleteInquiry(@RequestParam(value = "boardQnaCode")String boardQnaCode) {
+		int result = 1;
+		inquiryService.deleteInquiry(boardQnaCode);
+		return result;
+	}
+	
+	//문의글 수정
+	@PostMapping("modifyInquiry")
+	public String modifyInquiry(Inquiry inquiry) {
+		inquiryService.modifyInquiry(inquiry);
+		return "redirect:/inquiryList";
+	}
+	
+	//문의글 수정
+	@GetMapping("modifyInquiry")
+	public String modifyInquiry(Model model,
+								@RequestParam(name = "boardQnaCode", required = false)String boardQnaCode) {
+		Inquiry inquiry = inquiryService.getInquiryInfo(boardQnaCode);
+		model.addAttribute("title", "문의글 수정하기");
+		model.addAttribute("inquiry", inquiry);
+		return "inquiry/modifyInquiry";
+	}
+	
 	
 	//문의게시판 글쓰기
 	@PostMapping("/writeInquiry")
@@ -89,8 +117,13 @@ public class InquiryController {
 	
 	//문의게시판 목록
 	@GetMapping("/inquiryList")
-	public String inquiryList(Model model) {
-		List<Inquiry> inquiryList = inquiryService.getInquiryList();
+	public String inquiryList(Model model
+							 ,@RequestParam(name="searchKey", required = false) String searchKey
+							 ,@RequestParam(name="searchValue", required = false) String searchValue) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("searchKey", searchKey);
+		paramMap.put("searchValue", searchValue);
+		List<Inquiry> inquiryList = inquiryService.getInquiryList(paramMap);
 		model.addAttribute("title", "문의게시판");
 		model.addAttribute("inquiryList", inquiryList);
 		

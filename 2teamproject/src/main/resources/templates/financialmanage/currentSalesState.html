@@ -37,10 +37,10 @@
 			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 				<div class="card">
 					<div class="card-header">
-						<div class="card-title">#월간 매출 현황</div>
+						<div class="card-title">매출 현황 그래프</div>
 					</div>
 					<div class="card-body">
-						<div id="basic-column-graph-datalables2" class="primary-graph"></div>
+						<div id="basic-area-graph2" class="primary-graph"></div>
 					</div>
 				</div>
 			</div>
@@ -101,245 +101,114 @@
 	</div>
 	<!-- 매출현황 리스트 끝 -->
 	<!-- Main container end -->
-	<form th:action="@{/modifyProduct}" method="post">
-		<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" style="display: none;" aria-hidden="true">
-			<div class="modal-dialog modal-lg">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="myLargeModalLabel">수정하기</h5>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">×</span>
-						</button>
-					</div>
-					<div class="modal-body">
-						<input type="text" class="form-control" name="productCode" id="productCode">
-						<label for="productNameModal">상품명</label>	
-							<input type="text" class="form-control" id="productNameModal" name="productName" >
-						<div class="form-group">
-							<label for="itemBigCategoryModal">대분류 선택</label>	
-							<select class="form-control" id="itemBigCategoryModal" name="itemBigCategory">
-								<option value="">대분류를 선택해주세요</option>
-							    <option th:each="b : ${BigCategory}" th:value="${b.itemBigCategory}" th:text="${b.itemBigCategory}" ></option>
-							</select>
-						</div>	
-						<div class="form-group">
-							<label for="itemMiddleCategoryModal">중분류 선택</label>	
-							<select class="form-control" id="itemMiddleCategoryModal" name="itemMiddleCategory">
-								<option value="">중분류를 선택해주세요</option>
-							</select>
-						</div>
-						<div class="form-group">
-							<label for="productCategoryModal">소분류</label>	
-							<select class="form-control" id="productCategoryModal" name="productCategory">
-								<option value="">소분류를 선택해주세요</option>
-							</select>
-						</div>
-						<label for="productAddCategoryModal">추가분류</label>	
-						<input type="text" class="form-control" id="productAddCategoryModal" name="productAddCategory" >
-						<div class="form-group">
-							<label for="productFreezeCoolConditionModal">보관유형</label>	
-							<select class="form-control" id="productFreezeCoolConditionModal" name="productFreezeCoolCondition">
-								<option value="">보관유형을 선택해주세요</option>
-								<option value="상온" >상온</option>
-								<option value="냉장" >냉장</option>
-								<option value="냉동" >냉동</option>
-							</select>
-						</div>
-						<label for="productWeightModal">상품무게</label>	
-							<input type="text" class="form-control" id="productWeightModal" name="productName" >
-						<div class="form-group">
-							<label for="productWeightUnitModal">무게단위</label>	
-							<select class="form-control" id="productWeightUnitModal" name="productWeightUnit">
-								<option value="">보관유형을 선택해주세요</option>
-								<option value="ton" >ton</option>
-								<option value="kg" >kg</option>
-								<option value="g" >g</option>
-							</select>
-						</div>
-						<div class="custom-date-input">
-							<label for="productDateOfManufactureModal">제조일자</label>	
-							<input type="text" class="form-control datepicker-dropdowns" id="productDateOfManufactureModal" name="productDateOfManufacture" >
-						</div>
-						<div class="custom-date-input">
-							<label for="productExpirationDateModal">유통기한</label>	
-							<input type="text" class="form-control datepicker-dropdowns" id="productExpirationDateModal" name="productExpirationDate" >
-						</div>
-						
-						<div class="form-group">
-							<label for="productDetailModal">상세설명</label>
-							<textarea class="form-control" id="productDetailModal" maxlength="140" rows="4" name="productDetail" ></textarea>
-						</div>
-					</div>
-					<div class="modal-footer">
-						<button class="btn btn-secondary" data-dismiss="modal">취소</button>
-						<button type="submit" name="submit"  class="btn btn-primary">수정</button>
-					</div>
-				</div>
-			</div>
-		</div>
-	</form>			
+
 </th:block>
 <th:block layout:fragment="customJs">
 	<script th:inline="javascript">
-	var options = null;
-			/*******************************그래프양식(?)******************************************/
-	window.onload = function(){
-		
-		options = {
-				chart: {
-					height: 350,
-					type: 'bar',
-				},
-				plotOptions: {
-					bar: {
-						dataLabels: {
-							position: 'top', // top, center, bottom
-						},
-					}
-				},
-				dataLabels: {
-					enabled: true,
-					formatter: function (val) {
-						return val + "%";
-					},
-					offsetY: -20,
-					style: {
-						fontSize: '12px',
-						colors: ["#2e323c"]
-					}
-				},
-				series: [
-//					{
-//						name: '',
-//						data: []
-//					},
-//					{
-//						name: '',
-//						data: []
-//					}
-				],
-				xaxis: {
-					categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-					position: 'top',
-					labels: {
-						offsetY: -18,
-					},
-					axisBorder: {
-						show: false
-					},
-					axisTicks: {
-						show: false
-					},
-					crosshairs: {
-						fill: {
-							type: 'gradient',
-							gradient: {
-								colorFrom: '#225de4',
-								colorTo: '#81a3f0',
-								stops: [0, 100],
-								opacityFrom: 0.4,
-								opacityTo: 0.5,
-							}
-						}
-					},
-					tooltip: {
-						enabled: true,
-						offsetY: -35,
-					}
-				},
-				fill: {
-					gradient: {
-						shade: 'light',
-						type: "horizontal",
-						shadeIntensity: 0.25,
-						gradientToColors: undefined,
-						inverseColors: true,
-						opacityFrom: 1,
-						opacityTo: 1,
-						stops: [50, 0, 100, 100]
-					},
-				},
-				yaxis: {
-					axisBorder: {
-						show: false
-					},
-					axisTicks: {
-						show: false,
-					},
-					labels: {
-						show: false,
-						formatter: function (val) {
-							return val + "%";
-						}
-					}
-				},
-				title: {
-					text: '월간매출현황',
-					floating: true,
-					offsetY: 320,
-					align: 'center',
-					style: {
-						color: '#2e323c'
-					}
-				},
-				colors: ['#1646b3', '#194eca', '#225de4', '#4274e8', '#628cec', '#81a3f0'],
-			}
-			var chart = new ApexCharts(
-				document.querySelector("#basic-column-graph-datalables2"),
-				options
-			);
-			chart.render();
-			}
-	/****************************************************************************************************/
-		
+
+	
 		/*<![CDATA[*/
 		var result =/*[[${salesList}]]*/;
 		/*]]>*/
- 	
-		var resultSales =[];
-		var dupleSales =[];
-			for(var i=0; i<result.length; i++){
-				resultSales[i] = result[i].contractFinalUser;
-				if (dupleSales.indexOf(resultSales[i]) === -1) dupleSales.push(resultSales[i]);
-				
+		
+		
+		
+	 	var seriesData = [];
+		var sumData = {"price":[],"dates":[]};
+		for(var i = 0;i<result.length;i++){
+			seriesData[i] = {"price":parseInt([result[i].contractFinalPay]),"dates":result[i].contractFinalStart}
+			for(var j = i+1;j<seriesData.length;j++){
+				if(seriesData[i].dates.equals(seriesData[j].dates)){
+					seriesData[i].price +=seriesData[j].price;
+					seriesData[j].price.remove();
+					seriesData[j].dates.remove();
+				}
 			}
 			
-		var SeriesData= [];
-		
-		// data가 12달의 금액이 들어가는 배열이기때문에 배열의 길이를 12개로 초기화시킴
-		for(var i=0; i<dupleSales.length; i++){
-			SeriesData[i] = {name : dupleSales[i], data:[] };
-			SeriesData[i].data = new Array(12);
+			
+			sumData.price.push(seriesData[i].price);
+			sumData.dates.push(seriesData[i].dates);
+				
 		}
+			
 		
 		
-		for(var i=0; i<result.length; i++){
-			for(var j=0; j<SeriesData.length; j++){
-					
-				var resultCateName = result[i].expenseCate;
-				var seriesCateName = SeriesData[j].name;
-				if(resultCateName == seriesCateName){
-					 var date = new Date(result[i].expenseDate);
-					 var m = date.getMonth();
-
-					 if(SeriesData[j].data[m] === undefined){
-						 SeriesData[j].data[m] = 0;
-					 }
-					 SeriesData[j].data[m] += parseInt(result[i].expensePayment);
-				}
+		var options = null;
+		var series = null;
+				/*******************************그래프양식(?)******************************************/
+		window.onload = function(){
+			
+	
+			series = sumData;
+	
+			var options = {
+				chart: {
+					height: 300,
+					type: 'area',
+					zoom: {
+						enabled: false
+					}
+				},
+				dataLabels: {
+					enabled: false
+				},
+				stroke: {
+					curve: 'straight',
+					width: 3,
+				},
+				series: [{
+					name: "매출금액",
+					data: series.price
+				}],
+				title: {
+					text: '매출현황',
+					align: 'center'
+				},
+				grid: {
+					row: {
+						colors: ['#ffffff'], // takes an array which will be repeated on columns
+						opacity: 0.5
+					},
+				},
+				labels: series.dates,
+				xaxis: {
+					type: 'datetime',
+				},
+				yaxis: {
+					opposite: true
+				},
+				legend: {
+					horizontalAlign: 'left'
+				},
+				theme: {
+					monochrome: {
+						enabled: true,
+						color: '#225de4',
+						shadeIntensity: 0.1
+					},
+				},
+				markers: {
+					size: 0,
+					opacity: 0.2,
+					colors: ["#225de4"],
+					strokeColor: "#fff",
+					strokeWidth: 2,
+					hover: {
+						size: 7,
+					}
+				},
 			}
-		}
-		
-		for(var i = 0; i < SeriesData.length; i++){
-			for(var j = 0; j < SeriesData[i].data.length; j++){
-				if(SeriesData[i].data[j] === undefined){
-					SeriesData[i].data[j] = 0;
-				}
+			
+			var salesChart = new ApexCharts(
+				document.querySelector("#basic-area-graph2"),
+				options
+			);
+			salesChart.render();
 			}
-		}
-
-
+		/****************************************************************************************************/
 		
+			
+	
 
 
 

@@ -14,4 +14,10 @@ public interface ReplyMapper {
 	
 	//문의게시판 댓글 작성
 	public int addReply(Reply reply);
+
+	//공지게시판 댓글 조회
+	public List<Reply> readNoticeReply(String noticeCode);
+
+	//공지게시판 댓글 작성
+	public int addNoticeReply(Reply reply);
 }

@@ -35,7 +35,7 @@
 		<!-- Row start -->
 		<div class="row gutters justify-content-center">
 			<div class="col-xl-5 col-lg-5 col-md-6 col-sm-6 col-12">
-				<form>
+
 					<div class="card m-0">
 						<div class="card-header">
 							<div class="card-sub-title">문의게시판</div>
@@ -44,27 +44,28 @@
 						<div class="card-body">
 							<div class="form-group">
 								<label for="boardQnaCode" class="col-form-label">번호</label>
-								<input type="text" id="boardQnaCode" th:value="${readInquiry.boardQnaCode}" readonly class="form-control-plaintext">
+								<input type="text" id="boardQnaCode" th:value="${readInquiry.boardQnaCode}" readonly class="form-control">
 							</div>
 							<div class="form-group">
 								<label for="boardQnaSubject" class="col-form-label">제목</label>
-								<input type="text" id="boardQnaSubject" th:value="${readInquiry.boardQnaSubject}" readonly class="form-control-plaintext">
+								<input type="text" id="boardQnaSubject" th:value="${readInquiry.boardQnaSubject}" readonly class="form-control">
 							</div>
 							<div class="form-group">
 								<label for="boardQnaWriter" class="col-form-label">작성자</label>
-								<input type="text" id="boardQnaWriter" th:value="${readInquiry.boardQnaWriter}" readonly class="form-control-plaintext">
+								<input type="text" id="boardQnaWriter" th:value="${readInquiry.boardQnaWriter}" readonly class="form-control">
 							</div>
 							<div class="form-group">
 								<label for="boardQnaContent" class="col-form-label">내용</label>
-							 	<textarea id="boardQnaContent" readonly class="form-control-plaintext" th:text="${readInquiry.boardQnaContent}" rows="20" ></textarea>
-
+							 	<textarea id="boardQnaContent" readonly class="form-control" th:text="${readInquiry.boardQnaContent}" rows="20" ></textarea>
+								
 							</div>
 							
 						</div>
 					</div>
-							<button type="button" id="deleteBtn" name="submit" class="btn btn-primary float-right" style="margin: 5px;">삭제</button>
-							<button type="button" id="modifyBtn" name="submit" class="btn btn-primary float-right" style="margin: 5px;">수정</button>
-				</form>
+							<button type="button" id="deleteInquiryBtn" class="btn btn-primary float-right" style="margin: 5px;">삭제</button>
+							<a th:href="@{/modifyInquiry(boardQnaCode=${readInquiry.boardQnaCode})}" class="btn btn-primary float-right"style="margin: 5px;">수정</a>
+							<!-- <button type="submit" id="modifyBtn" class="btn btn-primary float-right" style="margin: 5px;">수정</button> -->
+
 
 				<!--댓글목록 -->
 				<div class="media comments" th:each="l:${inquiryReply}">
@@ -88,7 +89,7 @@
 							<textarea id="replyContent" class="form-control textarea" rows="3" placeholder="내용을 적어주세요"></textarea>
 						</div>
 						<div class="form-group clearfix">
-							<button id="insertBtn" class="btn btn-primary float-right">완료</button>
+							<button id="insertBtn" class="btn btn-primary float-right">댓글달기</button>
 						</div>
 					</div>
 				<!-- 댓글작성 -->
@@ -136,7 +137,29 @@
 
 		});
 
-	
+		$('#deleteInquiryBtn').click(function(){
+			var boardQnaCode = $('#boardQnaCode').val();
+			var chk = confirm('정말 삭제하시겠습니까?');
+			if(chk){
+				$.ajax({
+					url : "/deleteInquiry",
+					method : 'post',
+					async : true,
+					dataType : "json",
+					data : {boardQnaCode : boardQnaCode},
+					success: function(jdata){
+						if(jdata != 1){
+							alert('오류 : 삭제 실패');
+						}else{
+							alert('삭제 되었습니다.');
+							location.replace("inquiryList");
+						}
+					}
+		    	});
+			}else{
+				return false;
+			}
+		})
 	</script>
 </th:block>
 </html>

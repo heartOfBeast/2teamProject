@@ -1,6 +1,7 @@
 package com.cafe2team.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,8 +22,8 @@ public class ProductService {
 	
 
 	//상품목록
-	public List<Product> getProductList(){
-		List<Product> productList = productMapper.getProductList();
+	public List<Product> getProductList(Map<String, Object> paramMap){
+		List<Product> productList = productMapper.getProductList(paramMap);
 	
 		return productList;
 	}
@@ -67,8 +68,8 @@ public class ProductService {
 	}
 	
 	//쇼핑몰 사업자 창고별 재고조회
-	public List<Product> getProductAmountPerWarehouse(){
-		List<Product> getProductAmountPerWarehouse = productMapper.getProductAmountPerWarehouse();
+	public List<Product> getProductAmountPerWarehouse(Product product){
+		List<Product> getProductAmountPerWarehouse = productMapper.getProductAmountPerWarehouse(product);
 		return getProductAmountPerWarehouse;
 	}
 	

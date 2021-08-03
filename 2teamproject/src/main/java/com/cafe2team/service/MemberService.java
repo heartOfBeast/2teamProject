@@ -1,6 +1,7 @@
 package com.cafe2team.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,10 +29,10 @@ public class MemberService {
 	}
 	
 	//멤버 조회
-	public List<Member> getMemberList(){
+	public List<Member> getMemberList(Map<String, Object> memberCodeParam){
 		
 		log.info("=========memberList service 실행======");
-		List<Member> memberList = memberMapper.getMemberList();
+		List<Member> memberList = memberMapper.getMemberList(memberCodeParam);
 		
 		
 		return memberList;
@@ -84,6 +85,11 @@ public class MemberService {
 		return memberUpdate;
 	}
 	
+	public int updateShopMember(Shoppingmall shoppingmall) {
+		
+		return memberMapper.updateShopMember(shoppingmall);
+	}
+	
 	//승인대기테이블에서 tbMember 으로 이동
 	public int adminIntotbMember(String approvalAdminId) {
 		
@@ -133,10 +139,10 @@ public class MemberService {
 		
 	}
 	
-	public List<Member> getMemberListDetail(String getMemberLevel){
-		
-		return memberMapper.getMemberListDetail(getMemberLevel);
-	}
+//	public List<Member> getMemberListDetail(String getMemberLevel){
+//		
+//		return memberMapper.getMemberListDetail(getMemberLevel);
+//	}
 	
 	
 	public Shoppingmall getShopAjaxId(String shopEmail) {
@@ -156,6 +162,10 @@ public class MemberService {
 	public int shopMemberDelete(String shopMemberPassword) {
 		
 		return memberMapper.shopMemberDelete(shopMemberPassword);
+	}
+	
+	public List<Member> getMemberLevelCode(){
+		return memberMapper.getMemberLevelCode();
 	}
 	
 

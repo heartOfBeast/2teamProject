@@ -79,7 +79,7 @@
 
 
 	<!-- 지출등록 -->
-	<insert id="expenditureinsert" parameterType="Expenditure">	   
+	<insert id="expenditureInsert" parameterType="Expenditure">	   
 	INSERT INTO 
 	tb_expenditure
 		(

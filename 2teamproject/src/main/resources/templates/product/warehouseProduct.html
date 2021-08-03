@@ -32,26 +32,33 @@
 	<div class="main-container">
 		<div class="row gutters">
 			<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-				<button type="button" class="btn btn-primary float-right" style="margin: 5px;">일괄수정</button>
 				<div class="table-container">
 					<div class="t-header">창고별 상품목록</div>
+					<select id="choiceWarehouse">
+						<option value=""></option>
+					</select>
 					<div class="table-responsive">
 						<table id="copy-print-csv" class="table custom-table">
 							<thead>
 								<tr>
-									<th>상품코드</th>
 									<th>상품명</th>
+									<th>재고량</th>
 									<th>보관유형</th>
 									<th>보관창고</th>
-									<th>보관위치</th>
+									<th>입고일</th>
 									<th>수량</th>
 									<th>등록자</th>
-									<th>수정</th>
 								</tr>
 							</thead>
 							<tbody>
-								<tr th:if="${lists.size(ProductPerWarehouseList)>0}" th:each="l:${ProductPerWarehouseList}">
-									<td>
+								<tr th:if="${#lists.size(warehouseProductAmount)>0}" th:each="l:${warehouseProductAmount}">
+									<td th:text="${l.productName}"></td>
+									<td th:text="${l.stock.stockAmount}"></td>
+									<td th:text="${l.productFreezeCoolCondition}"></td>
+									<td th:text="${l.warehouse.warehouseName}"></td>
+									<td th:text="${l.stock.wRealDate}"></td>
+									<td th:text="${l.warehouse.warehouseAddr}"></td>
+									<td th:text="${l.warehouse.warehousePhone}"></td>
 								</tr>
 							</tbody>
 					  	</table>

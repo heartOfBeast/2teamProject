@@ -7,17 +7,11 @@
 	<th:block layout:fragment="pageTitle">
 		<div class="page-header">
 			<ol class="breadcrumb">
-				<li class="breadcrumb-item">Home</li>
+				<li class="breadcrumb-item">출고관리</li>
 				<li class="breadcrumb-item active">출고 지시서</li>
 			</ol>
 		
 			<ul class="app-actions">
-				<li>
-					<a href="#" id="reportrange">
-						<span class="range-text"></span>
-						<i class="icon-chevron-down"></i>	
-					</a>
-				</li>
 				<li>
 					<a href="#">
 						<i class="icon-export"></i>
@@ -32,6 +26,7 @@
 				<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 					<div class="table-container">
 						<div class="t-header">출고지시 목록</div>
+						<div th:include="release/orderSearch :: searchFragment"></div>
 						<div class="table-responsive">
 							<table id="copy-print-csv" class="table custom-table">
 								<thead>
@@ -88,7 +83,8 @@
 									  <td style="display: none;" th:text="${r.releaseInfo.realReleaseCode}" id="releaseCodeData"></td>
 									  <td>
 									  	<a th:if="${r.carManagement.driveManageCode == null}" type="button" class="btn btn-primary modifyBtn" data-toggle="modal" data-target=".bd-example-modal-lg" id="viewModal" style="color: white;">배차등록</a>
-									  	<a th:if="${r.carManagement.driveManageCode != null}" type="button" class="btn btn-primary modifyBtn" data-toggle="modal" data-target=".bd-example-modal-lg2" id="viewModal" style="color: yellow;">배차수정</a>
+									  	<a th:if="${r.carManagement.driveManageCode != null && r.releaseInfo.realReleaseCode == null}" type="button" class="btn btn-primary modifyBtn" data-toggle="modal" data-target=".bd-example-modal-lg2_1" id="viewModal" style="color: yellow;">배차수정</a>
+									  	<a th:if="${r.carManagement.driveManageCode != null && r.releaseInfo.realReleaseCode != null}" type="button" class="btn btn-primary modifyBtn" data-toggle="modal" data-target=".bd-example-modal-lg2" id="viewModal" style="color: yellow;">배차수정</a>
 								  	  </td>
 								  	  <td>
 								  	  	<a th:if="${r.carManagement.driveManageCode != null && r.invoice.invoiceCode == null}" type="button" class="btn btn-primary modifyBtn" data-toggle="modal" data-target=".bd-example-modal-lg3" id="viewModal" style="color: white;">운송장등록</a>
@@ -200,6 +196,58 @@
 							<label for="carUsingDate">차량사용날짜</label>
 							<div class="form-group">
 								<input type="date" class="form-control" id="carUsingDateModal" name="driveUsingDate" required="required">
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button class="btn btn-secondary" data-dismiss="modal">취소</button>
+							<button type="submit" name="submit"  class="btn btn-primary" >수정</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+		
+		<!-- 배차수정form(출고승인X) -->
+		<form th:action="@{/modifyDriveManagementNotRelease}" method="post" id="modityNotReleaseDriveForm">
+			<div class="modal fade bd-example-modal-lg2_1" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" style="display: none;" aria-hidden="true">
+				<div class="modal-dialog modal-lg">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="myLargeModalLabel">배차수정</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">×</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<label for="driveManageCodeModalNot">배차관리코드</label>
+							<div class="form-group">
+								<input type="text" class="form-control" id="driveManageCodeModalNot" name="driveManageCode" readonly="readonly" style="background-color: white;">
+							</div>
+							<label for="orderCodeModalForCarNot">출고지시서코드</label>
+							<div class="form-group">
+								<input type="text" class="form-control" id="orderCodeModalForCarNot" name="releaseOrderCode" readonly="readonly" style="background-color: white;">
+							</div>
+							<label for="releaseWarehouseCodeModalForCarNot">출고창고코드</label>
+							<div class="form-group">
+								<input type="text" class="form-control" id="releaseWarehouseCodeModalForCarNot" name="" readonly="readonly" style="background-color: white;">
+							</div>
+							<div class="form-group">
+								<label for="">배송기사</label>	
+								<select class="form-control"  name="deliveryMemberId" required="required"  id="deliveryMemberIdModalNot"> 
+									<option value="">배송기사를 선택해주세요.</option>
+								    <option th:each="d : ${delivery}" th:value="${d.deliveryMemberId}" th:text="|${d.deliveryMemberName}(담당창고코드: ${d.warehouseCode})|"></option>
+								</select>
+							</div>
+							<div class="form-group">
+								<label for="">차량선택</label>	
+								<select class="form-control" id="releaseOrderCarModalNot" name="releaseOrderCar" required="required">
+									<option value="">차량을 선택해주세요.</option>
+								    <option th:each="v : ${vehicle}" th:value="${v.carCode}" th:text="|${v.carKind}(${v.carNumber})|" th:if="${v.carStatus == '정상'}"></option>
+								</select>
+							</div>
+							<label for="carUsingDate">차량사용날짜</label>
+							<div class="form-group">
+								<input type="date" class="form-control" id="carUsingDateModalNot" name="driveUsingDate" required="required">
 							</div>
 						</div>
 						<div class="modal-footer">
@@ -360,10 +408,12 @@
 			$(this).click(function(){
 				var orderCodeData = $(this).parents('tr').children('#orderCodeData').text();
 				var releaseWarehouseCodeData = $(this).parents('tr').children('#releaseWarehouseCodeData').text();
+				
 				var deliveryMemberIdData = $(this).parents('tr').children('#deliveryMemberIdData').text();
 				var releaseOrderCarData = $(this).parents('tr').children('#releaseOrderCarData').text();
 				var driveUsingDateData = $(this).parents('tr').children('#driveUsingDateData').text();
 				var driveManageCodeData = $(this).parents('tr').children('#driveManageCodeData').text();
+				
 				var recipientNameData = $(this).parents('tr').children('#recipientNameData').text();
 				var recipientAddressData = $(this).parents('tr').children('#recipientAddressData').text();
 				var recipientPhoneData = $(this).parents('tr').children('#recipientPhoneData').text();
@@ -388,6 +438,13 @@
 				$('#releaseOrderCarModal').val(releaseOrderCarData);
 				$('#carUsingDateModal').val(driveUsingDateData);
 				$('#driveManageCodeModal').val(driveManageCodeData);
+
+				$('#deliveryMemberIdModalNot').val(deliveryMemberIdData);
+				$('#orderCodeModalForCarNot').val(orderCodeData);
+				$('#releaseWarehouseCodeModalForCarNot').val(releaseWarehouseCodeData);
+				$('#releaseOrderCarModalNot').val(releaseOrderCarData);
+				$('#carUsingDateModalNot').val(driveUsingDateData);
+				$('#driveManageCodeModalNot').val(driveManageCodeData);
 				
 				$('#driveManageCodeInvoice').val(driveManageCodeData);
 				$('#orderCodeInvoice').val(orderCodeData);
@@ -417,10 +474,13 @@
 		
 		$('#addDriveForm').submit(function(){
 			alert('배차가 등록되었습니다.');
-		})
+		});
 		$('#modityDriveForm').submit(function(){
 			alert('수정이 완료되었습니다.');
-		})
+		});
+		$('#modityNotReleaseDriveForm').submit(function(){
+			alert('수정이 완료되었습니다.');
+		});
 		$('#addInvoiceForm').submit(function(){
 			alert('운송장이 등록되었습니다.');
 		});
@@ -458,6 +518,87 @@
 			}
 		});
 		
+		/********날짜선택********/
+		$(function() {
+			var start = moment().subtract(29, 'days');
+			var end = moment();
+			function cb2(start, end) {
+				$('#firstDate').html(start.format('YYYY-MM-DD'));
+				$('#firstDate').val($('#firstDate').text());
+				$('#secondDate').html(end.format('YYYY-MM-DD'));
+				$('#secondDate').val($('#secondDate').text());
+			}
+			$('#reportrangeCustom').daterangepicker({
+				
+				opens: 'left',
+				startDate: start,
+				endDate: end,
+				ranges: {
+					'Today': [moment(), moment()],
+					'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+					'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+					'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+					'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+				}
+			}, cb2);
+		});
+		
+		/********시작일********/
+		function firstDateKey(){
+			if(event.keyCode != 8){
+				if($('#firstDate').val().replace(/[0-9 \-]/g, "").length == 0){
+					var ymd = '';
+					var firstDateValue = $('#firstDate').val().replace(/[^0-9]/g,'');
+					var firstDateLength = firstDateValue.length;
+					if(firstDateLength < 4){
+						return 	;
+					}else if(firstDateLength < 6){
+						ymd += firstDateValue.substr(0, 4);
+						ymd += '-';
+						ymd += firstDateValue.substr(4);
+					}else{
+						ymd += firstDateValue.substr(0, 4);
+						ymd += '-';
+						ymd += firstDateValue.substr(4, 2);
+						ymd += '-';
+						ymd += firstDateValue.substr(6);
+					}
+					$('#firstDate').val(ymd);
+				}else{
+					alert('숫자 이외의 값은 입력하실 수 없습니다.');
+					$('#firstDate').val('');
+				}
+			}
+		};
+		
+		/********종료일********/
+		function secondDateKey(){
+			if(event.keyCode != 8){
+				if($('#secondDate').val().replace(/[0-9 \-]/g, "").length == 0){
+					var ymd = '';
+					var secondDateValue = $('#secondDate').val().replace(/[^0-9]/g,'');
+					var secondDateLength = secondDateValue.length;
+					if(secondDateLength < 4){
+						return 	;
+					}else if(secondDateLength < 6){
+						ymd += secondDateValue.substr(0, 4);
+						ymd += '-';
+						ymd += secondDateValue.substr(4);
+					}else{
+						ymd += secondDateValue.substr(0, 4);
+						ymd += '-';
+						ymd += secondDateValue.substr(4, 2);
+						ymd += '-';
+						ymd += secondDateValue.substr(6);
+					}
+					$('#secondDate').val(ymd);
+				}else{
+					alert('숫자 이외의 값은 입력하실 수 없습니다.');
+					$('#secondDate').val('');
+				}
+			}
+		};
 	</script>
 </th:block>
 </html>
+	

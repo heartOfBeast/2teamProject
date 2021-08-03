@@ -46,8 +46,13 @@ public class SafetyCheckController {
 	
 	//전체조회
 	@GetMapping("/safetyCheck")
-	public String safetyCheck(Model model) {
-		List<SafetyCheck> safetyCheck = safetyCheckService.getSafetyCheck();
+	public String safetyCheck(Model model ,@RequestParam(name="warehouseCode", required = false) String warehouseCode
+								,@RequestParam(name="firstDate", required = false) String firstDate , @RequestParam(name="secondDate", required = false) String secondDate) {
+		Map<String, Object> warehouseCodeParam = new HashMap<String, Object>();
+		warehouseCodeParam.put("warehouseCode", warehouseCode);
+		warehouseCodeParam.put("firstDate", firstDate);
+		warehouseCodeParam.put("secondDate", secondDate);
+		List<SafetyCheck> safetyCheck = safetyCheckService.getSafetyCheck(warehouseCodeParam);
 		List<Warehouse> warehouse = safetyCheckService.getWareHouseInfo();
 		model.addAttribute("title", "안전점검 내역조회");
 		model.addAttribute("safetyCheck", safetyCheck);
@@ -61,7 +66,6 @@ public class SafetyCheckController {
 		List<Warehouse> warehouse = safetyCheckService.getWareHouseInfo();
 		model.addAttribute("title", "안전점검등록");
 		model.addAttribute("warehouse", warehouse);
-		log.info("warehouse: {}", warehouse);
 		return "safe/safetyCheckAdd";
 	}
 	

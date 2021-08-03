@@ -22,7 +22,16 @@
 			<result property="itemMiddleCategory"	column="item_middle_category"/>
 			<result property="itemSmallCategory" 	column="item_small_category"/>
 		</association>
-		
+		<association property="warehouse" javaType="Warehouse">
+			<result property="warehouseName"	column="warehouse_name"/>
+			<result property="warehouseAddr"	column="warehouse_addr"/>
+			<result property="warehousePhone"	column="warehouse_phone"/>
+		</association>
+		<association property="stock" javaType="Stock">
+			<result property="stockCode"		column="stock_code"/>
+			<result property="stockAmount"		column="stock_amount"/>
+			<result property="wRealDate"		column="warehousing_real_date"/>
+		</association>
 	</resultMap>
 	
 	<!-- 상품삭제 -->
@@ -35,12 +44,16 @@
 	</delete>
 	
 	<!--쇼핑몰 사업자 창고별 재고조회 -->
-	<select id="getProductAmountPerWarehouse" resultType="Product">
+	<select id="getProductAmountPerWarehouse" resultMap="productResultMap">
 		SELECT 
-			p.product_name						AS productName,
-			ss.stock_amount					AS stockAmount,
-			ss.stock_code						AS sectorStockStatusCode,
-			warehouse_name						AS warehouseName
+			p.product_name						,
+			ss.stock_amount						,
+			ss.stock_code						,
+			w.warehouse_name					,
+			p.product_freeze_cool_condition		,
+			ss.warehousing_real_date			,
+			w.warehouse_addr					,
+			w.warehouse_phone				
 		FROM
 			tb_product AS p
 			INNER JOIN
@@ -61,6 +74,16 @@
 	</select>
 	
 	
+	<!--상품 중복검사  -->
+	<select id="getProductNameForDupleCheck" parameterType="String" resultMap="productResultMap">
+		SELECT
+			COUNT(*)
+		FROM
+			tb_product AS p
+		WHERE
+			p.product_name = #{productName} AND p.shoppingmall_user_id=#{shoppingmallUserId}
+	
+	</select>
 	<!-- 상품수정 -->
 	<update id="modifyProduct" parameterType="Product">
 		UPDATE tb_product
@@ -208,7 +231,11 @@
 			tb_item
 			ON
 			tb_product.product_category = tb_item.item_code
-			
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="searchKey != null and searchKey != ''.toString()">
+				${searchKey} LIKE CONCAT('%', #{searchValue} ,'%');
+			</if>
+		</trim>
 
 	</select>
 

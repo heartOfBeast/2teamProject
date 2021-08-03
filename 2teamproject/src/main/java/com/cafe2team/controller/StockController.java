@@ -137,7 +137,7 @@ public class StockController {
 		return "stock/stockCheckInsert";
 	}
 	/************************************************************
-	 * 재고실사등록을 위해 재고코드를 입력시 최종위치 자동생성
+	 * 재고실사등록을 위해 재고코드를 입력시 최종위치, 현재 재고수량 자동생성 
 	 ************************************************************/
 	@PostMapping("/getSectorFinalCode")
 	@ResponseBody

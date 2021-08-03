@@ -38,6 +38,8 @@
 			<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 				<div class="table-container">
 					<div class="t-header">상품목록</div>
+					<div th:include="product/searchProduct :: searchProductFragment"></div><br>
+					
 					<div class="table-responsive">
 						<table id="copy-print-csv" class="table custom-table">
 							<thead>
@@ -102,7 +104,7 @@
 
 	<!-- Main container end -->
 	<!-- 수정 모달 -->
-	<form th:action="@{/modifyProduct}" method="post">
+	<form th:action="@{/modifyProduct}" method="post" id="modifyProductForm">
 		<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" style="display: none;" aria-hidden="true">
 			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
@@ -113,9 +115,10 @@
 						</button>
 					</div>
 					<div class="modal-body">
-						<input type="text" class="form-control" name="productCode" id="productCode">
+						<input  type="hidden" class="form-control" name="productCode" id="productCode">
 						<label for="productNameModal">상품명</label>	
 							<input type="text" class="form-control" id="productNameModal" name="productName" >
+							<button type="button" id="CheckProductName" class="btn btn-primary">중복체크</button>
 						<div class="form-group">
 							<label for="itemBigCategoryModal">대분류 선택</label>	
 							<select class="form-control" id="itemBigCategoryModal" name="itemBigCategory">
@@ -147,7 +150,7 @@
 							</select>
 						</div>
 						<label for="productWeightModal">상품무게</label>	
-							<input type="text" class="form-control" id="productWeightModal" name="productName" >
+							<input type="text" class="form-control" id="productWeightModal" name="productWeight" >
 						<div class="form-group">
 							<label for="productWeightUnitModal">무게단위</label>	
 							<select class="form-control" id="productWeightUnitModal" name="productWeightUnit">
@@ -169,11 +172,14 @@
 						<div class="form-group">
 							<label for="productDetailModal">상세설명</label>
 							<textarea class="form-control" id="productDetailModal" maxlength="140" rows="4" name="productDetail" ></textarea>
+							<div class="form-text text-muted">
+								<p id="characterLeftModifyProduct" class="help-block">140 characters left</p>
+							</div>
 						</div>
 					</div>
 					<div class="modal-footer">
 						<button class="btn btn-secondary" data-dismiss="modal">취소</button>
-						<button type="submit" name="submit"  class="btn btn-primary">수정</button>
+						<button id="modifyCompleteBtn" type="submit" name="submit"  class="btn btn-primary">수정</button>
 					</div>
 				</div>
 			</div>
@@ -326,6 +332,112 @@
 					$('#productAddCategoryModal').val(productAddCategoryData);
 				})
 			})
+			//유효성검사
+			$('#modifyCompleteBtn').click(function(){
+				var submitFlag = true;
+				var modifyProductForm = $('#modifyProductForm');
+				var itemBigCategoryModal = $('#itemBigCategoryModal').val();
+				var itemMiddleCategoryModal = $('#itemMiddleCategoryModal').val();
+				var itemSmallCategoryModal = $('#itemSmallCategoryModal').val();
+				var productNameModal = $('#productNameModal').val();
+				var productFreezeCoolConditionModal = $('#productFreezeCoolConditionModal').val();
+				var productWeightModal = $('#productWeightModal').val();
+				var productWeightUnitModal = $('#productWeightUnitModal').val();
+				var productDateOfManufactureModal = $('#productDateOfManufactureModal').val();
+				var productExpirationDateModal = $('#productExpirationDateModal').val();
+				
+				if(itemBigCategoryModal==null||itemBigCategoryModal==undefined||itemBigCategoryModal==''){
+					alert('대분류를 선택해주세요');
+					submitFlag = false;
+					return submitFlag;
+				}else if(itemMiddleCategoryModal==null||itemMiddleCategoryModal==undefined||itemMiddleCategoryModal==''){
+					alert('중분류를 선택해주세요');
+					submitFlag = false;
+					return submitFlag;
+				}else if(itemSmallCategoryModal==null||itemSmallCategoryModal==undefined||itemSmallCategoryModal==''){
+					alert('소분류를 선택해주세요');
+					submitFlag = false;
+					return submitFlag;
+				}else if(productNameModal==null||productNameModal==undefined||productNameModal==''){
+					alert('상품명을 입력해주세요');
+					submitFlag = false;
+					return submitFlag;
+				}else if(productFreezeCoolConditionModal==null||productFreezeCoolConditionModal==undefined||productFreezeCoolConditionModal==''){
+					alert('보관유형을 선택해주세요');
+					submitFlag = false;
+					return submitFlag;
+				}else if(productWeightModal==null||productWeightModal==undefined||productWeightModal==''){
+					alert('상품무게를 입력해주세요');
+					submitFlag = false;
+					return submitFlag;
+				}else if(productWeightUnitModal==null||productWeightUnitModal==undefined||productWeightUnitModal==''){
+					alert('무게단위를 선택해주세요');
+					submitFlag = false;
+					return submitFlag;
+				}else if(productDateOfManufactureModal==null||productDateOfManufactureModal==undefined||productDateOfManufactureModal==''){
+					alert('제조일을 선택해주세요');
+					submitFlag = false;
+					return submitFlag;
+				}else if(productExpirationDateModal==null||productExpirationDateModal==undefined||productExpirationDateModal==''){
+					alert('유통기한을 선택해주세요');
+					submitFlag = false;
+					return submitFlag;
+				}
+				if(submitFlag){
+					$('#modifyProductForm').submit(function(){
+						alert('상품 정보가 수정되었습니다');
+					})
+				}
+				
+			})
+			//상세설명 글자수 제한
+		$(function() {
+			$('#characterLeftModifyProduct').text('140 characters left');
+			$('#productDetail').keydown(function () {
+				var max = 140;
+				var len = $(this).val().length;
+				if (len >= max) {
+					$('#characterLeftModifyProduct').text('You have reached the limit');
+					$('#characterLeftModifyProduct').addClass('red');
+					$('#modifyCompleteBtn').addClass('disabled');            
+				} 
+				else {
+					var ch = max - len;
+					$('#characterLeftModifyProduct').text(ch + ' characters left');
+					$('#modifyCompleteBtn').removeClass('disabled');
+					$('#characterLeftModifyProduct').removeClass('red');            
+				}
+			});
+		});		
+		
+		//상품명중복체크
+		$(function(){
+			$('#CheckProductName').click(function(){
+				var productName = $('input[name="productName"]').val();
+				console.log(productName);
+				if(productName !=''&&productName!=null&&productName!=null){
+					var request = $.ajax({
+						url : "/CheckProductName",
+						method : "POST",
+						data : {productName : productName},
+						dataType : "json"
+					});
+					request.done(function(data){
+						if(data){
+							alert('사용가능한 이름입니다');
+							
+						}else{
+							alert('이미 존재하는 상품명입니다');
+							$('select[name = "itemBigCategoryModal"], select[name="itemMiddleCategory"], select[name="productCategory"], input[name="productAddCategory"],select[name="productFreezeCoolCondition"],input[name="productWeight"], select[name="productWeightUnit"], input[name="productDateOfManufacture"], input[name="productExpirationDate"],textarea[name="productDetail"] ').prop('disabled','disabled');
+						}
+						 
+					});
+					request.fail(function( jqXHR, textStatus ){
+						alert( "Request failed: " + textStatus );
+					});
+				}
+			})
+		})
 			
 	</script>
 </th:block>		
