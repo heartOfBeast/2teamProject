@@ -55,7 +55,7 @@ public class MainController {
 	@GetMapping("/main")
 	public String main(Model model) {
 		
-		List<Receiving> receivingStatusForWarehouse = warehousingOrderService.getReceivingListForWarehouse();
+		List<Receiving> receivingStatusForWarehouse = warehousingOrderService.getReceivingListForWarehouse(null);
 		List<ReleaseInfo> releaseInfo = releaseService.getReleaseList(null);
 		List<Stock> stockList = stockService.getStockList();
 

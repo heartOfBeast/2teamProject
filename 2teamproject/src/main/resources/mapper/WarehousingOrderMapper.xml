@@ -37,10 +37,13 @@
 		<association property="warehouse" javaType="Warehouse">
 			<result property="warehouseCode" column="warehouse_code"/>
 			<result property="warehouseName" column="warehouse_name"/>
+			<result property="warehouseAddr" column="warehouse_addr"/>
+			<result property="warehousePhone" column="warehouse_addr"/>
 		</association>
 		<association property="product" javaType="Product">
 			<result property="productCode" column="product_code"/>
 			<result property="productName" column="product_name"/>
+			<result property="productFreezeCoolCondition" column="product_freeze_cool_condition"/>
 		</association>
 		<association property="shoppingmall" javaType="Shoppingmall">
 			<result property="shoppingmallId" column="shoppingmall_user_id"/>
@@ -224,6 +227,44 @@
 			
 	</insert>
 
+	<!--쇼핑몰 사업자 현황  -->
+	<select id="receivingListForShop" resultMap="ReceivingResultMap">
+		SELECT 
+			ri.receivinging_code, 
+			p.product_name,
+			w.warehouse_name,
+			ri.warehousing_real_date, 
+			ri.warehousing_real_amount, 
+			ri.warehousing_reg_date, 
+			p.product_freeze_cool_condition,
+			w.warehouse_addr,
+			w.warehouse_phone
+
+		FROM 
+			tb_receiving_info  AS ri
+			INNER JOIN
+			tb_product AS p
+			ON
+			ri.product_code = p.product_code
+			INNER JOIN
+			tb_shoppingmall_user AS su
+			ON
+			su.shoppingmall_user_id = ri.shoppingmall_user_id
+			INNER JOIN
+			tb_warehouse AS w
+			ON
+			w.warehouse_code=ri.warehouse_code
+		
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			ri.shoppingmall_user_id = #{shoppingmallId}
+			<if test="warehouseCode !=null and warehouseCode !=''.toString()">
+				AND w.warehouse_code = #{warehouseCode}
+			</if>
+			<if test="firstDate !=null and firstDate !=''.toString()">
+				AND ri.warehousing_real_date BETWEEN #{firstDate} AND #{secondDate}
+			</if>
+		</trim>
+	</select>
 
 	<!--입고현황  -->
 	<select id="getReceivingList" resultMap="ReceivingResultMap">
@@ -255,6 +296,14 @@
 			tb_warehouse AS w
 			ON
 			w.warehouse_code=ri.warehouse_code
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="warehouseCode !=null and warehouseCode !=''.toString()">
+				AND ri.warehouse_code = #{warehouseCode}
+			</if>
+			<if test="firstDate !=null and firstDate !=''.toString()">
+				AND ri.warehousing_real_date BETWEEN #{firstDate} AND #{secondDate}
+			</if>
+		</trim>
 	</select> 
 		
 	<!-- 입고취소 -->
@@ -304,8 +353,15 @@
 			tb_item AS i
 			ON
 			i.item_code = p.product_category
-		WHERE
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
 			ro.warehousing_order_status = '입고요청'
+			<if test="warehouseCode !=null and warehouseCode !=''.toString()">
+				AND ro.warehouse_code = #{warehouseCode}
+			</if>
+			<if test="firstDate !=null and firstDate !=''.toString()">
+				AND ro.warehousing_order_due_date BETWEEN #{firstDate} AND #{secondDate}
+			</if>
+		</trim>
 	</select>
 
 </mapper>
