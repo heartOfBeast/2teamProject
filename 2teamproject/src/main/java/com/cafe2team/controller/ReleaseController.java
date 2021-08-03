@@ -14,6 +14,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.annotation.RequestScope;
 
 import com.cafe2team.domain.CarManagement;
 import com.cafe2team.domain.Delivery;
@@ -23,6 +25,8 @@ import com.cafe2team.domain.ReleaseInfo;
 import com.cafe2team.domain.Vehicle;
 import com.cafe2team.service.ReleaseService;
 import com.cafe2team.service.VehicleService;
+
+import groovyjarjarantlr4.v4.parse.ANTLRParser.finallyClause_return;
 
 @Controller
 public class ReleaseController {
@@ -59,6 +63,14 @@ public class ReleaseController {
 		return "release/releaseOrder";
 	}
 	
+	//배차등록화면
+	@GetMapping("/getOrderInfo")
+	@ResponseBody
+	public List<Release> getOrderInfo(@RequestParam(name="releaseOrderCode", required = false)String releaseOrderCode){
+		List<Release> release = releaseService.getOrderInfo(releaseOrderCode);
+		return release;
+	}
+	
 	//배차등록
 	@PostMapping("/addDriveManagement")
 	public String addDriveManagement(CarManagement carManagement, HttpSession session) {
@@ -68,6 +80,14 @@ public class ReleaseController {
 			releaseService.addDriveManagement(carManagement);
 		}
 		return "redirect:/releaseOrder";
+	}
+	
+	//배차수정화면
+	@GetMapping("/getDriveManagement")
+	@ResponseBody
+	public List<CarManagement> getDriveManagement(@RequestParam(name="driveManageCode", required = false)String driveManageCode){
+		List<CarManagement> carManagement = releaseService.getDriveManagement(driveManageCode);
+		return carManagement;
 	}
 	
 	//배차수정
@@ -94,6 +114,14 @@ public class ReleaseController {
 		return "redirect:/releaseOrder";
 	}
 	
+	//운송장등록화면
+	@GetMapping("/addInvoiceInfo")
+	@ResponseBody
+	public List<CarManagement> addInvoiceInfo(@RequestParam(name = "driveManageCode", required = false)String driveManageCode){
+		List<CarManagement> carManagement = releaseService.addInvoiceInfo(driveManageCode);
+		return carManagement;
+	}
+	
 	//운송장등록
 	@PostMapping("/addInvoice")
 	public String addInvoice(Invoice invoice, HttpSession session) {
@@ -106,6 +134,13 @@ public class ReleaseController {
 		return "redirect:/releaseOrder";
 	}
 	
+	//운송장수정화면
+	@GetMapping("/getInvoiceInfo")
+	@ResponseBody
+	public List<Invoice> getInvoiceInfo(@RequestParam(name="invoiceCode", required = false)String invoiceCode){
+		List<Invoice> invoice = releaseService.getInvoiceInfo(invoiceCode);
+		return invoice;
+	}
 	//운송장수정
 	@PostMapping("/modifyInvoiceInfo")
 	public String modifyInvoiceInfo(Invoice invoice, HttpSession session) {
@@ -116,6 +151,14 @@ public class ReleaseController {
 			log.info("invoice : {}", invoice);
 		}
 		return "redirect:/releaseOrder";
+	}
+	
+	//출고승인화면
+	@GetMapping("/addReleaseInfo")
+	@ResponseBody
+	public List<Release> addReleaseInfo(@RequestParam(name = "releaseOrderCode", required = false) String releaseOrderCode){
+		List<Release> release = releaseService.addReleaseInfo(releaseOrderCode);
+		return release;
 	}
 	
 	//출고승인

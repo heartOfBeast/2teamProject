@@ -24,9 +24,20 @@ public class Release {
 	
 	private ReleaseInfo releaseInfo;
 	
+	private String warehouseName;
+	
 	private String releasesRequestCode;
 	
 	private String releasesFinalSector;
+	
+	
+	public String getWarehouseName() {
+		return warehouseName;
+	}
+
+	public void setWarehouseName(String warehouseName) {
+		this.warehouseName = warehouseName;
+	}
 
 	public String getReleaseOrderCode() {
 		return releaseOrderCode;
@@ -180,9 +191,8 @@ public class Release {
 				+ recipientPhone + ", shoppingmallUserId=" + shoppingmallUserId + ", orderRegDate=" + orderRegDate
 				+ ", delivery=" + delivery + ", shoppingmall=" + shoppingmall + ", product=" + product
 				+ ", carManagement=" + carManagement + ", invoice=" + invoice + ", releaseInfo=" + releaseInfo
-				+ ", releasesRequestCode=" + releasesRequestCode + ", releasesFinalSector=" + releasesFinalSector + "]";
+				+ ", warehouseName=" + warehouseName + ", releasesRequestCode=" + releasesRequestCode
+				+ ", releasesFinalSector=" + releasesFinalSector + "]";
 	}
-	
-	
 
 }
