@@ -23,7 +23,7 @@ html,body {
 							<span>!준</span>
 								<h5>거래처 회원가입</h5>
 								<div class="form-group">
-									<input type="text" class="form-control" name="shoppingmallId" placeholder="아이디 입력" required = "required"/>
+									<input type="text" class="form-control" name="shoppingmallId" id="shoppingmallId" placeholder="아이디 입력" required = "required"/>
 								</div>
 								<div class="form-group">
 									<button type="button" class="btn btn-outline-primary" id="idCheck">ID중복체크</button>
@@ -54,14 +54,14 @@ html,body {
 								</div>
 								
                        			 <div class="form-group">
-									<input type="email" name="shoppingmallEmail" class="form-control" placeholder="이메일"  required = "required" disabled="disabled"/>
+									<input type="email" name="shoppingmallEmail" id="shoppingmallEmail" class="form-control" placeholder="이메일"  required = "required" disabled="disabled"/>
 								</div>
 								<div class="form-group">
-									<input type="text"  name="shoppingmallPhone" class="form-control" placeholder="핸드폰 번호" required = "required" disabled="disabled"/>
+									<input type="text"  name="shoppingmallPhone" id="shoppingmallPhone" class="form-control" placeholder="핸드폰 번호" required = "required" disabled="disabled"/>
 								</div>
 								
 								<div class="actions mb-4">
-									<button type="submit" class="btn btn-outline-primary" style="margin-top: 10px" id="signUp" disabled="disabled">회원가입</button>
+									<button type="submit" class="btn btn-outline-primary" style="margin-top: 10px" id="accountSignUp" disabled="disabled">회원가입</button>
 								</div>
 								<hr>
 								<div class="m-0">
@@ -179,6 +179,46 @@ html,body {
 	    			}
 	    		}
 	    	});
+	    });
+	    
+	    
+	    $('#accountSignUp').click(function(){
+			var submitFlag = true;				
+			
+			
+			var regexPw = /^[a-zA-Z0-9]{8,20}$/;
+			var regexEmail = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+			var regexid =  /^[A-Za-z]{1}[A-Za-z0-9_-]{3,19}$/;
+			var regexphone = /^\d{2,3}-\d{3,4}-\d{4}$/;
+			
+			if(!regexid.test($('#shoppingmallId').val())){
+				alert('ID 를 영문과 숫자를 조합하세요.');
+				submitFlag = false;
+				console.log(submitFlag);
+				$('#shoppingmallId').val("");
+				return submitFlag;				
+			}else if(!regexPw.test($('#pwd1').val())){
+		        alert("비밀번호는 숫자와 영문자 조합으로 8~20자리를 사용해야 합니다.");
+				submitFlag = false;
+				$('#pwd1').val("");
+				return submitFlag;	
+			}else if(!regexEmail.test($('#shoppingmallEmail').val())){
+				alert('이메일을 다시 입력해주세요.');
+				submitFlag = false;
+				$('#shoppingmallEmail').val("");
+				return submitFlag;	
+			}else if(!regexphone.test($('#shoppingmallPhone').val())){
+				alert('핸드폰 번호를 다시 입력해주세요.');
+				submitFlag = false;
+				$('#shoppingmallPhone').val("");
+				return submitFlag;	
+			}
+			
+			if(submitFlag) {
+				$('#adminAdd').submit();
+			}
+	    	
+	    	
 	    });
 	    
 	    

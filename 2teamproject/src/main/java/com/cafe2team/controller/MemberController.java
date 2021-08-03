@@ -3,31 +3,35 @@ package com.cafe2team.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.channels.SeekableByteChannel;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMessage.RecipientType;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cafe2team.domain.AdminApproval;
 import com.cafe2team.domain.Member;
 import com.cafe2team.domain.Shoppingmall;
-import com.cafe2team.domain.WareAdmin;
 import com.cafe2team.service.MemberService;
 
 import com.cafe2team.controller.MemberController;
@@ -38,9 +42,6 @@ public class MemberController {
 	
 	private static final Logger log = LoggerFactory.getLogger(MemberController.class);
 
-
-	private static final int ArrayList = 0;
-
 	
 	private final MemberService memberService;
 	
@@ -49,6 +50,27 @@ public class MemberController {
 		this.memberService = memberService;
 		
 	}
+	
+//	@Autowired
+//	private JavaMailSender javaMailSender;
+	
+	@Autowired
+    private JavaMailSenderImpl javaMailSenderImpl;
+	
+	@Value("${spring.mail.username}")
+	@Autowired
+	private String from;
+	
+	
+	 public Runnable createRunnable(final MimeMessage message) {
+		 return new Runnable() {
+		 	 @Override
+			 public void run() {
+		 		 
+		 		 javaMailSenderImpl.send(message); //message에 담긴 메세지+인증코드 보내기
+			 }			
+		 };
+	 }
 
 	//회원 리스트 조회
 	@GetMapping("/memberList")
@@ -181,7 +203,8 @@ public class MemberController {
 		int reuslt = 1;
 		
 		for(String approvalAdminId : paramList) {
-			memberService.adminIntotbAdminWare(approvalAdminId);
+			//memberService.adminIntotbAdminWare(approvalAdminId);
+			memberService.adminApprovalStatusUpdate(approvalAdminId);
 			memberService.adminIntotbMember(approvalAdminId);
 			memberService.deleteWareAdmin(approvalAdminId);
 		}
@@ -464,9 +487,116 @@ public class MemberController {
 
 	}
 	
+	@GetMapping("/findPw")
+	public String findPw(Model model) {
+		
+		return "member/findPW";
+	}
+	
+	@PostMapping("/findPw") 
+	@ResponseBody
+	 public Map<String, Object> findPw(@RequestParam(name="mail", required = false) String memberEmail,
+			  							@RequestParam(value = "check", required = false) String check ) throws MessagingException {
+			  
+			  
+			  log.info("화면에서 받은 메일주소: " + memberEmail);
+			  
+			  Map<String, Object> map = new HashMap<String, Object>();
+			  
+			  String subject = "";
+			  String msg = "";
+			  
+			  
+			 
+			  if(memberEmail != null && !memberEmail.equals("")) {
+				  if(check.equals("memberCheck")) {
+					  
+					  Member member = memberService.getAdminAjaxId(memberEmail);
+					  //SimpleMailMessage message = new SimpleMailMessage();
+					  
+					 // MimeMessage message = javaMailSender.createMimeMessage();
+
+					  
+					  subject = "물류센터 비밀번호 입니다.";
+					  msg += "<div align='center' style='border:1px solid black; font-family:verdana'>";
+					  msg += "<h3 style='color: blue;'>";
+					  msg += member.getMemberId() + "님의 비밀번호 입니다. 비밀번호를 변경하여 사용하세요.</h3>";
+					  msg += "<p>비밀번호 : ";
+					  msg += member.getMemberPw()+ "</p></div>";
+					  
+					  MimeMessage mimeMessage = javaMailSenderImpl.createMimeMessage();
+				        mimeMessage.setFrom(new InternetAddress(from));
+				        mimeMessage.addRecipient(RecipientType.TO, new InternetAddress(member.getMemberEmail()));
+				        mimeMessage.setSubject(subject);
+				        mimeMessage.setText(msg, "UTF-8", "html");
+
+				        //javaMailSenderImpl.send(mimeMessage);
+				        
+					  Thread thread = new Thread(createRunnable(mimeMessage));
+					  thread.start();
+					  thread = null;
+					
+//					  message.setTo(memberEmail);
+//					  message.setSubject(subject);
+//					  message.setText(msg);
+//					  
+					  
+					 // javaMailSender.send(message);
+					  
+					  
+					  map.put("member", member);
+					  return map;
+				  }else {
+					  Shoppingmall shop = memberService.getShopAjaxId(memberEmail);
+					  
+//					  SimpleMailMessage message = new SimpleMailMessage();
+//					  
+//					  message.setTo(memberEmail);
+//					  message.setSubject("물류센터 비밀번호찾기 ");
+//					  message.setText("비밀번호 : "+ shop.getShoppingmallPw());
+					  
+					  
+					  subject = "물류센터 비밀번호 입니다.";
+					  msg += "<div align='center' style='border:1px solid black; font-family:verdana'>";
+					  msg += "<h3 style='color: blue;'>";
+					  msg += shop.getShoppingmallId() + "님의 비밀번호 입니다. 비밀번호를 변경하여 사용하세요.</h3>";
+					  msg += "<p>비밀번호 : ";
+					  msg += shop.getShoppingmallPw()+ "</p></div>";
+					  
+					    MimeMessage mimeMessage = javaMailSenderImpl.createMimeMessage();
+				        mimeMessage.setFrom(new InternetAddress(from));
+				        mimeMessage.addRecipient(RecipientType.TO, new InternetAddress(shop.getShoppingmallEmail()));
+				        mimeMessage.setSubject(subject);
+				        mimeMessage.setText(msg, "UTF-8", "html");
+					  
+					  
+					  Thread thread = new Thread(createRunnable(mimeMessage));
+					  thread.start();
+					  thread = null;
+					
+					  //javaMailSender.send(message);
+					  
+					  map.put("shop", shop);
+					  return map;
+				  }
+				  
+				  
+			  }else{
+				  
+				  String var = "이메일과 등록된 아이디가 일치하지 않습니다";
+				  
+				  map.put("msg", String.valueOf(var));
+				  return map;	
+			  }
+		  
+		  }
+		  
+			  
+		 
+	  }
+
 	
 	
-}
 
 
 
