@@ -52,9 +52,9 @@
 	<span>🕋배포일자 :v01 21.07.06🕋 / 🕋배포일자 :v02 21.07.08🕋 / 🕋배포일자 :v03 21.07.14🕋 / 🕋배포일자 :v04 21.07.24🕋</span>
 	<div class="row gutters">
 		<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-			<div class="card" style="width:1300px; height:750px;">
+			<div class="card" style="width:1300px; height:750px;" th:unless="${session.SLEVEL == '게스트'}">
 				<div class="card-header">
-					<div class="card-title">전국 창고현황</div>
+					<div class="card-title" >전국 창고현황</div>
 				</div>
 				<div class="card-body" th:replace="/warehouse/warehouse :: wareHouse">
 				</div>
@@ -64,7 +64,7 @@
 
 	<div class="row gutters">
 		<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-			<div class="card">
+			<div class="card" th:unless="${session.SLEVEL == '게스트'}">
 				<div class="card-header">
 					<div class="card-title">입고현황(관리자)</div>
 				</div>
@@ -85,7 +85,7 @@
 	
 	<div class="row gutters">
 		<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-			<div class="card">
+			<div class="card" th:unless="${session.SLEVEL == '게스트'}">
 				<div class="card-header">
 					<div class="card-title">출고현황(관리자)</div>
 				</div>

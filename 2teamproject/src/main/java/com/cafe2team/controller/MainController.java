@@ -2,6 +2,8 @@ package com.cafe2team.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,6 +39,17 @@ public class MainController {
 	public String login(Model model) {
 		
 		return "logindefault";
+	}
+	
+	@GetMapping("/guest")
+	public String guest(Model model, HttpSession session) {
+		
+		
+		session.setAttribute("SID", "게스트");
+		session.setAttribute("SLEVEL", "게스트");
+		
+		
+		return "estimate/estimateAnother";
 	}
 	
 	@GetMapping("/main")

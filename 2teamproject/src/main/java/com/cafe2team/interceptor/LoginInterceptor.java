@@ -21,6 +21,7 @@ public class LoginInterceptor implements HandlerInterceptor{
 		String sessionId = (String) session.getAttribute("SID");
 		String sessionLevel = (String) session.getAttribute("SLEVEL");
 		String requestUri = request.getRequestURI();
+		String guest = (String)session.getAttribute("GUEST");
 		
 		
 		if(sessionId == null) {
@@ -51,16 +52,50 @@ public class LoginInterceptor implements HandlerInterceptor{
 					requestUri.indexOf("safetyCheck") > -1 ||
 					requestUri.indexOf("vehicleAdd") > -1 ||
 					requestUri.indexOf("estimateAnother") > -1 ||
-					requestUri.indexOf("estimatePermit") > -1 
+					requestUri.indexOf("estimatePermit") > -1 ||
+					requestUri.indexOf("guest") > -1 
 					) {
-					
 					
 					
 					response.sendRedirect("/main");
 					
 					return false;
+				
 				}
 			}
+			
+			if("게스트".equals(sessionLevel)) {
+				if(	requestUri.indexOf("memberList") > -1 ||
+						requestUri.indexOf("adminWaiting") > -1 ||
+						requestUri.indexOf("accountInquiry") > -1 ||
+						requestUri.indexOf("addWarehouse") > -1 ||
+						requestUri.indexOf("warehouseList") > -1 ||
+						requestUri.indexOf("currentSalesState") > -1 ||
+						requestUri.indexOf("expenditure") > -1 ||
+						requestUri.indexOf("expenditureinsert") > -1 ||
+						requestUri.indexOf("calculate") > -1 ||
+						requestUri.indexOf("stockList") > -1 ||
+						requestUri.indexOf("stockCheckList") > -1 ||
+						requestUri.indexOf("stockCheckInsert") > -1 ||
+						requestUri.indexOf("shoppingmallApproval") > -1 ||
+						requestUri.indexOf("contractApproval") > -1 ||
+						requestUri.indexOf("calendar") > -1 ||
+						requestUri.indexOf("receivingRequestWaiting") > -1 ||
+						requestUri.indexOf("receivingWarehouseStatus") > -1 ||
+						requestUri.indexOf("releaseOrder") > -1 ||
+						requestUri.indexOf("safetyCheckAdd") > -1 ||
+						requestUri.indexOf("safetyCheck") > -1 ||
+						requestUri.indexOf("vehicleAdd") > -1 ||
+						requestUri.indexOf("estimatePermit") > -1 
+						) {
+						
+						
+						response.sendRedirect("/guest");
+						
+						return false;
+					
+					}
+				}
 			
 		}
 		
