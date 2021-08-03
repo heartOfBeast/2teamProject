@@ -30,6 +30,7 @@
 <th:block layout:fragment="container">
 	<div class="table-container">
 		<div class="table-responsive">
+			<div th:include="unitPrice/Search :: wareHoushSearch"></div>	
 			<button th:if="${session.SID == null or session.SLEVEL == '총관리자'}" type="button" class="btn btn-primary float-right" onclick="deleteDate();">삭제</button>
 			<button th:if="${session.SID == null or session.SLEVEL == '총관리자'}" type="button" class="btn btn-primary float-right" onclick="location.href='priceAdd'">등록</button>
 			<table class="table custom-table m-0">
@@ -64,7 +65,7 @@
 						<td th:text="${l.priceNumber}"		id="priceNumberData" ></td>
 						<td th:text="${l.priceZone}"		id="priceZoneData"></td>
 						<td th:text="${l.priceDay}" 		id="priceDayData"></td>
-						<td th:text="${l.pricePrice+'원'}"	id="priceData"></td>
+						<td th:text="${l.pricePrice}"	id="priceData"></td>
 						<td th:text="${l.unitPriceUpdate}"	id="unitPriceUpdateData" style="display: none;"></td>
 						<td th:if="${session.SID == null or session.SLEVEL == '총관리자'}">
 							<a type="button" class="btn btn-primary updateBtn" data-toggle="modal" data-target=".bd-example-modal-lg" id="updateModal" style="color: white;">수정</a>
@@ -163,6 +164,14 @@
 </th:block>
 <th:block layout:fragment="customJs">
 	<script>
+		/* 창고별 검색 */
+		$(function(){
+			$('#wareHouseType').change(function(){
+				$('#wareHoushSearch').submit();
+			})
+		});
+	
+	
 		/* 삭제(개별 / 전체)  */
 		$(function(){		
 			$('#priceCheck').click(function(){

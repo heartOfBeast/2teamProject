@@ -12,7 +12,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Controller;
@@ -46,14 +45,22 @@ public class ContractController {
 	
 	// 요금안내 조회 
 	@GetMapping("/priceList")
-	public String getUnitPriceList(Model model) {
+	public String getUnitPriceList(Model model
+								  ,Price price
+								  ,@RequestParam(name="wareHouseType", required = false) String wareHouseType) {
 		
+		System.out.println(wareHouseType +"창고종류 검색");
+		
+		Map<String, Object> paramWareHouse = new HashMap<String, Object>();
+		paramWareHouse.put("wareHouseType", wareHouseType);
+		List<Price> priceList = unitPriceService.getPriceList(paramWareHouse);
 		
 		model.addAttribute("title", "요금안내");
-		model.addAttribute("priceList", unitPriceService.getPriceList());
+		model.addAttribute("priceList", priceList);
 		
 		return "unitPrice/priceList";
 	}
+	
 	
 	// 요금안내 추가
 	@GetMapping("/priceAdd") 
@@ -80,6 +87,7 @@ public class ContractController {
 	public String priceUpdate(Price price) {
 		
 		unitPriceService.priceUpdate(price);
+		System.out.println(price+"priceUpdate");
 		
 		return "redirect:/priceList";
 		
@@ -162,7 +170,6 @@ public class ContractController {
 		return "redirect:/priceList";
 		
 	}
-	
 	
 	// 계약관리 리스트
 	@GetMapping("/contractApproval")
