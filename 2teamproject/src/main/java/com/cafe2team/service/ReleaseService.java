@@ -90,4 +90,15 @@ public class ReleaseService {
 		
 		return releaseMapper.wayBillSearch(paramMap);
 	}
+	
+	public List<CarManagement> carManagementList(){
+		List<CarManagement> carManagement = releaseMapper.carManagementList();
+		return carManagement;
+	}
+	
+	public int deleteCarmanagement(String releaseOrderCode) {
+		int invoiceResult = releaseMapper.deleteInvoice(releaseOrderCode);
+		int carManagementResult = releaseMapper.deleteCarmanagement(releaseOrderCode);
+		return invoiceResult+carManagementResult;
+	}
 }
