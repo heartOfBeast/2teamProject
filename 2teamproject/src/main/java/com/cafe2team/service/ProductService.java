@@ -67,9 +67,14 @@ public class ProductService {
 		return getItemSmallCategoryInfo;
 	}
 	
+	//상품명 중복검사
+	public Product checkProductName(String productName, String shoppingmallUserId) {
+		return productMapper.getProductNameForDupleCheck(productName, shoppingmallUserId);
+	}
+	
 	//쇼핑몰 사업자 창고별 재고조회
-	public List<Product> getProductAmountPerWarehouse(Product product){
-		List<Product> getProductAmountPerWarehouse = productMapper.getProductAmountPerWarehouse(product);
+	public List<Product> getProductAmountPerWarehouse(Map<String, Object> warehouseCodeParam) {
+		List<Product> getProductAmountPerWarehouse = productMapper.getProductAmountPerWarehouse(warehouseCodeParam);
 		return getProductAmountPerWarehouse;
 	}
 	

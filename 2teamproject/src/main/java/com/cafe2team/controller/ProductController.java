@@ -48,14 +48,22 @@ public class ProductController {
 									Product product,
 									HttpSession session,
 									RedirectAttributes reAttr,
-									HttpServletResponse response) {
+									HttpServletResponse response,
+									@RequestParam(name="warehouseCode", required = false) String warehouseCode,
+									@RequestParam(name="firstDate", required = false) String firstDate,
+									@RequestParam(name="secondDate", required = false) String secondDate) {
 		String shoppingmallUserId = (String) session.getAttribute("SID");
 		System.out.println(shoppingmallUserId);
+		Map<String, Object> warehouseCodeParam = new HashMap<String, Object>();
+		warehouseCodeParam.put("warehouseCode", warehouseCode);
+		warehouseCodeParam.put("firstDate", firstDate);
+		warehouseCodeParam.put("secondDate", secondDate);
+		warehouseCodeParam.put("shoppingmallUserId", shoppingmallUserId);
 		if(shoppingmallUserId !=null) {
 			
 			product.setShoppingmallUserId(shoppingmallUserId);
 			List<Warehouse> warehouseList = warehouseService.getWarehouseList();
-			List<Product> warehouseProductAmount = productService.getProductAmountPerWarehouse(product);
+			List<Product> warehouseProductAmount = productService.getProductAmountPerWarehouse(warehouseCodeParam);
 			model.addAttribute("warehouseList", warehouseList);
 
 			model.addAttribute("title", "창고별물량");
@@ -81,16 +89,29 @@ public class ProductController {
 		return result;
 	}
 	
-	/*
-	 * //상품명 중복검사
-	 * 
-	 * @PostMapping("/CheckProductName")
-	 * 
-	 * @ResponseBody public boolean CheckProductName(@RequestParam(name =
-	 * "productName", required = false) String productName) { boolean
-	 * productNameCheck = true; log.info("CheckProductName productName ::::{}",
-	 * productName); //ㅔ개옃 중복일 경우 false }
-	 */
+	
+	//상품명 중복검사  
+	@PostMapping("/CheckProductName")
+	@ResponseBody
+	public boolean CheckProductName(HttpSession session,
+									RedirectAttributes reAttr,
+									HttpServletResponse response,
+									@RequestParam(name = "productName", required = false)String productName) {
+		String shoppingmallUserId = (String) session.getAttribute("SID");
+
+		boolean productNameCheck = true;
+		log.info("checkProductName		productNameCheck:::{}", productName);
+		//productNameCheck 중복된 상품영이 있는 경우 false
+		if(shoppingmallUserId !=null) {
+			Product product = productService.checkProductName(productName, shoppingmallUserId);
+			
+			if(product !=null) {
+				productNameCheck=false;
+			}
+		}
+		return productNameCheck;
+	}
+	 
 	
 	
 	
@@ -124,7 +145,8 @@ public class ProductController {
 	@GetMapping("/productList")
 	public String productList(Model model
 								,@RequestParam(name="searchKey", required = false) String searchKey
-								,@RequestParam(name="searchValue", required = false) String searchValue) {
+								,@RequestParam(name="searchValue", required = false) String searchValue
+								,@RequestParam(name="firstDate", required = false) String firstDate , @RequestParam(name="secondDate", required = false) String secondDate) {
 
 		log.info("========================================");
 		log.info("화면에서 입력받은 값(회원목록) searchKey: {}", searchKey);
@@ -134,10 +156,12 @@ public class ProductController {
 
 		
 		//map을 활용해서 검색 키워드 정리
-		Map<String, Object> paramMap = new HashMap<String, Object>();
-		paramMap.put("searchKey", searchKey);
-		paramMap.put("searchValue", searchValue);
-		List<Product> productList = productService.getProductList(paramMap);
+		Map<String, Object> searchProductParamMap = new HashMap<String, Object>();
+		searchProductParamMap.put("searchKey", searchKey);
+		searchProductParamMap.put("searchValue", searchValue);
+		searchProductParamMap.put("firstDate", firstDate);
+		searchProductParamMap.put("secondDate", secondDate);
+		List<Product> productList = productService.getProductList(searchProductParamMap);
 		//대분류가져오기
 		List<Item> BigCategory = productService.getItemBigCategoryInfo();
 

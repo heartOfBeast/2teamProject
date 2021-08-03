@@ -80,7 +80,7 @@ public class StockService {
 		List<StockCheck> stock = stockCheckMapper.getStockInfo();
 		return stock;
 	}
-	//재고 실사 등록을 위한 물품최종위치 조회
+	//재고실사등록을 위해 재고코드를 입력시 최종위치, 현재 재고수량 자동생성 
 	public List<StockCheck> getSectorFinalCode(String stockCode) {
 		List<StockCheck> getSectorFinalCode = stockCheckMapper.getSectorFinalCode(stockCode);
 		return getSectorFinalCode;

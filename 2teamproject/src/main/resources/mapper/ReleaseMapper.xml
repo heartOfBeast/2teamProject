@@ -41,6 +41,43 @@
 		</association>
 	</resultMap>
 	
+	<resultMap type="CarManagement" id="getCarManagementForInvoice">
+		<result property="driveManageCode" 	column="drive_manage_code"/>
+		<result property="driveUsingDate" 	column="drive_using_date"/>
+		<result property="deliveryMemberId" 	column="delivery_member_id"/>
+		<association property="release" javaType="Release">
+			<id property="releaseOrderCode" column="release_order_code"/>
+			<result property="releaseOrderCode" 		column="release_order_code"/>
+			<result property="releaseOrderQuantity" 	column="release_order_quantity"/>
+			<result property="recipientName" 			column="release_recipient_name"/>
+			<result property="recipientAddress" 		column="release_recipient_address"/>
+			<result property="recipientPhone" 			column="release_recipient_phone"/>
+			<result property="shoppingmallUserId" 		column="shoppingmall_user_id"/>
+		</association>
+		<association property="product" javaType="Product">
+			<id property="productCode" 		column="product_code"/>
+			<result property="productName" 	column="product_name"/>
+		</association>
+	</resultMap>
+	
+	<resultMap type="Release" id="addReleaseInfoResultMap">
+		<result property="releaseOrderCode"  		column="release_order_code"/>
+		<result property="warehouseCode"  			column="warehouse_code"/>
+		<result property="releaseOrderQuantity"  	column="release_order_quantity"/>
+		<result property="releasesFinalSector"  	column="sector_column_final_code"/>
+		<result property="warehouseName" 			column="warehouse_name"/>
+		<result property="productCode" 				column="product_code"/>
+		<result property="releaseCode" 				column="release_code"/>
+		<association property="product" javaType="Product">
+			<id property="productCode" 				column="product_code"/>
+			<result property="productName" 			column="product_name"/>
+		</association>
+		<association property="carManagement" javaType="CarManagement">
+			<id property="releaseOrderCode" 		column="release_order_code"/>
+			<result property="driveUsingDate" 		column="drive_using_date"/>
+		</association>
+	</resultMap>
+	
 	<resultMap type="ReleaseInfo" id="ReleaseInfoResultMap">
 		<result property="realReleaseCode" 			column="release_real_code"/>
 		<result property="releaseOrderCode" 		column="release_order_code"/>
@@ -85,8 +122,8 @@
 		</association>
 	</resultMap>
 
-
-	<select id="gerReleaseOrder" resultType="Release" fetchSize="1000" resultMap="ReleaseResultMap">
+	<!-- 출고지시서 조회 -->
+	<select id="getReleaseOrder" resultType="Release" fetchSize="1000" resultMap="ReleaseResultMap">
 		SELECT 
 			r.release_order_code
 			, r.release_code
@@ -130,9 +167,15 @@
 			LEFT JOIN 
 			tb_release AS ra
 			on
-			r.release_code = ra.release_request_code;
+			r.release_code = ra.release_request_code
+		<trim prefix="WHERE" prefixOverrides="OR ">
+			<if test="firstDate != null and firstDate != ''.toString()">
+				r.release_order_reg_date BETWEEN #{firstDate} AND #{secondDate}
+			</if>
+		</trim>	
 	</select>
 	
+	<!-- 배송기사조회 -->
 	<select id="getDeliveryInfo" resultType="Delivery" fetchSize="1000">
 		SELECT 
 			delivery_member_id AS deliveryMemberId
@@ -148,6 +191,18 @@
 			tb_delivery
 	</select>
 	
+	<!-- 배차등록화면 -->
+	<select id="getOrderInfo" resultType="Release">
+		SELECT 
+			release_order_code AS releaseOrderCode
+			, warehouse_code AS warehouseCode
+		FROM 
+			tb_release_order
+		WHERE 	
+			release_order_code = #{releaseOrderCode};
+	</select>
+	
+	<!-- 배차등록 -->
 	<insert id="addDriveManagement" parameterType="CarManagement">
 		INSERT INTO tb_car_management
 			(drive_manage_code
@@ -171,6 +226,21 @@
 			, #{wareAdminId});
 	</insert>
 	
+	<!-- 배차수정화면 -->	
+	<select id="getDriveManagement" resultType="CarManagement">
+		SELECT 
+			drive_manage_code AS driveManageCode
+			, release_order_code AS releaseOrderCode
+			, delivery_member_id AS deliveryMemberId
+			, release_order_car AS releaseOrderCar
+			, drive_using_date AS driveUsingDate
+		FROM 
+			tb_car_management
+		WHERE 
+			drive_manage_code =#{driveManageCode};		
+	</select>
+	
+	<!-- 배차수정 -->
 	<update id="modifyDriveManagement" parameterType="CarManagement">
 		UPDATE 
 			tb_car_management AS c
@@ -188,7 +258,8 @@
 		WHERE 
 			drive_manage_code = #{driveManageCode};	
 	</update>
-
+	
+	<!-- 배차수정(미출고) -->
 	<update id="modifyDriveManagementNotRelease" parameterType="CarManagement">
 		UPDATE tb_car_management 		
 		SET
@@ -201,20 +272,34 @@
 			drive_manage_code = #{driveManageCode};	
 	</update>
 	
-	<!-- <select id="getDriveManagement" resultType="CarManagement" fetchSize="1000">
+	<!-- 운송장등록화면 -->
+	<select id="addInvoiceInfo" resultType="CarManagement" resultMap="getCarManagementForInvoice">
 		SELECT 
-			drive_manage_code AS dirveManageCode
-			, release_order_code AS releaseOrderCode
-			, delivery_member_id AS deliveryMemberId
-			, release_order_car AS releaseOrderCar
-			, drive_application_reason AS dispatchReason
-			, drive_using_date AS driveUsingDate
-			, drive_reg_date AS driveRegDate
-			, ware_admin_id AS wareAdminId
+			r.release_order_quantity 
+			, r.release_order_code
+			, r.release_recipient_name 
+			, r.release_recipient_address 
+			, r.release_recipient_phone 
+			, r.shoppingmall_user_id 
+			, p.product_name 
+			, c.drive_manage_code
+			, c.delivery_member_id 
+			, c.drive_using_date 
 		FROM 
-			tb_car_management;		
-	</select> -->
+			tb_car_management AS c
+			INNER JOIN 
+			tb_release_order AS r
+			ON
+			r.release_order_code = c.release_order_code 
+			INNER JOIN 
+			tb_product AS p
+			ON 
+			r.product_code = p.product_code 	
+		WHERE 
+			c.drive_manage_code = #{driveManageCode};
+	</select>
 	
+	<!-- 운송장등록 -->
 	<insert id="addInvoice" parameterType="Invoice">
 		INSERT INTO tb_invoice
 			(invoice_code
@@ -240,6 +325,20 @@
 			, NOW());
 	</insert>
 	
+	<!-- 운송장수정화면 -->
+	<select id="getInvoiceInfo" resultType="Invoice">
+		SELECT 
+			invoice_code AS invoiceCode
+			, invoice_recipient_name AS invoiceName
+			, invoice_recipient_address AS invoiceAddress
+			, invoice_recipient_phone AS invoicePhone
+		FROM 
+			tb_invoice	
+		WHERE 
+			invoice_code = #{invoiceCode};
+	</select>
+	
+	<!-- 운송장수정 -->
 	<update id="modifyInvoiceInfo" parameterType="Invoice">
 		UPDATE tb_invoice
 		SET
@@ -252,6 +351,41 @@
 			invoice_code = #{invoiceCode};
 	</update>
 	
+	<!-- 출고승인화면 -->
+	<select id="addReleaseInfo" resultMap="addReleaseInfoResultMap" resultType="Release">
+		SELECT 
+			r.release_order_code
+			, r.warehouse_code
+			, r.release_order_quantity
+			, r.product_code
+			, r.release_code
+			, w.warehouse_name
+			, rr.sector_column_final_code
+			, p.product_name
+			, c.drive_using_date
+		FROM 
+			tb_release_order AS r
+			INNER JOIN 
+			tb_warehouse AS w
+			ON 
+			r.warehouse_code = w.warehouse_code
+			INNER JOIN
+			tb_release AS rr
+			ON 
+			r.release_code = rr.release_request_code
+			INNER JOIN 
+			tb_product AS p
+			ON
+			r.product_code = p.product_code
+			INNER JOIN 
+			tb_car_management AS c
+			ON
+			r.release_order_code = c.release_order_code
+		WHERE 
+			r.release_order_code = #{releaseOrderCode}
+	</select>
+	
+	<!-- 출고승인 -->
 	<insert id="addRelease" parameterType="ReleaseInfo">
 		INSERT INTO tb_release_info
 			(release_real_code
@@ -277,6 +411,7 @@
 			, #{releaseRequestCode});
 	</insert>
 	
+	<!-- 출고승인시 재고수량조정 -->
 	<update id="releaseStock" parameterType="ReleaseInfo">
 		UPDATE tb_stock_status
 		SET
@@ -288,6 +423,7 @@
 			product_code = #{productCode} AND warehouse_code = #{warehouseCode} AND sector_column_final_code = #{releasesFinalSector};
 	</update>
 	
+	<!-- 출고리스트조회 -->
 	<select id="getReleaseList" resultType="ReleaseInfo" fetchSize="1000" resultMap="ReleaseInfoResultMap">
 		SELECT 
 			r.release_real_code
@@ -338,10 +474,15 @@
 			LEFT JOIN 
 			tb_release_order AS rr
 			on
-			r.release_order_code = rr.release_order_code;
+			r.release_order_code = rr.release_order_code
+		<trim prefix="WHERE" prefixOverrides="OR ">
+			<if test="firstDate != null and firstDate != ''.toString()">
+				r.release_real_date BETWEEN #{firstDate} AND #{secondDate}
+			</if>
+		</trim>		
 	</select>
 	
-	<!-- 운송장 조히 -->
+	<!-- 운송장 조회 -->
 	<select id="wayBillSearch" resultType="Invoice">
 		SELECT 
 			  i.invoice_code					AS invoiceCode
@@ -382,4 +523,51 @@
 			WHERE
 				invoice_code = #{invoiceCode}				
 	</select>
+	
+	<!-- 배차목록 -->
+	<select id="carManagementList" resultType="CarManagement">
+		SELECT 
+			c.drive_manage_code AS driveManageCode
+			, c.release_order_code AS releaseOrderCode
+			, c.delivery_member_id AS deliveryMemberId
+			, c.release_order_car AS releaseOrderCar
+			, c.drive_application_reason AS dispatchReason
+			, c.drive_using_date AS driveUsingDate
+			, c.drive_reg_date AS driveRegDate
+			, c.drive_update_date AS driveUpdateDate
+			, c.ware_admin_id AS wareAdminId
+			, r.release_real_code AS realReleaseCode
+			, d.delivery_member_name AS deliveryMemberName
+		FROM 
+			tb_car_management AS c
+			LEFT JOIN 
+			tb_release_info AS r
+			ON
+			c.release_order_code = r.release_order_code
+			INNER JOIN 
+			tb_delivery AS d
+			ON
+			c.delivery_member_id = d.delivery_member_id
+		WHERE 
+			r.release_real_code IS NULL
+		<trim prefix="AND" prefixOverrides="OR ">
+			<if test="firstDate != null and firstDate != ''.toString()">
+				c.drive_reg_date BETWEEN #{firstDate} AND #{secondDate}
+			</if>
+		</trim>		
+	</select>
+	
+	<!-- 배차취소 -->
+	<delete id="deleteInvoice" parameterType="String">
+		DELETE FROM 
+			tb_invoice 
+		WHERE 
+			release_order_code = #{releaseOrderCode};
+	</delete>
+	<delete id="deleteCarmanagement" parameterType="String">
+		DELETE FROM 
+			tb_car_management
+		WHERE 
+			release_order_code = #{releaseOrderCode};
+	</delete>
 </mapper>

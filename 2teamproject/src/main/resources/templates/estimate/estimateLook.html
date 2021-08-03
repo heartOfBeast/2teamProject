@@ -46,7 +46,8 @@
 						</div>
 						<div class="form-group">
 								<label for="companyEmail">이메일 주소</label>
-								<input type="email" class="form-control" id="companyEmail" name="companyEmail" value="coupang@coupang.com" placeholder="이메일 주소를 입력해주세요."/>
+								<input type="email" class="form-control" id="companyEmail" name="companyEmail" th:if="${session.SLEVEL == '게스트'}" value="kimdami@kimdami.com" placeholder="이메일 주소를 입력해주세요."/>
+								<input type="email" class="form-control" id="companyEmail" name="companyEmail" th:if="${session.SLEVEL == '사업자'}" value="coupang@coupang.com" placeholder="이메일 주소를 입력해주세요."/>
 						</div>
 						<div class="text-center">
 							<button type="button" id="submitDone" class="btn btn-primary">조회하기</button>

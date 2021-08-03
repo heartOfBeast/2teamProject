@@ -46,6 +46,24 @@
 			<result property="memberId" 				column="member_id"/>
 		</association>
 	</resultMap>
+	
+	<resultMap type="MemberLevel" id="memberLevel">
+			<result property="levelCode" 				column="level_code"/>
+			<result property="levelName" 				column="level_name"/>
+			<result property="levelRegDate" 			column="level_reg_date"/>
+			<result property="levelUseState" 			column="level_use_status"/>
+			<result property="memberId" 				column="member_id"/>
+	</resultMap>
+	
+	
+	<select id="getMemberLevelCode" resultMap="memberLevel">
+	SELECT 
+		level_code, 
+		level_name
+	FROM 
+		tb_member_level;
+	</select>	
+	
 		
 	<!-- 회원 전체 조회 -->	
 	<select id="getMemberList" resultMap="memberResultMap">
@@ -53,6 +71,7 @@
 			m.member_id
 			,m.member_name
 			,l.level_name
+			,l.level_code
 			,m.member_address
 			,m.member_email
 			,m.member_phone
@@ -64,7 +83,21 @@
 			INNER join
 			tb_member_level AS l
 			on
-			m.level_code=l.level_code;
+			m.level_code=l.level_code
+		<choose>
+			<when test="levelCode != null and levelCode != ''.toString() and firstDate == ''.toString()">
+				WHERE l.level_code LIKE CONCAT('%', #{levelCode} ,'%')
+			</when>
+			<when test="firstDate != null and firstDate != ''.toString() and levelCode == ''.toString()">
+				WHERE m.member_reg_date BETWEEN #{firstDate} AND #{secondDate}
+			</when>
+			<when test="levelCode != null and levelCode != ''.toString() and firstDate != null and firstDate != ''.toString()">
+				WHERE l.level_code LIKE CONCAT('%', #{levelCode} ,'%') AND m.member_reg_date BETWEEN #{firstDate} AND #{secondDate}
+			</when>
+			<otherwise>
+				;
+			</otherwise>
+		</choose>
 	</select>
 	
 	<!-- 멤버로그인 // 아이디값 받아오기-->
@@ -130,7 +163,9 @@
 	
 	<select id="getShopAjaxId" parameterType="String" resultType="Shoppingmall">
 	SELECT 
-		shoppingmall_user_id AS shoppingmallId
+		shoppingmall_user_id AS shoppingmallId,
+		shoppingmall_user_email AS shoppingmallEmail,
+		shoppingmall_user_pw AS shoppingmallPw
 	FROM 
 		tb_shoppingmall_user
 	WHERE
@@ -140,7 +175,9 @@
 	
 	<select id="getAdminAjaxId" parameterType="String" resultMap="memberResultMap">
 	SELECT 
-		member_id
+		member_id,
+		member_Email,
+		member_pw
 	FROM 
 		tb_member
 	WHERE 
@@ -175,6 +212,15 @@
 		WHERE
 		 	member_id=#{memberId};
 		 </trim>
+</update>
+
+<update id="adminApprovalStatusUpdate" parameterType="String">
+	UPDATE 
+		tb_adminApproval
+	SET
+		adminApproval_account_status='O'
+	WHERE 
+		adminApproval_id=#{adminApprovalId};
 </update>
 
 <update id="updateShopMember" parameterType="Shoppingmall">
@@ -298,6 +344,7 @@ UPDATE tb_shoppingmall_user
 		, adminApproval_address
 		, adminApproval_email
 		, adminApproval_phone
+		,adminApproval_account_status
 		, adminApproval_reg_date
 		) VALUES (
 			#{adminApprovalId}
@@ -307,6 +354,7 @@ UPDATE tb_shoppingmall_user
 		, 	#{adminApprovalAddress}
 		, 	#{adminApprovalEmail}
 		, 	#{adminApprovalPhone}
+		,   'X'
 		, 	CURDATE());
 		
 	</insert>
@@ -382,30 +430,30 @@ UPDATE tb_shoppingmall_user
 		shU.shoppingmall_level_code = shL.level_code;
 	</select>
 		
-	<select id="getMemberListDetail" resultMap="memberResultMap" parameterType="String">
-	SELECT 
-		m.member_id
-		, m.member_pw
-		, m.member_name
-		, l.level_name
-		, m.member_address
-		, m.member_email
-		, m.member_phone
-		, m.member_reg_date
-		, m.member_account_status
-		, m.member_incentive
-	FROM 
-		tb_member AS m
-		INNER join
-		tb_member_level AS l
-		on
-		m.level_code = l.level_code
-	WHERE
-		<if	test="level_name !=null and level_name != ''" >
-			l.level_name =	#{levelName};
-		</if>
+<!-- 	<select id="getMemberListDetail" resultMap="memberResultMap" parameterType="String"> -->
+<!-- 	SELECT  -->
+<!-- 		m.member_id -->
+<!-- 		, m.member_pw -->
+<!-- 		, m.member_name -->
+<!-- 		, l.level_name -->
+<!-- 		, m.member_address -->
+<!-- 		, m.member_email -->
+<!-- 		, m.member_phone -->
+<!-- 		, m.member_reg_date -->
+<!-- 		, m.member_account_status -->
+<!-- 		, m.member_incentive -->
+<!-- 	FROM  -->
+<!-- 		tb_member AS m -->
+<!-- 		INNER join -->
+<!-- 		tb_member_level AS l -->
+<!-- 		on -->
+<!-- 		m.level_code = l.level_code -->
+<!-- 	WHERE -->
+<!-- 		<if	test="level_name !=null and level_name != ''" > -->
+<!-- 			l.level_name =	#{levelName}; -->
+<!-- 		</if> -->
 		
-	</select>
+<!-- 	</select> -->
 	
 	<delete id="shopMemberDelete" parameterType="String">
 	DELETE 

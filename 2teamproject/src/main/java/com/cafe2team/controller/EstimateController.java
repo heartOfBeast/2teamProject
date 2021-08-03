@@ -100,9 +100,9 @@ public class EstimateController {
 			String SID = (String)session.getAttribute("SID");
 			String SLEVEL = (String)session.getAttribute("SLEVEL");
 			
-			if(SID == null) {
+			if(SLEVEL.equals("게스트")) {
 				estimate = estimateservice.getEstimateAnotherInfoCheck(companyPhone, companyEmail); 
-				System.out.println("비회원 estimateCheck ->>>" + estimateCheck);
+				System.out.println("게스트 estimateCheck ->>>" + estimateCheck);
 				
 			}else if(SID != null || SLEVEL.equals("사업자")) {
 				estimate = estimateservice.getEstimateInfoCheck(companyPhone, companyEmail); 
@@ -130,7 +130,7 @@ public class EstimateController {
 				model.addAttribute("estimate", estimate);
 				log.info("estimate", estimate);
 				System.out.println(estimate);
-				if(SID == null) return "estimate/estimateAnotherLookList";
+				if(SLEVEL.equals("게스트")) return "estimate/estimateAnotherLookList";
 				return "estimate/estimateLookList";	
 			}
 					

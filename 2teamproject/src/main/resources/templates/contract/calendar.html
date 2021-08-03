@@ -7,8 +7,8 @@
 <th:block layout:fragment="pageTitle">
 	<div class="page-header">
 		<ol class="breadcrumb">
-			<li class="breadcrumb-item">contract</li>
-			<li class="breadcrumb-item active">schedule</li>
+			<li class="breadcrumb-item">거래처</li>
+			<li class="breadcrumb-item active">계약일정관리</li>
 		</ol>
 
 		<ul class="app-actions">
@@ -40,19 +40,10 @@
 	<link href='fullcalendar/lib/main.css' rel='stylesheet' />
 	<link href='fullcalendar/lib/main.min.css' rel='stylesheet' />
 	<script src='fullcalendar/lib/main.min.js'></script>
-	<script src='fullcalendar/lib/min.js'></script>
-	<script src="js/jquery.min.js"></script>
+	<script src='fullcalendar/lib/main.js'></script>
 	<script src="fullcalendar/lib/locales/ko.js"></script>
 	<!-- 기본 캘린더 세팅 -->
 	<script type="text/javascript">
-		/* document.addEventListener('DOMContentLoaded', function() {
-			var calendarEl = document.getElementById('calendar');
-			var calendar = new FullCalendar.Calendar(calendarEl, {
-				initialView : 'dayGridMonth'
-			});
-			calendar.render();
-		}); */
-		
 		$(function() {
 
 			var request = $.ajax({

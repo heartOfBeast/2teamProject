@@ -50,6 +50,7 @@
 			ss.stock_amount						,
 			ss.stock_code						,
 			w.warehouse_name					,
+			w.warehouse_code					,
 			p.product_freeze_cool_condition		,
 			ss.warehousing_real_date			,
 			w.warehouse_addr					,
@@ -68,8 +69,21 @@
 			tb_warehouse AS w
 			ON
 			wscf.warehouse_code = w.warehouse_code
-		WHERE
-			p.shoppingmall_user_id = #{shoppingmallUserId}
+		<choose>
+			<when test="warehouseCode != null and warehouseCode != ''.toString() and firstDate == ''.toString()">
+				WHERE w.warehouse_code LIKE CONCAT('%', #{warehouseCode} ,'%')
+			</when>
+			<when test="firstDate != null and firstDate != ''.toString() and warehouseCode == ''.toString()">
+				WHERE ss.warehousing_real_date BETWEEN #{firstDate} AND #{secondDate}
+			</when>
+			<when test="warehouseCode != null and warehouseCode != ''.toString() and firstDate != null and firstDate != ''.toString()">
+				WHERE w.warehouse_code LIKE CONCAT('%', #{warehouseCode} ,'%') AND ss.warehousing_real_date BETWEEN #{firstDate} AND #{secondDate}
+			</when>
+			<otherwise>
+				;
+			</otherwise>
+		</choose>	
+		
 			
 	</select>
 	
@@ -77,7 +91,7 @@
 	<!--상품 중복검사  -->
 	<select id="getProductNameForDupleCheck" parameterType="String" resultMap="productResultMap">
 		SELECT
-			COUNT(*)
+			p.product_name
 		FROM
 			tb_product AS p
 		WHERE
@@ -233,7 +247,10 @@
 			tb_product.product_category = tb_item.item_code
 		<trim prefix="WHERE" prefixOverrides="AND |OR ">
 			<if test="searchKey != null and searchKey != ''.toString()">
-				${searchKey} LIKE CONCAT('%', #{searchValue} ,'%');
+				${searchKey} LIKE CONCAT('%', #{searchValue} ,'%')
+			</if>
+			<if test="firstDate !=null and firstDate !=''.toString()">
+			AND tb_product.product_reg_date BETWEEN #{firstDate} AND #{secondDate}
 			</if>
 		</trim>
 

@@ -26,7 +26,12 @@
 		INNER JOIN		
 			tb_member_level												AS shoppingmallLevel
 		ON
-			shoppingmallUser.shoppingmall_level_code = shoppingmallLevel.level_code;
+			shoppingmallUser.shoppingmall_level_code = shoppingmallLevel.level_code
+		<trim prefix="WHERE" prefixOverrides="AND |OR">
+			<if test="shoppingmallStatus != null">
+				shoppingmallUser.shoppingmall_user_status LIKE CONCAT('%', #{shoppingmallStatus}, '%');
+			</if>
+		</trim>
 	</select>
 	
 	<!-- 거래처 회원 등록 -->

@@ -10,6 +10,7 @@ import com.cafe2team.dao.WarehousingMapper;
 import com.cafe2team.domain.Contract;
 import com.cafe2team.domain.Product;
 import com.cafe2team.domain.Request;
+import com.cafe2team.domain.SafetyCheck;
 import com.cafe2team.domain.WarehousingOrder;
 
 @Service
@@ -51,6 +52,13 @@ public class WarehousingService {
 	public int cancleReuqestWareHouse(List<String> paramList) {
 		
 		return warehousingMapper.cancleReuqestWareHouse(paramList);
+	}
+	
+	public List<Request> receivingRequestWaiting(Map<String, Object> warehouseCodeParam){
+		
+		List<Request> requestCheck = warehousingMapper.receivingRequestWaiting(warehouseCodeParam);
+		
+		return requestCheck;
 	}
 	
 	

@@ -26,11 +26,9 @@
 					<div class="table-container">
 						<div class="t-header">회원 조회</div>
 						<div class="t-header" id="Period">권한별 회원조회</div>
-						<select id="authority" name="levelName">
-							<option class="memberAuthority" th:each="l : ${memberList}"
-								th:value="${l.memberLevel.levelName}"></option>
-						</select>
-
+							
+							<div th:include="member/memberSearch :: searchFragment"></div>
+						
 						<div class="table-responsive">
 							<table id="copy-print-csv" class="table custom-table">
 								<thead>
@@ -73,12 +71,11 @@
 
 									<tr th:unless="${#lists.size(memberList) > 0}"
 										style="text-align: center;">
-										<td colspan="9" th:text="${'검색한 결과가 없습니다.'}"></td>
+										<td colspan="11" th:text="${'검색한 결과가 없습니다.'}"></td>
 									</tr>
 								</tbody>
 							</table>
-							<button type="button" class="btn btn-primary float-right"
-								onclick="deleteDate();">삭제</button>
+							<button type="button" class="btn btn-primary float-right" onclick="deleteDate();">삭제</button>
 
 						</div>
 					</div>
@@ -108,7 +105,7 @@
 			})
 		})
 		
-		$(function(){
+		
 			function deleteDate(){
 				var dataArr = new Array();
 				var list = $('.checkOne');
@@ -143,91 +140,88 @@
 					} 
 				}
 			}
-		});
 		
-		
-		
-	/*********************************************중복제거 스크립트*****************************************************/
-	//<![CDATA[
-	var memberList 	= 	[[${memberList}]];
-	//]]>
 	
-	var levelList 	= 	[];
-	
-	for(var i=0; i < memberList.length; i++){
-		levelList.push(memberList[i].memberLevel.levelName);
-	}
-	
-	var memberLevelList = [...new Set(levelList)];
-	
-	
-	var htmlLevel = "";
-	
-	
-	
-	htmlLevel += '<option disabled="disabled" selected="selected"> :: 권한 선택 :: </option>';
-	
-	for(var i = 0; i < memberLevelList.length; i++){
-		htmlLevel += '<option>';
-		htmlLevel += memberLevelList[i];
-		htmlLevel += '</option>';
-	}
-	
-	
- 	$('#authority').html(htmlLevel);
- 	
-	/**************************************************************************************************/
-	
-	
-	var selectLevelValue = "";
-	
-	$('#authority').change(function(){
-		selectLevelValue = $('#authority').val();
-		getData();
-		
+	/********날짜선택********/
+	$(function() {
+		var start = moment().subtract(29, 'days');
+		var end = moment();
+		function cb2(start, end) {
+			$('#firstDate').html(start.format('YYYY-MM-DD'));
+			$('#firstDate').val($('#firstDate').text());
+			$('#secondDate').html(end.format('YYYY-MM-DD'));
+			$('#secondDate').val($('#secondDate').text());
+		}
+		$('#reportrangeCustom').daterangepicker({
+			
+			opens: 'left',
+			startDate: start,
+			endDate: end,
+			ranges: {
+				'Today': [moment(), moment()],
+				'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+				'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+				'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+				'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+			}
+		}, cb2);
 	});
 	
-	
-	function getData(){
-		var request = $.ajax({
-			  url: "/memberListDetail",
-			  method: "POST",
-			  data: { selectLevelValue : selectLevelValue },
-			  dataType: "json",
-			});
-
-			request.done(function( data ) {
-				console.log(data);
-				
-				var html = '';
-				$.each(data, function(index, value){
-					html+= '<tr>';
-					html+= '<td><input type="checkbox" class="checkOne" style="position: relative; top: 1.5px;" value="'+ value.memberId +'"></td>';
-					html+= '<td class= "dataId">' + value.memberId + '</td>';
-					html+= '<td class= "dataName">' + value.memberName + '</td>';
-					html+= '<td class= "dataLevel">' + value.memberLevel.levelName + '</td>';
-					html+= '<td class= "dataAddress">' + value.memberAddress + '</td>';
-					html+= '<td class= "dataEmail">' + value.memberEmail + '</td>';
-					html+= '<td class= "dataPhone">' + value.memberPhone + '</td>';
-					html+= '<td class= "dataRegDate">' + value.memberRegDate + '</td>';
-					html+= '<td class= "dataAccountStatus">' + value.memberAccountStatus + '</td>';
-					html+= '<td class= "dataIncentive">' + value.memberIncentive + '</td>';
-					html+= '<td><a class="btn btn-primary float-right" type="button" id="modifyBtn" style="color: white;" href="/adminUpdate?memberId='+ value.memberId + '">수정</a></td>'
-					html+= '</tr>';
-				});
-				
-				
-				$('#tableList').html(html);
-					
-				
-			});
-				
-			request.fail(function( jqXHR, textStatus ) {
-				alert(textStatus);
-			});
+	/********시작일********/
+	function firstDateKey(){
+		if(event.keyCode != 8){
+			if($('#firstDate').val().replace(/[0-9 \-]/g, "").length == 0){
+				var ymd = '';
+				var firstDateValue = $('#firstDate').val().replace(/[^0-9]/g,'');
+				var firstDateLength = firstDateValue.length;
+				if(firstDateLength < 4){
+					return 	;
+				}else if(firstDateLength < 6){
+					ymd += firstDateValue.substr(0, 4);
+					ymd += '-';
+					ymd += firstDateValue.substr(4);
+				}else{
+					ymd += firstDateValue.substr(0, 4);
+					ymd += '-';
+					ymd += firstDateValue.substr(4, 2);
+					ymd += '-';
+					ymd += firstDateValue.substr(6);
+				}
+				$('#firstDate').val(ymd);
+			}else{
+				alert('숫자 이외의 값은 입력하실 수 없습니다.');
+				$('#firstDate').val('');
+			}
 		}
+	};
 	
-	
+	/********종료일********/
+	function secondDateKey(){
+		if(event.keyCode != 8){
+			if($('#secondDate').val().replace(/[0-9 \-]/g, "").length == 0){
+				var ymd = '';
+				var secondDateValue = $('#secondDate').val().replace(/[^0-9]/g,'');
+				var secondDateLength = secondDateValue.length;
+				if(secondDateLength < 4){
+					return 	;
+				}else if(secondDateLength < 6){
+					ymd += secondDateValue.substr(0, 4);
+					ymd += '-';
+					ymd += secondDateValue.substr(4);
+				}else{
+					ymd += secondDateValue.substr(0, 4);
+					ymd += '-';
+					ymd += secondDateValue.substr(4, 2);
+					ymd += '-';
+					ymd += secondDateValue.substr(6);
+				}
+				$('#secondDate').val(ymd);
+			}else{
+				alert('숫자 이외의 값은 입력하실 수 없습니다.');
+				$('#secondDate').val('');
+			}
+		}
+	};
 	
 	
 	</script>

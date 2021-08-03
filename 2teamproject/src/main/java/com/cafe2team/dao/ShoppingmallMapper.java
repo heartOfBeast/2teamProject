@@ -14,7 +14,7 @@ public interface ShoppingmallMapper {
 	
 	
 	// 쇼핑몰 회원조회
-	public List<Shoppingmall> shoppingmallList();
+	public List<Shoppingmall> shoppingmallList(Map<String, Object> paramMap);
 	
 	// 쇼핑몰 사업자 등록
 	public int shoppingmallAdd(Shoppingmall shoppingmall);

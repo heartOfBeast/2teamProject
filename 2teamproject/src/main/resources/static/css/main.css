@@ -6320,3 +6320,14 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
+#firstDate::placeholder,
+#secondDate::placeholder{
+	color: #225de4;
+}
+
+#headerSpan{
+	color: gray;
+	font-size: 15px;
+	font-weight: 300;
+}

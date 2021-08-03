@@ -15,7 +15,7 @@ html,body {
 <div class="container h-70">
     <div class="row d-flex justify-content-center align-items-center h-70">
       	<div class="container">
-			<form th:action="@{/adminSignUp}" method="post">
+			<form id="adminSubmit" th:action="@{/adminsignup}" method="post">
 				<div class="row justify-content-md-center">
 					<div class="col-xl-5 col-lg-6 col-md-6 col-sm-12">
 						<div class="login-screen">
@@ -23,15 +23,15 @@ html,body {
 							<span>!준</span>
 								<h5>관리자 회원가입</h5>
 								<div class="form-group">
-									<input type="text" class="form-control" name="adminApprovalId" placeholder="아이디 입력" required = "required"/>
+									<input type="text" class="form-control" name="adminApprovalId"  id="adminApprovalId" placeholder="아이디 입력" required = "required"/>
 								</div>
 								<div class="form-group">
 									<button type="button" class="btn btn-outline-primary" id="idCheck">ID중복체크</button>
 								</div>
 								<div class="form-group">
 									<div class="input-group">
-										<input type="password" name="adminApprovalPw" class="form-control" placeholder="비밀번호"  required = "required" id="pwd1"/>
-										<input type="password" class="form-control" id="pwd2" placeholder="비밀번호 확인"/>
+										<input type="password" name="adminApprovalPw" class="form-control" placeholder="비밀번호"  required = "required" id="pwd1" disabled="disabled"/>
+										<input type="password" class="form-control" id="pwd2" placeholder="비밀번호 확인" disabled="disabled"/>
 									</div>
 								</div>
 								
@@ -39,34 +39,34 @@ html,body {
 								<div class = "alert alert-danger" id="alert-danger">비밀번호가 일치하지 않습니다.</div>
 								
 								<div class="form-group">
-									<input type="text" name="adminApprovalName" class="form-control" placeholder="이름"  required = "required"/>
+									<input type="text" name="adminApprovalName" class="form-control" placeholder="이름"  required = "required" disabled="disabled"/>
 								</div>
 								
 								 <div class="input-group flex-nowrap" style="margin-bottom: 12px">
-			                         <select class="form-control form-control-lg" name="adminApprovalLevel" >
+			                         <select class="form-control form-control-lg" name="adminApprovalLevel" disabled="disabled">
 										<option value="2">창고 관리자</option>
 										<option value="5">배송 기사</option>
 									</select>
                       			 </div>	
                       			 
                        			 <div class="form-group">
-									<input type="text" class="form-control" placeholder="지번"  required = "required" id="zip"/>
+									<input type="text" class="form-control" placeholder="지번"  required = "required" id="zip" disabled="disabled"/>
                        			 <div>
-									<input type="text" name="adminApprovalAddress" class="form-control" placeholder="주소"  required = "required" id="addr1"/>
+									<input type="text" name="adminApprovalAddress" class="form-control" placeholder="주소"  required = "required" id="addr1" disabled="disabled"/>
 								</div>
-									<input type="text" name="adminApprovalAddress" class="form-control" placeholder="상세주소"  required = "required" id="addr2"/>
-									<a type="button" class="btn btn-outline-primary" onclick="execDaumPostcode()"> 주소 검색 </a>
+									<input type="text" name="adminApprovalAddress" class="form-control" placeholder="상세주소"  required = "required" id="addr2" disabled="disabled"/>
+									<button type="button" class="btn btn-outline-primary" onclick="execDaumPostcode()" disabled="disabled"> 주소 검색 </button>
 								</div>
 								
                        			 <div class="form-group">
-									<input type="email" name="adminApprovalEmail" class="form-control" placeholder="이메일"  required = "required"/>
+									<input type="email" name="adminApprovalEmail" id="adminApprovalEmail" class="form-control" placeholder="이메일"  required = "required" disabled="disabled"/>
 								</div>
 								<div class="form-group">
-									<input type="text"  name="adminApprovalPhone" class="form-control" placeholder="핸드폰 번호" required = "required"/>
+									<input type="text"  name="adminApprovalPhone" id="adminApprovalPhone" class="form-control" placeholder="핸드폰 번호" required = "required" disabled="disabled"/>
 								</div>
 								
 								<div class="actions mb-4">
-									<button type="submit" class="btn btn-outline-primary" style="margin-top: 10px" id="signUp">회원가입</button>
+									<button type="submit" class="btn btn-outline-primary" style="margin-top: 10px" disabled="disabled" id="adminAdd">회원가입</button>
 								</div>
 								<hr>
 								<div class="m-0">
@@ -102,11 +102,17 @@ html,body {
 					});
 					request.done(function(data) {
 						if(data){
+							console.log(data);
 							Swal.fire({
 								  title: '일치하는 아이디가 없습니다',
 								  text: '회원등록이 가능합니다!',
 								  icon: 'success'
 								});
+							
+							$('#adminSubmit input').prop('disabled', false);
+							$('#adminSubmit select').prop('disabled', false);
+							$('#adminSubmit button').prop('disabled', false);
+							
 						}else{
 							Swal.fire({
 								  title: '일치하는 아이디가 있습니다!',
@@ -182,6 +188,45 @@ html,body {
 	    	});
 	    });
 	    
+		$('#adminAdd').click(function(){
+			var submitFlag = true;				
+			
+			
+			var regexPw = /^[a-zA-Z0-9]{8,20}$/;
+			var regexEmail = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+			var regexid =  /^[A-Za-z]{1}[A-Za-z0-9_-]{3,19}$/;
+			var regexphone = /^\d{2,3}-\d{3,4}-\d{4}$/;
+			
+			
+			if(!regexid.test($('#adminApprovalId').val())){
+				alert('ID 를 영문과 숫자를 조합하세요.');
+				submitFlag = false;
+				console.log(submitFlag);
+				$('#adminApprovalId').val("");
+				return submitFlag;				
+			}else if(!regexPw.test($('#pwd1').val())){
+		        alert("비밀번호는 숫자와 영문자 조합으로 8~20자리를 사용해야 합니다.");
+				submitFlag = false;
+				$('#pwd1').val("");
+				return submitFlag;	
+			}else if(!regexEmail.test($('#adminApprovalEmail').val())){
+				alert('이메일을 다시 입력해주세요.');
+				submitFlag = false;
+				$('#adminApprovalEmail').val("");
+				return submitFlag;	
+			}else if(!regexphone.test($('#adminApprovalPhone').val())){
+				alert('핸드폰 번호를 다시 입력해주세요.');
+				submitFlag = false;
+				$('#adminApprovalPhone').val("");
+				return submitFlag;	
+			}
+			
+			if(submitFlag) {
+				$('#adminAdd').submit();
+			}
+			
+
+		});    
 	    
 	    
 	</script>

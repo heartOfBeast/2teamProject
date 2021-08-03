@@ -33,9 +33,9 @@ public class ShoppingmallService {
 	
 	
 	// 쇼핑몰 회원조회
-	public List<Shoppingmall> shoppingmallList(){
+	public List<Shoppingmall> shoppingmallList(Map<String, Object> paramMap){
 		
-		List<Shoppingmall> shoppingmallList = shoppingmallMapper.shoppingmallList();
+		List<Shoppingmall> shoppingmallList = shoppingmallMapper.shoppingmallList(paramMap);
 		
 		return shoppingmallList;
 	}

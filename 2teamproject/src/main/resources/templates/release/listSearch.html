@@ -5,12 +5,7 @@
 
 		
 	<div class="card-body" th:fragment="searchFragment">
-		<form th:action="@{/safetyCheck}" method="get" id="searchCarKind">
-			<select id="searchKind" name="warehouseCode" class="form-control" style="width: 200px; display: inline;">
-				<option  value="">창고를 선택해주세요.</option>
-				<option  value="">전체 보기</option>
-				<option th:each="w : ${warehouse}" th:value="${w.warehouseCode}" th:text="${w.warehouseName}"></option>
-			</select>
+		<form th:action="@{/realReleaseList}" method="get" id="searchReleaseDate">
 			<div style="display: inline;">
 				<a href="#" id="reportrangeCustom">
 					<input class="btn btn-outline-primary btn-rounded" id="firstDate" th:name="firstDate" placeholder="검색 시작일" onkeyup="firstDateKey();" type="text" maxlength="10" autocomplete="off">

@@ -23,8 +23,8 @@ public class ReleaseService {
 	@Autowired
 	private ReleaseMapper releaseMapper;
 	
-	public List<Release> gerReleaseOrder(){
-		List<Release> release = releaseMapper.gerReleaseOrder();
+	public List<Release> getReleaseOrder(Map<String, Object> releaseParam){
+		List<Release> release = releaseMapper.getReleaseOrder(releaseParam);
 		return release;
 	}
 	
@@ -33,14 +33,17 @@ public class ReleaseService {
 		return delivery;
 	}
 	
+	public List<Release> getOrderInfo(String releaseOrderCode){
+		return releaseMapper.getOrderInfo(releaseOrderCode);
+	}
+	
 	public int addDriveManagement(CarManagement carManagement) {
 		return releaseMapper.addDriveManagement(carManagement);
 	}
 	
-	/*
-	 * public List<CarManagement> getDriveManagement(){ List<CarManagement>
-	 * carManagement = releaseMapper.getDriveManagement(); return carManagement; }
-	 */
+	 public List<CarManagement> getDriveManagement(String driveManageCode){ 
+		 return releaseMapper.getDriveManagement(driveManageCode); 
+	 }
 	
 	public int modifyDriveManagement(CarManagement carManagement) {
 		return releaseMapper.modifyDriveManagement(carManagement);
@@ -50,12 +53,24 @@ public class ReleaseService {
 		return releaseMapper.modifyDriveManagementNotRelease(carManagement);
 	}
 	
+	public List<CarManagement> addInvoiceInfo(String driveManageCode){
+		return releaseMapper.addInvoiceInfo(driveManageCode);
+	}
+	
 	public int addInvoice(Invoice invoice) {
 		return releaseMapper.addInvoice(invoice);
 	}
 	
+	public List<Invoice> getInvoiceInfo(String invoiceCode){
+		return releaseMapper.getInvoiceInfo(invoiceCode);
+	}
+	
 	public int modifyInvoiceInfo(Invoice invoice) {
 		return releaseMapper.modifyInvoiceInfo(invoice);
+	}
+	
+	public List<Release> addReleaseInfo(String releaseOrderCode){
+		return releaseMapper.addReleaseInfo(releaseOrderCode);
 	}
 	
 	public int addRelease(ReleaseInfo releaseInfo) {
@@ -65,8 +80,8 @@ public class ReleaseService {
 		return releaseMapper.releaseStock(releaseInfo);
 	}
 	
-	public List<ReleaseInfo> getReleaseList(){
-		List<ReleaseInfo> releaseInfo = releaseMapper.getReleaseList();
+	public List<ReleaseInfo> getReleaseList(Map<String, Object> listParam){
+		List<ReleaseInfo> releaseInfo = releaseMapper.getReleaseList(listParam);
 		return releaseInfo;
 	}
 	
@@ -74,5 +89,16 @@ public class ReleaseService {
 	public List<Invoice> wayBillSearch(Map<String, Object> paramMap){
 		
 		return releaseMapper.wayBillSearch(paramMap);
+	}
+	
+	public List<CarManagement> carManagementList(Map<String, Object> listParam){
+		List<CarManagement> carManagement = releaseMapper.carManagementList(listParam);
+		return carManagement;
+	}
+	
+	public int deleteCarmanagement(String releaseOrderCode) {
+		int invoiceResult = releaseMapper.deleteInvoice(releaseOrderCode);
+		int carManagementResult = releaseMapper.deleteCarmanagement(releaseOrderCode);
+		return invoiceResult+carManagementResult;
 	}
 }

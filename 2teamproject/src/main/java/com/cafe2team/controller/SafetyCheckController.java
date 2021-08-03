@@ -57,9 +57,6 @@ public class SafetyCheckController {
 		model.addAttribute("title", "안전점검 내역조회");
 		model.addAttribute("safetyCheck", safetyCheck);
 		model.addAttribute("warehouse", warehouse);
-		System.out.println(firstDate);
-		System.out.println(secondDate);
-		System.out.println(warehouseCode);
 		return "safe/safetyCheck";
 	}
 	
@@ -69,7 +66,6 @@ public class SafetyCheckController {
 		List<Warehouse> warehouse = safetyCheckService.getWareHouseInfo();
 		model.addAttribute("title", "안전점검등록");
 		model.addAttribute("warehouse", warehouse);
-		log.info("warehouse: {}", warehouse);
 		return "safe/safetyCheckAdd";
 	}
 	
@@ -86,7 +82,6 @@ public class SafetyCheckController {
 	}
 	
 	//수정화면
-	
 	@GetMapping("/modifySafetyCheck") 
 	@ResponseBody
 	public List<SafetyCheck> modifySafetyCheck(@RequestParam(name = "facilityCode" ,required = false)String facilityCode){

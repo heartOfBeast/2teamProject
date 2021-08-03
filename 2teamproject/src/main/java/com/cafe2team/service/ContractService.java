@@ -40,7 +40,6 @@ public class ContractService {
 		return result;
 	}
 	
-	
 	// 계약 신청 등록
 	
 	public int contractAdd(Contract contract) {

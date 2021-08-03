@@ -21,8 +21,14 @@
 		INNER JOIN 
 			tb_member 										AS Member
 		ON 
-			Price.member_id = Member.member_id;		
+			Price.member_id = Member.member_id
+		<trim prefix="WHERE" prefixOverrides="AND |OR">
+			<if test="wareHouseType != null">
+				Price.unit_price_warehouse_type LIKE CONCAT('%', #{wareHouseType}, '%');
+			</if>
+		</trim>		
 	</select>
+	
 	
 	<!-- 요금안내추가 -->
 	<insert id="priceAdd" parameterType="String">
@@ -51,7 +57,7 @@
 			, #{priceZone}
 			, #{priceDay}
 			, #{pricePrice}
-			, 'id001' <!-- 세션을 통해서 자동으로 들어가게 만들어야된다. -->
+			, 'id001'
 			, NOW());		
 	</insert>
 	
