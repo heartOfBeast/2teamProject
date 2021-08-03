@@ -8,7 +8,10 @@ public class CarManagement {
 	private String dispatchReason;
 	private String driveUsingDate;
 	private String driveRegDate;
+	private String driveUpdateDate;
 	private String wareAdminId;
+	private String deliveryMemberName;
+	private String realReleaseCode;
 	
 	private Release release;
 	
@@ -17,6 +20,24 @@ public class CarManagement {
 	private ReleaseInfo releaseInfo;
 	
 	
+	public String getDeliveryMemberName() {
+		return deliveryMemberName;
+	}
+	public void setDeliveryMemberName(String deliveryMemberName) {
+		this.deliveryMemberName = deliveryMemberName;
+	}
+	public String getRealReleaseCode() {
+		return realReleaseCode;
+	}
+	public void setRealReleaseCode(String realReleaseCode) {
+		this.realReleaseCode = realReleaseCode;
+	}
+	public String getDriveUpdateDate() {
+		return driveUpdateDate;
+	}
+	public void setDriveUpdateDate(String driveUpdateDate) {
+		this.driveUpdateDate = driveUpdateDate;
+	}
 	public Release getRelease() {
 		return release;
 	}
@@ -89,8 +110,8 @@ public class CarManagement {
 		return "CarManagement [driveManageCode=" + driveManageCode + ", releaseOrderCode=" + releaseOrderCode
 				+ ", deliveryMemberId=" + deliveryMemberId + ", releaseOrderCar=" + releaseOrderCar
 				+ ", dispatchReason=" + dispatchReason + ", driveUsingDate=" + driveUsingDate + ", driveRegDate="
-				+ driveRegDate + ", wareAdminId=" + wareAdminId + ", release=" + release + ", product=" + product
-				+ ", releaseInfo=" + releaseInfo + "]";
+				+ driveRegDate + ", driveUpdateDate=" + driveUpdateDate + ", wareAdminId=" + wareAdminId
+				+ ", deliveryMemberName=" + deliveryMemberName + ", realReleaseCode=" + realReleaseCode + ", release="
+				+ release + ", product=" + product + ", releaseInfo=" + releaseInfo + "]";
 	}
-	
 }

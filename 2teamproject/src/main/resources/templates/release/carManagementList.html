@@ -1,0 +1,186 @@
+<!doctype html>
+<html
+	xmlns:th="http://www.thymeleaf.org"
+ 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="@{layout/default}">
+	
+	<th:block layout:fragment="pageTitle">
+		<div class="page-header">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item">출고관리</li>
+				<li class="breadcrumb-item active">출고 지시서</li>
+				<li class="breadcrumb-item active">배차 목록</li>
+			</ol>
+		
+			<ul class="app-actions">
+				<li>
+					<a href="#">
+						<i class="icon-export"></i>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</th:block>
+	
+	<th:block layout:fragment="container">
+		<div class="main-container">
+			<div class="row gutters">
+				<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+					<div class="table-container">
+						<div class="t-header">배차 목록 <span id="headerSpan">※미출고 항목만 표시됩니다.</span></div>
+						<div th:include="release/carManagementSearch :: searchFragment"></div>
+						<div class="table-responsive">
+							<table id="copy-print-csv" class="table custom-table">
+								<thead>
+									<tr>
+									  <th>배차코드</th>
+									  <th style="display: none;">출고지시서코드</th>
+									  <th>배송기사</th>
+									  <th>차량코드</th>
+									  <th>배차사유</th>
+									  <th>차량사용날짜</th>
+									  <th>등록일</th>
+									  <th>수정일</th>
+									  <th>담당자</th>
+									  <th>배차취소</th>
+									</tr>
+								</thead>
+								<tbody >
+									<tr th:each="c : ${carManagement}">
+									  <td th:text="${c.driveManageCode}"></td>
+									  <td style="display: none;" th:text="${c.releaseOrderCode}" id="releaseOrderCodeData"></td>	
+									  <td th:text="|${c.deliveryMemberName}(ID : ${c.deliveryMemberId})|"></td>	
+									  <td th:text="${c.releaseOrderCar}"></td>	
+									  <td th:text="${c.dispatchReason}"></td>	
+									  <td th:text="${c.driveUsingDate}"></td>	
+									  <td th:text="${c.driveRegDate}"></td>	
+									  <td th:text="${c.driveUpdateDate}"></td>	
+									  <td th:text="${c.wareAdminId}"></td>	
+									  <td>
+									  	<a type="button" class="btn btn-primary deleteBtn" style="color: white;">취소</a>
+								  	  </td>
+									</tr>
+								</tbody>
+				    	</table>
+				    	<a class="btn btn-primary float-right" onClick="history.back(-1);" style="color: white;">뒤로가기</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>	
+	</th:block>
+	
+	<th:block layout:fragment="customJs">
+		<script>
+		/********날짜선택********/
+		$(function() {
+			var start = moment().subtract(29, 'days');
+			var end = moment();
+			function cb2(start, end) {
+				$('#firstDate').html(start.format('YYYY-MM-DD'));
+				$('#firstDate').val($('#firstDate').text());
+				$('#secondDate').html(end.format('YYYY-MM-DD'));
+				$('#secondDate').val($('#secondDate').text());
+			}
+			$('#reportrangeCustom').daterangepicker({
+				
+				opens: 'left',
+				startDate: start,
+				endDate: end,
+				ranges: {
+					'Today': [moment(), moment()],
+					'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+					'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+					'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+					'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+				}
+			}, cb2);
+		});
+		
+		/********시작일********/
+		function firstDateKey(){
+			if(event.keyCode != 8){
+				if($('#firstDate').val().replace(/[0-9 \-]/g, "").length == 0){
+					var ymd = '';
+					var firstDateValue = $('#firstDate').val().replace(/[^0-9]/g,'');
+					var firstDateLength = firstDateValue.length;
+					if(firstDateLength < 4){
+						return 	;
+					}else if(firstDateLength < 6){
+						ymd += firstDateValue.substr(0, 4);
+						ymd += '-';
+						ymd += firstDateValue.substr(4);
+					}else{
+						ymd += firstDateValue.substr(0, 4);
+						ymd += '-';
+						ymd += firstDateValue.substr(4, 2);
+						ymd += '-';
+						ymd += firstDateValue.substr(6);
+					}
+					$('#firstDate').val(ymd);
+				}else{
+					alert('숫자 이외의 값은 입력하실 수 없습니다.');
+					$('#firstDate').val('');
+				}
+			}
+		};
+		
+		/********종료일********/
+		function secondDateKey(){
+			if(event.keyCode != 8){
+				if($('#secondDate').val().replace(/[0-9 \-]/g, "").length == 0){
+					var ymd = '';
+					var secondDateValue = $('#secondDate').val().replace(/[^0-9]/g,'');
+					var secondDateLength = secondDateValue.length;
+					if(secondDateLength < 4){
+						return 	;
+					}else if(secondDateLength < 6){
+						ymd += secondDateValue.substr(0, 4);
+						ymd += '-';
+						ymd += secondDateValue.substr(4);
+					}else{
+						ymd += secondDateValue.substr(0, 4);
+						ymd += '-';
+						ymd += secondDateValue.substr(4, 2);
+						ymd += '-';
+						ymd += secondDateValue.substr(6);
+					}
+					$('#secondDate').val(ymd);
+				}else{
+					alert('숫자 이외의 값은 입력하실 수 없습니다.');
+					$('#secondDate').val('');
+				}
+			}
+		};
+		
+		/********배차취소********/
+		$('.deleteBtn').each(function(){
+				$(this).click(function(){
+					var releaseOrderCode = $(this).parents('tr').children('#releaseOrderCodeData').text();
+					if(releaseOrderCode != null){
+						var chk = confirm('배차 취소시 등록된 운송장 정보도 함께 삭제됩니다. 취소하시겠습니까?');
+						if(chk){
+							$.ajax({
+								url : "/deleteCarmanagement",
+								method : 'get',
+								async : true,
+								dataType : "json",
+								data : {'releaseOrderCode':releaseOrderCode},
+								success: function(data){
+									if(data > 0){
+										alert('배차가 취소되었습니다.');
+										location.replace("carManagementList");
+									}else{
+										alert('오류발생');
+									}
+								}
+							})
+						}else{
+							return false;
+						}
+					}
+				})
+			})
+		</script>
+	</th:block>			
+</html>

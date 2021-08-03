@@ -1,0 +1,21 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="@{layout/default}">
+
+		
+	<div class="card-body" th:fragment="searchFragment">
+		<form method="get" id="searchReleaseDate">
+			<div style="display: inline;">
+				<a href="#" id="reportrangeCustom">
+					<input class="btn btn-outline-primary btn-rounded" id="firstDate" th:name="firstDate" placeholder="검색 시작일" onkeyup="firstDateKey();" type="text" maxlength="10" autocomplete="off">
+					<span class="range-text" id="midDate" style="color: #225de4;">~</span>
+					<input class="btn btn-outline-primary btn-rounded" id="secondDate" th:name="secondDate" placeholder="검색 종료일" onkeyup="secondDateKey();" type="text" maxlength="10" autocomplete="off">
+					<i class="icon-chevron-down"></i>	
+				</a>
+			</div>
+			<button class="btn btn-outline-primary btn-rounded" type="submit">검색</button>
+			
+		</form>
+	</div>
+</html>
