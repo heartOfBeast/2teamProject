@@ -171,33 +171,36 @@
 	
 	<!-- 사업자번호 유효성 검사 -->
 	<script>
-		function licenseNum(str){
-		          str = str.replace(/[^0-9]/g, '');
-		          var tmp = '';
-		          if(str.length < 4){
-		              return str;
-		          }else if(str.length < 7){
-		              tmp += str.substr(0, 3);
-		              tmp += '-';
-		              tmp += str.substr(3);
-		              return tmp;
-		          }else{             
-		              tmp += str.substr(0, 3);
-		              tmp += '-';
-		              tmp += str.substr(1, 2);
-		              tmp += '-';
-		              tmp += str.substr(5);
-		              return tmp;
-		          }
-		          return str;
-		      };
+		$(function(){
+			var str = $(".shoppingmallNumber");
+				function shoppingmallNumber(str){
+			          str = str.replace(/[^0-9]/g, '');
+			          var tmp = '';
+			          if(str.length < 4){
+			              return str;
+			          }else if(str.length < 7){
+			              tmp += str.substr(0, 3);
+			              tmp += '-';
+			              tmp += str.substr(3);
+			              return tmp;
+			          }else{             
+			              tmp += str.substr(0, 3);
+			              tmp += '-';
+			              tmp += str.substr(1, 2);
+			              tmp += '-';
+			              tmp += str.substr(5);
+			              return tmp;
+			          }
+			          return str;
+			      };
+		});
 		 
-		var shoppingmallNumber = document.getElementById("shoppingmallNumber");
+		/* var shoppingmallNumber = document.getElementById("shoppingmallNumber");
 		shoppingmallNumber.onkeyup = function(event){
 		       event = event || window.event;
 		       var _val = this.value.trim();
 		       this.value = licenseNum(_val) ;
-		};
+		}; */
 		
         $(function(){
            
@@ -226,7 +229,6 @@
 
                     }// 요청 실패.
                 });
-                
 
             });
             

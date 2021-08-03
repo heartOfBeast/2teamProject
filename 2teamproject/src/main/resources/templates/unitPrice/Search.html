@@ -6,8 +6,8 @@
 		
 	<div class="card-body" th:fragment="wareHoushSearch">
 		<form th:action="@{/priceList}" id="wareHoushSearch" method="get">
-			<select id="wareHouseType" name="wareHouseType">
-				<option  value=""> :: 창고를 선택해주세요 :: </option>
+			<select id="wareHouseType" name="wareHouseType" class="form-control" style="width: 200px; display: inline;">
+				<option  value="">창고를 종류를 선택해주세요.</option>
 				<option  value="일반창고">일반창고</option>
 				<option  value="냉장/냉동창고">냉장/냉동창고</option>
 			</select>
