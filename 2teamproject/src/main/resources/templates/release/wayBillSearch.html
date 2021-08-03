@@ -33,8 +33,8 @@
 								<li>* 운송장코드 검색 ex) invoice_001 ~ invoice_999 입력하면 해당 정보 있으면 검색이 가능하다</li>
 							</ul>
 						</div>
-						<div th:include="release/Search :: searchFragment"></div><br>
-						<div class="table-container">
+						<div th:include="release/Search :: searchFragment"></div>
+						<div class="table-container" style="border-bottom: none;">
 							<div class="t-header">검색 결과</div>
 							<div class="table-responsive">
 								<table class="table custom-table m-0">
@@ -52,7 +52,7 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr th:each=" l : ${InvoiceList}">
+										<tr th:if="${#lists.size(InvoiceList) > 0}" th:each=" l : ${InvoiceList}">
 										  <td th:text="${l.invoiceCode}"></td>
 										  <td th:text="${l.invoiceName}"></td>
 										  <td th:text="${l.invoiceAddress}"></td>
@@ -62,6 +62,10 @@
 										  <td th:text="${l.deliveryMemberName}"></td>
 										  <td th:text="${l.deliveryMemberPhone}"></td>
 										  <td th:text="${l.releaseRealDate}"></td>
+										</tr>
+										<tr th:unless="${#lists.size(InvoiceList) > 0}" style="text-align: center;">
+											<td colspan="9" th:text="${'입력하신 운송장번호(코드)와 일치하는 정보가 없습니다.'}">
+											</td>
 										</tr>
 									</tbody>
 					    	</table>

@@ -91,8 +91,8 @@ public class ReleaseService {
 		return releaseMapper.wayBillSearch(paramMap);
 	}
 	
-	public List<CarManagement> carManagementList(){
-		List<CarManagement> carManagement = releaseMapper.carManagementList();
+	public List<CarManagement> carManagementList(Map<String, Object> listParam){
+		List<CarManagement> carManagement = releaseMapper.carManagementList(listParam);
 		return carManagement;
 	}
 	
