@@ -63,6 +63,7 @@
 								</div>
 								<div class="form-group">
 									<input type="text" class="form-control" id="productName" name="productName" placeholder="상품명" required="required">
+									<button type="button" id="CheckProductName" class="btn btn-primary">중복체크</button>
 								</div>
 								<div class="form-group">
 									<select class="form-control" id="productFreezeCoolCondition" name="productFreezeCoolCondition">
@@ -146,8 +147,8 @@
 				alert( "Request failed: " + textStatus );
 			});			
 		});
-	</script>
-	<script type="text/javascript">		
+
+		//소분류 가져오기
 		var itemSmallCategory = $('#productCategory');
 		$('#itemMiddleCategory').change(function(){
 			var request = $.ajax({
@@ -177,9 +178,8 @@
 				alert( "Request failed: " + textStatus );
 			});			
 		});
-	</script>
 
-	<script>
+		//유효성검사
 		$(function(){
 			$('#addProductBtn').click(function(){
 				var productForm = $('#addProductForm');
@@ -267,6 +267,36 @@
 			});
 		});	
 		
+		
+		//상품명 중복체크
+
+		$(function(){
+			$('#CheckProductName').click(function(){
+				var productName = $('input[name="productName"]').val();
+				console.log(productName);
+				if(productName !=''&&productName!=null&&productName!=null){
+					var request = $.ajax({
+						url : "/CheckProductName",
+						method : "POST",
+						data : {productName : productName},
+						dataType : "json"
+					});
+					request.done(function(data){
+						if(data){
+							alert('사용가능한 이름입니다');
+							$('select[name="productFreezeCoolCondition"],input[name="productWeight"], select[name="productWeightUnit"], input[name="productDateOfManufacture"], input[name="productExpirationDate"],textarea[name="productDetail"] ').prop('disabled',false);
+						}else{
+							alert('이미 존재하는 상품명입니다');
+							$('select[name="productFreezeCoolCondition"],input[name="productWeight"], select[name="productWeightUnit"], input[name="productDateOfManufacture"], input[name="productExpirationDate"],textarea[name="productDetail"] ').prop('disabled','disabled');
+						}
+						 
+					});
+					request.fail(function( jqXHR, textStatus ){
+						alert( "Request failed: " + textStatus );
+					});
+				}
+			})
+		})
 	</script>
 </th:block> 
 

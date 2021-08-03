@@ -163,7 +163,9 @@
 	
 	<select id="getShopAjaxId" parameterType="String" resultType="Shoppingmall">
 	SELECT 
-		shoppingmall_user_id AS shoppingmallId
+		shoppingmall_user_id AS shoppingmallId,
+		shoppingmall_user_email AS shoppingmallEmail,
+		shoppingmall_user_pw AS shoppingmallPw
 	FROM 
 		tb_shoppingmall_user
 	WHERE
@@ -173,7 +175,9 @@
 	
 	<select id="getAdminAjaxId" parameterType="String" resultMap="memberResultMap">
 	SELECT 
-		member_id
+		member_id,
+		member_Email,
+		member_pw
 	FROM 
 		tb_member
 	WHERE 
@@ -208,6 +212,15 @@
 		WHERE
 		 	member_id=#{memberId};
 		 </trim>
+</update>
+
+<update id="adminApprovalStatusUpdate" parameterType="String">
+	UPDATE 
+		tb_adminApproval
+	SET
+		adminApproval_account_status='O'
+	WHERE 
+		adminApproval_id=#{adminApprovalId};
 </update>
 
 <update id="updateShopMember" parameterType="Shoppingmall">
@@ -331,6 +344,7 @@ UPDATE tb_shoppingmall_user
 		, adminApproval_address
 		, adminApproval_email
 		, adminApproval_phone
+		,adminApproval_account_status
 		, adminApproval_reg_date
 		) VALUES (
 			#{adminApprovalId}
@@ -340,6 +354,7 @@ UPDATE tb_shoppingmall_user
 		, 	#{adminApprovalAddress}
 		, 	#{adminApprovalEmail}
 		, 	#{adminApprovalPhone}
+		,   'X'
 		, 	CURDATE());
 		
 	</insert>

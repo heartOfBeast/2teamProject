@@ -148,7 +148,10 @@
 			tb_board AS b
 		<trim prefix="WHERE" prefixOverrides="AND |OR ">
 			<if test="searchKey != null and searchKey != ''.toString()">
-				${searchKey} LIKE CONCAT('%', #{searchValue} ,'%');
+				${searchKey} LIKE CONCAT('%', #{searchValue} ,'%')
+			</if>
+			<if test="firstDate !=null and firstDate !=''.toString()">
+				And b.board_qna_reg_date BETWEEN #{firstDate} AND #{secondDate}
 			</if>
 		</trim>
   	</select>

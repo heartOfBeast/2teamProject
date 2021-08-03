@@ -117,21 +117,17 @@ public class ShoppingmallController {
 	  // 거래처 권한 관리 리스트
 	  @GetMapping("/shoppingmallApproval") 
 	  public String Approval(Model model
-			  				 ,@RequestParam(name="shoppingmallStatus", required = false) String shoppingmallStatus) {
+			  				,Shoppingmall shoppingmall
+			  				,@RequestParam(name="shoppingmallStatus", required = false) String shoppingmallStatus) {
 	  
 		  System.out.println(shoppingmallStatus + "@@ 검색 결과");
 
 		  Map<String, Object> paramMap = new HashMap<String, Object>();
 		  paramMap.put("shoppingmallStatus", shoppingmallStatus);
-		  
-		  List<Shoppingmall> shoppingmallList = shoppingmallService.shoppingmallList();
-		  List<Shoppingmall> ShoppingmallStatus = shoppingmallService.shoppingmallStatus(paramMap);
+		  List<Shoppingmall> shoppingmallList = shoppingmallService.shoppingmallList(paramMap);
+
 		  model.addAttribute("title", "계약 및 권한 승인 페이지");
-		  if(shoppingmallStatus == null) {
-			  model.addAttribute("shoppingmallList", shoppingmallList);
-		  }else if(shoppingmallStatus != null) {
-			  model.addAttribute("shoppingmallList", ShoppingmallStatus);
-		  }
+		  model.addAttribute("shoppingmallList", shoppingmallList);
 		  
 		  
 		  return "shoppingmall/shoppingmallApproval"; 

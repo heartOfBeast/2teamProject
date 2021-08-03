@@ -32,10 +32,7 @@
 								<thead>
 									<tr>
 									  <th>출고지시코드</th>
-									  <th style="display: none;">출고요청코드</th>
 									  <th style="display: none;">출고창고코드</th>
-									  <th style="display: none;">출고섹터코드</th>
-									  <th style="display: none;">상품코드</th>
 									  <th>상품명</th> 
 									  <th>수량</th>
 									  <th>수령인</th>
@@ -43,28 +40,18 @@
 									  <th>수령인 연락처</th>
 									  <th>출고요청인</th>
 									  <th>출고지시일</th>
-									  <th >배차관리코드</th>
-									  <th style="display: none;">배송기사</th>
-									  <th style="display: none;">배송차량</th>
-									  <th style="display: none;">차량사용날짜</th>
+									  <th style="display: none;">배차관리코드</th>
 									  <th style="display: none;">운송장코드</th>
-									  <th style="display: none;">수령인(운송장)</th>
-									  <th style="display: none;">수령인 주소(운송장)</th>
-									  <th style="display: none;">수령인 연락처(운송장)</th>
 									  <th style="display: none;">출고코드</th>
-									  <th style="display: none;">배차등록</th>
+									  <th >배차등록</th>
 									  <th>운송장등록</th>
 									  <th>출고</th>
-									  
 									</tr>
 								</thead>
 								<tbody>
 									<tr th:each="r : ${release}">
 									  <td th:text="${r.releaseOrderCode}" id="orderCodeData"></td>
-									  <td th:text="${r.releaseCode}" style="display: none;" id="releaseRequestCodeData"></td>
 									  <td th:text="${r.warehouseCode}" style="display: none;" id="releaseWarehouseCodeData"></td>
-									  <td th:text="${r.releasesFinalSector}" style="display: none;" id="finalSectorData"></td>
-									  <td th:text="${r.productCode}" style="display: none;" id="releaseProductCodeData"></td>	
 									  <td th:text="${r.product.productName}" id="productNameData"></td>
 									  <td th:text="${r.releaseOrderQuantity}" id="OrderQuantityData"></td>
 									  <td th:text="${r.recipientName}" id="recipientNameData"></td>
@@ -73,26 +60,20 @@
 									  <td th:text="${r.shoppingmallUserId}" id="shoppingmallUserIdData"></td>
 									  <td th:text="${r.orderRegDate}"></td>
 									  <td style="display: none;" th:text="${r.carManagement.driveManageCode}" id="driveManageCodeData"></td>
-									  <td style="display: none;" th:text="${r.carManagement.deliveryMemberId}" id="deliveryMemberIdData"></td>
-									  <td style="display: none;" th:text="${r.carManagement.releaseOrderCar}" id="releaseOrderCarData"></td>
-									  <td style="display: none;" th:text="${r.carManagement.driveUsingDate}" id="driveUsingDateData"></td>
 									  <td style="display: none;" th:text="${r.invoice.invoiceCode}" id="invoiceCodeData"></td>
-									  <td style="display: none;" th:text="${r.invoice.invoiceName}" id="invoiceNameData"></td>
-									  <td style="display: none;" th:text="${r.invoice.invoiceAddress}" id="invoiceAddressData"></td>
-									  <td style="display: none;" th:text="${r.invoice.invoicePhone}" id="invoicePhoneData"></td>
 									  <td style="display: none;" th:text="${r.releaseInfo.realReleaseCode}" id="releaseCodeData"></td>
 									  <td>
-									  	<a th:if="${r.carManagement.driveManageCode == null}" type="button" class="btn btn-primary modifyBtn" data-toggle="modal" data-target=".bd-example-modal-lg" id="viewModal" style="color: white;">배차등록</a>
-									  	<a th:if="${r.carManagement.driveManageCode != null && r.releaseInfo.realReleaseCode == null}" type="button" class="btn btn-primary modifyBtn" data-toggle="modal" data-target=".bd-example-modal-lg2_1" id="viewModal" style="color: yellow;">배차수정</a>
-									  	<a th:if="${r.carManagement.driveManageCode != null && r.releaseInfo.realReleaseCode != null}" type="button" class="btn btn-primary modifyBtn" data-toggle="modal" data-target=".bd-example-modal-lg2" id="viewModal" style="color: yellow;">배차수정</a>
+									  	<a th:if="${r.carManagement.driveManageCode == null}" type="button" class="btn btn-primary carAddBtn" data-toggle="modal" data-target=".bd-example-modal-lg" id="viewModal" style="color: white;">배차등록</a>
+									  	<a th:if="${r.carManagement.driveManageCode != null && r.releaseInfo.realReleaseCode == null}" type="button" class="btn btn-primary carModifyBtn" data-toggle="modal" data-target=".bd-example-modal-lg2_1" id="viewModal" style="color: yellow;">배차수정</a>
+									  	<a th:if="${r.carManagement.driveManageCode != null && r.releaseInfo.realReleaseCode != null}" type="button" class="btn btn-primary carModifyBtn" data-toggle="modal" data-target=".bd-example-modal-lg2" id="viewModal" style="color: yellow;">배차수정</a>
 								  	  </td>
 								  	  <td>
-								  	  	<a th:if="${r.carManagement.driveManageCode != null && r.invoice.invoiceCode == null}" type="button" class="btn btn-primary modifyBtn" data-toggle="modal" data-target=".bd-example-modal-lg3" id="viewModal" style="color: white;">운송장등록</a>
-								  	  	<a th:if="${r.invoice.invoiceCode != null && r.carManagement.driveManageCode != null}" type="button" class="btn btn-primary modifyBtn" data-toggle="modal" data-target=".bd-example-modal-lg4" id="viewModal" style="color: yellow;">운송장수정</a>
+								  	  	<a th:if="${r.carManagement.driveManageCode != null && r.invoice.invoiceCode == null}" type="button" class="btn btn-primary addInvoiceBtn" data-toggle="modal" data-target=".bd-example-modal-lg3" id="viewModal" style="color: white;">운송장등록</a>
+								  	  	<a th:if="${r.invoice.invoiceCode != null && r.carManagement.driveManageCode != null}" type="button" class="btn btn-primary invoiceModifyBtn" data-toggle="modal" data-target=".bd-example-modal-lg4" id="viewModal" style="color: yellow;">운송장수정</a>
 								  	  	<a th:if="${r.carManagement.driveManageCode == null && r.invoice.invoiceCode == null}" type="button" class="btn btn-primary modifyBtnNotInvoice" style="color: white;" >운송장등록</a>
 								  	  </td>
 									  <td>
-									  	<a th:if="${r.invoice.invoiceCode != null && r.releaseInfo.realReleaseCode == null}" type="button" class="btn btn-primary modifyBtn" data-toggle="modal" data-target=".bd-example-modal-lg5" id="viewModal" style="color: white;">출고승인</a>
+									  	<a th:if="${r.invoice.invoiceCode != null && r.releaseInfo.realReleaseCode == null}" type="button" class="btn btn-primary releaseBtn" data-toggle="modal" data-target=".bd-example-modal-lg5" id="viewModal" style="color: white;">출고승인</a>
 									  	<a th:if="${r.invoice.invoiceCode == null }" type="button" class="btn btn-primary modifyBtnNotRelease"  style="color: white;">출고승인</a>
 									  	<a th:if="${r.invoice.invoiceCode != null && r.releaseInfo.realReleaseCode != null}" type="button" class="btn btn-primary modifyBtnDoneRelease"  style="color: yellow;">출고완료</a>
 								  	  </td>
@@ -368,9 +349,9 @@
 							<div class="form-group">
 								<input type="text" class="form-control" id="orderCodeForRelease" name="releaseOrderCode" readonly="readonly" style="background-color: white;">
 							</div>
-							<label for="warehouseCodeForRelease">출고창고코드</label>
+							<label for="warehouseCodeForRelease">출고창고</label>
 							<div class="form-group">
-								<input type="text" class="form-control" id="warehouseCodeForRelease" name="warehouseCode" readonly="readonly" style="background-color: white;">
+								<input type="text" class="form-control" id="warehouseCodeForRelease" name="" readonly="readonly" style="background-color: white;">
 							</div>
 							<label for="releaseFinalSector">출고물품섹터코드</label>
 							<div class="form-group">
@@ -388,8 +369,9 @@
 							<div class="form-group">
 								<input type="date" class="form-control" id="releaseDate" name="releaseRealDate"  style="background-color: white;" readonly="readonly">
 							</div>
-							<input type="text" class="form-control" id="releaseProductCode" name="productCode" style="display: none;">
-							<input type="text" class="form-control" id="releaseRequestCode" name="releaseRequestCode" style="display: none;">
+							<input type="hidden" name="warehouseCode" id="releaseWarehouse" >
+							<input type="hidden"  id="releaseProductCode" name="productCode" >
+							<input type="hidden"  id="releaseRequestCode" name="releaseRequestCode" >
 						</div>
 						<div class="modal-footer">
 							<button class="btn btn-secondary" data-dismiss="modal">취소</button>
@@ -404,73 +386,154 @@
 	
 <th:block layout:fragment="customJs">
 	<script>
-		$('.modifyBtn').each(function(){
+		/********배차등록화면********/
+		$('.carAddBtn').each(function(){
 			$(this).click(function(){
-				var orderCodeData = $(this).parents('tr').children('#orderCodeData').text();
-				var releaseWarehouseCodeData = $(this).parents('tr').children('#releaseWarehouseCodeData').text();
-				
-				var deliveryMemberIdData = $(this).parents('tr').children('#deliveryMemberIdData').text();
-				var releaseOrderCarData = $(this).parents('tr').children('#releaseOrderCarData').text();
-				var driveUsingDateData = $(this).parents('tr').children('#driveUsingDateData').text();
-				var driveManageCodeData = $(this).parents('tr').children('#driveManageCodeData').text();
-				
-				var recipientNameData = $(this).parents('tr').children('#recipientNameData').text();
-				var recipientAddressData = $(this).parents('tr').children('#recipientAddressData').text();
-				var recipientPhoneData = $(this).parents('tr').children('#recipientPhoneData').text();
-				var shoppingmallUserIdData = $(this).parents('tr').children('#shoppingmallUserIdData').text();
-				var productNameData = $(this).parents('tr').children('#productNameData').text();
-				var OrderQuantityData = $(this).parents('tr').children('#OrderQuantityData').text();
-				var invoiceCodeData = $(this).parents('tr').children('#invoiceCodeData').text();
-				var invoiceNameData = $(this).parents('tr').children('#invoiceNameData').text();
-				var invoiceAddressData = $(this).parents('tr').children('#invoiceAddressData').text();
-				var invoicePhoneData = $(this).parents('tr').children('#invoicePhoneData').text();
-				var releaseProductCodeData = $(this).parents('tr').children('#releaseProductCodeData').text();
-				var releaseRequestCodeData = $(this).parents('tr').children('#releaseRequestCodeData').text();
-				var finalSectorData = $(this).parents('tr').children('#finalSectorData').text();
-				
-				
-				$('#orderCodeModal').val(orderCodeData);
-				$('#releaseWarehouseCodeModal').val(releaseWarehouseCodeData);
-				
-				$('#deliveryMemberIdModal').val(deliveryMemberIdData);
-				$('#orderCodeModalForCar').val(orderCodeData);
-				$('#releaseWarehouseCodeModalForCar').val(releaseWarehouseCodeData);
-				$('#releaseOrderCarModal').val(releaseOrderCarData);
-				$('#carUsingDateModal').val(driveUsingDateData);
-				$('#driveManageCodeModal').val(driveManageCodeData);
-
-				$('#deliveryMemberIdModalNot').val(deliveryMemberIdData);
-				$('#orderCodeModalForCarNot').val(orderCodeData);
-				$('#releaseWarehouseCodeModalForCarNot').val(releaseWarehouseCodeData);
-				$('#releaseOrderCarModalNot').val(releaseOrderCarData);
-				$('#carUsingDateModalNot').val(driveUsingDateData);
-				$('#driveManageCodeModalNot').val(driveManageCodeData);
-				
-				$('#driveManageCodeInvoice').val(driveManageCodeData);
-				$('#orderCodeInvoice').val(orderCodeData);
-				$('#recipientNameModal').val(recipientNameData);
-				$('#recipientAddressModal').val(recipientAddressData);
-				$('#recipientPhoneModal').val(recipientPhoneData);
-				$('#shoppingmallUserIdModal').val(shoppingmallUserIdData);
-				$('#deliveryMemberIdInvoice').val(deliveryMemberIdData);
-				$('#deliveryDateData').val(driveUsingDateData);
-				$('#productNameModal').val(productNameData + "(" + OrderQuantityData + ")");
-				
-				$('#invoiceCodeModal').val(invoiceCodeData);
-				$('#recipientNameModify').val(invoiceNameData);
-				$('#recipientAddressModify').val(invoiceAddressData);
-				$('#recipientPhoneModify').val(invoicePhoneData);
-				
-				$('#orderCodeForRelease').val(orderCodeData);
-				$('#warehouseCodeForRelease').val(releaseWarehouseCodeData);
-				$('#releaseDate').val(driveUsingDateData);
-				$('#releaseQuantity').val(OrderQuantityData);
-				$('#releaseProductCode').val(releaseProductCodeData);
-				$('#releaseRequestCode').val(releaseRequestCodeData);
-				$('#releaseProductName').val(productNameData);
-				$('#releaseFinalSector').val(finalSectorData);
+				var releaseOrderCode = $(this).parents('tr').children('#orderCodeData').text();
+				if(releaseOrderCode != null){
+					$.ajax({
+						url : "getOrderInfo",
+						method : 'get',
+						async : true,
+						dataType : "json",
+						data : {'releaseOrderCode':releaseOrderCode},
+						success: function(data){
+							if(data != null && data != '' && data != undefined){
+								$('#orderCodeModal').val(data[0].releaseOrderCode);
+								$('#releaseWarehouseCodeModal').val(data[0].warehouseCode);
+							}else{
+								alert('오류발생');
+							}
+						}
+					})
+				}
 			})
-		})
+		});
+		
+		/********배차수정화면********/
+		$('.carModifyBtn').each(function(){
+			$(this).click(function(){
+				var driveManageCode = $(this).parents('tr').children('#driveManageCodeData').text();
+				var releaseWarehouseCodeData = $(this).parents('tr').children('#releaseWarehouseCodeData').text();
+				$('#releaseWarehouseCodeModalForCar').val(releaseWarehouseCodeData);
+				$('#releaseWarehouseCodeModalForCarNot').val(releaseWarehouseCodeData);
+				if(driveManageCode != null){
+					$.ajax({
+						url : "getDriveManagement",
+						method : 'get',
+						async : true,
+						dataType : "json",
+						data : {'driveManageCode':driveManageCode},
+						success: function(data){
+							if(data != null && data != '' && data != undefined){
+								console.log(data);
+								$('#driveManageCodeModal').val(data[0].driveManageCode); 
+								$('#driveManageCodeModalNot').val(data[0].driveManageCode); 
+								$('#orderCodeModalForCar').val(data[0].releaseOrderCode); 
+								$('#orderCodeModalForCarNot').val(data[0].releaseOrderCode); 
+								$('#deliveryMemberIdModal').val(data[0].deliveryMemberId); 
+								$('#deliveryMemberIdModalNot').val(data[0].deliveryMemberId); 
+								$('#releaseOrderCarModal').val(data[0].releaseOrderCar); 
+								$('#releaseOrderCarModalNot').val(data[0].releaseOrderCar); 
+								$('#carUsingDateModal').val(data[0].driveUsingDate); 
+								$('#carUsingDateModalNot').val(data[0].driveUsingDate); 
+							}else{
+								alert('오류발생');
+							}
+						}
+					})
+				}
+			})
+		});
+		
+		/********운송장등록화면********/
+		$('.addInvoiceBtn').each(function(){
+			$(this).click(function(){
+				var driveManageCode = $(this).parents('tr').children('#driveManageCodeData').text();
+				if(driveManageCode != null){
+					$.ajax({
+						url : "addInvoiceInfo",
+						method : 'get',
+						async : true,
+						dataType : "json",
+						data : {'driveManageCode':driveManageCode},
+						success: function(data){
+							if(data != null && data != '' && data != undefined){
+								$('#driveManageCodeInvoice').val(data[0].driveManageCode);
+								$('#orderCodeInvoice').val(data[0].release.releaseOrderCode);
+								$('#deliveryMemberIdInvoice').val(data[0].deliveryMemberId);
+								$('#deliveryDateData').val(data[0].driveUsingDate);
+								$('#productNameModal').val(data[0].product.productName + '(' + data[0].release.releaseOrderQuantity + ')');
+								$('#recipientNameModal').val(data[0].release.recipientName);
+								$('#recipientAddressModal').val(data[0].release.recipientAddress);
+								$('#recipientPhoneModal').val(data[0].release.recipientPhone);
+								$('#shoppingmallUserIdModal').val(data[0].release.shoppingmallUserId);
+							}else{
+								alert('오류발생');
+							}
+						}
+					})
+				}
+			})
+		});
+		
+		/********운송장수정화면********/
+		$('.invoiceModifyBtn').each(function(){
+			$(this).click(function(){
+				var invoiceCode = $(this).parents('tr').children('#invoiceCodeData').text();
+				if(invoiceCode != null){
+					$.ajax({
+						url : "getInvoiceInfo",
+						method : 'get',
+						async : true,
+						dataType : "json",
+						data : {'invoiceCode':invoiceCode},
+						success: function(data){
+							if(data != null && data != '' && data != undefined){
+								$('#invoiceCodeModal').val(data[0].invoiceCode);
+								$('#recipientNameModify').val(data[0].invoiceName);
+								$('#recipientAddressModify').val(data[0].invoiceAddress);
+								$('#recipientPhoneModify').val(data[0].invoicePhone);
+							}else{
+								alert('오류발생');
+							}
+						}
+					})
+				}
+			})
+		});
+		
+		/********출고승인화면********/
+		$('.releaseBtn').each(function(){
+			$(this).click(function(){
+				var releaseOrderCode = $(this).parents('tr').children('#orderCodeData').text();
+				if(releaseOrderCode != null){
+					$.ajax({
+						url : "addReleaseInfo",
+						method : 'get',
+						async : true,
+						dataType : "json",
+						data : {'releaseOrderCode':releaseOrderCode},
+						success: function(data){
+							if(data != null && data != '' && data != undefined){
+								$('#orderCodeForRelease').val(data[0].releaseOrderCode); 
+								$('#warehouseCodeForRelease').val(data[0].warehouseName + '(' + data[0].warehouseCode + ')'); 
+								$('#releaseWarehouse').val(data[0].warehouseCode); 
+								$('#releaseFinalSector').val(data[0].releasesFinalSector); 
+								$('#releaseProductName').val(data[0].product.productName); 
+								$('#releaseQuantity	').val(data[0].releaseOrderQuantity); 
+								$('#releaseDate	').val(data[0].carManagement.driveUsingDate); 
+								$('#releaseQuantity	').val(data[0].releaseOrderQuantity); 
+								$('#releaseProductCode').val(data[0].productCode); 
+								$('#releaseRequestCode').val(data[0].releaseCode); 
+							}else{
+								alert('오류발생');
+							}
+						}
+					})
+				}
+			})
+		});
 		
 		$('#addDriveForm').submit(function(){
 			alert('배차가 등록되었습니다.');

@@ -15,7 +15,7 @@ public interface ProductMapper {
 	public int deleteProductByCode(String productCode);
 	
 	//쇼핑몰 사업자 창고별 재고보기
-	public List<Product> getProductAmountPerWarehouse(Product product);
+	public List<Product> getProductAmountPerWarehouse(Map<String, Object> warehouseCodeParam);
 	
 	//상품수정
 	public int modifyProduct(Product product);
@@ -30,5 +30,8 @@ public interface ProductMapper {
 	
 	public List<Item> getItemMiddleCategoryInfo(String itemBigCategory);
 	public List<Item> getItemSmallCategoryInfo(String itemMiddleCategory);
+	
+	//상품명 중복체크
+	public Product getProductNameForDupleCheck(String productName, String shoppingmallUserId);
 
 }

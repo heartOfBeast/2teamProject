@@ -119,11 +119,15 @@ public class InquiryController {
 	@GetMapping("/inquiryList")
 	public String inquiryList(Model model
 							 ,@RequestParam(name="searchKey", required = false) String searchKey
-							 ,@RequestParam(name="searchValue", required = false) String searchValue) {
-		Map<String, Object> paramMap = new HashMap<String, Object>();
-		paramMap.put("searchKey", searchKey);
-		paramMap.put("searchValue", searchValue);
-		List<Inquiry> inquiryList = inquiryService.getInquiryList(paramMap);
+							 ,@RequestParam(name="searchValue", required = false) String searchValue
+							 ,@RequestParam(name="firstDate", required = false) String firstDate 
+							 ,@RequestParam(name="secondDate", required = false) String secondDate) {
+		Map<String, Object> searcgInquiryParamMap = new HashMap<String, Object>();
+		searcgInquiryParamMap.put("searchKey", searchKey);
+		searcgInquiryParamMap.put("searchValue", searchValue);
+		searcgInquiryParamMap.put("firstDate", firstDate);
+		searcgInquiryParamMap.put("secondDate", secondDate);
+		List<Inquiry> inquiryList = inquiryService.getInquiryList(searcgInquiryParamMap);
 		model.addAttribute("title", "문의게시판");
 		model.addAttribute("inquiryList", inquiryList);
 		

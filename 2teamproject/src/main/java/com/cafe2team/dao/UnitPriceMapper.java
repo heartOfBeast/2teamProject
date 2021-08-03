@@ -1,6 +1,7 @@
 package com.cafe2team.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -10,7 +11,8 @@ import com.cafe2team.domain.Price;
 public interface UnitPriceMapper {
 	
 	// 요금안내 조회
-	public List<Price> getPriceList();
+	public List<Price> getPriceList(Map<String, Object> paramWareHouse);
+	
 	
 	// 요금안내 추가
 	public int priceAdd(Price price);
