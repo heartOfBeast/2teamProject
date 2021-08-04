@@ -60,101 +60,118 @@
 					<div class="card m-0">
 						<div class="card-header">
 							<div class="card-body">
-								<!-- Row start -->
 								<div class="row gutters">
 									<div class="col-xl-10 col-lg-10 col-md-9 col-sm-10">
-											<div class="card m-0">
-												<div class="card-header">
-														<div class="card-title">
-															<font style="vertical-align: inherit;">
-																<font style="vertical-align: inherit;">정보입력</font>
-															</font>
-														</div>
-													<div class="card-sub-title">
+										<div class="card m-0">
+											<div class="card-header">
+													<div class="card-title">
 														<font style="vertical-align: inherit;">
-															<font style="vertical-align: inherit;">* 아래 빈칸에 정보를 입력하세요.</font><br/>
-															<font style="vertical-align: inherit;">* 빈칸없이 모두 입력해야됩니다.</font>
+															<font style="vertical-align: inherit;">정보입력</font>
 														</font>
 													</div>
-												</div>
-												<div class="card-body">
-													<div class="form-group row gutters" >
-														<label for="shoppingmallId" class="col-sm-3 col-form-label text-right">
-															<font style="vertical-align: inherit;">
-																<font style="vertical-align: inherit;">아이디</font>
-															</font>
-														</label>
-														<div class="col-sm-6">
-															<input type="text" class="form-control" id="shoppingmallId"  name="shoppingmallId" th:value="${shoppingmall.shoppingmallId}" readonly="readonly">
-														</div>
-													</div>
-													
-													<div class="form-group row gutters">
-														<label for="shNum" class="col-sm-3 col-form-label text-right">
-															<font style="vertical-align: inherit;">
-																<font style="vertical-align: inherit;">사업자등록번호</font>
-															</font>
-														</label>
-														<div class="col-sm-6">
-															<!-- <input type="text" class="form-control" id="shoppingmallNumber" name="shoppingmallNumber" placeholder="사업자 등록번호" required="required"> -->
-															<input type="text" class="form-control input-sm" name="shoppingmallNumber" id="shoppingmallNumber" placeholder="사업자 등록번호를 입력해주세요 ex)000-00-00000" required="required">
-														</div>
-													</div>
-
-													
-													<div class="form-group row gutters">
-														<label for="shName" class="col-sm-3 col-form-label text-right">
-															<font style="vertical-align: inherit;">
-																<font style="vertical-align: inherit;">사업장명</font>
-															</font>
-														</label>
-														<div class="col-sm-6">
-															<input type="text" class="form-control" id="shoppingmallName" name="shoppingmallName" placeholder="사업장 이름" required="required">
-														</div>
-													</div>
-													
-													<div class="form-group row gutters">
-														<label for="inputSubject" class="col-sm-3 col-form-label text-right">
-															<font style="vertical-align: inherit;">
-																<font style="vertical-align: inherit;">주거래은행</font>
-															</font>
-														</label>
-														<div class="col-sm-6">
-															<input type="text" class="form-control" id="shoppingmallBank" name="shoppingmallBank" placeholder="주거래은행" required="required">
-														</div>
-													</div>
-													
-													<div class="form-group row gutters">
-														<label for="inputSubject" class="col-sm-3 col-form-label text-right">
-															<font style="vertical-align: inherit;">
-																<font style="vertical-align: inherit;">계좌번호</font>
-															</font>
-														</label>
-														<div class="col-sm-6">
-															<input type="text" class="form-control" id="shoppingmallBankNum" name="shoppingmallBankNum" placeholder="계좌번호" required="required">
-														</div>
-													</div>
-													
-													<input type="hidden" class="form-control" id="memberPw" name="shoppingmallPw" th:value="${shoppingmall.shoppingmallPw}">
-													<input type="hidden" class="form-control" id="memberPw" name="shoppingmallUserName" th:value="${shoppingmall.shoppingmallUserName}">
-													<input type="hidden" class="form-control" id="memberAddr" name="shoppingmallAddr" th:value="${shoppingmall.shoppingmallAddr}">
-													<input type="hidden" class="form-control" id="memberEmail" name="shoppingmallEmail" th:value="${shoppingmall.shoppingmallEmail}">
-													<input type="hidden" class="form-control" id="memberPhon" name="shoppingmallPhone"  th:value="${shoppingmall.shoppingmallPhone}">
-													<input type="hidden" class="form-control" id="memberStatus" name="shoppingmallStatus" th:value="${shoppingmall.shoppingmallStatus}">
-													
-													
-													<button th:if="${shoppingmall.shoppingmallLevel == '6' && shoppingmallshoppingmallStatus != '승인'}" type="submit" onclick="alert('쇼핑묠 회원가입 요청을 완료했습니다. \n요청 승인을 기다려주세요.')" id="shoppingmallAddBtn" name="submit" class="btn btn-primary float-right" >
-														<font style="vertical-align: inherit;">
-															<font style="vertical-align: inherit;">거래처 등록 버튼</font>
-														</font>
-													</button>
-													<button th:if="${shoppingmall.shoppingmallLevel != '6'}" type="button" onclick="alert('거래처 등록이 불가능 합니다. \n등록은 일반직원 권한만 가능합니다.');" id="shoppingmallNotAddBtn"  class="btn btn-primary float-right" >
-														<font style="vertical-align: inherit;">
-															<font style="vertical-align: inherit;">거래처 등록 버튼</font>
-														</font>
-													</button>
+												<div class="card-sub-title">
+													<font style="vertical-align: inherit;">
+														<font style="vertical-align: inherit;">* 아래 빈칸에 정보를 입력하세요.</font><br/>
+														<font style="vertical-align: inherit;">* 빈칸없이 모두 입력해야됩니다.</font>
+													</font>
 												</div>
 											</div>
+											<div class="card-body">
+												<div class="form-group row gutters" >
+													<label for="shoppingmallId" class="col-sm-3 col-form-label text-right">
+														<font style="vertical-align: inherit;">
+															<font style="vertical-align: inherit;">아이디</font>
+														</font>
+													</label>
+													<div class="col-sm-6">
+														<input type="text" class="form-control" id="shoppingmallId"  name="shoppingmallId" th:value="${shoppingmall.shoppingmallId}" readonly="readonly">
+													</div>
+												</div>
+												
+												<div class="form-group row gutters">
+													<label for="shNum" class="col-sm-3 col-form-label text-right">
+														<font style="vertical-align: inherit;">
+															<font style="vertical-align: inherit;">사업자등록번호</font>
+														</font>
+													</label>
+													<div class="col-sm-6">
+														<!-- <input type="text" class="form-control" id="shoppingmallNumber" name="shoppingmallNumber" placeholder="사업자 등록번호" required="required"> -->
+														<input type="text" class="form-control input-sm" name="shoppingmallNumber" id="shoppingmallNumber" placeholder="사업자 등록번호를 입력해주세요 ex)000-00-00000" required="required" maxlength='12'>
+													</div>
+												</div>
+
+												
+												<div class="form-group row gutters">
+													<label for="shName" class="col-sm-3 col-form-label text-right">
+														<font style="vertical-align: inherit;">
+															<font style="vertical-align: inherit;">사업장명</font>
+														</font>
+													</label>
+													<div class="col-sm-6">
+														<input type="text" class="form-control" id="shoppingmallName" name="shoppingmallName" th:value="${shoppingmall.shoppingmallName}" readonly="readonly">
+													</div>
+												</div>
+												
+												<div class="form-group row gutters">
+													<label for="inputSubject" class="col-sm-3 col-form-label text-right">
+														<font style="vertical-align: inherit;">
+															<font style="vertical-align: inherit;">주거래은행</font>
+														</font>
+													</label>
+													<div class="col-sm-6">
+														<select class="form-control" id="shoppingmallBank" name="shoppingmallBank" required="required">
+															<option value=""> 은행을 선택해주세요. </option>
+															<option value="전북은행">전북은행</option>
+															<option value="(구)KB국민은행">(구)KB국민은행</option>
+															<option value="(신)KB국민은행">(신)KB국민은행</option>
+															<option value="(신)KB국민은행">(신)KB국민은행</option>
+															<option value="NH농협은행">NH농협은행</option>
+															<option value="(구)신한은행">(구)신한은행</option>
+															<option value="(신)신한은행">(신)신한은행</option>
+															<option value="우리은행">우리은행</option>
+															<option value="KEB하나은행">KEB하나은행</option>
+															<option value="(구)외환은행">(구)외환은행</option>
+															<option value="씨티은행">씨티은행</option>
+															<option value="DGB대구은행">DGB대구은행</option>
+															<option value="BNK부산은행">BNK부산은행</option>
+															<option value="SC제일은행">SC제일은행</option>
+															<option value="케이뱅크">케이뱅크</option>
+															<option value="카카오뱅크">카카오뱅크</option>
+														</select>
+													</div>
+												</div>
+												
+												<div class="form-group row gutters">
+													<label for="inputSubject" class="col-sm-3 col-form-label text-right">
+														<font style="vertical-align: inherit;">
+															<font style="vertical-align: inherit;">계좌번호</font>
+														</font>
+													</label>
+													<div class="col-sm-6">
+														<input type="text" class="form-control" id="shoppingmallBankNum" name="shoppingmallBankNum" placeholder="계좌번호를 입력해주세요. ( - 포함 )" required="required">
+													</div>
+												</div>
+												
+												<input type="hidden" class="form-control" id="memberPw" name="shoppingmallPw" th:value="${shoppingmall.shoppingmallPw}">
+												<input type="hidden" class="form-control" id="memberPw" name="shoppingmallUserName" th:value="${shoppingmall.shoppingmallUserName}">
+												<input type="hidden" class="form-control" id="memberAddr" name="shoppingmallAddr" th:value="${shoppingmall.shoppingmallAddr}">
+												<input type="hidden" class="form-control" id="memberEmail" name="shoppingmallEmail" th:value="${shoppingmall.shoppingmallEmail}">
+												<input type="hidden" class="form-control" id="memberPhon" name="shoppingmallPhone"  th:value="${shoppingmall.shoppingmallPhone}">
+												<input type="hidden" class="form-control" id="memberStatus" name="shoppingmallStatus" th:value="${shoppingmall.shoppingmallStatus}">
+												
+												
+												<button th:if="${shoppingmall.shoppingmallLevel == '6' && shoppingmallshoppingmallStatus != '승인'}" type="submit" onclick="alert('쇼핑묠 회원가입 요청을 완료했습니다. \n요청 승인을 기다려주세요.')" id="shoppingmallAddBtn" name="submit" class="btn btn-primary float-right" >
+													<font style="vertical-align: inherit;">
+														<font style="vertical-align: inherit;">거래처 등록 버튼</font>
+													</font>
+												</button>
+												<button th:if="${shoppingmall.shoppingmallLevel != '6'}" type="button" onclick="alert('거래처 등록이 불가능 합니다. \n등록은 일반직원 권한만 가능합니다.');" id="shoppingmallNotAddBtn"  class="btn btn-primary float-right" >
+													<font style="vertical-align: inherit;">
+														<font style="vertical-align: inherit;">거래처 등록 버튼</font>
+													</font>
+												</button>
+											</div>
+										</div>
 									</div>
 								</div>			
 							</div>
@@ -169,39 +186,8 @@
 
 <th:block layout:fragment="customJs">
 	
-	<!-- 사업자번호 유효성 검사 -->
 	<script>
-		$(function(){
-			var str = $(".shoppingmallNumber");
-				function shoppingmallNumber(str){
-			          str = str.replace(/[^0-9]/g, '');
-			          var tmp = '';
-			          if(str.length < 4){
-			              return str;
-			          }else if(str.length < 7){
-			              tmp += str.substr(0, 3);
-			              tmp += '-';
-			              tmp += str.substr(3);
-			              return tmp;
-			          }else{             
-			              tmp += str.substr(0, 3);
-			              tmp += '-';
-			              tmp += str.substr(1, 2);
-			              tmp += '-';
-			              tmp += str.substr(5);
-			              return tmp;
-			          }
-			          return str;
-			      };
-		});
-		 
-		/* var shoppingmallNumber = document.getElementById("shoppingmallNumber");
-		shoppingmallNumber.onkeyup = function(event){
-		       event = event || window.event;
-		       var _val = this.value.trim();
-		       this.value = licenseNum(_val) ;
-		}; */
-		
+		/* 유효 사업자번호 API 조회 */
         $(function(){
            
             $('#businessNumbtn').click(function(){
@@ -234,7 +220,48 @@
             
         });
 
-    
+        /* 사업자번호 하이픈 */
+		$(function(){
+			var autoHypenNum = function(str){
+			      str = str.replace(/[^0-9]/g, '');
+			      console.log(str);
+			      var tmp = '';
+			      if( str.length < 4){
+			          return str;
+			      }else if(str.length < 6){
+			          tmp += str.substr(0, 3);
+			          tmp += '-';
+			          tmp += str.substr(3);
+			          return tmp;
+			      }else if(str.length < 11){
+			          tmp += str.substr(0, 3);
+			          tmp += '-';
+			          tmp += str.substr(3, 2);
+			          tmp += '-';
+			          tmp += str.substr(5);
+			          return tmp;
+			      }else{              
+			          tmp += str.substr(0, 3);
+			          tmp += '-';
+			          tmp += str.substr(3, 4);
+			          tmp += '-';
+			          tmp += str.substr(7);
+			          return tmp;
+			      }
+			  
+			      return str;
+			}
+
+			var shoppingmallNum = document.getElementById('shoppingmallNumber');
+
+			shoppingmallNum.onkeyup = function(){
+			  console.log(this.value);
+			  this.value = autoHypenNum( this.value ) ; 
+			}
+		});
+        
+        
+        
 		
 	</script>
 
