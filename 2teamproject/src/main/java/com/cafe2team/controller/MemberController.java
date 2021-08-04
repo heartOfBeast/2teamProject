@@ -525,10 +525,6 @@ public class MemberController {
 			  
 				  if(check.equals("memberCheck") && member != null) {
 					  
-   					 //Member member = memberService.getAdminAjaxId(memberEmail);
-					 //SimpleMailMessage message = new SimpleMailMessage();
-					 //MimeMessage message = javaMailSender.createMimeMessage();
-					  
 					  
 					  subject = "물류센터 비밀번호 입니다.";
 					  msg += "<div align='center' style='border:1px solid black; font-family:verdana'>";
@@ -543,31 +539,17 @@ public class MemberController {
 				        mimeMessage.setSubject(subject);
 				        mimeMessage.setText(msg, "UTF-8", "html");
 
-				      //javaMailSenderImpl.send(mimeMessage);
 				        
 					  Thread thread = new Thread(createRunnable(mimeMessage));
 					  thread.start();
 					  thread = null;
 					
-//					  message.setTo(memberEmail);
-//					  message.setSubject(subject);
-//					  message.setText(msg);
-				  
-					  
-					 // javaMailSender.send(message);
 					  
 					  
 					  map.put("member", member);
 					  return map;
 				  }else if(check.equals("shopCheck") && shop != null) {
 					  
-					  //Shoppingmall shop = memberService.getShopAjaxId(memberEmail);
-					  
-//					  SimpleMailMessage message = new SimpleMailMessage();
-//					  
-//					  message.setTo(memberEmail);
-//					  message.setSubject("물류센터 비밀번호찾기 ");
-//					  message.setText("비밀번호 : "+ shop.getShoppingmallPw());
 					  
 					  
 					  subject = "물류센터 비밀번호 입니다.";
@@ -588,8 +570,6 @@ public class MemberController {
 					  thread.start();
 					  thread = null;
 					
-					  //javaMailSender.send(message);
-					  
 					  map.put("shop", shop);
 					  return map;
 					  
@@ -599,7 +579,6 @@ public class MemberController {
 				  }
 				  
 				  
-//		  
 		  }
 		  
 			  
