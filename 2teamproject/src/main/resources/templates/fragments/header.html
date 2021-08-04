@@ -93,7 +93,7 @@
 		</li>
 		<li class="dropdown">
 			<a href="#" id="userSettings" class="user-settings" data-toggle="dropdown" aria-haspopup="true">
-				<span class="user-name" th:if="${session.SID != null}">! [[${session.SID}]] (준)</span>
+				<span class="user-name" th:if="${session.SID != null}">! [[${session.SID}]] </span>
 				<span class="avatar">
 					<img src="img/black.png" alt="avatar">
 					<span class="status busy"></span>
@@ -105,17 +105,17 @@
 						<div class="header-user">
 							<img src="img/black.png" alt="Admin Template">
 						</div>
-						<h5>! [[${session.SNAME}]] (준)</h5>
-						<p>! [[${session.SLEVEL}]] (준)</p>
+						<h5>! [[${session.SNAME}]] </h5>
+						<p>! [[${session.SLEVEL}]] </p>
 					</div>
 				<div>
 					<a th:if="${session.SLEVEL == '총관리자' or session.SLEVEL == '창고관리자' or session.SLEVEL == '구역관리자' or session.SLEVEL == '배송기사'}" 
-					th:href="@{/myPage(memberId=${session.SID})}"><i class="icon-log-out1"></i>!내 정보 관리(준)</a>
+					th:href="@{/myPage(memberId=${session.SID})}"><i class="icon-log-out1"></i>!내 정보 관리</a>
 					
 					<a th:unless="${session.SLEVEL == '총관리자' or session.SLEVEL == '창고관리자' or session.SLEVEL == '구역관리자' or session.SLEVEL == '배송기사'}" 
-					th:href="@{/myShopPage(memberId=${session.SID})}"><i class="icon-log-out1"></i>!내 정보 관리(준)</a>
+					th:href="@{/myShopPage(memberId=${session.SID})}"><i class="icon-log-out1"></i>!내 정보 관리</a>
 					
-					<a th:href="@{/logout}"><i class="icon-log-out1"></i>!로그아웃(준)</a>
+					<a th:href="@{/logout}"><i class="icon-log-out1"></i>!로그아웃</a>
 				</div>
 			</div>
 		</div>

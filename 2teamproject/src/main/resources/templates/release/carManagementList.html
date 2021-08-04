@@ -62,7 +62,7 @@
 									</tr>
 								</tbody>
 				    	</table>
-				    	<a class="btn btn-primary float-right" onClick="history.back(-1);" style="color: white;">뒤로가기</a>
+				    	<a type="button" class="btn btn-primary float-right" onClick="backList();" style="color: white;">뒤로가기</a>
 						</div>
 					</div>
 				</div>
@@ -158,7 +158,7 @@
 				$(this).click(function(){
 					var releaseOrderCode = $(this).parents('tr').children('#releaseOrderCodeData').text();
 					if(releaseOrderCode != null){
-						var chk = confirm('배차 취소시 등록된 운송장 정보도 함께 삭제됩니다. 취소하시겠습니까?');
+						var chk = confirm('배차 취소시 등록된 운송장 정보도 함께 삭제됩니다.\n취소하시겠습니까?');
 						if(chk){
 							$.ajax({
 								url : "/deleteCarmanagement",
@@ -181,6 +181,10 @@
 					}
 				})
 			})
+			
+		function backList(){
+			location.replace("releaseOrder");
+		}	
 		</script>
 	</th:block>			
 </html>
