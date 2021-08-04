@@ -11,9 +11,9 @@
  		<result property="boardNonmemberPhone" column="board_nonmember_phone"/>
  		<result property="boardNonmemberEmail" column="board_nonmember_email"/>
  		<result property="boardQnaViews" column="board_qna_views"/>
- 		<result property="boardCheckPassword" column="board_qna_views"/>
- 		<result property="boardQnaPassword" column="board_check_password"/>
- 		<result property="boardQnaTemp" column="board_qna_password"/>
+ 		<result property="boardCheckPassword" column="board_check_password"/>
+ 		<result property="boardQnaPassword" column="board_qna_password"/>
+ 		<result property="boardQnaTemp" column="board_qna_temp"/>
  		<result property="boardQnaRegDate" column="board_qna_reg_date"/>
   	</resultMap>
   	
@@ -110,7 +110,7 @@
 			,#{boardNonmemberEmail}
 			,NOW()
 			,0
-			,#{boardCheckPassword}
+			,1
 			,#{boardQnaPassword}
 			,'안함')
 	</insert>
