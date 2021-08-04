@@ -117,7 +117,7 @@
 							<a th:href="@{/priceList}">요금안내 및 계약신청(동욱#)</a>
 						</li>
 						<li>
-							<a th:if="${session.SLEVEL == '사업자'}" th:href="@{/shoppingmallAdd(shoppingmallId=${session.SID})}">거래처 등록(동욱#)</a>
+							<a th:if="${session.SLEVEL == '사업자' and session.STATUS != '승인'}" th:href="@{/shoppingmallAdd(shoppingmallId=${session.SID})}">거래처 등록(동욱#)</a>
 						</li>
 						<li>
 							<a th:unless="${session.SLEVEL == '사업자' or session.SLEVEL == '게스트'}" th:href="@{/shoppingmallApproval}">거래처 권한 관리(동욱#)</a>
