@@ -37,14 +37,15 @@ html,body {
 	                        <a th:href="@{/findId}" type="submit" style="margin:8px" class="btn btn-outline-info" >아이디 찾기</a>
 	                        <a th:href="@{/findPw}" type="submit" style="margin:8px" class="btn btn-outline-info" >비밀번호 찾기</a>
 	                        <br/>
+	                        <h6>로그인을 원하시는 각 권한들의 버튼을 눌러주세요.</h6>
 	                        <div>
 		                        <button style="margin:8px" class="btn btn-outline-info" id="manageLogin">총관리자</button>
 		                        <button style="margin:8px" class="btn btn-outline-info" id="houseLogin">창고관리자</button>
 		                        <button style="margin:8px" class="btn btn-outline-info" id="shopLogin">일반사업자</button>
 	                        </div>
-	                        <span>관리자 아이디가 존재하지않는다면? <a th:href="@{/adminsignup}" class='text-info' style="text-decoration:underline">회원가입 페이지</a></span>
+	                        <h6>관리자 아이디가 존재하지않는다면? <a th:href="@{/adminsignup}" class='text-info' style="text-decoration:underline">회원가입 페이지</a></h6>
 	                        <br/>
-	                        <span>거래처 아이디가 존재하지않는다면? <a th:href="@{/accountsignup}" class='text-info' style="text-decoration:underline">회원가입 페이지</a></span>
+	                        <h6>거래처 아이디가 존재하지않는다면? <a th:href="@{/accountsignup}" class='text-info' style="text-decoration:underline">회원가입 페이지</a></h6>
 	                 </div>
        			</form>
           </div>
