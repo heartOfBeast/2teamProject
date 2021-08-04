@@ -7,6 +7,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +25,8 @@ import com.cafe2team.service.ReplyService;
 @Controller
 
 public class InquiryController {
-	
+	private static final Logger log = LoggerFactory.getLogger(MemberController.class);
+
 	private final InquiryService inquiryService;
 	private final ReplyService replyService;
 	
@@ -33,23 +36,38 @@ public class InquiryController {
 	}
 
 	//문의글 삭제
-	@PostMapping("deleteInquiry")
-	@ResponseBody
-	public int deleteInquiry(@RequestParam(value = "boardQnaCode")String boardQnaCode) {
-		int result = 1;
-		inquiryService.deleteInquiry(boardQnaCode);
-		return result;
+	@PostMapping("/deleteInquiry")
+	public String deleteInquiry(@RequestParam(value = "boardQnaCode", required = false)String boardQnaCode
+							,@RequestParam(value = "boardQnaPassword", required = false)String boardQnaPassword
+							,RedirectAttributes redirectAttr) {
+		
+		log.info("========================================");
+		log.info("화면에서 입력받은 값(게시물삭제) boardQnaCode: {}", boardQnaCode);
+		log.info("화면에서 입력받은 값(게시물삭제) boardQnaPassword: {}", boardQnaPassword);
+		log.info("========================================");
+		if(boardQnaPassword != null && !"".equals(boardQnaPassword)) {			
+			boolean result = inquiryService.deleteInquiry(boardQnaCode, boardQnaPassword);
+			if(result) {
+				return "redirect:/inquiryList";
+			}
+		}
+		redirectAttr.addAttribute("boardQnaCode", boardQnaCode);
+		redirectAttr.addAttribute("result", "삭제실패");
+		
+		return "redirect:/readInquiry";
+		
+		
 	}
 	
 	//문의글 수정
-	@PostMapping("modifyInquiry")
+	@PostMapping("/modifyInquiry")
 	public String modifyInquiry(Inquiry inquiry) {
 		inquiryService.modifyInquiry(inquiry);
 		return "redirect:/inquiryList";
 	}
 	
 	//문의글 수정
-	@GetMapping("modifyInquiry")
+	@GetMapping("/modifyInquiry")
 	public String modifyInquiry(Model model,
 								@RequestParam(name = "boardQnaCode", required = false)String boardQnaCode) {
 		Inquiry inquiry = inquiryService.getInquiryInfo(boardQnaCode);
@@ -75,7 +93,14 @@ public class InquiryController {
 		return "inquiry/writeInquiry";
 	
 	}
-	
+	//문의게시판 게시글 댓글 삭제
+	@PostMapping("/deleteReply")
+	@ResponseBody
+	public int deleteReply(@RequestParam(value = "replyCommentCode",required = false)String replyCommentCode) {
+		int result = 1;
+		replyService.deleteReply(replyCommentCode);
+		return result;
+	}
 	
 	//문의게시판 글 댓글작성
 	@GetMapping("/readInquiryinfo")
@@ -107,6 +132,7 @@ public class InquiryController {
 								@RequestParam(value = "boardQnaCode", required = false)String boardQnaCode) {
 		//문의게시판 댓글조회
 		List<Reply> inquiryReply = replyService.getInquiryReply(boardQnaCode);
+		//조회수
 		int hitNum = inquiryService.addHit(boardQnaCode);
 		model.addAttribute("title", "게시글 조회");
 		model.addAttribute("readInquiry", inquiryService.readInquiry(boardQnaCode));

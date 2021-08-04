@@ -16,6 +16,22 @@
 		<result property="replyOmmentSequence"			column="reply_omment_sequence"/>	
 	</resultMap>
 	
+	
+	<!--문의게시판 게시물 삭제시 댓글삭제 -->
+	<delete id="deleteBoardReply" parameterType="String">
+		DELETE FROM 
+			tb_reply_comments 
+		WHERE 
+			board_qna_code = #{boardQnaCode}
+	</delete>
+	<!-- 문의게시판 댓글 삭제 -->
+	<delete id="deleteReply" parameterType="String">
+		DELETE FROM 
+			tb_reply_comments 
+		WHERE 
+			reply_comment_code=#{replyCommentCode}
+	</delete>
+	
 	<!--문의게시판 댓글 달기  -->
 	<insert id="addReply" parameterType="Reply">
 		<selectKey keyProperty="replyCommentCode" keyColumn="reply_comment_code" resultType="String" order="BEFORE">
