@@ -27,15 +27,51 @@
 	</resultMap>
 	
 	
+	<!-- 재고실사 등록  -->
+	<insert id="stockCheckInsert" parameterType="StockCheck">
+	INSERT INTO 
+			tb_stock_sector_check
+	(
+	  stock_sector_check_code
+	, warehouse_code
+	, stock_code
+	, member_id
+	, stock_check_error_amount
+	, stock_sector_check_amount
+	, stock_check_unit
+	, stock_check_detail
+	, stock_check_date
+	, stock_check_reg_date
+	)
+	VALUES 
+	( sf_newStockCheckCode()
+	, #{warehouseCode}
+	, #{stock.stockCode}
+	, #{memberid}
+	, #{seccheckError}
+	, #{seccheckAmount}
+	, #{checkUnit}
+	, #{checkDetail}
+	, #{checkDate}
+	, NOW()
+	)
+	</insert>
+	
 	<!-- 재고실사등록을 위해 재고코드를 입력시 최종위치, 현재 재고수량 자동생성 -->
 	<select id="getSectorFinalCode" resultType="StockCheck" fetchSize="700" resultMap="stockCheckResultMap">
 		SELECT 
-			sector_column_final_code,
-			stock_amount			
+			s.sector_column_final_code,
+			s.stock_amount,
+			s.warehouse_code,
+			ws.sector_code			
 		from 
-			tb_stock_status
-		where 
-			stock_code =#{stock_code};
+			tb_stock_status AS s
+		INNER join
+		 	tb_warehouse_sector AS ws
+		ON
+			s.warehouse_code = ws.warehouse_code
+		where
+			s.stock_code = #{stockCode}
 	</select>
 	<!-- 재고실사 등록용 조회-->
 		<select id="getStockInfo" resultType="StockCheck" fetchSize="700" resultMap="stockCheckResultMap">
@@ -99,9 +135,11 @@
 	INNER JOIN tb_warehouse_sector AS ws
 		ON ws.warehouse_code = w.warehouse_code
 	WHERE
-		ssc.warehouse_code=#{warehouse_code}
-		<if test="sector_code !=null and sector_code != '' ">
-		AND ws.sector_code =#{sector_code}
+		<if test="warehouse_name !=null and warehouse_name != '' ">
+		w.warehouse_name=#{warehouse_name}
+			<if test="sector_code !=null and sector_code != '' ">
+			AND ws.sector_code =#{sector_code}
+			</if> 
 		</if> 
 		;
 	</select> 

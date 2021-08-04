@@ -37,6 +37,29 @@
 			<result property="finalSectorRegId"			column="ware_admin_id" />
 	</resultMap>
 	
+		
+	<!-- 재고실사 창고별 조회를 위해 창고명 가져오기 -->
+	<select id="getWarehouseName" resultType="Warehouse" resultMap="warehouseResultMap">
+	SELECT 
+		warehouse_name
+	FROM 
+		tb_warehouse
+	</select>
+	
+	<!-- 재고실사 구역별 조회를 위해 구역명 가져오기 -->
+	<select id="getWarehouseSector" resultType="warehouseSector" resultMap="warehouseSectorResultMap">
+	SELECT 
+		ws.sector_code
+	FROM 
+		tb_warehouse AS w
+	INNER JOIN 
+		tb_warehouse_sector AS ws
+	ON
+		w.warehouse_code = ws.warehouse_code
+	WHERE
+		w.warehouse_name = #{warehouseName};
+	</select>
+	
 	<update id="warehouseUpdateModal" parameterType="Warehouse">
 		UPDATE tb_warehouse
 		SET

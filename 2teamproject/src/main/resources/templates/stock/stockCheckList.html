@@ -35,32 +35,11 @@
 		<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-6">
 			<div class="table-container">
 				<div class="t-header">재고실사조회</div>
-				<select id="ware" >
-					<option> :: 선택 ::</option>
-					<option value="w001"> 군산물류 </option>
-					<option value="w002"> 익산물류 </option>
-					<option value="w003"> 경기물류 </opt()ion>
-					<option value="w004"> 인천물류 </option>
-					<option value="w005"> 용인물류 </option>
-					<option value="w006"> 광주물류</option>
-					<option value="w007"> 충북물류</option>
-					<option value="w008"> 안산물류</option>
-					<option value="w009"> 충남물류</option>
-					<option value="w010"> 진천물류</option>
-
+				<select id="ware" name="ware" >
+					<option>창고를 선택하세요 </option>
+					<option th:each="w : ${warehouseName}" th:value="${w.warehouseName}" th:text="${w.warehouseName}"></option>
 				</select>
-				<select id="sector">
-					<option> :: 선택 ::</option>
-					<option value="s001"> 1구역 </option>
-					<option value="s002"> 2구역 </option>
-					<option value="s003"> 3구역 </option>
-					<option value="s004"> 4구역 </option>
-					<option value="s005"> 5구역 </option>
-					<option value="s006"> 6구역 </option>
-					<option value="s007"> 7구역 </option>
-					<option value="s008"> 8구역 </option>
-					<option value="s009"> 9구역 </option>
-					<option value="s010"> 10구역 </option>
+				<select id="sector" name="sector">
 				</select>
 				
 				<div class="table-responsive">
@@ -68,7 +47,7 @@
 						<thead>
 							<tr >
 							  <th>실사결과 코드</th>
-							  <th>상품코드(상품명)</th>
+							  <th>재고코드(상품명)</th>
 							  <th>창고코드</th>
 							  <th>구역코드</th> 
 							  <th>실사전 수량</th>							  
@@ -189,7 +168,7 @@
 
 <th:block layout:fragment="customJs">
 <script src="js/jquery.min.js"></script>
-<script type="text/javascript">
+<script type="text/javascript" th:inline="javascript">
 $('.modifyBtn').each(function(){
 	$(this).click(function(){
 		var seccheckCodeId 					= $(this).parents('tr').children('#seccheckCodeId').text();
@@ -219,27 +198,84 @@ $('.modifyBtn').each(function(){
 });
 
 
-/**************************************************************************************************************/
-
-
-var values = [];
-var ware = document.getElementById('ware');
-var sector = document.getElementById('sector');
-var wareSel = "";
-var sectorSel = "";
-
-	ware.addEventListener('change', function() {
-		wareSel = ware.value;
-		console.log(wareSel);
-		getData()
-	});
-	sector.addEventListener('change', (event) => {
-		sectorSel = sector.value;
-		sectorSel = wareSel+"_"+sectorSel;
-		getData()
+/************************************** ajax 구역코드 가져오기********************************************************/
+	var sector =$('#sector');
+	$('#ware').change(function(){
+		$.ajax({
+			url: "/stockCheckSector",
+			method : "POST",
+			data : { wareName : $('#ware').val()},
+			success : function(res) {
+ 				var html ='';
+				html += '<option class = "name" value=""> :: 구역을 선택하세요 :: </option>';
+				$.each(res, function (i, data) {
+					console.log(data.sectorCode);
+	 				if(data.sectorCode != undefined && data.sectorCode != ''){
+	 						html += '<option value="'+data.sectorCode+'">';
+	 						html += data.sectorCode;
+	 						html += '</option>';
+	 				}
+                });
+				console.log(html);
+				$('#sector').html(html);
+			}
+		});
+		
+		console.log($('#ware').val()+">>>"+$('#sector').val())
+		
+		getStkSectorList();
+		
 	});
 	
-	function getData(){
+	
+	$('#sector').change(function(){
+		console.log("sector change detected")
+// 		console.log(">>>"+$('#sector').val())
+		getStkSectorList();
+	});//#sector change event end
+	
+	var getStkSectorList = function(){
+		$.ajax({
+			url: "/stockCheckSectorList",
+			method : "POST",
+			data : { wareName : $('#ware').val(),
+					 sectorName : $('#sector').val()
+					},
+			success : function(res) {
+				console.log(res);
+				
+				$('#stockResultData').children().remove();
+
+				var innerHtml = "";
+				$.each(res, function( index, value ) {
+		            innerHtml += '<tr>'	
+	            	innerHtml += '<td>'+value.seccheckCode+'</td>'
+            		innerHtml += '<td>'+value.stock.stockCode+ '(' +value.product.productName + ')' +'</td>'
+       				innerHtml += '<td>'+value.warehouseCode+'</td>'
+    				innerHtml += '<td>'+value.wareSector.sectorCode+'</td>'
+		            innerHtml += '<td>'+value.stock.stockAmount+'</td>'
+		            innerHtml += '<td>'+value.seccheckError+'</td>'
+		            var seccheckAmount = value.seccheckAmount;
+		            if(seccheckAmount == null)seccheckAmount = "";
+					innerHtml += '<td>'+seccheckAmount+'</td>'
+					innerHtml += '<td>'+value.memberid+'</td>'
+					innerHtml += '<td>'+value.checkDetail+'</td>'
+					innerHtml += '<td>'+value.checkDate+'</td>'
+					innerHtml += '<td>'+value.checkRegdate+'</td>'
+					innerHtml += '<td><a href="#mymodal" type="button" class="btn btn-primary modifyBtn" data-toggle="modal" data-target=".bd-example-modal-lg" id = "viewModal">수정</a></td>'
+					innerHtml += '</tr>'
+		            
+                    console.log( index + " : " + value.seccheckCode ); 
+                 });
+					console.log("innerHtml>>>");
+					console.log(innerHtml);
+		         $('#stockResultData').append(innerHtml);
+				
+			}//success end
+		});// ajax end 
+	}
+	
+/* 	 getData(){
 		$.ajax({
 			url : "/stockCheckListDetail", 
 			//method: "POST", 
@@ -274,7 +310,7 @@ var sectorSel = "";
 			}
 		})	
 		
-	} 
+	}  */
 	
 
 </script>

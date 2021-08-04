@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.cafe2team.dao.WarehouseMapper;
 import com.cafe2team.domain.Warehouse;
+import com.cafe2team.domain.WarehouseSector;
 
 @Service
 public class WarehouseService {
@@ -69,6 +70,16 @@ public class WarehouseService {
 		public List<Warehouse> getWarehouseLocation() {
 			List<Warehouse> getWarehouseLocation = warehouseMapper.getWarehouseLocation();
 			return getWarehouseLocation;
+		}
+		//재고실사 창고별 조회를 위해 창고명 가져오기
+		public List<Warehouse> getWarehouseName() {
+			List<Warehouse> warehouseName = warehouseMapper.getWarehouseName();
+			return warehouseName;
+		}
+		//재고실사 구역별 조회를 위해 구역명 가져오기
+		public List<WarehouseSector> getWarehouseSector(String wareName) {
+			List<WarehouseSector> warehouseName = warehouseMapper.getWarehouseSector(wareName);
+			return warehouseName;
 		}
 		
 }

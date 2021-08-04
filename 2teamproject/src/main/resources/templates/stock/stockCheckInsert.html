@@ -20,10 +20,11 @@
 </div>
 </th:block>
 <th:block layout:fragment="container">
+
 <div class="main-container">
 			<div class="row justify-content-center gutters">
 						<div class="col-xl-7 col-lg-7 col-md-9 col-sm-10">
-							<form>
+							<form id ="addStockCheckForm" th:action="@{/stockCheckInsert}" method="POST">
 								<div class="card m-0">
 									<div class="card-header">
 										<div class="card-title">실사결과 등록</div>
@@ -32,42 +33,68 @@
 								<div class="card-body">
 											<div class="form-group row gutters">
 												<label for="stockCodeIdProductName" class="col-sm-3 col-form-label text-right">재고코드</label>	
-												<select class="col-sm-6" id="stockCodeIdProductName" name="stockCodeIdProductName" required="required">
+												<select class="col-sm-6" id="stockCodeIdProductName" name="stock.stockCode" required="required">
 													<option value="">재고코드(상품명)</option>
 												    <option th:each="s: ${stock}" th:value="${s.Stock.stockCode}" th:text="|${s.Stock.stockCode}(${s.Product.productName })|" ></option>
 												</select>
-											</div>										
+											</div>
 											<div class="form-group row gutters">
-												<label for="secFinalCode" class="col-sm-3 col-form-label text-right">상품최종위치</label>
+												<label for="wareCode" class="col-sm-3 col-form-label text-right">창고코드</label>
 												<div class="col-sm-6">
-													<input type="text" class="form-control" id="secFinalCode"  readonly="readonly">
+													<input type="text" class="form-control" id="wareCode" name="warehouseCode" th:value readonly="readonly">
+												</div>
+											</div>						
+											<div class="form-group row gutters">
+												<label for="sectorCode" class="col-sm-3 col-form-label text-right">구역코드</label>
+												<div class="col-sm-6">
+													<input type="text" class="form-control" id="sectorCode" name="wareSector.sectorCode" readonly="readonly">
 												</div>
 											</div>
 											<div class="form-group row gutters">
-												<label for="stockAmount" class="col-sm-3 col-form-label text-right">현재수량</label>
+												<label for="stockAmount" class="col-sm-3 col-form-label text-right">실사전 수량</label>
 												<div class="col-sm-6">
-													<input type="text" class="form-control" id="stockAmount" readonly="readonly">
+													<input type="text" class="form-control" id="stockAmount" name="stock.stockAmount" readonly="readonly">
+												</div>
+											</div>											
+											<div class="form-group row gutters">
+												<label for="errorAmount" class="col-sm-3 col-form-label text-right">오차수량</label>
+												<div class="col-sm-6">
+													<input type="text" class="form-control" id="errorAmount" name="seccheckError" >
 												</div>
 											</div>
 											<div class="form-group row gutters">
-												<label for="CheckAmount" class="col-sm-3 col-form-label text-right">실사수량</label>
+												<label for="CheckAmount" class="col-sm-3 col-form-label text-right">실사후 수량</label>
 												<div class="col-sm-6">
-													<input type="text" class="form-control" id="CheckAmount" >
+													<input type="text" class="form-control" id="CheckAmount" name="seccheckAmount" >
 												</div>
 											</div>
 											<div class="form-group row gutters">
 												<label for="checkAdmin" class="col-sm-3 col-form-label text-right">실사담당자</label>
 												<div class="col-sm-6">
-													<input type="text" class="form-control" id="checkAdmin" >
+													<input type="text" class="form-control" id="checkAdmin" name="memberid" th:if="${session.SID != null}" th:value="${session.SID}" readonly="readonly">
+												</div>
+											</div>	
+											<div class="form-group row gutters">
+												<label for="checkUnit" class="col-sm-3 col-form-label text-right">실사단위</label>
+												<div class="col-sm-6">
+													<input type="text" class="form-control" id="checkUnit" name="checkUnit" >
+												</div>
+											</div>	
+											
+											<div class="form-group row gutters">
+												<label for="checkDetail" class="col-sm-3 col-form-label text-right">상세설명</label>
+												<div class="col-sm-6">
+													<input type="text" class="form-control" id="checkDetail" name="checkDetail" >
 												</div>
 											</div>
 											<div class="form-group row gutters">
 												<label for="checkDate" class="col-sm-3 col-form-label text-right">실사일자</label>
 												<div class="col-sm-6 custom-date-input">
-													<input type="text" class="form-control datepicker-dropdowns" id="checkDate" placeholder="실사일자를 선택해주세요">
+													<input type="text" class="form-control datepicker-dropdowns" id="checkDate"  name="checkDate">
 												</div>
 											</div>
-										<button type="button" id="submit" name="submit" class="btn btn-primary float-right">등록하기</button>
+										
+										<button type="button" id="submitCheck" class="btn btn-primary float-right">등록하기</button>
 								</div>
 								</div>
 							</form>
@@ -95,10 +122,18 @@
 						stockCode : CodeIdProductName
 					},
 					success : function(res){
-						var finalCode = res[0].stock.finalSector;
+						console.log(res);
+						console.log(res[0]);
 						var realStockAmount = res[0].stock.stockAmount;
-						$("#secFinalCode").val(finalCode);
+						var wareCheckCode = res[0].warehouseCode;
+						var sectorCheckCode = res[0].wareSector.sectorCode;
+						console.log(wareCheckCode +"################################");
+						console.log(sectorCheckCode +"@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+						
 						$("#stockAmount").val(realStockAmount);
+						$("#wareCode").val(wareCheckCode);
+						$("#sectorCode").val(sectorCheckCode);
+						
 						
 					}
 					
@@ -106,5 +141,97 @@
 			}
 			
 		
+			
+			$('#submitCheck').click(function(){
+				console.log(submitCheck);
+				var addStockCheckForm = $('#addStockCheckForm');
+				var submitFlag = true;				
+				var stockCodeIdProductName = $('#stockCodeIdProductName').val();
+				var wareCode = $('#wareCode').val();
+				var sectorCode = $('#sectorCode').val();
+				var stockAmount = $('#stockAmount').val();
+				var errorAmount = $('#errorAmount').val();
+				var CheckAmount = $('#CheckAmount').val();
+				var checkAdmin = $('#checkAdmin').val();
+				var checkUnit = $('#checkUnit').val();
+				var checkDetail = $('#checkDetail').val();
+				var checkDate = $('#checkDate').val();
+	
+				
+
+				
+				/************************************창고명 입력여부 검사 ************************************/
+				if(stockCodeIdProductName == null || stockCodeIdProductName == '' || stockCodeIdProductName == undefined){
+					alert('재고코드 상품명을  선택해주세요.');
+					$(this).focus();
+					submitFlag = false;
+					return submitFlag;
+					
+				/************************************창고 소재지 입력여부 검사 ************************************/
+				}else if(wareCode == null || wareCode == '' || wareCode == undefined){
+					alert('창고 코드를 다시 입력해주세요.');
+					$(this).focus();
+					submitFlag = false;
+					return submitFlag;
+					
+				/************************************창고 종류 입력여부 검사 ************************************/
+				}else if(sectorCode == null || sectorCode == '' || sectorCode == undefined){
+					alert('구역 코드를 다시 입력해주세요.');
+					$(this).focus();
+					submitFlag = false;
+					return submitFlag;
+					
+				/************************************창고 면적 입력여부 검사 ************************************/
+				}else if(stockAmount == null || stockAmount == '' || stockAmount == undefined){
+					alert('실사전 수량을 다시 입력해주세요.');
+					$(this).focus();
+					submitFlag = false;
+					return submitFlag;
+					
+				/************************************창고 연락처 입력여부 검사 ************************************/
+				}else if(errorAmount == null || errorAmount == '' || errorAmount == undefined){
+					alert('오차 수량을 다시 입력해주세요.');
+					$(this).focus();
+					submitFlag = false;
+					return submitFlag;
+					
+				/************************************사업자 등록번호 입력여부 검사 ************************************/
+				}else if(CheckAmount == null || CheckAmount == '' || CheckAmount == undefined){
+					alert('실사후 수량을 다시 입력해주세요.');
+					$(this).focus();
+					submitFlag = false;
+					return submitFlag;
+					
+				}else if(checkAdmin == null || checkAdmin == '' || checkAdmin == undefined){
+					alert('등록담당자를 다시 입력해주세요.');
+					$(this).focus();
+					submitFlag = false;
+					return submitFlag;
+					
+				}else if(checkUnit == null || checkUnit == '' || checkUnit == undefined){
+					alert('실사단위를 다시 입력해주세요.');
+					$(this).focus();
+					submitFlag = false;
+					return submitFlag;
+					
+				}else if(checkDetail == null || checkDetail == undefined){
+					alert('특이사항을 다시 입력해주세요.');
+					$(this).focus();
+					submitFlag = false;
+					return submitFlag;
+					
+				}else if(checkDate == null || checkDate == '' || checkDate == undefined){
+					alert('실사 날짜를 다시 입력해주세요.');
+					$(this).focus();
+					submitFlag = false;
+					return submitFlag;
+				}
+				console.log(submitFlag)
+				if(submitFlag) {
+				console.log(submitFlag)
+					$('#addStockCheckForm').submit();
+				}
+			});
+
 	</script>	
 </html>

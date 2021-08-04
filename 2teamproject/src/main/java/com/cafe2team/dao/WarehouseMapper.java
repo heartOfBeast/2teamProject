@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.cafe2team.domain.Warehouse;
+import com.cafe2team.domain.WarehouseSector;
 
 @Mapper
 public interface WarehouseMapper {
@@ -30,4 +31,10 @@ public interface WarehouseMapper {
 	public int addWarehouseFinalSector(Warehouse warehouse);
 	
 	public List<Warehouse> getWarehouseLocation();
+	
+	//재고실사 창고별 조회를 위해 창고명 가져오기
+	public List<Warehouse> getWarehouseName();
+	
+	//재고실사 구역별 조회를 위해 구역명 가져오기
+	public List<WarehouseSector> getWarehouseSector(String wareName	);
 }

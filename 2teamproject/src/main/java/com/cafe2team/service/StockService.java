@@ -29,8 +29,8 @@ public class StockService {
 	}
 
 	//창고별섹터별 실사조회
-	public List<StockCheck> getStockCheckListDetail(String warehouse_code, String sector_stock_status_code) {
-		List<StockCheck> stockCheckListDetail = stockCheckMapper.getStockCheckListDetail(warehouse_code, sector_stock_status_code);
+	public List<StockCheck> getStockCheckListDetail(String warehouse_name, String sector_code) {
+		List<StockCheck> stockCheckListDetail = stockCheckMapper.getStockCheckListDetail(warehouse_name, sector_code);
 		return stockCheckListDetail;
 	}
 	
@@ -75,7 +75,7 @@ public class StockService {
 		return stockCheckMapper.stockCheckUpdate(stockCheck);
 		
 	}
-	//재고 실사 등록
+	//재고 실사 등록용 조회
 	public List<StockCheck> getStockInfo() {
 		List<StockCheck> stock = stockCheckMapper.getStockInfo();
 		return stock;
@@ -84,6 +84,11 @@ public class StockService {
 	public List<StockCheck> getSectorFinalCode(String stockCode) {
 		List<StockCheck> getSectorFinalCode = stockCheckMapper.getSectorFinalCode(stockCode);
 		return getSectorFinalCode;
+	}
+	//재고실사 등록
+	public int stockCheckInsert(StockCheck stockCheck) {
+		int result = stockCheckMapper.stockCheckInsert(stockCheck);
+		return result;
 	}
 
 	
