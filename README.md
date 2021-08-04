@@ -84,7 +84,7 @@
  - QRBarCode API
  - KaKao 주소
  - KaKao 지도
- - 사업자번호API
+ - 사업자번호 조회 API
  
 # 💡About TEAM
 ## 🧑‍🤝‍🧑 Member
