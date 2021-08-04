@@ -28,16 +28,19 @@
 </th:block>
 
 <th:block layout:fragment="container">
+	<style>
+		.hidden-col{display: none;}
+	</style>
 	<div class="main-container">
 		<div class="row gutters">
 			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 		
 				<div class="card">
 					<div class="card-header">
-						<div class="card-title">Basic Column Graph With Datatables</div>
+						<div class="card-title">입고현황<span id="wearing"></span></div>
 					</div>
 					<div class="card-body">
-						<div id="basic-column-graph-datalables" class="primary-graph"></div>
+						<div id="receivingGraph" class="primary-graph" th:fragment="receivingInfo"></div>
 						
 					</div>
 				</div>
@@ -48,60 +51,49 @@
 		<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">			
 			<div class="table-container">
 				<div class="t-header">입고 현황 조회</div>
+				<form th:action="@{/receivingShopStatus}" method="get" id="searchProductPerWarehouse">
+						<select id="searchKind" name="warehouseCode" class="form-control" style="width: 200px; display: inline;">
+							<option  value="">창고를 선택해주세요.</option>
+							<option  value="">전체 보기</option>
+							<option th:each="w : ${warehouse}" th:value="${w.warehouseCode}" th:text="${w.warehouseName}"></option>
+						</select>
+						<div style="display: inline;">
+							<a href="#" id="reportrangeCustom">
+								<input class="btn btn-outline-primary btn-rounded" id="firstDate" th:name="firstDate" placeholder="검색 시작일" onkeyup="firstDateKey();" type="text" maxlength="10" autocomplete="off">
+								<span class="range-text" id="midDate" style="color: #225de4;">~</span>
+								<input class="btn btn-outline-primary btn-rounded" id="secondDate" th:name="secondDate" placeholder="검색 종료일" onkeyup="secondDateKey();" type="text" maxlength="10" autocomplete="off">
+								<i class="icon-chevron-down"></i>	
+							</a>
+						</div>
+						<button class="btn btn-outline-primary btn-rounded" type="submit">검색</button>
+						
+					</form>
 					<div class="table-responsive">
 						<table id="copy-print-csv" class="table custom-table">
 						<thead>
 							<tr>
-							  <th>아이디</th>
-							  <th>이름</th>
-							  <th>권한</th>
-							  <th>소속 물류센터</th>
-							  <th>번호</th>
+								<th class="hidden-col">입고코드</th>
+								<th>입고창고</th>
+								<th>입고위치</th>
+								<th>상품명</th>
+								<th>입고일</th>
+								<th>입고수량</th>
+								<th>보관유형</th>
+								<th>창고주소</th>
+								<th>창고연락처</th>
 							</tr>
-							
 						</thead>
 						<tbody>
-							<tr>
-							  <td>id002</td>
-							  <td>강준</td>
-							  <td>창고관리자</td>
-							  <td>전주 물류센터</td>
-							  <td>010-1111-1111</td>
-							</tr>
-							<tr>
-							  <td>id003</td>
-							  <td>고병윤</td>
-							  <td>창고관리자</td>
-							  <td>전주 물류센터</td>
-							  <td>010-1111-1111</td>
-							</tr>
-							<tr>
-							  <td>id004</td>
-							  <td>백종민</td>
-							  <td>창고관리자</td>
-							  <td>전주 물류센터</td>
-							  <td>010-1111-1111</td>
-							</tr>
-							<tr>
-							  <td>id006</td>
-							  <td>김동욱</td>
-							  <td>창고관리자</td>
-							  <td>전주 물류센터</td>
-							  <td>010-1111-1111</td>
-							</tr>
-							<tr>
-							  <td>id007</td>
-							  <td>박수현</td>
-							  <td>창고관리자</td>
-							  <td>전주 물류센터</td>
-							  <td>010-1111-1111</td>
-							</tr>
-							<tr>
-							  <td>id008</td>
-							  <td>최상범</td>
-							  <td>창고관리자</td>
-							  <td>전주 물류센터</td>
-							  <td>010-1111-1111</td>
+							<tr th:if="${#lists.size(receivingStatus)}>0" th:each="r:${receivingStatus}">
+								<td class="hidden-col" th:text="${r.receivingingCode}"></td>
+								<td th:text="${r.warehouse.warehouseName}"></td>
+								<td th:text="${r.warehousingOrder.sectorColumnFinalCode}"></td>
+								<td th:text="${r.product.productName}"></td>
+								<td th:text="${r.warehousingRealDate}" class="realDate"></td>
+								<td th:text="${r.warehousingRealAmount}"></td>
+								<td th:text="${r.product.productFreezeCoolCondition}"></td>
+								<td th:text="${r.warehouse.warehouseAddr}"></td>
+								<td th:text="${r.warehouse.warehousePhone}"></td>
 							</tr>
 						</tbody>
 		    	</table>
@@ -111,5 +103,100 @@
 	<!-- Row end -->
 </div>
 </th:block>
+<th:block layout:fragment="customJs">
+	<script type="text/javascript" th:inline="javascript" src="js/receivingInfo.js"></script>
+
+	<script>
+	$(function() {
+			var start = moment().subtract(29, 'days');
+			var end = moment();
+			function cb2(start, end) {
+				$('#firstDate').html(start.format('YYYY-MM-DD'));
+				$('#firstDate').val($('#firstDate').text());
+				$('#secondDate').html(end.format('YYYY-MM-DD'));
+				$('#secondDate').val($('#secondDate').text());
+			}
+			$('#reportrangeCustom').daterangepicker({
+				
+				opens: 'left',
+				startDate: start,
+				endDate: end,
+				ranges: {
+					'Today': [moment(), moment()],
+					'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+					'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+					'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+					'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+				}
+			}, cb2);
+		});
 		
+		/********시작일********/
+		function firstDateKey(){
+			if(event.keyCode != 8){
+				if($('#firstDate').val().replace(/[0-9 \-]/g, "").length == 0){
+					var ymd = '';
+					var firstDateValue = $('#firstDate').val().replace(/[^0-9]/g,'');
+					var firstDateLength = firstDateValue.length;
+					if(firstDateLength < 4){
+						return 	;
+					}else if(firstDateLength < 6){
+						ymd += firstDateValue.substr(0, 4);
+						ymd += '-';
+						ymd += firstDateValue.substr(4);
+					}else{
+						ymd += firstDateValue.substr(0, 4);
+						ymd += '-';
+						ymd += firstDateValue.substr(4, 2);
+						ymd += '-';
+						ymd += firstDateValue.substr(6);
+					}
+					$('#firstDate').val(ymd);
+				}else{
+					alert('숫자 이외의 값은 입력하실 수 없습니다.');
+					$('#firstDate').val('');
+				}
+			}
+		};
+		
+		/********종료일********/
+		function secondDateKey(){
+			if(event.keyCode != 8){
+				if($('#secondDate').val().replace(/[0-9 \-]/g, "").length == 0){
+					var ymd = '';
+					var secondDateValue = $('#secondDate').val().replace(/[^0-9]/g,'');
+					var secondDateLength = secondDateValue.length;
+					if(secondDateLength < 4){
+						return 	;
+					}else if(secondDateLength < 6){
+						ymd += secondDateValue.substr(0, 4);
+						ymd += '-';
+						ymd += secondDateValue.substr(4);
+					}else{
+						ymd += secondDateValue.substr(0, 4);
+						ymd += '-';
+						ymd += secondDateValue.substr(4, 2);
+						ymd += '-';
+						ymd += secondDateValue.substr(6);
+					}
+					$('#secondDate').val(ymd);
+				}else{
+					alert('숫자 이외의 값은 입력하실 수 없습니다.');
+					$('#secondDate').val('');
+				}
+			}
+		};
+		
+		$(function(){
+			var checkRequestDate = new Array($('.realDate'));
+			if(checkRequestDate[0].length > 0){
+				$('#wearing').text('(' + checkRequestDate[0][0].innerText + ' ~ ' + checkRequestDate[0][checkRequestDate[0].length-1].innerText + ')');
+			}else{
+				$('#wearing').text('(월별 입고 현황이 없습니다.)');
+			}
+		});
+
+
+	</script>
+</th:block>
 </html>

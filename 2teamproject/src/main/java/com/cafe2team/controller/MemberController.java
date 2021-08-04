@@ -487,6 +487,18 @@ public class MemberController {
 
 	}
 	
+	@PostMapping("/cancleWatingAdmin")
+	@ResponseBody
+	public int cancleWatingAdmin(@RequestParam(value = "cancleDataArr[]") List<String> paramList) {
+		
+		
+		int result = 0;
+		
+		result = memberService.cancleAdminWating(paramList);
+		
+		return result;
+	}
+	
 	@GetMapping("/findPw")
 	public String findPw(Model model) {
 		

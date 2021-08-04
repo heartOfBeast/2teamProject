@@ -24,6 +24,7 @@ public class MainController {
 	private final StockService stockService;
 
 
+
 	
 		@Autowired
 		public MainController(WarehousingOrderService warehousingOrderService,
@@ -55,13 +56,15 @@ public class MainController {
 	@GetMapping("/main")
 	public String main(Model model) {
 		
-		List<Receiving> receivingStatusForWarehouse = warehousingOrderService.getReceivingListForWarehouse();
+		List<Receiving> receivingStatusForWarehouse = warehousingOrderService.getReceivingListForWarehouse(null);
 		List<ReleaseInfo> releaseInfo = releaseService.getReleaseList(null);
+		List<Receiving> receivingStatusForShop = warehousingOrderService.receivingListForShop(null);
 		List<Stock> stockList = stockService.getStockList();
 
 		model.addAttribute("stockList", stockList);
 		model.addAttribute("releaseInfo", releaseInfo);
 		model.addAttribute("receivingStatusListForWarehouse", receivingStatusForWarehouse);
+		model.addAttribute("receivingStatusForShop", receivingStatusForShop);
 		
 		return "main/main";
 	}

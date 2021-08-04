@@ -17,7 +17,6 @@ html,body {
 		        <div class="col-4 text-center">
     				<form th:action="@{/memberlogin}" method="post">
 	                  <div class="card" style="padding:8px">
-						<span>!준</span>
 	                    <h4>로그인</h4> <span>
 	                    	<input type="radio" name="Check" value="memberCheck" checked="checked"> 관리자
 	                    	<input type="radio" name="Check" value="shopCheck" id="shopSelect"> 거래처
@@ -43,9 +42,9 @@ html,body {
 		                        <button style="margin:8px" class="btn btn-outline-info" id="houseLogin">창고관리자</button>
 		                        <button style="margin:8px" class="btn btn-outline-info" id="shopLogin">일반사업자</button>
 	                        </div>
-	                        <span>관리자 아이디가 존재한다면? <a th:href="@{/adminsignup}" class='text-info' style="text-decoration:underline">회원가입 페이지</a></span>
+	                        <span>관리자 아이디가 존재하지않는다면? <a th:href="@{/adminsignup}" class='text-info' style="text-decoration:underline">회원가입 페이지</a></span>
 	                        <br/>
-	                        <span>거래처 아이디가 존재한다면? <a th:href="@{/accountsignup}" class='text-info' style="text-decoration:underline">회원가입 페이지</a></span>
+	                        <span>거래처 아이디가 존재하지않는다면? <a th:href="@{/accountsignup}" class='text-info' style="text-decoration:underline">회원가입 페이지</a></span>
 	                 </div>
        			</form>
           </div>

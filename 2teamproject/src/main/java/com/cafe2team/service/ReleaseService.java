@@ -41,9 +41,9 @@ public class ReleaseService {
 		return releaseMapper.addDriveManagement(carManagement);
 	}
 	
-	 public List<CarManagement> getDriveManagement(String driveManageCode){ 
+	public List<CarManagement> getDriveManagement(String driveManageCode){ 
 		 return releaseMapper.getDriveManagement(driveManageCode); 
-	 }
+	}
 	
 	public int modifyDriveManagement(CarManagement carManagement) {
 		return releaseMapper.modifyDriveManagement(carManagement);

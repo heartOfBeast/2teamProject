@@ -463,5 +463,16 @@ UPDATE tb_shoppingmall_user
 		shoppingmall_user_pw=#{shoppingmallPw};
 	
 	</delete>
+	
+	<delete id="cancleAdminWating" parameterType="java.util.List">
+	DELETE 
+	FROM 
+		tb_adminApproval 
+	WHERE 
+		adminApproval_id in
+	<foreach collection="list" item="deleteCode" open="(" close=")" separator=",">
+		#{deleteCode}
+	</foreach>
+	</delete>
 
 </mapper>

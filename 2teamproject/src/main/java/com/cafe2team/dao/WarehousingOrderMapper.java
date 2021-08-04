@@ -1,6 +1,7 @@
 package com.cafe2team.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -14,13 +15,16 @@ public interface WarehousingOrderMapper {
 
 	
 	//입고지시서 목록
-	public List<WarehousingOrder> getWarehousingOrderList();
+	public List<WarehousingOrder> getWarehousingOrderList(Map<String, Object> paramMap);
 	
 	//입고취소
 	public int cancleEntering(String warehousingOrderCode);
 	
 	//입고 현황 리스트
-	public List<Receiving> getReceivingList();
+	public List<Receiving> getReceivingList(Map<String, Object> paramMap);
+	
+	//입고 현황 리스트-쇼핑몰
+	public List<Receiving> receivingListForShop(Map<String, Object> paramMap);
 	
 	//입고 후 입고지시서 상태 변환
 	public int changeWarehousingStatus(List<String> confirmWarehousingDataArr);
@@ -41,5 +45,7 @@ public interface WarehousingOrderMapper {
 	
 	//입고지시서에서 검색조건 중 쇼핑몰명
 	public List<Shoppingmall> getShoppingmallUserName();
+	
+
 
 }

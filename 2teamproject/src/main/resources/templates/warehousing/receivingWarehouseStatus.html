@@ -36,7 +36,7 @@
 			<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 				<div class="card">
 					<div class="card-header">
-						<div class="card-title">입고 현황(월별)</div>
+						<div class="card-title">입고 현황(월별)<span id="wearing"></span></div>
 					</div>
 					<div class="card-body">
 						<div id="receivingGraph" class="primary-graph" th:fragment="receivingInfo"></div>
@@ -44,13 +44,15 @@
 				</div>
 				<div class="table-container">
 					<div class="t-header">입고 현황 조회</div>
+					<div th:include="warehousing/receivingWarehouseSearch :: searchFragment"></div><br>
+			
 					<div class="table-responsive">
 						<table id="copy-print-csv" class="table custom-table">
 							<thead>
 								<tr>
 									<th>입고코드</th>
-									<th class="hidden-col">입고주문서코드</th>
 									<th>입고창고</th>
+									<th>입고위치</th>
 								 	<th>상품명</th>
 									<th>쇼핑몰명</th>
 									<th>입고일</th>
@@ -59,9 +61,9 @@
 							</thead>
 							<tbody>
 								<tr th:if="${#lists.size(receivingStatusListForWarehouse)}>0" th:each="l:${receivingStatusListForWarehouse}">
-									<td class="hidden-col" th:text="${l.warehousingOrderCode}"></td>
 									<td th:text="${l.receivingingCode}"></td>
 									<td th:text="${l.warehouse.warehouseName}"></td>
+									<td th:text="${l.warehousingOrder.sectorColumnFinalCode}"></td>
 									<td th:text="${l.product.productName}"></td>
 									<td th:text="${l.shoppingmall.shoppingmallName}"></td>
 									<td th:text="${l.warehousingRealDate}" class = "realDate"></td>
@@ -80,7 +82,97 @@
 <th:block layout:fragment="customJs">
 
 	<script type="text/javascript" th:inline="javascript" src="js/receivingInfo.js"></script>
+	<script>		//날짜
+		$(function() {
+			var start = moment().subtract(29, 'days');
+			var end = moment();
+			function cb2(start, end) {
+				$('#firstDate').html(start.format('YYYY-MM-DD'));
+				$('#firstDate').val($('#firstDate').text());
+				$('#secondDate').html(end.format('YYYY-MM-DD'));
+				$('#secondDate').val($('#secondDate').text());
+			}
+			$('#reportrangeCustom').daterangepicker({
+				
+				opens: 'left',
+				startDate: start,
+				endDate: end,
+				ranges: {
+					'Today': [moment(), moment()],
+					'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+					'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+					'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+					'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+				}
+			}, cb2);
+		});
+		
+		/********시작일********/
+		function firstDateKey(){
+			if(event.keyCode != 8){
+				if($('#firstDate').val().replace(/[0-9 \-]/g, "").length == 0){
+					var ymd = '';
+					var firstDateValue = $('#firstDate').val().replace(/[^0-9]/g,'');
+					var firstDateLength = firstDateValue.length;
+					if(firstDateLength < 4){
+						return 	;
+					}else if(firstDateLength < 6){
+						ymd += firstDateValue.substr(0, 4);
+						ymd += '-';
+						ymd += firstDateValue.substr(4);
+					}else{
+						ymd += firstDateValue.substr(0, 4);
+						ymd += '-';
+						ymd += firstDateValue.substr(4, 2);
+						ymd += '-';
+						ymd += firstDateValue.substr(6);
+					}
+					$('#firstDate').val(ymd);
+				}else{
+					alert('숫자 이외의 값은 입력하실 수 없습니다.');
+					$('#firstDate').val('');
+				}
+			}
+		};
+		
+		/********종료일********/
+		function secondDateKey(){
+			if(event.keyCode != 8){
+				if($('#secondDate').val().replace(/[0-9 \-]/g, "").length == 0){
+					var ymd = '';
+					var secondDateValue = $('#secondDate').val().replace(/[^0-9]/g,'');
+					var secondDateLength = secondDateValue.length;
+					if(secondDateLength < 4){
+						return 	;
+					}else if(secondDateLength < 6){
+						ymd += secondDateValue.substr(0, 4);
+						ymd += '-';
+						ymd += secondDateValue.substr(4);
+					}else{
+						ymd += secondDateValue.substr(0, 4);
+						ymd += '-';
+						ymd += secondDateValue.substr(4, 2);
+						ymd += '-';
+						ymd += secondDateValue.substr(6);
+					}
+					$('#secondDate').val(ymd);
+				}else{
+					alert('숫자 이외의 값은 입력하실 수 없습니다.');
+					$('#secondDate').val('');
+				}
+			}
+		};
+		
+		$(function(){
+			var checkRequestDate = new Array($('.realDate'));
+			if(checkRequestDate[0].length > 0){
+				$('#wearing').text('(' + checkRequestDate[0][0].innerText + ' ~ ' + checkRequestDate[0][checkRequestDate[0].length-1].innerText + ')');
+			}else{
+				$('#wearing').text('(월별 입고 현황이 없습니다.)');
+			}
+		});
 	
+	</script>
 </th:block>
 
 		

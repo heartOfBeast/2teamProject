@@ -26,5 +26,10 @@ public interface SafetyCheckMapper {
 	
 	//수정 실행
 	public int modifySafeCheck(SafetyCheck safetyCheck);
-
+	
+	//후속조치화면
+	public List<SafetyCheck> getFollowUp(String facilityCode);
+	
+	//후속조치처리
+	public int modifyFollowUp(SafetyCheck safetyCheck);
 } 

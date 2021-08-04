@@ -10,8 +10,20 @@ public class SafetyCheck {
 	private String facilityRegDate;
 	private String facilityUpdateDate;
 	private String facilityCheck;
+	private String followUpAction;
 	
 	private Warehouse warehouse;
+
+	
+	
+
+	public String getFollowUpAction() {
+		return followUpAction;
+	}
+
+	public void setFollowUpAction(String followUpAction) {
+		this.followUpAction = followUpAction;
+	}
 
 	public String getFacilityCode() {
 		return facilityCode;
@@ -99,7 +111,7 @@ public class SafetyCheck {
 				+ ", facilityFiresafety=" + facilityFiresafety + ", facilityLogistics=" + facilityLogistics
 				+ ", facilityMainEquipemnt=" + facilityMainEquipemnt + ", wareAdminId=" + wareAdminId
 				+ ", facilityRegDate=" + facilityRegDate + ", facilityUpdateDate=" + facilityUpdateDate
-				+ ", facilityCheck=" + facilityCheck + ", warehouse=" + warehouse + "]";
+				+ ", facilityCheck=" + facilityCheck + ", followUpAction=" + followUpAction + ", warehouse=" + warehouse
+				+ "]";
 	}
-	
 }
