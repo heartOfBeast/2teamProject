@@ -26,10 +26,11 @@ html,body {
 					 				</div>
 	                    			
 								<div class="form-group">
-									<input type="text" class="form-control" name="memberId" placeholder="가입한 ID 입력" id="memberId" required = "required"/>
+									<input type="text" class="form-control" name="memberId" placeholder="가입한 ID 입력" id="memberId" required = "required" value="id001"/>
 								</div>
 								<div class="form-group">
-									<input type="text" class="form-control" name="memberEmail" placeholder="가입한 이메일 입력" id="memberEmail" required = "required"/>
+									<input type="text" class="form-control" name="memberEmail" placeholder="가입한 이메일 입력" id="memberEmail" required = "required" 
+									value="jun111haha@gmail.com"/>
 								</div>
 								    <div id="email-text"></div>
 								<div class="actions mb-4">
@@ -104,13 +105,28 @@ html,body {
 
 				});
 				
-				
-				
 			}
-			
 			
 		});
 		
+	  $('#shopSelect').click(function(){
+		 	
+		  var mId = 'sh001';
+		  
+		  $('#memberId').val(mId);
+		  	
+	  });
+	  
+	  $('#adminSelect').click(function(){
+		 	
+		  var mId = 'id001';
+		  
+		  $('#memberId').val(mId);
+		  	
+	  });
+
+	  
+	  
 </script>
 
 		
