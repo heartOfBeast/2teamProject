@@ -172,6 +172,10 @@ public class MemberService {
 		return memberMapper.adminApprovalStatusUpdate(approvalAdminId);
 	}
 	
+	public int cancleAdminWating(List<String> paramList) {
+		
+		return memberMapper.cancleAdminWating(paramList);
+	}
 
 	
 }

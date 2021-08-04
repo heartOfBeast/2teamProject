@@ -48,7 +48,6 @@
 							  <th>등록일</th>
 							  <th>활성화</th>
 							  <th>인센티브</th>
-							  <th>반려</th>
 							  
 							</tr>
 							
@@ -67,9 +66,6 @@
 								<td th:text="${l.adminApprovalRegDate}"></td>
 								<td th:text="${l.adminApprovalAccountState}"></td>
 								<td th:text="${l.adminApprovalIncentive}"></td>
-							<td>
-								<a th:href="@{#}" class="btn btn-outline-primary">반려</a>
-							</td>
 							</tr>
 							
 						<tr th:unless="${#lists.size(adminList) > 0}" style="text-align: center;">
@@ -78,7 +74,8 @@
 						</tr>
 							</tbody>
 		    		</table>
-						<button type="button" class="btn btn-primary float-right" id="approval">승인</button>
+						<button type="button" class="btn btn-outline-primary" id="approval">승인</button>
+						<button type="button" class="btn btn-outline-primary" id="cancleBtn">반려</button>
 				</div>
 			</div>
 		
@@ -90,6 +87,7 @@
 </th:block>
 <th:block layout:fragment="customJs">
 	<script src="js/jquery.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 	
 	<script>
 		$(function(){
@@ -138,6 +136,48 @@
 								location.replace('adminWaiting');
 							}
 						}
+					});
+				}else{
+					return false;
+				}
+			}
+		});
+		
+		
+		
+		/* 승인취소 */
+		$('#cancleBtn').click(function(){
+			var cancleDataArr = new Array();
+			var list = $('.checkOne');
+			for(var i =0; i<list.length;i++){
+				if(list[i].checked){
+					cancleDataArr.push(list[i].value);
+				}
+			}if(cancleDataArr.length==0){
+				alert('승인 취소할 항목을 선택해주세요');
+			}else{
+				var chk = confirm('승인을 정말 취소하시겠습니까?');
+				if(chk){
+				var request = $.ajax({
+					  url: "/cancleWatingAdmin",
+					  method: "POST",
+					  data: { 'cancleDataArr' : cancleDataArr },
+					  dataType: "json"
+					});
+					 
+					request.done(function( cancleData ) {
+						console.log(cancleData);
+						if(cancleData = null){
+							alert('취소 실패!');
+
+						}else{
+							alert('반려 완료!');
+							location.replace("adminWaiting");
+						}
+					});
+					 
+					request.fail(function( jqXHR, textStatus ) {
+					  alert( "Request failed: " + textStatus );
 					});
 				}else{
 					return false;

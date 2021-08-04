@@ -67,6 +67,7 @@
 			<div class="card" th:unless="${session.SLEVEL == '게스트' or session.SLEVEL == '사업자'}">
 				<div class="card-header">
 					<div class="card-title">입고현황(관리자)</div>
+					<a th:href="@{/receivingWarehouseStatus}"class="btn btn-primary float-right">상세 입고 현황(관리자)</a>
 				</div>
 				<div class="card-body" th:replace="/warehousing/receivingWarehouseStatus :: receivingInfo">
 				</div>
@@ -88,6 +89,7 @@
 			<div class="card" th:unless="${session.SLEVEL == '게스트' or session.SLEVEL == '사업자'}">
 				<div class="card-header">
 					<div class="card-title">출고현황(관리자)</div>
+					<a th:href="@{/realReleaseList}"class="btn btn-primary float-right">상세 출고 현황(거래처)</a>
 				</div>
 				<div class="card-body" th:replace="/release/realReleaseList :: releaseInfo"></div>
 			</div>
@@ -98,6 +100,27 @@
 		<tbody>
 			<tr th:each=" r : ${releaseInfo}">
 			  <td th:text="${r.releaseRealDate}" class="releaseRealDate"></td>
+			</tr>
+		</tbody>
+	</table>
+	
+	<div class="row gutters">
+		<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+			<div class="card" th:if="${session.SLEVEL == '사업자'}">
+				<div class="card-header">
+					<div class="card-title">입고현황(거래처)</div>
+					<a th:href="@{/receivingShopStatus}"class="btn btn-primary float-right">상세 입고 현황(거래처)</a>
+				</div>
+				<div class="card-body" th:replace="/warehousing/receivingWarehouseStatus :: receivingInfo">
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<table class="hidden-col" >
+		<tbody>
+			<tr th:each=" r : ${receivingStatusForShop}">
+			  <td th:text="${r.warehousingRealDate}" class="realDate"></td>
 			</tr>
 		</tbody>
 	</table>
