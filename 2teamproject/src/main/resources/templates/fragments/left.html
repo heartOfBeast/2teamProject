@@ -22,18 +22,18 @@
 			<li class="sidebar-dropdown" th:unless="${session.SLEVEL == '게스트'}">
 				<a href="#">
 					<i class="icon-devices_other"></i>
-					<span class="menu-text">#창고(병윤)</span>
+					<span class="menu-text">창고</span>
 				</a>
 				<div class="sidebar-submenu">
 					<ul>
 						<li>
-							<a th:href="@{/warehouse}">창고현황(병윤)</a>
+							<a th:href="@{/warehouse}">창고현황</a>
 						</li>
 						<li>
-							<a th:if="${session.SLEVEL =='총관리자' or session.SLEVEL =='창고관리자' }" th:href="@{/addWarehouse}">창고등록(병윤)</a>
+							<a th:if="${session.SLEVEL =='총관리자' or session.SLEVEL =='창고관리자' }" th:href="@{/addWarehouse}">창고등록</a>
 						</li>
 						<li>
-							<a th:if="${session.SLEVEL =='총관리자' or session.SLEVEL =='창고관리자' }" th:href="@{/warehouseList}">창고조회(병윤)</a>
+							<a th:if="${session.SLEVEL =='총관리자' or session.SLEVEL =='창고관리자' }" th:href="@{/warehouseList}">창고조회</a>
 						</li>
 					</ul>
 				</div>
@@ -43,7 +43,7 @@
 			<li class="sidebar-dropdown" th:if="${session.SLEVEL =='총관리자' or session.SLEVEL =='창고관리자' }">
 				<a href="#">
 					<i class="icon-devices_other"></i>
-					<span class="menu-text">!회원관리(준)</span>
+					<span class="menu-text">회원관리</span>
 				</a>
 				<div class="sidebar-submenu">
 					<ul>
@@ -64,12 +64,12 @@
 			<li class="sidebar-dropdown" th:if="${session.SLEVEL =='총관리자' or session.SLEVEL =='창고관리자'}">
 				<a href="#">
 					<i class="icon-devices_other"></i>
-					<span class="menu-text">#재무관리(수현)</span>
+					<span class="menu-text">재무관리</span>
 				</a>
 				<div class="sidebar-submenu">
 					<ul>
 						<li>
-							<a th:href="@{/currentSalesState}">매출관리(상범)</a>
+							<a th:href="@{/currentSalesState}">매출관리</a>
 						</li>
 						<li>
 							<a th:href="@{/expenditure}">지출내역조회</a>
@@ -88,18 +88,18 @@
 			<li class="sidebar-dropdown" th:if="${session.SLEVEL =='총관리자' or session.SLEVEL =='창고관리자' }">
 				<a href="#">
 					<i class="icon-devices_other"></i>
-					<span class="menu-text">#재고</span>
+					<span class="menu-text">재고</span>
 				</a>
 				<div class="sidebar-submenu">
 					<ul>
 						<li>
-							<a th:href="@{/stockList}">재고조회(병윤)</a>
+							<a th:href="@{/stockList}">재고조회</a>
 						</li>
 						<li>
-							<a th:href="@{/stockCheckList}">재고실사조회(수현)</a>
+							<a th:href="@{/stockCheckList}">재고실사조회</a>
 						</li>
 						<li>
-							<a th:href="@{/stockCheckInsert}">재고실사등록(수현)</a>
+							<a th:href="@{/stockCheckInsert}">재고실사등록</a>
 						</li>
 					</ul>
 				</div>
@@ -109,24 +109,24 @@
 			<li class="sidebar-dropdown">
 				<a href="#">
 					<i class="icon-devices_other"></i>
-					<span class="menu-text">#거래처(동욱)</span>
+					<span class="menu-text">거래처</span>
 				</a>
 				<div class="sidebar-submenu">
 					<ul>
 						<li>
-							<a th:href="@{/priceList}">요금안내 및 계약신청(동욱#)</a>
+							<a th:href="@{/priceList}">요금안내 및 계약신청</a>
 						</li>
 						<li>
-							<a th:if="${session.SLEVEL == '사업자' and session.STATUS != '승인'}" th:href="@{/shoppingmallAdd(shoppingmallId=${session.SID})}">거래처 등록(동욱#)</a>
+							<a th:if="${session.SLEVEL == '사업자' and session.STATUS != '승인'}" th:href="@{/shoppingmallAdd(shoppingmallId=${session.SID})}">거래처 등록</a>
 						</li>
 						<li>
-							<a th:unless="${session.SLEVEL == '사업자' or session.SLEVEL == '게스트'}" th:href="@{/shoppingmallApproval}">거래처 권한 관리(동욱#)</a>
+							<a th:unless="${session.SLEVEL == '사업자' or session.SLEVEL == '게스트'}" th:href="@{/shoppingmallApproval}">거래처 권한 관리</a>
 						</li>
 						<li>
-							<a th:unless="${session.SLEVEL == '사업자' or session.SLEVEL == '게스트'}"  th:href="@{/contractApproval}">계약 관리(동욱#)</a>
+							<a th:unless="${session.SLEVEL == '사업자' or session.SLEVEL == '게스트'}"  th:href="@{/contractApproval}">계약 관리</a>
 						</li>
 						<li>
-							<a th:unless="${session.SLEVEL == '사업자' or session.SLEVEL == '게스트'}"  th:href="@{/calendar}">계약 일정관리(동욱#)</a>
+							<a th:unless="${session.SLEVEL == '사업자' or session.SLEVEL == '게스트'}"  th:href="@{/calendar}">계약 일정관리</a>
 						</li>
 					</ul>
 				</div>
@@ -136,7 +136,7 @@
 			<li class="sidebar-dropdown" th:unless="${session.SLEVEL == '게스트'}">
 				<a href="#">
 					<i class="icon-devices_other"></i>
-					<span class="menu-text">#입고</span>
+					<span class="menu-text">입고</span>
 				</a>
 				<div class="sidebar-submenu">
 					<ul>
@@ -163,7 +163,7 @@
 			<li class="sidebar-dropdown" th:unless="${session.SLEVEL == '게스트'}">
 				<a href="#">
 					<i class="icon-devices_other"></i>
-					<span class="menu-text">#출고</span>
+					<span class="menu-text">출고</span>
 				</a>
 				<div class="sidebar-submenu">
 					<ul>
@@ -185,7 +185,7 @@
 			<li class="sidebar-dropdown" th:if="${session.SLEVEL =='총관리자' or session.SLEVEL =='창고관리자' }">
 				<a href="#">
 					<i class="icon-devices_other"></i>
-					<span class="menu-text">#안전점검(종민)</span>
+					<span class="menu-text">안전점검</span>
 				</a>
 				<div class="sidebar-submenu">
 					<ul>
@@ -203,7 +203,7 @@
 			<li class="sidebar-dropdown" th:if="${session.SLEVEL =='총관리자' or session.SLEVEL =='창고관리자' }">
 				<a href="#">
 					<i class="icon-devices_other"></i>
-					<span class="menu-text">#차량관리(종민)</span>
+					<span class="menu-text">차량관리</span>
 				</a>
 				<div class="sidebar-submenu">
 					<ul>
@@ -222,21 +222,21 @@
 			<li class="sidebar-dropdown">
 				<a href="#">
 					<i class="icon-devices_other"></i>
-					<span class="menu-text">#견적(병윤)</span>
+					<span class="menu-text">견적</span>
 				</a>
 				<div class="sidebar-submenu">
 					<ul>
 						<li>
-							<a th:if="${session.SLEVEL == '사업자'}" th:href="@{/estimate(shoppingmallId=${session.SID})}">견적신청(병윤)</a>
+							<a th:if="${session.SLEVEL == '사업자'}" th:href="@{/estimate(shoppingmallId=${session.SID})}">견적신청</a>
 						</li>
 						<li>
-							<a th:if="${session.SLEVEL == '게스트'}" th:href="@{/estimateAnother}">비회원 견적신청(병윤)</a>
+							<a th:if="${session.SLEVEL == '게스트'}" th:href="@{/estimateAnother}">비회원 견적신청</a>
 						</li>
 						<li>
-							<a th:href="@{/estimateLook}">견적신청 조회(병윤)</a>
+							<a th:href="@{/estimateLook}">견적신청 조회</a>
 						</li>
 						<li>
-							<a th:href="@{/estimatePermit}" th:if="${session.SLEVEL =='총관리자' or session.SLEVEL =='창고관리자' }">견적신청 검토(병윤)</a>
+							<a th:href="@{/estimatePermit}" th:if="${session.SLEVEL =='총관리자' or session.SLEVEL =='창고관리자' }">견적신청 검토</a>
 						</li>
 					</ul>
 				</div>
@@ -246,18 +246,18 @@
 			<li class="sidebar-dropdown">
 				<a href="#">
 					<i class="icon-devices_other"></i>
-					<span class="menu-text">#고객센터(상범)</span>
+					<span class="menu-text">고객센터</span>
 				</a>
 				<div class="sidebar-submenu">
 					<ul>
 						<li>
-							<a th:href="@{/noticeList}">공지사항게시판(수현)</a>
+							<a th:href="@{/noticeList}">공지사항게시판</a>
 						</li>
 						<li>
-							<a th:href="@{/inquiryList}">#문의게시판</a>
+							<a th:href="@{/inquiryList}">문의게시판</a>
 						</li>
 						<li>
-							<a th:href="@{/sendOneByOne}">#1:1문의</a>
+							<a th:href="@{/sendOneByOne}">1:1문의</a>
 						</li>
 						<li>
 							<a th:href="@{/oftenFaq}">자주 묻는 질문</a>
@@ -271,7 +271,7 @@
 			<li class="sidebar-dropdown" th:unless="${session.SLEVEL == '게스트'}">
 				<a href="#">
 					<i class="icon-devices_other"></i>
-					<span class="menu-text">#상품목록관리(상범)</span>
+					<span class="menu-text">상품목록관리</span>
 				</a>
 				<div class="sidebar-submenu">
 					<ul>
