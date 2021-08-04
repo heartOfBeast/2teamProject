@@ -1,9 +1,9 @@
 # 📇Index
-1. [About Service](#💡About-Service)
-2. [About Tech](#💡About-Tech)
-3. [About Team](#💡About-Team)
-4. [About Project](#💡About Project)
-5. [보고서](#💡보고서)
+1. [About Service](#About-Service)
+2. [About Tech](#About-Tech)
+3. [About Team](#About-Team)
+4. [About Project](#About-Project)
+5. [보고서](#보고서)
 
 # 💡WMS 기반의 Fullfillment 창고 물류센터
 코로나 판데믹 시대에 이은 포스트 코로나 시대에도 전자상거래는 더욱 더 급증할 것이다. 따라서 단순히 보관의 개념이 아닌, '보관창고'의 기능을 넘어 서비스가 더욱 고도화 된 '물류 센터'의 역할이 중요해질 것이다. 고도화된 서비스를 통해 여타의 물류관리 서비스와 차별화를 두어 경쟁력을 강화시킨다.
