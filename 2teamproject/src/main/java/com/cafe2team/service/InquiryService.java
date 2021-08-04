@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cafe2team.dao.InquiryMapper;
+import com.cafe2team.dao.ReplyMapper;
 import com.cafe2team.domain.Inquiry;
 
 @Service
@@ -14,10 +15,28 @@ public class InquiryService {
 
 	@Autowired
 	private InquiryMapper inquiryMapper;
+	private ReplyMapper replyMapper;
+	
+	public InquiryService(InquiryMapper inquiryMapper, ReplyMapper replyMapper) {
+		this.inquiryMapper = inquiryMapper;
+		this.replyMapper = replyMapper;
+	}
 	
 	//게시글 삭제
-	public int deleteInquiry(String boardQnaCode) {
-		return inquiryMapper.deleteInquiry(boardQnaCode);
+	public boolean deleteInquiry(String boardQnaCode, String boardQnaPassword) {
+		//삭제여부
+		boolean removeCheck = false;
+		System.out.println(boardQnaCode + "<<<<<<<<<<<<<<<<boardQnaCode");
+		//비밀번호 맞으면 삭제 
+		
+		Inquiry inquiry = inquiryMapper.getBoardInfoByCode(boardQnaCode);
+		if(inquiry != null && boardQnaPassword.equals(inquiry.getBoardQnaPassword())) {
+			replyMapper.deleteBoardReply(boardQnaCode);
+			inquiryMapper.deleteInquiry(boardQnaCode);
+			
+			removeCheck = true;
+		}
+		return removeCheck;
 	}
 	
 	//게시글 수정

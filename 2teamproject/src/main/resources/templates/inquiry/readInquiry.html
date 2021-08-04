@@ -29,6 +29,10 @@
 </th:block>
 
 <th:block layout:fragment="container">
+<style>
+	.deleteInquiryBtn {margin: 5px;}
+</style>
+
 	<!-- Main container start -->
 	<div class="main-container">
 
@@ -44,7 +48,7 @@
 						<div class="card-body">
 							<div class="form-group">
 								<label for="boardQnaCode" class="col-form-label">번호</label>
-								<input type="text" id="boardQnaCode" th:value="${readInquiry.boardQnaCode}" readonly class="form-control">
+								<input type="text" id="boardQnaCode" th:value="${readInquiry.boardQnaCode}" readonly class="form-control boardQnaCode">
 							</div>
 							<div class="form-group">
 								<label for="boardQnaSubject" class="col-form-label">제목</label>
@@ -62,7 +66,9 @@
 							
 						</div>
 					</div>
-							<button type="button" id="deleteInquiryBtn" class="btn btn-primary float-right" style="margin: 5px;">삭제</button>
+							<!-- <button type="button" id="deleteInquiryBtn" class="btn btn-primary float-right" style="margin: 5px;">삭제</button> -->
+						  	<a type="button" class="btn btn-primary float-right deleteInquiryBtn" data-toggle="modal" data-target=".bd-example-modal-lg" id="viewModal" style="color: white;">삭제</a>
+							
 							<a th:href="@{/modifyInquiry(boardQnaCode=${readInquiry.boardQnaCode})}" class="btn btn-primary float-right"style="margin: 5px;">수정</a>
 							<!-- <button type="submit" id="modifyBtn" class="btn btn-primary float-right" style="margin: 5px;">수정</button> -->
 
@@ -70,12 +76,13 @@
 				<!--댓글목록 -->
 				<div class="media comments" th:each="l:${inquiryReply}">
 					<div class="media-body">
+						<input style="display: none;" class="replyCommentCode" th:value="${l.replyCommentCode}">
 						<h5 class="mt-0 media-heading" th:text="${l.memberId}"><span class="date"></span></h5>
 						<p th:text="${l.replyCommentContent}"></p>
 						<div class="comments-footer clearfix">
 							<ul>
 								<li>
-									<button id="writeReReply" class="btn btn-outline-primary float-right">답글</button>
+									<a type="button" id="deleteReply" class="btn btn-outline-primary float-right deleteReply">댓글 삭제</a>
 								</li>
 							</ul>
 						</div>
@@ -89,7 +96,7 @@
 							<textarea id="replyContent" class="form-control textarea" rows="3" placeholder="내용을 적어주세요"></textarea>
 						</div>
 						<div class="form-group clearfix">
-							<button id="insertBtn" class="btn btn-primary float-right">댓글달기</button>
+							<button id="insertBtn" class="btn btn-primary float-right insertBtn">댓글달기</button>
 						</div>
 					</div>
 				<!-- 댓글작성 -->
@@ -101,13 +108,38 @@
 
 	</div>
 	<!-- Main container end -->
-
+	<!--게시물 삭제 모달  -->
+	<form th:action="@{/deleteInquiry}" method="POST" id="deleteInquiryForm">
+		<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" style="display: none;" aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="myLargeModalLabel">문의글 삭제</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">×</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<input style="display: none;" type="text" class="form-control" name="boardQnaCode" id="boardQnaCodeModal" >
+						<label for="boardQnaPassword">비밀번호 확인</label>	
+							<input type="text" class="form-control" id="boardQnaPassword" name="boardQnaPassword" placeholder="비밀번호를 입력해주세요" >
+					</div>
+					<div class="modal-footer">
+						<button class="btn btn-secondary" data-dismiss="modal">취소</button>
+						<button id="deleteCompleteBtn" type="submit" name="submit"  class="btn btn-primary">삭제</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>			
 		
 </th:block>
 <th:block layout:fragment="customJs">
 	<script>
+
+	
 		$(function(){
-			$('#insertBtn').click(function(){
+			$('.insertBtn').click(function(){
  				var replyContent = $('#replyContent').val();
  				var boardQnaCode = $('#boardQnaCode').val();
  				if(replyContent==null||replyContent==''||replyContent==undefined){
@@ -125,7 +157,7 @@
 	 					 
 	 					request.done(function( data ) {
 	 						
-							alert('성공');
+							alert('성공적으로 댓글이 달렸습니다');
 							location.reload();
 	 					});
 	 					 
@@ -137,29 +169,80 @@
 
 		});
 
-		$('#deleteInquiryBtn').click(function(){
+/* 		//게시글삭제
+		$('#deleteCompleteBtn').click(function(){
 			var boardQnaCode = $('#boardQnaCode').val();
-			var chk = confirm('정말 삭제하시겠습니까?');
-			if(chk){
-				$.ajax({
-					url : "/deleteInquiry",
-					method : 'post',
-					async : true,
-					dataType : "json",
-					data : {boardQnaCode : boardQnaCode},
-					success: function(jdata){
-						if(jdata != 1){
-							alert('오류 : 삭제 실패');
-						}else{
-							alert('삭제 되었습니다.');
-							location.replace("inquiryList");
-						}
-					}
-		    	});
+			var boardQnaPassword = $('#boardQnaPassword').val();
+			if(boardQnaPassword==null||boardQnaPassword==''||boardQnaPassword==undefined){
+				alert('비밀번호를 입력해주세요');
 			}else{
-				return false;
+				var chk = confirm('정말로 삭제하시겠습니까?')
+				if(chk){
+					var request = $.ajax({
+	 					  url: "/deleteInquiry",
+	 					  method: "POST",
+	 					  data: { boardQnaCode : boardQnaCode,
+	 							  boardQnaPassword : boardQnaPassword
+	 							},
+	 					  dataType: "JSON"
+	 					});
+	 					 
+	 					request.done(function( data ) {
+	 						
+							alert('삭제되었습니다');
+							location.replace("inquiryList");
+	 					});
+	 					 
+	 					request.fail(function( jqXHR, textStatus ) {
+	 					  alert( "Request failed: " + textStatus );
+	 					});
+				}
 			}
+		}) */
+		
+		$('.deleteReply').click(function(){
+			var replyCommentCode = $('.replyCommentCode').val();
+			var chk = confirm('정말 삭제하시겠습니까?');
+				if(chk){
+					$.ajax({
+						url : "/deleteReply",
+						method : 'post',
+						async : true,
+						dataType : "json",
+						data : {replyCommentCode : replyCommentCode},
+						success: function(jdata){
+							if(jdata > 0){
+								alert('삭제 되었습니다.');
+								location.reload();
+							}else{
+								alert('오류 : 삭제 실패');
+							}
+						}
+			    	});
+				}else{
+					return false;
+			}
+			
 		})
+		
+		
+		$('.deleteInquiryBtn').each(function(){
+			$(this).click(function(){
+				
+				
+				var boardQnaCodeData = $('.boardQnaCode').val();
+				
+				
+				
+				$('#boardQnaCodeModal').val(boardQnaCodeData);
+			})
+		})
+		
+		//게시글삭제
+		$('#deleteCompleteBtn').click(function(){
+			
+		})
+		
 	</script>
 </th:block>
 </html>

@@ -15,6 +15,10 @@ public class ReplyService {
 	@Autowired
 	private ReplyMapper replyMapper;
 	
+	public ReplyService(ReplyMapper replyMapper) {
+		this.replyMapper = replyMapper;
+	}
+	
 	//댓글목록
 	public List<Reply> getInquiryReply(String boardQnaCode){
 		return replyMapper.readInquiryReply(boardQnaCode);
@@ -34,6 +38,12 @@ public class ReplyService {
 	public int addNoticeReply(Reply reply) {
 		int result = replyMapper.addNoticeReply(reply);
 		return result;
+	}
+	
+	//문의게시판 댓글 삭제
+	public int deleteReply(String replyCommentCode) {
+		return replyMapper.deleteReply(replyCommentCode);
+		
 	}
 
 }

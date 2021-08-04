@@ -20,4 +20,10 @@ public interface ReplyMapper {
 
 	//공지게시판 댓글 작성
 	public int addNoticeReply(Reply reply);
+	
+	//문의게시판 댓글 삭제
+	public int deleteReply(String replyCommentCode);
+	
+	//게시물 삭제시 댓글도 삭제
+	public int deleteBoardReply(String boardQnaCode);
 }
