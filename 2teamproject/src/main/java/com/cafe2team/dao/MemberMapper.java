@@ -74,4 +74,8 @@ public interface MemberMapper {
 	public int adminApprovalStatusUpdate(String approvalAdminId);
 	
 	
+	//관리자가 대기승인 어드민 삭제
+	public int cancleAdminWating(List<String> paramList);
+	
+	
 }

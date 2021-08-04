@@ -37,7 +37,7 @@
 		
 				<div class="card">
 					<div class="card-header">
-						<div class="card-title">입고현황</div>
+						<div class="card-title">입고현황<span id="wearing"></span></div>
 					</div>
 					<div class="card-body">
 						<div id="receivingGraph" class="primary-graph" th:fragment="receivingInfo"></div>
@@ -74,6 +74,7 @@
 							<tr>
 								<th class="hidden-col">입고코드</th>
 								<th>입고창고</th>
+								<th>입고위치</th>
 								<th>상품명</th>
 								<th>입고일</th>
 								<th>입고수량</th>
@@ -86,6 +87,7 @@
 							<tr th:if="${#lists.size(receivingStatus)}>0" th:each="r:${receivingStatus}">
 								<td class="hidden-col" th:text="${r.receivingingCode}"></td>
 								<td th:text="${r.warehouse.warehouseName}"></td>
+								<td th:text="${r.warehousingOrder.sectorColumnFinalCode}"></td>
 								<td th:text="${r.product.productName}"></td>
 								<td th:text="${r.warehousingRealDate}" class="realDate"></td>
 								<td th:text="${r.warehousingRealAmount}"></td>
@@ -184,6 +186,15 @@
 				}
 			}
 		};
+		
+		$(function(){
+			var checkRequestDate = new Array($('.realDate'));
+			if(checkRequestDate[0].length > 0){
+				$('#wearing').text('(' + checkRequestDate[0][0].innerText + ' ~ ' + checkRequestDate[0][checkRequestDate[0].length-1].innerText + ')');
+			}else{
+				$('#wearing').text('(월별 입고 현황이 없습니다.)');
+			}
+		});
 
 
 	</script>
